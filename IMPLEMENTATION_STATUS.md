@@ -16,7 +16,7 @@ attempts in PROGRESS are not current validation evidence.
 | P2.8 | Response-only vocabulary projection | Dense value/gradient equivalence and actual projected-token count | Real resource/performance impact GPU_PENDING |
 | Rental | A100-SXM4-80GB; official wheel-only installer; persistent prefetch and ordered runner | Guards, plan/order/config/ABI/hash tests; syntax/dry-runs | Rental execution GPU_PENDING |
 
-Full suite: **69 passed in119.738s on torch2.11.0+cpu**, **69 passed in114.692s
+Full suite: **69 passed in133.725s on torch2.11.0+cpu**, **69 passed in130.253s
 on torch2.8.0+cpu**, plus27 focused target-version checks after final adjustments.
 Raw logs and exact normalized source fingerprints are in `results/cpu-tests*.txt`
 and `results/validation-manifest.json`. CPU2.11 and the separate CPU2.8 candidate

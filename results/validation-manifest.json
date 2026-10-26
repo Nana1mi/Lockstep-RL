@@ -1,13 +1,13 @@
 {
-  "timestamp_utc": "2026-10-26T18:26:13.497467+00:00",
+  "timestamp_utc": "2026-10-26T18:37:17.879193+00:00",
   "status": "passed",
   "cpu_tests": 69,
-  "cpu_test_seconds": 119.738,
+  "cpu_test_seconds": 133.725,
   "additional_cpu_compatibility": [
     {
       "torch": "2.8.0+cpu",
       "tests": 69,
-      "seconds": 114.692,
+      "seconds": 130.253,
       "log": "cpu-tests-torch28.txt"
     }
   ],
@@ -35,7 +35,7 @@
     "nanovllm/sampling_params.py": "4a3d10d4791b831dadc30d114986a02c269f6849ae7229f9de948dc9e50404b9",
     "nanovllm/utils/context.py": "83a608397c38cf22216dabba9e73b41cf985cf64c7a7f35c5c14e223fcd09959",
     "nanovllm/utils/loader.py": "b43e9c92f9351f39fc9557184a8fba599e54b929b37a7f326e3fe7265b25563a",
-    "nanovllm/utils/weight_update.py": "49ba2131329cde684e53300fe701e1317f7dca5c7ddef6ede1a2fa4bc933d425",
+    "nanovllm/utils/weight_update.py": "f27201db168a5298b2002721f6d22929340e85f220dab5908f0d82ad8d3e5c14",
     "lockstep_rl/__init__.py": "3d3c83c50dda32a0b5dd9b6db9913fd3974a0813d7b4fae4a281a8df6ff1390a",
     "lockstep_rl/batch.py": "6dc20b7f61491ff023efed3efa9390beac2dc7248065fa6703f2bcda8157bf14",
     "lockstep_rl/checkpoint.py": "5244de93485e776d6f1e22953332172cc04b1b11d619cd28129a9b13a2d84279",
@@ -81,7 +81,7 @@
     "tests/test_grpo.py": "9d5e5c45d1ee034f7556ac947add84cb0587be0d395dbaa55d4819ec624b1205",
     "tests/test_logprobs.py": "3d81d91152d3d3b6a8a50b28a68dd1e2e51bc1967d2fa1df69aea15b29af4c93",
     "tests/test_rental_plan.py": "8ae774887afc4a179bdc1a93ef0617afb561dc32e7d23879a89e8efcaea1a11e",
-    "tests/test_revision_cpu.py": "d71017647e5fe766c7ed1922a582984f98a30a19fcc6bfe9226558b9f602dc7b",
+    "tests/test_revision_cpu.py": "54aaf683dd297c9e7f08e145a1db2f515594bc994c8aa7defec605adc9053d00",
     "tests/test_rewards.py": "e1995183ace4ddbe433c5b0b9c6ac742218f496469fb1e6e37e9b03752bf6ee1",
     "tests/test_rollout.py": "d82b7e55b8dbd5cffbf2e8b392186d26d9b55411a85e272b2b5607a89f8138d0",
     "tests/test_tiny_qwen.py": "d3c97f75d5d24d1a6e2ac5ce364bd4a1298a14a81dd5f53f9ea5ffacda844666",

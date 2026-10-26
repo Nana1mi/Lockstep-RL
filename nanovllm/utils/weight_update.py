@@ -29,10 +29,10 @@ def _finite_after_conversion(source, dtype):
 
 def _equal_after_conversion(left, right, dtype):
     if left.shape != right.shape:
-        return torch.tensor(False, device=left.device)
+        return False
     if (left.data_ptr() == right.data_ptr() and left.device == right.device
             and left.dtype == right.dtype and left.stride() == right.stride()):
-        return torch.tensor(True, device=left.device)
+        return True
     # Compare where the source already lives. Transfer at most the other source,
     # never a whole tied embedding back to the CPU for torch.equal.
     device = right.device if right.device.type == "cuda" and left.device.type != "cuda" else left.device
@@ -131,8 +131,13 @@ def prepare_weight_update(model, state_dict):
         if len(supplied) > 1:
             first = supplied[0]
             for other in supplied[1:]:
-                checks.append((f"conflicting tied weights: {first}, {other}",
-                               _equal_after_conversion(state_dict[first], state_dict[other], parameters[first].dtype)))
+                equal = _equal_after_conversion(state_dict[first], state_dict[other], parameters[first].dtype)
+                message = f"conflicting tied weights: {first}, {other}"
+                if isinstance(equal, bool):
+                    if not equal:
+                        raise ValueError(message)
+                else:
+                    checks.append((message, equal))
     _check_device_flags(checks)
     return copies
 

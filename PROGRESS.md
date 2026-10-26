@@ -30,11 +30,14 @@
 - prepare_rental_assets and run_rental provide guarded CPU preparation and ordered
   persistent-disk execution, all commands/logs/raw output, GPU identity checks and
   an explicitly unmeasured3–11.1h planning range. No new mandatory memory task.
-- Final full regression:69 tests passed on torch2.11.0+cpu in119.738s and on
-  torch2.8.0+cpu in114.692s;27 focused target-version tests also pass. Artifact
+- Final full regression:69 tests passed on torch2.11.0+cpu in133.725s and on
+  torch2.8.0+cpu in130.253s;27 focused target-version tests also pass. Artifact
   validation covers9 GPU dry plans plus the download-only asset dry plan,
   documentation syntax, installer guards and dependency consistency. The wheel
   contains all35 library sources with exact byte comparison and isolated imports.
+- Final review removed even scalar device allocation from identical-source tied
+  equality: it returns Python True directly, with a type assertion in acceptance
+  tests. Both full CPU suites were rerun after that final adjustment.
 - Final raw CPU counts/times are refreshed in results/cpu-tests*.txt and the
   normalized source manifest after the complete checks. All GPU gates remain
   GPU_PENDING; no card rented, no CUDA execution, no model/data downloaded here.

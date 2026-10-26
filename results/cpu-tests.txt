@@ -55,12 +55,12 @@ test_preemption_replays_context_without_rewriting_old_scores (test_rollout.Rollo
 test_prefix_hit_and_logical_invalidation (test_rollout.RolloutTest.test_prefix_hit_and_logical_invalidation) ... ok
 test_sampler_is_fp32_correct_and_does_not_modify_inputs (test_rollout.RolloutTest.test_sampler_is_fp32_correct_and_does_not_modify_inputs) ... ok
 test_cpu_hf_qwen_checkpointing_and_two_updates (test_tiny_qwen.TinyQwenTest.test_cpu_hf_qwen_checkpointing_and_two_updates) ... ok
-test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1820.44it/s]
-Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 8550.41it/s]
+test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1689.89it/s]
+Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 24840.98it/s]
 ok
-test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2589.08it/s]
+test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2888.64it/s]
 ok
-test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 15407.16it/s]
+test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 53986.09it/s]
 ok
 test_teacher_forcing_matches_full_logits_at_response_positions (test_tiny_qwen.TinyQwenTest.test_teacher_forcing_matches_full_logits_at_response_positions) ... ok
 test_active_request_and_live_cache_prevent_update (test_weight_update.WeightUpdateTest.test_active_request_and_live_cache_prevent_update) ... ok
@@ -73,6 +73,6 @@ test_real_upstream_packed_loaders_and_tied_storage (test_weight_update.WeightUpd
 test_success_commits_version_and_invalidates_logical_cache (test_weight_update.WeightUpdateTest.test_success_commits_version_and_invalidates_logical_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 69 tests in 119.738s
+Ran 69 tests in 133.725s
 
 OK

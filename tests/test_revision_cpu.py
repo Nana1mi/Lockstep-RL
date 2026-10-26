@@ -37,7 +37,7 @@ class RevisionCPU(unittest.TestCase):
         self.assertEqual(flags.call_count, 1)
         self.assertTrue(all(flag.ndim == 0 for _, flag in flags.call_args.args[0]))
         with patch("torch.equal", side_effect=AssertionError("no embedding CPU equality copy")):
-            self.assertTrue(updates._equal_after_conversion(source, source.detach(), torch.bfloat16))
+            self.assertIs(updates._equal_after_conversion(source, source.detach(), torch.bfloat16), True)
         self.assertEqual(len(plan), 2)
 
     def test_actor_change_fraction_measures_bf16_rounding_and_unique_storage(self):
