@@ -1,0 +1,61 @@
+{
+  "status": "GPU_PENDING",
+  "config": {
+    "model": ".models/Qwen3-0.6B",
+    "seed": 0,
+    "reward_parser": "lenient",
+    "torch_compile": true,
+    "iterations": 120,
+    "prompts_per_iteration": 16,
+    "max_tokens": 128,
+    "learning_rate": 5e-06,
+    "optimizer": "adamw",
+    "gradient_checkpointing": true,
+    "task": "simple",
+    "simple_operation": "multiply",
+    "save_final_checkpoint": true,
+    "train_count": 512,
+    "validation_count": 128,
+    "evaluation_every": 10,
+    "sync_probe_tokens": 16,
+    "engine": {
+      "enforce_eager": true,
+      "enable_prefix_caching": true,
+      "fp32_lm_head": false,
+      "tensor_parallel_size": 1,
+      "gpu_memory_utilization": 0.6,
+      "max_num_batched_tokens": 4096,
+      "max_model_len": 2048,
+      "max_num_seqs": 32
+    },
+    "grpo": {
+      "group_size": 8,
+      "clip_epsilon": 0.2,
+      "advantage_epsilon": 1e-06,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "microbatch_size": 1,
+      "gradient_accumulation_steps": 128,
+      "logprob_chunk_size": 32,
+      "max_grad_norm": 1.0,
+      "autocast_bf16": true,
+      "fp32_lm_head": false
+    },
+    "validation_status": "GPU_PENDING; A100-SXM4-80GB rental candidate; no learning claim"
+  },
+  "grpo": {
+    "group_size": 8,
+    "clip_epsilon": 0.2,
+    "advantage_epsilon": 1e-06,
+    "anchor": "recomputed",
+    "update_steps": 1,
+    "microbatch_size": 1,
+    "gradient_accumulation_steps": 128,
+    "logprob_chunk_size": 32,
+    "max_grad_norm": 1.0,
+    "autocast_bf16": true,
+    "fp32_lm_head": false
+  },
+  "train_count": 512,
+  "validation_count": 128
+}

@@ -1,6 +1,7 @@
 {
   "model": ".models/Qwen3-0.6B",
   "seed": 0,
+  "reward_parser": "strict",
   "torch_compile": true,
   "iterations": 4,
   "prompts_per_iteration": 1,

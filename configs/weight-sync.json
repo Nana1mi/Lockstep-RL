@@ -1,6 +1,9 @@
 {
   "model": ".models/Qwen3-0.6B",
   "seed": 0,
+  "num_trajectories": 1,
+  "question_file": "data/gsm8k/diagnostic.jsonl",
+  "fewshot_file": "data/gsm8k/fewshot.jsonl",
   "torch_compile": true,
   "prompt_tokens": 512,
   "response_tokens": 32,

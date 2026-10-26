@@ -1,4 +1,4 @@
-"""One isolated manual GPU fixed-trajectory path run; used by diagnose.py."""
+"""Isolated manual multi-trajectory replay; every companion is a real sample."""
 
 import argparse
 import atexit
@@ -11,13 +11,35 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from lockstep_rl.diagnostics import path_evidence, require_path
-from lockstep_rl.experiment_io import configure_numerics, exact_chat_prompt, provenance, save_json
+from lockstep_rl.experiment_io import configure_numerics, provenance, save_json
+
+CASES = ("sample", "eager", "repeat", "prefix", "chunked", "graph", "graph_padding", "batch",
+         "preemption_cached", "preemption_recompute", "fp32_head")
+
+
+def replay_groups(rows, case, batch_size):
+    """Group real trajectories only, with pairs/triples covering short tails."""
+    if not rows:
+        raise ValueError("replay requires real nonempty trajectories")
+    if case in ("batch", "graph_padding", "preemption_cached", "preemption_recompute") and len(rows) < 4:
+        raise ValueError("multi-request diagnostics need at least four distinct trajectories")
+    if case.startswith("preemption_"):
+        return [[rows[(index + 1) % len(rows)], row] for index, row in enumerate(rows)]
+    size = 3 if case == "graph_padding" else batch_size if case == "batch" else 1
+    groups = [rows[start:start + size] for start in range(0, len(rows), size)]
+    # A singleton tail still participates in a real multi-request replay. Only
+    # its first canonical occurrence is included in distribution statistics.
+    if size > 1 and len(groups[-1]) == 1:
+        groups[-1] += rows[:size - 1]
+    if case == "graph_padding" and len(groups[-1]) == 2:
+        groups[-1] += rows[:1]
+    return groups
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
-    parser.add_argument("--case", choices=["sample", "eager", "prefix", "chunked", "graph", "graph_padding", "batch", "preemption"], required=True)
+    parser.add_argument("--case", choices=CASES, required=True)
     parser.add_argument("--trajectory", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--allow-gpu", action="store_true")
@@ -38,63 +60,86 @@ def main():
         torch.manual_seed(settings["seed"])
         tokenizer = AutoTokenizer.from_pretrained(settings["model"], local_files_only=True)
         if args.case == "sample":
-            prompt = exact_chat_prompt(tokenizer, settings["prompt_tokens"])
-            forced = None
+            from lockstep_rl.diagnostic_prompts import gsm8k_prompts
+            rows = gsm8k_prompts(tokenizer, question_file=settings["question_file"],
+                                 fewshot_file=settings["fewshot_file"], count=settings.get("num_trajectories", 1),
+                                 prompt_tokens=settings["prompt_tokens"])
+            save_json(args.output_dir / "prompt-provenance.json", rows)
         else:
-            trajectory = json.loads(args.trajectory.read_text(encoding="utf-8"))
-            target = next(row for row in trajectory if row["request_id"] == "target")
-            prompt, forced = target["prompt_ids"], target["response_ids"]
-        engine_config = {**settings["engine"], "record_trace": True}
-        engine_config["enforce_eager"] = args.case not in ("graph", "graph_padding")
+            rows = json.loads(args.trajectory.read_text(encoding="utf-8"))
+        if len(rows) != settings.get("num_trajectories", 1):
+            raise ValueError("trajectory count does not match config")
+        if {row["request_id"] for row in rows} != {f"traj-{k}" for k in range(len(rows))}:
+            raise ValueError("trajectory IDs must be the unique canonical traj-k set")
+        engine_config = {**settings["engine"], "record_trace": True,
+                         "enable_prefix_caching": args.case in ("prefix", "preemption_cached"),
+                         "fp32_lm_head": args.case == "fp32_head",
+                         "enforce_eager": args.case not in ("graph", "graph_padding")}
         if args.case == "chunked":
             engine_config["max_num_batched_tokens"] = settings["chunk_budget"]
-        if args.case == "preemption":
+        if args.case.startswith("preemption_"):
             engine_config["diagnostic_kv_blocks"] = settings["preemption_kv_blocks"]
         report["engine_config"] = engine_config
+        report["noise_reference"] = "eager vs repeat (same configuration, separate process)"
         engine = LLM(settings["model"], **engine_config)
         metadata = {"enable_thinking": False, "chat_template_version": hashlib.sha256(str(tokenizer.chat_template).encode()).hexdigest()}
-        if args.case == "prefix":
-            engine.generate([prompt], SamplingParams(ignore_eos=True), request_ids=["warmup"],
-                            forced_response_ids=[forced], sampling_config=metadata, use_tqdm=False)
+        collected, all_rows, all_trace, seen = [], [], [], set()
+        groups = replay_groups(rows, args.case, settings.get("batch_size", 4))
+        for index, group in enumerate(groups):
+            engine.scheduler.block_manager.invalidate()
             engine.scheduler.trace.clear()
-        prompts, ids = [prompt], ["target"]
-        forced_responses = [forced] if forced is not None else None
-        extra = 2 if args.case == "graph_padding" else settings["batch_size"] - 1 if args.case == "batch" else 1 if args.case == "preemption" else 0
-        for index in range(extra):
-            if args.case == "preemption":
-                other = exact_chat_prompt(tokenizer, settings["prompt_tokens"], filler=" b")
-            else:
-                other = tokenizer.apply_chat_template([{"role": "user", "content": "Describe a small tree. " * (index + 1)}],
-                                                       tokenize=True, add_generation_prompt=True, enable_thinking=False)
-            prompts.append(other); ids.append(f"other-{index}")
-            forced_responses.append([42] * len(forced))
-        if args.case == "preemption":
-            # Target at the tail is the victim when the first request needs a new block.
-            prompts.reverse(); ids.reverse(); forced_responses.reverse()
-        rows = engine.generate(prompts, SamplingParams(max_tokens=settings["response_tokens"], ignore_eos=True),
-                               request_ids=ids, group_ids=ids, forced_response_ids=forced_responses,
-                               sampling_config=metadata, use_tqdm=False)
-        trace = engine.scheduler.trace
-        report["evidence"] = path_evidence(trace)
-        if args.case in ("prefix", "chunked", "graph", "graph_padding", "preemption"):
-            require_path(trace, args.case)
-        if args.case == "preemption" and "target" not in report["evidence"]["re_prefill_requests"]:
-            raise RuntimeError("the target request was not actually preempted and re-prefilled")
-        target_batches = [len(row["requests"]) for row in trace if row["event"] == "schedule" and not row["is_prefill"]
-                          and any(request["request_id"] == "target" for request in row["requests"])]
-        report["target_decode_batch_sizes"] = target_batches
-        if args.case == "batch" and not any(size > 1 for size in target_batches):
-            raise RuntimeError("target did not decode with another request")
-        save_json(args.output_dir / "rollouts.json", [r for r in rows if r["request_id"] == "target"])
-        save_json(args.output_dir / "all-rollouts.json", rows)
-        save_json(args.output_dir / "trace.json", trace)
+            prompts = [row["prompt_ids"] for row in group]
+            ids = [f"{row['request_id']}/run-{index}" for row in group]
+            forced = None if args.case == "sample" else [row["response_ids"] for row in group]
+            if args.case == "prefix":
+                engine.generate(prompts, SamplingParams(ignore_eos=True), request_ids=[x + "/warm" for x in ids],
+                                forced_response_ids=forced, sampling_config=metadata, use_tqdm=False)
+                engine.scheduler.trace.clear()
+            output = engine.generate(prompts, SamplingParams(max_tokens=settings["response_tokens"], ignore_eos=True),
+                                     request_ids=ids, group_ids=[r["request_id"] for r in group],
+                                     forced_response_ids=forced, sampling_config=metadata, use_tqdm=False)
+            mapping = dict(zip(ids, [row["request_id"] for row in group]))
+            trace = engine.scheduler.trace
+            for event in trace:
+                if "request_id" in event:
+                    event["request_id"] = mapping.get(event["request_id"], event["request_id"])
+                for request in event.get("requests", []):
+                    request["request_id"] = mapping.get(request["request_id"], request["request_id"])
+                event["replay_group"] = index
+            # Persist the failing group before any path assertion can raise.
+            save_json(args.output_dir / "groups" / f"{index}-trace.json", trace)
+            save_json(args.output_dir / "groups" / f"{index}-rollouts.json", output)
+            if args.case in ("prefix", "chunked", "graph", "graph_padding", "preemption_cached", "preemption_recompute"):
+                require_path(trace, args.case)
+            if args.case.startswith("preemption_"):
+                victim = group[-1]["request_id"]
+                if victim not in path_evidence(trace)["re_prefill_requests"]:
+                    raise RuntimeError(f"real trajectory {victim} was not preempted and re-prefilled")
+            if args.case == "batch" and not any(not e["is_prefill"] and len(e["requests"]) > 1
+                                                  for e in trace if e["event"] == "schedule"):
+                raise RuntimeError("real trajectories did not decode together")
+            for record in output:
+                record["request_id"] = mapping[record["request_id"]]
+                record["replay_group"] = index
+                all_rows.append(record)
+                if args.case.startswith("preemption_") and record["request_id"] != group[-1]["request_id"]:
+                    continue
+                if record["request_id"] not in seen:
+                    seen.add(record["request_id"])
+                    collected.append(record)
+            all_trace.extend(trace)
+            save_json(args.output_dir / "rollouts.json", collected)
+            save_json(args.output_dir / "trace.json", all_trace)
+        report["evidence"] = path_evidence(all_trace)
+        report["trajectory_count"] = len(collected)
+        save_json(args.output_dir / "all-rollouts.json", all_rows)
         report["status"] = "completed"
     except Exception as exc:
         report.update(status="failed", error=f"{type(exc).__name__}: {exc}", traceback=traceback.format_exc())
         raise
     finally:
-        if engine is not None:
-            save_json(args.output_dir / "trace.json", engine.scheduler.trace)
+        if engine is not None and report["status"] == "failed":
+            save_json(args.output_dir / "failure-trace.json", engine.scheduler.trace)
         save_json(args.output_dir / "report.json", report)
         if engine is not None:
             atexit.unregister(engine.exit)

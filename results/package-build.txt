@@ -4,7 +4,7 @@ Processing /mnt/e/Lockstep-RL
 Building wheels for collected packages: lockstep-rl
   Building wheel for lockstep-rl (pyproject.toml): started
   Building wheel for lockstep-rl (pyproject.toml): finished with status 'done'
-  Created wheel for lockstep-rl: filename=lockstep_rl-0.1.0-py3-none-any.whl size=45161 sha256=86cee9fa636c2e83d6b0edc94944cd6407a9341dedd88036e93cabb14f6048fa
+  Created wheel for lockstep-rl: filename=lockstep_rl-0.1.0-py3-none-any.whl size=50455 sha256=7bc85116130723c69866b675fdd09d31794f121aa07a5b31f9f217f0e3ad7db7
   Stored in directory: /home/rog/.cache/pip/wheels/a4/e4/47/c841d299939d53fe482d67908c56b9f260351aa6401f93d6f4
 Successfully built lockstep-rl
 

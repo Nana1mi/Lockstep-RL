@@ -1,10 +1,11 @@
 """Selected-token scores with bounded vocabulary activation storage."""
 
 import torch
+import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
 
 
-def selected_logprobs(hidden_states, output_head, target_ids, chunk_size=32):
+def selected_logprobs(hidden_states, output_head, target_ids, chunk_size=32, *, fp32_lm_head=False):
     """Score aligned targets; caller is responsible for the causal shift.
 
     Input shapes are (..., hidden_size) and (...). The output is FP32, and
@@ -26,7 +27,13 @@ def selected_logprobs(hidden_states, output_head, target_ids, chunk_size=32):
         raise ValueError("at least one target is required")
 
     def score_chunk(hidden, targets):
-        logits = output_head(hidden).float()
+        if fp32_lm_head:
+            with torch.autocast(device_type=hidden.device.type, enabled=False):
+                bias = getattr(output_head, "bias", None)
+                logits = F.linear(hidden.float(), output_head.weight.float(),
+                                  bias.float() if bias is not None else None)
+        else:
+            logits = output_head(hidden).float()
         chosen = logits.gather(-1, targets.unsqueeze(-1)).squeeze(-1)
         return chosen - torch.logsumexp(logits, dim=-1)
 

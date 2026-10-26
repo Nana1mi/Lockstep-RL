@@ -37,16 +37,20 @@ def materialize_baseline(destination):
 def build_plan(config, output, settings):
     root = Path(output)
     jobs = []
-    for source in ("baseline", "current"):
+    for source, fp32_head in (("baseline", False), ("current", False), ("current", True)):
         path = root / "upstream-source" if source == "baseline" else PROJECT
         for backend in ("eager", "graph"):
             for case in settings["cases"]:
                 for repeat in range(settings["process_repeats"]):
-                    name = f"{source}-{backend}-{case}-{repeat}"
+                    variant = "current-fp32-head" if fp32_head else source
+                    name = f"{variant}-{backend}-{case}-{repeat}"
                     jobs.append({"name": name, "source": source, "backend": backend, "case": case,
+                        "source_variant": variant, "fp32_lm_head": fp32_head,
                         "process_repeat": repeat, "command": [sys.executable, "scripts/inference_benchmark_worker.py", "--allow-gpu",
                         "--config", str(config), "--case", case, "--source", source, "--source-path", str(path),
                         "--backend", backend, "--output", str(root / f"{name}.json")]})
+                    if fp32_head:
+                        jobs[-1]["command"].append("--fp32-lm-head")
     return jobs
 
 
@@ -87,15 +91,20 @@ def main():
                 raise RuntimeError(f"{job['name']} failed; inspect its log")
             record = json.loads((args.output_dir / f"{job['name']}.json").read_text())
             for measurement in record["measurements"]:
-                flat.append({"source": job["source"], "backend": job["backend"], "case": job["case"],
+                flat.append({"source": job["source"], "source_variant": job["source_variant"],
+                    "fp32_lm_head": job["fp32_lm_head"], "backend": job["backend"], "case": job["case"],
                     "process_repeat": job["process_repeat"], "steady_repeat": measurement["repeat"],
                     "initialization_seconds": record["initialization_seconds"], "warmup_seconds": record["warmup_seconds"],
                     **{key: measurement[key] for key in ("seconds", "output_tokens_per_second", "peak_allocated_bytes", "peak_reserved_bytes")}})
         with (args.output_dir / "measurements.csv").open("w", newline="", encoding="utf-8") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(flat[0])); writer.writeheader(); writer.writerows(flat)
-        manifest["groups"] = {f"{source}-{backend}-{case}": distribution([
-            row["output_tokens_per_second"] for row in flat if row["source"] == source and row["backend"] == backend and row["case"] == case])
-            for source in ("baseline", "current") for backend in ("eager", "graph") for case in settings["cases"]}
+        manifest["groups"] = {f"{variant}-{backend}-{case}": distribution([
+            row["output_tokens_per_second"] for row in flat if row["source_variant"] == variant and row["backend"] == backend and row["case"] == case])
+            for variant in ("baseline", "current", "current-fp32-head") for backend in ("eager", "graph") for case in settings["cases"]}
+        manifest["fp32_head_throughput_change_percent"] = {
+            f"{backend}-{case}": 100 * (manifest["groups"][f"current-fp32-head-{backend}-{case}"]["mean"] /
+                manifest["groups"][f"current-{backend}-{case}"]["mean"] - 1)
+            for backend in ("eager", "graph") for case in settings["cases"]}
         manifest["scope"] = "full rollout-data-contract overhead vs original; steady repeats nested within independent process repeats"
         manifest["metric_label"] = "Output tokens per second"
         manifest["status"] = "completed"

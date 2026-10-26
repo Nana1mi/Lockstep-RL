@@ -23,23 +23,31 @@ def _storage_key(parameter):
 
 
 def _finite_after_conversion(source, dtype):
-    # Bound temporary conversion/validation allocations for large embeddings.
-    rows = source if source.ndim > 0 else source.unsqueeze(0)
-    for chunk in rows.split(128, dim=0):
-        if not torch.isfinite(chunk.to(dtype=dtype)).all().item():
-            return False
-    return True
+    """One device reduction per tensor; do not read a host scalar here."""
+    return torch.isfinite(source.to(dtype=dtype)).all()
 
 
 def _equal_after_conversion(left, right, dtype):
     if left.shape != right.shape:
-        return False
-    if left is right:
-        return True
-    a = left if left.ndim else left.unsqueeze(0)
-    b = right if right.ndim else right.unsqueeze(0)
-    return all(torch.equal(x.to(device="cpu", dtype=dtype), y.to(device="cpu", dtype=dtype))
-               for x, y in zip(a.split(128), b.split(128)))
+        return torch.tensor(False, device=left.device)
+    if (left.data_ptr() == right.data_ptr() and left.device == right.device
+            and left.dtype == right.dtype and left.stride() == right.stride()):
+        return torch.tensor(True, device=left.device)
+    # Compare where the source already lives. Transfer at most the other source,
+    # never a whole tied embedding back to the CPU for torch.equal.
+    device = right.device if right.device.type == "cuda" and left.device.type != "cuda" else left.device
+    return (left.to(device=device, dtype=dtype) == right.to(device=device, dtype=dtype)).all()
+
+
+def _check_device_flags(checks):
+    """One batched host read for all finite/alias checks on the normal source GPU."""
+    if not checks:
+        return
+    device = next((flag.device for _, flag in checks if flag.device.type == "cuda"), checks[0][1].device)
+    flags = torch.stack([flag.to(device=device) for _, flag in checks]).cpu().tolist()
+    failures = [name for (name, _), valid in zip(checks, flags) if not valid]
+    if failures:
+        raise ValueError("; ".join(failures))
 
 
 def prepare_weight_update(model, state_dict):
@@ -103,14 +111,19 @@ def prepare_weight_update(model, state_dict):
     if missing:
         raise ValueError(f"missing weight keys: {sorted(missing)}")
     copies = []
+    checks = []
+    checked_storage = set()
     for source_name, source in state_dict.items():
         name, target, shape, shard = expected[source_name]
         if not isinstance(source, torch.Tensor) or tuple(source.shape) != shape:
             raise ValueError(f"incorrect shape/tensor for {source_name}; expected {shape}")
         if source.layout != torch.strided or not source.is_floating_point() or source.device.type == "meta":
             raise ValueError(f"unsupported source dtype/layout/device: {source_name}")
-        if not _finite_after_conversion(source.detach(), target.dtype):
-            raise ValueError(f"nonfinite or overflowing weight conversion: {source_name}")
+        validation_key = (_storage_key(source), target.dtype)
+        if validation_key not in checked_storage:
+            checks.append((f"nonfinite or overflowing weight conversion: {source_name}",
+                           _finite_after_conversion(source.detach(), target.dtype)))
+            checked_storage.add(validation_key)
         loader = getattr(target, "weight_loader", None)
         copies.append(WeightCopy(name, target, source.detach(), loader, shard))
     for names in aliases.values():
@@ -118,8 +131,9 @@ def prepare_weight_update(model, state_dict):
         if len(supplied) > 1:
             first = supplied[0]
             for other in supplied[1:]:
-                if not _equal_after_conversion(state_dict[first], state_dict[other], parameters[first].dtype):
-                    raise ValueError(f"conflicting tied weights: {first}, {other}")
+                checks.append((f"conflicting tied weights: {first}, {other}",
+                               _equal_after_conversion(state_dict[first], state_dict[other], parameters[first].dtype)))
+    _check_device_flags(checks)
     return copies
 
 
@@ -133,3 +147,39 @@ def commit_weight_update(copies):
             item.loader(item.parameter, item.source)
         else:
             item.loader(item.parameter, item.source, item.shard)
+
+
+@torch.no_grad()
+def effective_weight_change_statistics(copies):
+    """Compare the existing actor to proposed dtype-converted weights, no shadow.
+
+    Packed shards are measured once; exact tied targets are deduplicated. Only
+    scalar counts cross to the host. Called separately from preflight/copy timers.
+    """
+    counts, names, sizes, seen = [], [], [], set()
+    for item in copies:
+        key = (_storage_key(item.parameter), item.shard)
+        if key in seen:
+            continue
+        seen.add(key)
+        target = item.parameter.detach()
+        if item.shard is not None:
+            module = item.loader.__self__
+            if isinstance(item.shard, str):
+                q = module.num_heads * module.head_size
+                kv = module.num_kv_heads * module.head_size
+                offset = {"q": 0, "k": q, "v": q + kv}[item.shard]
+            else:
+                offset = sum(module.output_sizes[:item.shard])
+            target = target.narrow(0, offset, item.source.shape[0])
+        converted = item.source.to(device=target.device, dtype=target.dtype)
+        counts.append((target != converted).sum())
+        names.append(item.name + (f"[{item.shard}]" if item.shard is not None else ""))
+        sizes.append(target.numel())
+    device = counts[0].device
+    changed = torch.stack([count.to(device=device) for count in counts]).cpu().tolist()
+    rows = [{"name": name, "changed_values": value, "total_values": size, "changed_fraction": value / size}
+            for name, value, size in zip(names, changed, sizes)]
+    return {"changed_values": sum(changed), "total_values": sum(sizes),
+            "changed_fraction": sum(changed) / sum(sizes), "per_parameter": rows,
+            "scope": "actual actor dtype; unique physical parameters and packed shards"}

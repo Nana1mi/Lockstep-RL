@@ -15,7 +15,7 @@ from lockstep_rl.rewards import simple_tasks
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", required=True)
-    parser.add_argument("--config", type=Path, default=Path("configs/train-simple.json"))
+    parser.add_argument("--config", type=Path, default=Path("configs/train-smoke-simple.json"))
     parser.add_argument("--validation-file", type=Path)
     parser.add_argument("--train-file", type=Path, help="Reference split for leakage checks")
     parser.add_argument("--output-dir", type=Path, default=Path("results/evaluation"))
@@ -50,7 +50,8 @@ def main():
     save_json(args.output_dir / "tasks.json", tasks)
     engine = LLM(args.model, **settings["engine"])
     try:
-        result = evaluate(engine, tasks, label="standalone", max_tokens=settings["max_tokens"])
+        result = evaluate(engine, tasks, label="standalone", max_tokens=settings["max_tokens"],
+                          reward_parser=settings.get("reward_parser", "strict"))
         result["scope"] = "single-seed stochastic T=1 validation; no learning-quality guarantee"
         result.update(seed=settings["seed"], numerical_settings=numerical_settings)
         save_json(args.output_dir / "validation.json", result)

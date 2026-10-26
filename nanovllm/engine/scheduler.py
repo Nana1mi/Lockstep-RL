@@ -13,8 +13,10 @@ class Scheduler:
         self.max_num_seqs = config.max_num_seqs
         self.max_num_batched_tokens = config.max_num_batched_tokens
         self.eos = config.eos
+        self.eos_token_ids = set(getattr(config, "eos_token_ids", ()) or [config.eos])
         self.block_size = config.kvcache_block_size
-        self.block_manager = BlockManager(config.num_kvcache_blocks, config.kvcache_block_size)
+        self.block_manager = BlockManager(config.num_kvcache_blocks, config.kvcache_block_size,
+                                          getattr(config, "enable_prefix_caching", True))
         self.waiting: deque[Sequence] = deque()
         self.running: deque[Sequence] = deque()
         self.record_trace = getattr(config, "record_trace", False)
@@ -120,8 +122,8 @@ class Scheduler:
             seq.append_token(token_id)
             seq.response_logprobs.append(float(logprob))
             seq.loss_mask.append(1)
-            if (not seq.ignore_eos and token_id == self.eos) or seq.num_completion_tokens == seq.max_tokens:
-                seq.finish_reason = "eos" if not seq.ignore_eos and token_id == self.eos else "length"
+            if (not seq.ignore_eos and token_id in self.eos_token_ids) or seq.num_completion_tokens == seq.max_tokens:
+                seq.finish_reason = "eos" if not seq.ignore_eos and token_id in self.eos_token_ids else "length"
                 seq.status = SequenceStatus.FINISHED
                 self.block_manager.deallocate(seq)
                 self.running.remove(seq)

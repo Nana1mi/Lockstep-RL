@@ -1,50 +1,33 @@
 # Implementation and verification status
 
-Delivery target: GPU-validation-ready, as requested in the updated goal on
-2026-10-26. All real GPU execution and large model/data downloads are manual.
-`GPU_PENDING` does not block independent implementation. No full GPU gate passed.
+2026-10-27 revision: finish CPU changes before renting a GPU. No CUDA kernel,
+model/data download or rental was started for this revision. Historical environment
+attempts in PROGRESS are not current validation evidence.
 
-| Module | Implementation | CPU evidence | Manual validation |
-| --- | --- | --- | --- |
-| A: rollout contract/logprob | Integrated, including replay and preemption | 6 rollout + 5 scoring tests passed | GPU_PENDING |
-| B: consistency/replay/paths | Complete path matrix, HF BF16/FP32, compile controls, trace/statistics/plots | Path and experiment-plan checks, real tiny-HF shift/effective-weight tests passed | GPU_PENDING |
-| C: transactional weight sync | TP=1 packed/tied updates, lock/broken/version/cache, A/B fresh/hot drivers | Mapping, rejection, partial aliases, failure, concurrency, initialization cleanup tests passed | GPU_PENDING |
-| D: GRPO/rewards/evaluation | Complete core loop, two anchors, AdamW/SGD, checkpoints, standalone held-out evaluation, raw/failure metrics | Ragged gradients, frozen anchors, multi-step tiny Qwen, clipping/skip, casts, persistence and checkpoint tests passed | GPU_PENDING |
-| E: experiments/benchmarks | Exact upstream export, full-contract/sampler comparisons, memory, sync, training and plots | Archive export, all guarded entries, six Dry Runs, docs, static/package checks passed | GPU_PENDING |
+| Priority | Change | CPU acceptance | GPU boundary |
+|---|---|---|---|
+| P0.1 | Prefix switch; cached/recompute preemption split | 6 blocks, 2×512 prompts, 2×300 responses; positive/zero reuse; full score alignment | Both real paths GPU_PENDING |
+| P0.2 | 32 real-GSM8K trajectories, real companions, repeat noise floor, per-trajectory statistics | Dry plan covers K×13 jobs; fixture prompt preservation, grouping and weighted statistics tests | Local data/tokenizer + sampling GPU_PENDING |
+| P0.3 | Live FP32 lm_head in nano/HF/trainer; separate diagnostics and benchmark | FP32 linear equivalence, autocast exclusion, gradients and hot-weight update | Error benefit and throughput cost GPU_PENDING |
+| P1.4 | One reduction per source tensor, batched host read, alias fast path, phased timers, two source types, negative control | Packed/tied/overflow/transaction tests; functional stale-KV CPU simulation detects failure | GPU source timing and negative-control sensitivity GPU_PENDING |
+| P1.6 | Strict/lenient rewards and sample failure status | Currency, period, nested thousands/units; original strict tests | Actual parse failure/reward rates GPU_PENDING |
+| P1.5 | Smoke/demo presets, expanded arithmetic pool, actor-change/probe metrics | 512/128 disjoint pool; BF16 rounding counts; full CPU actor loop + fixed-probe changes | Both 120-iteration learning rates GPU_PENDING |
+| P2.7 | Local generation config EOS lists | Either EOS terminates; fallback/malformed list and metadata tests | Actual Qwen generation GPU_PENDING |
+| P2.8 | Response-only vocabulary projection | Dense value/gradient equivalence and actual projected-token count | Real resource/performance impact GPU_PENDING |
+| Rental | A100-SXM4-80GB; official wheel-only installer; persistent prefetch and ordered runner | Guards, plan/order/config/ABI/hash tests; syntax/dry-runs | Rental execution GPU_PENDING |
 
-Current CPU result: **55 tests passed in 112.181s** in isolated Python 3.11 / torch 2.11.0+cpu,
-including real micro-Qwen3 tests with random weights and no model downloads.
-See results/cpu-tests.txt and results/cpu-environment-freeze.txt. Ruff E9/F,
-compileall, Bash syntax, pip check, 16 documentation blocks, six JSON Dry Runs,
-installer guards, wheel build and isolated wheel imports passed. All 34 library
-Python sources are packaged and checked byte-for-byte against the working tree.
-Historical environment import/build failures are recorded in PROGRESS.md; no
-real GPU claim follows from CPU tests. Full requirements map: docs/acceptance-audit.md.
+Full suite: **69 passed in119.738s on torch2.11.0+cpu**, **69 passed in114.692s
+on torch2.8.0+cpu**, plus27 focused target-version checks after final adjustments.
+Raw logs and exact normalized source fingerprints are in `results/cpu-tests*.txt`
+and `results/validation-manifest.json`. CPU2.11 and the separate CPU2.8 candidate
+environment remain distinct; neither is evidence of CUDA compatibility.
 
-## Remaining manual validation and risks
+Remaining concerns are empirical: actual A100 FA2 import/ABI/kernels and graphs;
+noise floor vs numerical errors; stability of the deliberately invalidated-cache
+assay under prelocked tolerances; BF16 update visibility and genuine reward
+variance/learning; actual runtime vs estimated hours. The fixed candidate memory
+budget is configurable, without a new offload implementation or memory milestone.
 
-1. FA2 build/ABI and sm_120 varlen/paged/graph kernels are not validated.
-2. Real same-trajectory tolerances and cache/graph A-to-B equivalence are pending.
-3. Actual FP32 optimizer + BF16 actor/KV memory may require configuration changes;
-   no 16GB setting or offload capability is promised.
-4. Reward variance and Qwen3 learning behavior require actual task runs. Zero
-   signal is reported, not fabricated. Single-seed results remain single-seed.
-5. GPU findings may require kernel/configuration/numerical fixes. The full ordered
-   procedure and failure-feedback requirements are in GPU_RUNBOOK.md.
-
-## Implementation order
-
-1. Enforce manual-only execution guards; record changed goal and current state.
-2. Integrate rollout records, sampler scores, sequence metadata and fixed replay;
-   test scheduling/chunking/termination entirely on CPU.
-3. Implement packed/tied parameter preflight, fail-closed update transaction,
-   cache invalidation and version lifecycle; test with tiny CPU modules/mocks.
-4. Implement GRPO batch construction, frozen anchors, accumulated-token objective,
-   rewards, evaluation and full-loop integration using tiny CPU models in tests.
-5. Build fixed-trajectory HF/nano scoring, three-way/path experiments, evidence
-   validation, statistics and plotting; prepare complete manual GPU configurations.
-6. Review integration and failure modes, run all allowed checks, update README and
-   all runbooks, and save meaningful local Git checkpoints.
-
-The detailed checklist in PLAN.md remains the technical acceptance reference;
-its dates and measured GPU gates do not constrain this coding-only delivery.
+The matrix deliberately fails when a requested path did not trigger. A negative
+control is successful only when stale reuse is observed and its output comparison
+fails. Code/tests do not substitute for these real GPU observations.

@@ -4,9 +4,39 @@ import torch
 from torch import nn
 
 from lockstep_rl.logprobs import selected_logprobs
+from nanovllm.layers.embed_head import ParallelLMHead
+from nanovllm.utils.context import reset_context
+from unittest.mock import patch
+from nanovllm.utils.weight_update import prepare_weight_update, commit_weight_update
 
 
 class SelectedLogprobsTest(unittest.TestCase):
+    def test_fp32_head_disables_autocast_and_observes_hot_weights(self):
+        torch.manual_seed(41)
+        with patch("torch.distributed.get_rank", return_value=0), patch("torch.distributed.get_world_size", return_value=1):
+            head = ParallelLMHead(29, 11, fp32_lm_head=True).to(torch.bfloat16)
+        with torch.no_grad():
+            head.weight.normal_()
+        hidden = torch.randn(7, 11, dtype=torch.bfloat16)
+        targets = torch.arange(7)
+        reset_context()
+        with torch.autocast("cpu", dtype=torch.bfloat16):
+            actual = head(hidden)
+            selected = selected_logprobs(hidden, head, targets, fp32_lm_head=True, chunk_size=3)
+        reference = torch.nn.functional.linear(hidden.float(), head.weight.float())
+        self.assertEqual(actual.dtype, torch.float32)
+        torch.testing.assert_close(actual, reference, atol=0, rtol=0)
+        torch.testing.assert_close(selected, reference.log_softmax(-1).gather(-1, targets[:, None]).flatten(), atol=2e-6, rtol=2e-6)
+        pointer = head.weight.data_ptr()
+        replacement = torch.randn_like(head.weight)
+        commit_weight_update(prepare_weight_update(head, {"weight": replacement}))
+        self.assertEqual(head.weight.data_ptr(), pointer)
+        torch.testing.assert_close(head(hidden), torch.nn.functional.linear(hidden.float(), replacement.float()), atol=0, rtol=0)
+        self.assertFalse(torch.equal(actual, head(hidden)))
+        head.weight.requires_grad_(True)
+        selected_logprobs(hidden, head, targets, fp32_lm_head=True).sum().backward()
+        self.assertGreater(float(head.weight.grad.abs().sum()), 0)
+
     def test_values_and_gradients_match_full_log_softmax(self):
         torch.manual_seed(7)
         hidden = torch.randn(2, 7, 11, requires_grad=True)

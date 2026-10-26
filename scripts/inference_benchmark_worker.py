@@ -21,9 +21,12 @@ def main():
     parser.add_argument("--backend", choices=["eager", "graph"], required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--allow-gpu", action="store_true")
+    parser.add_argument("--fp32-lm-head", action="store_true")
     args = parser.parse_args()
     if not args.allow_gpu:
         parser.error("GPU benchmarks require manual --allow-gpu")
+    if args.fp32_lm_head and args.source != "current":
+        parser.error("fp32 head is only available in current source")
     source = args.source_path.resolve()
     settings = json.loads(args.config.read_text(encoding="utf-8"))
     case = settings["cases"][args.case]
@@ -39,12 +42,16 @@ def main():
     torch.manual_seed(settings["seed"])
     random.seed(settings["seed"])
     report = {"source": args.source, "module_path": nanovllm.__file__, "backend": args.backend,
+              "fp32_lm_head": args.fp32_lm_head,
               "module_import_seconds": import_seconds,
               "case": args.case, "config": settings, "numerical_settings": numeric,
               "provenance": provenance(settings["model"]), "status": "running"}
     try:
         start = time.perf_counter()
-        engine = LLM(str(Path(settings["model"]).resolve()), enforce_eager=args.backend == "eager", **settings["engine"])
+        engine_options = dict(settings["engine"])
+        if args.source == "current":
+            engine_options["fp32_lm_head"] = args.fp32_lm_head
+        engine = LLM(str(Path(settings["model"]).resolve()), enforce_eager=args.backend == "eager", **engine_options)
         torch.cuda.synchronize()
         report["initialization_seconds"] = time.perf_counter() - start
         report["cold_scope"] = "new process; disk/compiler caches may be warm; constructor and module imports recorded separately"

@@ -1,0 +1,23 @@
+{
+  "gpu_name": "NVIDIA A100-SXM4-80GB",
+  "gpu_count": 1,
+  "architecture": "Ampere sm80",
+  "python": "3.11",
+  "torch": "2.8.0+cu128",
+  "transformers": "5.5.4",
+  "flash_attn": "2.8.3.post2",
+  "wheel_filename": "flash_attn-2.8.3.post2+cu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl",
+  "wheel_url": "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3.post2/flash_attn-2.8.3.post2%2Bcu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl",
+  "wheel_sha256": "92aabf18ecfcf5d620ac7fe97fafe88f83e714b7a790e4bf219dff4a404cfb38",
+  "source": "https://github.com/Dao-AILab/flash-attention/releases/expanded_assets/v2.8.3.post2",
+  "estimated_gpu_hours": {
+    "environment": [0.1, 0.25],
+    "baseline": [0.1, 0.3],
+    "diagnostics": [0.4, 1.5],
+    "weight_sync": [0.3, 1.0],
+    "grpo_smoke_and_two_demos": [1.0, 4.0],
+    "performance": [0.4, 1.5]
+  },
+  "estimate_status": "Planning assumptions only, not measured; 30 percent contingency is added by run_rental.py",
+  "validation_status": "GPU_PENDING; wheel availability verified, runtime ABI and kernels still require manual smoke"
+}

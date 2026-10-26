@@ -1,0 +1,30 @@
+{
+  "status": "DOWNLOAD_PENDING",
+  "commands": [
+    [
+      "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+      "scripts/download_model.py",
+      "--allow-download",
+      "--destination",
+      "/persistent/lockstep/models/Qwen3-0.6B"
+    ],
+    [
+      "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+      "scripts/prepare_gsm8k.py",
+      "--allow-download",
+      "--train-count",
+      "64",
+      "--validation-count",
+      "32",
+      "--diagnostic-count",
+      "32",
+      "--fewshot-count",
+      "32",
+      "--output-dir",
+      "/persistent/lockstep/data/gsm8k"
+    ]
+  ],
+  "wheel": "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3.post2/flash_attn-2.8.3.post2%2Bcu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl",
+  "wheel_sha256": "92aabf18ecfcf5d620ac7fe97fafe88f83e714b7a790e4bf219dff4a404cfb38",
+  "gpu_execution": false
+}

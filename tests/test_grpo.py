@@ -175,13 +175,16 @@ class GRPOTest(unittest.TestCase):
                     return prepare_weight_update(actor, args[0])
                 if method == "commit_weight_update":
                     return commit_weight_update(args[0])
+                if method == "weight_change_statistics":
+                    from nanovllm.utils.weight_update import effective_weight_change_statistics
+                    return effective_weight_change_statistics(args[0])
                 if method == "run":
                     tokens, scores = [], []
                     with torch.no_grad():
                         for seq in args[0]:
                             hidden = actor.model(torch.tensor([seq.token_ids])).last_hidden_state
                             logp = actor.head(hidden[:, -1]).float().log_softmax(-1)[0]
-                            token = torch.multinomial(logp.exp(), 1).item()
+                            token = seq.next_forced_token if seq.forced_response_ids is not None else torch.multinomial(logp.exp(), 1).item()
                             tokens.append(token); scores.append(logp[token].item())
                     return tokens, scores
                 raise AssertionError(method)
@@ -199,10 +202,13 @@ class GRPOTest(unittest.TestCase):
             for iteration in range(2):
                 batch, result = run_iteration(engine, trainer, [[1, 2]],
                                               lambda r, _: sum(r["response_ids"]),
-                                              iteration=iteration, max_tokens=3)
+                                              iteration=iteration, max_tokens=3,
+                                              sync_probe={"prompt_ids": [1, 2], "response_ids": [3, 4]})
                 self.assertTrue(result["updated"])
                 self.assertEqual({r["policy_version"] for r in batch}, {iteration})
                 self.assertEqual(engine.policy_version, iteration + 1)
+                self.assertGreater(result["weight_update"]["weight_changes"]["changed_fraction"], 0)
+                self.assertGreater(result["sync_probe"]["max_absolute_change"], 0)
                 for a, b in zip(actor.parameters(), model.parameters()):
                     torch.testing.assert_close(a, b)
         finally:

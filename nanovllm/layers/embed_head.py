@@ -49,16 +49,24 @@ class ParallelLMHead(VocabParallelEmbedding):
         num_embeddings: int,
         embedding_dim: int,
         bias: bool = False,
+        fp32_lm_head: bool = False,
     ):
         assert not bias
         super().__init__(num_embeddings, embedding_dim)
+        self.fp32_lm_head = fp32_lm_head
 
     def forward(self, x: torch.Tensor):
         context = get_context()
         if context.is_prefill:
             last_indices = context.cu_seqlens_q[1:] - 1
             x = x[last_indices].contiguous()
-        logits = F.linear(x, self.weight)
+        if self.fp32_lm_head:
+            # Convert the live parameter on every call, also after decoder graph replay.
+            # Never keep a detached FP32 shadow that can survive a weight commit.
+            with torch.autocast(device_type=x.device.type, enabled=False):
+                logits = F.linear(x.float(), self.weight.float())
+        else:
+            logits = F.linear(x, self.weight)
         if self.tp_size > 1:
             all_logits = [torch.empty_like(logits) for _ in range(self.tp_size)] if self.tp_rank == 0 else None
             dist.gather(logits, all_logits, 0)

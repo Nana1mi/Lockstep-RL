@@ -2,11 +2,14 @@
   "model": ".models/Qwen3-0.6B",
   "seed": 0,
   "torch_compile": true,
-  "prompt_tokens": 512,
-  "response_tokens": 32,
+  "prompt_tokens": 1024,
+  "num_trajectories": 32,
+  "question_file": "data/gsm8k/diagnostic.jsonl",
+  "fewshot_file": "data/gsm8k/fewshot.jsonl",
+  "response_tokens": 128,
   "chunk_budget": 64,
   "batch_size": 4,
-  "preemption_kv_blocks": 4,
+  "preemption_kv_blocks": 8,
   "threshold": 0.1,
   "attention_backend": "sdpa",
   "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
@@ -18,6 +21,6 @@
     "max_model_len": 2048,
     "max_num_seqs": 8
   },
-  "cases": ["eager", "prefix", "chunked", "graph", "graph_padding", "batch", "preemption"],
+  "cases": ["eager", "repeat", "prefix", "chunked", "graph", "graph_padding", "batch", "preemption_cached", "preemption_recompute", "fp32_head"],
   "validation_status": "GPU_PENDING"
 }

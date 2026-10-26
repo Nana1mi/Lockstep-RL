@@ -16,9 +16,10 @@
       ]
     },
     {
-      "name": "eager-fresh-0",
+      "name": "eager-fresh-gpu-fp32-0",
       "backend": "eager",
       "mode": "fresh",
+      "source": "gpu-fp32",
       "repeat": 0,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -34,14 +35,17 @@
         "fresh",
         "--backend",
         "eager",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/eager-fresh-0"
+        "results/weight-sync/eager-fresh-gpu-fp32-0"
       ]
     },
     {
-      "name": "eager-fresh-1",
+      "name": "eager-fresh-gpu-fp32-1",
       "backend": "eager",
       "mode": "fresh",
+      "source": "gpu-fp32",
       "repeat": 1,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -57,14 +61,17 @@
         "fresh",
         "--backend",
         "eager",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/eager-fresh-1"
+        "results/weight-sync/eager-fresh-gpu-fp32-1"
       ]
     },
     {
-      "name": "eager-fresh-2",
+      "name": "eager-fresh-gpu-fp32-2",
       "backend": "eager",
       "mode": "fresh",
+      "source": "gpu-fp32",
       "repeat": 2,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -80,14 +87,17 @@
         "fresh",
         "--backend",
         "eager",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/eager-fresh-2"
+        "results/weight-sync/eager-fresh-gpu-fp32-2"
       ]
     },
     {
-      "name": "eager-hot-0",
+      "name": "eager-hot-gpu-fp32-0",
       "backend": "eager",
       "mode": "hot",
+      "source": "gpu-fp32",
       "repeat": 0,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -103,14 +113,43 @@
         "hot",
         "--backend",
         "eager",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/eager-hot-0"
+        "results/weight-sync/eager-hot-gpu-fp32-0"
       ]
     },
     {
-      "name": "eager-hot-1",
+      "name": "eager-hot-cpu-bf16-0",
       "backend": "eager",
       "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "results/weight-sync/eager-hot-cpu-bf16-0"
+      ]
+    },
+    {
+      "name": "eager-hot-gpu-fp32-1",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "gpu-fp32",
       "repeat": 1,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -126,14 +165,43 @@
         "hot",
         "--backend",
         "eager",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/eager-hot-1"
+        "results/weight-sync/eager-hot-gpu-fp32-1"
       ]
     },
     {
-      "name": "eager-hot-2",
+      "name": "eager-hot-cpu-bf16-1",
       "backend": "eager",
       "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "results/weight-sync/eager-hot-cpu-bf16-1"
+      ]
+    },
+    {
+      "name": "eager-hot-gpu-fp32-2",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "gpu-fp32",
       "repeat": 2,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -149,14 +217,124 @@
         "hot",
         "--backend",
         "eager",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/eager-hot-2"
+        "results/weight-sync/eager-hot-gpu-fp32-2"
       ]
     },
     {
-      "name": "graph-fresh-0",
+      "name": "eager-hot-cpu-bf16-2",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "results/weight-sync/eager-hot-cpu-bf16-2"
+      ]
+    },
+    {
+      "name": "eager-negative-gpu-fp32-0",
+      "backend": "eager",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "results/weight-sync/eager-negative-gpu-fp32-0",
+        "--skip-invalidate"
+      ]
+    },
+    {
+      "name": "eager-negative-gpu-fp32-1",
+      "backend": "eager",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "results/weight-sync/eager-negative-gpu-fp32-1",
+        "--skip-invalidate"
+      ]
+    },
+    {
+      "name": "eager-negative-gpu-fp32-2",
+      "backend": "eager",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "results/weight-sync/eager-negative-gpu-fp32-2",
+        "--skip-invalidate"
+      ]
+    },
+    {
+      "name": "graph-fresh-gpu-fp32-0",
       "backend": "graph",
       "mode": "fresh",
+      "source": "gpu-fp32",
       "repeat": 0,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -172,14 +350,17 @@
         "fresh",
         "--backend",
         "graph",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/graph-fresh-0"
+        "results/weight-sync/graph-fresh-gpu-fp32-0"
       ]
     },
     {
-      "name": "graph-fresh-1",
+      "name": "graph-fresh-gpu-fp32-1",
       "backend": "graph",
       "mode": "fresh",
+      "source": "gpu-fp32",
       "repeat": 1,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -195,14 +376,17 @@
         "fresh",
         "--backend",
         "graph",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/graph-fresh-1"
+        "results/weight-sync/graph-fresh-gpu-fp32-1"
       ]
     },
     {
-      "name": "graph-fresh-2",
+      "name": "graph-fresh-gpu-fp32-2",
       "backend": "graph",
       "mode": "fresh",
+      "source": "gpu-fp32",
       "repeat": 2,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -218,14 +402,17 @@
         "fresh",
         "--backend",
         "graph",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/graph-fresh-2"
+        "results/weight-sync/graph-fresh-gpu-fp32-2"
       ]
     },
     {
-      "name": "graph-hot-0",
+      "name": "graph-hot-gpu-fp32-0",
       "backend": "graph",
       "mode": "hot",
+      "source": "gpu-fp32",
       "repeat": 0,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -241,14 +428,43 @@
         "hot",
         "--backend",
         "graph",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/graph-hot-0"
+        "results/weight-sync/graph-hot-gpu-fp32-0"
       ]
     },
     {
-      "name": "graph-hot-1",
+      "name": "graph-hot-cpu-bf16-0",
       "backend": "graph",
       "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "results/weight-sync/graph-hot-cpu-bf16-0"
+      ]
+    },
+    {
+      "name": "graph-hot-gpu-fp32-1",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "gpu-fp32",
       "repeat": 1,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -264,14 +480,43 @@
         "hot",
         "--backend",
         "graph",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/graph-hot-1"
+        "results/weight-sync/graph-hot-gpu-fp32-1"
       ]
     },
     {
-      "name": "graph-hot-2",
+      "name": "graph-hot-cpu-bf16-1",
       "backend": "graph",
       "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "results/weight-sync/graph-hot-cpu-bf16-1"
+      ]
+    },
+    {
+      "name": "graph-hot-gpu-fp32-2",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "gpu-fp32",
       "repeat": 2,
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -287,8 +532,117 @@
         "hot",
         "--backend",
         "graph",
+        "--source",
+        "gpu-fp32",
         "--output-dir",
-        "results/weight-sync/graph-hot-2"
+        "results/weight-sync/graph-hot-gpu-fp32-2"
+      ]
+    },
+    {
+      "name": "graph-hot-cpu-bf16-2",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "results/weight-sync/graph-hot-cpu-bf16-2"
+      ]
+    },
+    {
+      "name": "graph-negative-gpu-fp32-0",
+      "backend": "graph",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "results/weight-sync/graph-negative-gpu-fp32-0",
+        "--skip-invalidate"
+      ]
+    },
+    {
+      "name": "graph-negative-gpu-fp32-1",
+      "backend": "graph",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "results/weight-sync/graph-negative-gpu-fp32-1",
+        "--skip-invalidate"
+      ]
+    },
+    {
+      "name": "graph-negative-gpu-fp32-2",
+      "backend": "graph",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "results/weight-sync/graph-negative-gpu-fp32-2",
+        "--skip-invalidate"
       ]
     }
   ],

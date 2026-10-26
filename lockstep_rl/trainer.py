@@ -10,11 +10,20 @@ from lockstep_rl.grpo import GRPOConfig, accumulation_count, clipped_surrogate, 
 from lockstep_rl.logprobs import selected_logprobs
 
 
-def causal_logprobs(model, batch, *, chunk_size):
+def causal_logprobs(model, batch, *, chunk_size, fp32_lm_head=False):
     positions = (batch.attention_mask.cumsum(-1) - 1).clamp_min(0)
     hidden = model.model(input_ids=batch.input_ids, attention_mask=batch.attention_mask,
                          position_ids=positions, use_cache=False).last_hidden_state
-    return selected_logprobs(hidden[:, :-1], model.get_output_embeddings(), batch.input_ids[:, 1:], chunk_size)
+    # Prompt/padding positions never enter the vocabulary projection. Scatter
+    # keeps the existing dense score/mask contract and its differentiable shift.
+    mask = batch.response_mask
+    response_hidden = hidden[:, :-1][mask]
+    targets = batch.input_ids[:, 1:][mask]
+    if not targets.numel():
+        return hidden[:, :-1].sum(-1).float() * 0
+    selected = selected_logprobs(response_hidden, model.get_output_embeddings(), targets,
+                                chunk_size, fp32_lm_head=fp32_lm_head)
+    return selected.new_zeros(mask.shape).masked_scatter(mask, selected)
 
 
 @torch.no_grad()
@@ -51,7 +60,8 @@ class GRPOTrainer:
 
     def _score(self, batch):
         with self._autocast():
-            return self.score_fn(self.model, batch, chunk_size=self.config.logprob_chunk_size)
+            options = {"fp32_lm_head": True} if self.config.fp32_lm_head else {}
+            return self.score_fn(self.model, batch, chunk_size=self.config.logprob_chunk_size, **options)
 
     def update(self, records, rewards):
         if not records:
@@ -158,7 +168,7 @@ class GRPOTrainer:
 
 
 def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=128, sampling_config=None,
-                  trajectory_callback=None):
+                  trajectory_callback=None, sync_probe=None):
     from nanovllm import SamplingParams
     size = trainer.config.group_size
     expanded = [prompt for prompt in prompts for _ in range(size)]
@@ -186,14 +196,32 @@ def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=
     metrics = trainer.update(records, rewards)
     after_training = stamp()
     old_version = engine.policy_version
+    sync_result = None
+    def probe_scores(label):
+        from nanovllm import SamplingParams
+        return engine.generate([sync_probe["prompt_ids"]], SamplingParams(ignore_eos=True),
+            forced_response_ids=[sync_probe["response_ids"]], request_ids=[f"sync-probe:{iteration}:{label}"],
+            use_tqdm=False)[0]["response_logprobs"]
+    before_probe = probe_scores("before") if sync_probe and metrics["updated"] else None
+    before_sync = stamp()
     if metrics["updated"]:
-        engine.update_weights(trainer.model.state_dict())
+        sync_result = engine.update_weights(trainer.model.state_dict(), measure_changes=sync_probe is not None)
     after_sync = stamp()
+    after_probe = probe_scores("after") if before_probe is not None else None
+    after_probe_time = stamp()
+    if before_probe is not None:
+        delta = [new - old for old, new in zip(before_probe, after_probe)]
+        metrics["sync_probe"] = {"prompt_ids": sync_probe["prompt_ids"], "response_ids": sync_probe["response_ids"],
+            "before_logprobs": before_probe, "after_logprobs": after_probe, "delta_logprobs": delta,
+            "max_absolute_change": max(abs(value) for value in delta),
+            "mean_absolute_change": sum(abs(value) for value in delta) / len(delta)}
     metrics.update(rewards=rewards, old_policy_version=old_version, new_policy_version=engine.policy_version,
+                   weight_update=sync_result,
                    rollout_includes_persistence=trajectory_callback is not None,
                    pre_update_weight_cast_error=cast_error,
                    timings={"rollout": after_rollout - start, "reward": after_reward - after_rollout,
                             "weight_cast_diagnostics": after_cast_diagnostics - after_reward,
-                            "training": after_training - after_cast_diagnostics, "sync": after_sync - after_training,
-                            "total": after_sync - start})
+                            "training": after_training - after_cast_diagnostics, "sync": after_sync - before_sync,
+                            "sync_probe": before_sync - after_training + after_probe_time - after_sync,
+                            "total": after_probe_time - start})
     return records, metrics

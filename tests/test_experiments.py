@@ -114,19 +114,23 @@ class ExperimentTest(unittest.TestCase):
     def test_original_vs_current_workloads_and_nested_repeats_match(self):
         settings = json.loads((ROOT / "configs/inference-benchmark.json").read_text())
         jobs = benchmark_plan("config.json", "unused-output", settings)
-        self.assertEqual(len(jobs), 48)
+        self.assertEqual(len(jobs), 72)
         for source in ("baseline", "current"):
             selected = [job for job in jobs if job["source"] == source]
-            self.assertEqual(len(selected), 24)
+            self.assertEqual(len(selected), 24 if source == "baseline" else 48)
             self.assertEqual({job["process_repeat"] for job in selected}, {0, 1, 2})
             self.assertEqual({job["case"] for job in selected}, set(settings["cases"]))
+        self.assertEqual(sum(job["fp32_lm_head"] for job in jobs), 24)
         self.assertFalse(torch.cuda.is_initialized())
 
     def test_sync_plan_locks_repeated_fresh_references_before_hot(self):
         jobs = sync_plan("config.json", "unused-output", 3)
-        self.assertEqual(len(jobs), 13)
-        self.assertEqual([job["mode"] for job in jobs[1:7]], ["fresh"] * 3 + ["hot"] * 3)
-        self.assertEqual([job["mode"] for job in jobs[7:]], ["fresh"] * 3 + ["hot"] * 3)
+        self.assertEqual(len(jobs), 25)
+        for backend in ("eager", "graph"):
+            selected = [job for job in jobs if job.get("backend") == backend]
+            self.assertEqual([job["mode"] for job in selected[:3]], ["fresh"] * 3)
+            self.assertEqual({job["source"] for job in selected if job["mode"] == "hot"}, {"gpu-fp32", "cpu-bf16"})
+            self.assertTrue(all("--skip-invalidate" in job["command"] for job in selected if job["mode"] == "negative"))
         row = {"request_id": "target", "prompt_ids": [1], "response_ids": [2], "response_logprobs": [-2.]}
         close = {**row, "response_logprobs": [-2.0001]}
         assert_outputs_close([row], [close], atol=.001, rtol=0)
@@ -138,7 +142,9 @@ class ExperimentTest(unittest.TestCase):
         settings = json.loads(path.read_text())
         validate_settings(settings)
         jobs = build_plan(path, Path("unused-output"), settings)
-        self.assertEqual(len(jobs), 10)
+        self.assertEqual(len(jobs), 13)
+        self.assertEqual(sum(len(job.get("trajectory_ids", [])) for job in jobs), 32 * 13)
+        self.assertEqual({job["name"] for job in jobs[:-2]}, {"sample", *settings["cases"]})
         self.assertEqual(jobs[0]["name"], "sample")
         self.assertEqual(jobs[-2]["name"], "hf-bfloat16")
         self.assertEqual(jobs[-1]["name"], "hf-float32")

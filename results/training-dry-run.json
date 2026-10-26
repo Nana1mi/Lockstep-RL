@@ -3,6 +3,7 @@
   "config": {
     "model": ".models/Qwen3-0.6B",
     "seed": 0,
+    "reward_parser": "strict",
     "torch_compile": true,
     "iterations": 4,
     "prompts_per_iteration": 1,
@@ -48,7 +49,8 @@
     "gradient_accumulation_steps": 4,
     "logprob_chunk_size": 32,
     "max_grad_norm": 1.0,
-    "autocast_bf16": true
+    "autocast_bf16": true,
+    "fp32_lm_head": false
   },
   "train_count": 16,
   "validation_count": 8

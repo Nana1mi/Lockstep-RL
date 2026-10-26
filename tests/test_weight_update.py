@@ -147,10 +147,13 @@ class WeightUpdateTest(unittest.TestCase):
         manager = engine.scheduler.block_manager
         manager.blocks[0].update(123, [1, 2, 3, 4])
         manager.hash_to_block_id[123] = 0
-        self.assertEqual(engine.update_weights(source_weights()), 1)
+        update = engine.update_weights(source_weights())
+        self.assertEqual(update["policy_version"], 1)
+        self.assertTrue({"preflight_seconds", "commit_seconds", "invalidate_seconds", "total_seconds"} <= set(update["timings"]))
+        self.assertTrue(all(t >= 0 for t in update["timings"].values()))
         self.assertFalse(manager.hash_to_block_id)
         self.assertEqual(engine.state, "ready")
-        self.assertEqual(engine.update_weights(source_weights(), policy_version=4), 4)
+        self.assertEqual(engine.update_weights(source_weights(), policy_version=4)["policy_version"], 4)
         with self.assertRaises(ValueError):
             engine.update_weights(source_weights(), policy_version=4)
 

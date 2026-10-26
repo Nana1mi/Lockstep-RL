@@ -35,6 +35,9 @@ def main():
         "training-dry-run.json": ["scripts/train_grpo.py", "--dry-run"],
         "evaluation-dry-run.json": ["scripts/evaluate.py", "--model", "nonexistent-local-model", "--dry-run"],
         "hf-score-dry-run.json": ["scripts/score_hf.py", "--model", "nonexistent-local-model", "--trajectory", "unused.json", "--output", "unused.json", "--dry-run"],
+        "rental-dry-run.json": ["scripts/run_rental.py", "--persistent-root", "/persistent/lockstep", "--dry-run"],
+        "demo-lr1-dry-run.json": ["scripts/train_grpo.py", "--config", "configs/train-demo-simple.json", "--dry-run"],
+        "demo-lr5-dry-run.json": ["scripts/train_grpo.py", "--config", "configs/train-demo-simple-lr5e-6.json", "--dry-run"],
     }
     for filename, arguments in commands.items():
         result = subprocess.run([sys.executable, *arguments], cwd=ROOT, env=env, capture_output=True, text=True, check=True)
@@ -42,6 +45,12 @@ def main():
         if payload["status"] != "GPU_PENDING":
             raise ValueError(f"dry run did not identify pending GPU work: {filename}")
         (ROOT / "results" / filename).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    assets = subprocess.run([sys.executable, "scripts/prepare_rental_assets.py", "--persistent-root", "/persistent/lockstep", "--dry-run"],
+                            cwd=ROOT, env=env, capture_output=True, text=True, check=True)
+    payload = json.loads(assets.stdout)
+    if payload["status"] != "DOWNLOAD_PENDING" or payload["gpu_execution"]:
+        raise ValueError("asset prefetch dry-run must remain download/GPU-free")
+    (ROOT / "results/assets-dry-run.json").write_text(json.dumps(payload, indent=2) + "\n")
     guard = subprocess.run(["bash", "scripts/setup_gpu_env.sh"], cwd=ROOT, env=env, capture_output=True, text=True)
     if guard.returncode != 2 or "--allow-install" not in guard.stderr:
         raise ValueError("GPU installer was not opt-in guarded")

@@ -22,7 +22,7 @@ class LLMEngine:
 
     def __init__(self, model, **kwargs):
         self._lock = threading.RLock()
-        from nanovllm.config import Config
+        from nanovllm.config import Config, load_eos_token_ids
         from transformers import AutoTokenizer
         import torch.multiprocessing as mp
         import torch.distributed as dist
@@ -39,6 +39,9 @@ class LLMEngine:
         # Sequence block-size convention shared by this process.
         self.tokenizer = AutoTokenizer.from_pretrained(config.model, use_fast=True, local_files_only=True)
         config.eos = self.tokenizer.eos_token_id
+        config.eos_token_ids = load_eos_token_ids(config.model, config.eos)
+        if any(token >= config.hf_config.vocab_size for token in config.eos_token_ids):
+            raise ValueError("EOS ID outside model vocabulary")
         self.config = config
         self.policy_version = 0
         self.state = "ready"
@@ -90,16 +93,19 @@ class LLMEngine:
         if len(prompt) + sampling_params.max_tokens > self.config.max_model_len:
             raise ValueError("prompt + response budget exceeds max_model_len")
         vocab = self.config.hf_config.vocab_size
+        eos_ids = list(getattr(self.config, "eos_token_ids", ()) or ([self.config.eos] if self.config.eos is not None else []))
         all_ids = list(prompt) + (list(forced_response_ids) if forced_response_ids is not None else [])
         if any(not isinstance(t, int) or isinstance(t, bool) or t < 0 or t >= vocab for t in all_ids):
             raise ValueError("token ID outside model vocabulary")
         metadata = {"model": self.config.model, "tokenizer": self.config.model,
                     "model_revision": getattr(self.config.hf_config, "_commit_hash", None),
                     "chat_template_version": "caller_supplied_token_ids", "enable_thinking": False,
-                    "eos_token_id": self.config.eos, "eos_rule": "single_tokenizer_eos",
+                    "eos_token_id": self.config.eos, "eos_token_ids": eos_ids, "eos_rule": "any_configured_eos",
                     "top_k": None, "top_p": 1.0}
         reserved = {"model": self.config.model, "tokenizer": self.config.model,
-                    "eos_token_id": self.config.eos, "eos_rule": "single_tokenizer_eos",
+                    "eos_token_id": self.config.eos, "eos_token_ids": eos_ids, "eos_rule": "any_configured_eos",
+                    "enable_prefix_caching": getattr(self.config, "enable_prefix_caching", True),
+                    "fp32_lm_head": getattr(self.config, "fp32_lm_head", False),
                     "temperature": 1, "enable_thinking": False, "top_k": None, "top_p": 1.0}
         if any(key in (sampling_config or {}) and sampling_config[key] != value for key, value in reserved.items()):
             raise ValueError("sampling metadata conflicts with the first-version distribution/configuration")
@@ -131,7 +137,7 @@ class LLMEngine:
         return self.scheduler.is_finished()
 
     @synchronized
-    def update_weights(self, state_dict, *, policy_version=None):
+    def update_weights(self, state_dict, *, policy_version=None, measure_changes=False):
         self._require_ready()
         if self.config.tensor_parallel_size != 1:
             raise NotImplementedError("online updates are validated for TP=1 only")
@@ -141,18 +147,28 @@ class LLMEngine:
         if not isinstance(version, int) or isinstance(version, bool) or version <= self.policy_version:
             raise ValueError("policy_version must increase after a successful commit")
         # Preflight rejection leaves the current version fully serviceable.
+        start = perf_counter()
         plan = self.model_runner.call("prepare_weight_update", state_dict)
+        preflight_done = perf_counter()
+        changes = self.model_runner.call("weight_change_statistics", plan) if measure_changes else None
+        measurement_done = perf_counter()
         self.state = "updating"
         try:
             self.model_runner.call("commit_weight_update", plan)
+            commit_done = perf_counter()
             self.scheduler.block_manager.invalidate()
+            invalidate_done = perf_counter()
         except Exception:
             self.state = "broken"
             raise
         self.policy_version = version
         self.state = "ready"
-        self.scheduler._record("weight_commit", policy_version=version, old_cache_entries=0)
-        return version
+        timings = {"preflight_seconds": preflight_done - start, "commit_seconds": commit_done - measurement_done,
+                   "invalidate_seconds": invalidate_done - commit_done, "total_seconds": invalidate_done - start,
+                   "change_measurement_seconds": measurement_done - preflight_done}
+        self.scheduler._record("weight_commit", policy_version=version,
+                               old_cache_entries=len(self.scheduler.block_manager.hash_to_block_id), **timings)
+        return {"policy_version": version, "timings": timings, "weight_changes": changes}
 
     @synchronized
     def generate(

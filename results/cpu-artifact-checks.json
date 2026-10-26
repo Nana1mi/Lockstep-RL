@@ -22,51 +22,6 @@
       "language": "bash"
     },
     {
-      "document": "GPU_RUNBOOK.md",
-      "block": 3,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 4,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 5,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 6,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 7,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 8,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 9,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 10,
-      "language": "bash"
-    },
-    {
-      "document": "GPU_RUNBOOK.md",
-      "block": 11,
-      "language": "bash"
-    },
-    {
       "document": "docs/upstream-readme.md",
       "block": 0,
       "language": "bash"
@@ -113,6 +68,24 @@
       "unused.json",
       "--output",
       "unused.json",
+      "--dry-run"
+    ],
+    "rental-dry-run.json": [
+      "scripts/run_rental.py",
+      "--persistent-root",
+      "/persistent/lockstep",
+      "--dry-run"
+    ],
+    "demo-lr1-dry-run.json": [
+      "scripts/train_grpo.py",
+      "--config",
+      "configs/train-demo-simple.json",
+      "--dry-run"
+    ],
+    "demo-lr5-dry-run.json": [
+      "scripts/train_grpo.py",
+      "--config",
+      "configs/train-demo-simple-lr5e-6.json",
       "--dry-run"
     ]
   },

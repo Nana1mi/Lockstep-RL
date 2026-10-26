@@ -82,7 +82,18 @@ class RolloutTest(unittest.TestCase):
             self.assertEqual(records[0]["response_ids"], [99])
             self.assertEqual(records[0]["finish_reason"], reason)
             self.assertEqual(records[0]["sampling_config"]["eos_token_id"], 99)
-            self.assertEqual(records[0]["sampling_config"]["eos_rule"], "single_tokenizer_eos")
+            self.assertEqual(records[0]["sampling_config"]["eos_rule"], "any_configured_eos")
+
+    def test_either_generation_config_eos_stops_and_list_is_recorded(self):
+        for token in (98, 99):
+            engine = cpu_engine(budget=16)
+            engine.config.eos_token_ids = (98, 99)
+            engine.scheduler.eos_token_ids = {98, 99}
+            row = engine.generate([[1, 2]], SamplingParams(max_tokens=3),
+                forced_response_ids=[[token, 7, 8]], use_tqdm=False)[0]
+            self.assertEqual(row["response_ids"], [token])
+            self.assertEqual(row["finish_reason"], "eos")
+            self.assertEqual(row["sampling_config"]["eos_token_ids"], [98, 99])
 
     def test_preemption_replays_context_without_rewriting_old_scores(self):
         engine = cpu_engine(budget=16)

@@ -12,7 +12,7 @@ readme = "README.md"
 description = "RL rollout extension of nano-vllm with token logprobs and safe weight synchronization"
 requires-python = ">=3.10,<3.13"
 dependencies = [
-    "torch>=2.11.0",
+    "torch>=2.8.0",
     "transformers>=5.5.4",
     "xxhash",
     "numpy",
@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-gpu = ["triton>=3.0.0", "flash-attn==2.8.3.post2"]
+gpu = ["triton>=3.4.0", "flash-attn==2.8.3.post2"]
 dev = ["ruff", "matplotlib"]
 data = ["datasets"]
 

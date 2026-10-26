@@ -29,3 +29,10 @@
   adaptation needs explicit evidence and separate correctness/performance results.
 - Keep user-supplied planning documents intact unless updating a verified task
   checkbox. Project name is Lockstep-RL.
+
+- The user revision dated 2026-10-27 explicitly authorizes PLAN/README/runbook
+  updates and prioritizes P0.1-3, then P1.4/6/5, P2.7-8 before rental. No new
+  mandatory memory/offload task is part of this revision.
+- Rental target is one NVIDIA A100-SXM4-80GB on Linux. Old RTX5080/SM120 build
+  instructions are historical. Pin official FA2 wheel/torch/Python/CUDA/ABI/hash;
+  do not silently fall back to source compilation or mix GPU models in contrasts.

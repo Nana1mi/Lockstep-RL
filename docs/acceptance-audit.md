@@ -1,4 +1,4 @@
-# GPU-validation-ready delivery audit
+# GPU-validation-ready delivery audit — 2026-10-27 revision
 
 This audit follows the updated user objective: implement all mandatory v1 code,
 complete CPU-verifiable checks, and prepare real GPU experiments for the user.
@@ -31,18 +31,20 @@ are advisory; its real-measurement checkboxes remain separate manual gates.
 | Isolated environment and resources | nano_rl CPU env; host-info, freeze, metadata; existing environments unchanged | GPU installer is an unvalidated candidate |
 | No accidental GPU/download work | opt-in entry tests, imports with CUDA-init trap, dry-run and installer guard checks | Human must opt in explicitly |
 | Installation/documentation | README, AGENTS, PROGRESS, IMPLEMENTATION_STATUS, EXPERIMENTS, GPU_RUNBOOK, design/flow/interview notes | Manual sequence documented |
-| Package integration | wheel build, all 34 library sources, isolated CPU imports without FA2/Triton; byte-for-byte source verification | GPU dependencies intentionally separate |
+| Package integration | wheel build, all 35 library sources including diagnostic prompt builder, isolated CPU imports without FA2/Triton; byte-for-byte source verification | GPU dependencies intentionally separate |
 
 ## Verification records
 
-Final complete suite: **55 tests passed in 112.181s**, with all configured CPU
-artifact/static/package checks passing. `results/validation-manifest.json` binds
-the evidence to 74 normalized source/config files; after the final commit its
+Complete regression counts/times for CPU2.11 and CPU2.8 are stored in their raw
+logs and `results/validation-manifest.json`, with artifact/static/package checks.
+The manifest binds the evidence to normalized source/config files; after the final commit its
 `--verify-git` check must confirm the delivered HEAD matches that text.
 
 - `results/cpu-tests.txt`: complete discovered CPU suite; includes tiny random
   models, no downloaded weights or real CUDA/distributed operations.
-- `results/cpu-artifact-checks.json` and `.txt`: documentation fences, six dry
+- `results/cpu-tests-torch28.txt` and `cpu-environment-torch28*`: independent target
+  torch2.8 CPU compatibility, separate from actual CUDA validation.
+- `results/cpu-artifact-checks.json` and `.txt`: documentation fences, nine GPU dry
   plans, installer opt-in guard and dependency consistency.
 - `results/static-checks.txt`: Ruff E9/F; compileall and Bash syntax are also run.
 - `results/package-build.txt` and `package-check.json`: local wheel and isolated
@@ -54,7 +56,7 @@ the evidence to 74 normalized source/config files; after the final commit its
 ## Review conclusions and remaining risks
 
 No unsupported GPU, TP-update, async, LoRA, batch-invariance, throughput or learning
-claim is made. Real GPU validation may require fixes to FA2/SM120 build/ABI,
+claim is made. Real GPU validation on the A100-SXM4-80GB may require fixes to FA2 ABI,
 paged/graph kernels, numerical tolerances, memory configuration or reward budget.
 The code provides the required controls, trace/failure evidence and manual gates.
 No sleep/offload direction has been selected without a memory measurement.
@@ -63,3 +65,24 @@ The first local checkpoint is db946ee; the final audited commit is recorded in
 Git and the delivery message. The user-provided 初始任务.md is preserved unchanged
 and remains untracked. No remote push, driver update or existing-environment
 replacement is part of this delivery.
+
+## Revised priority acceptance
+
+P0 is covered by the exact6-block512/300 scheduler simulation with cache on/off,
+32×13 diagnostic dry coverage, real-question/template/companion fixture tests,
+token-vs-trajectory weighting, FP32-head/autocast/gradient/hot-weight checks.
+
+P1 includes one reduction per unique source tensor and one batched flag read,
+identical tied-storage fast path, phased timers, GPU-FP32/CPU-BF16 job separation,
+and a functional stale-KV CPU assay that rejects the bypassed-invalidation output.
+Reward tests preserve strict behavior and accept all three requested lenient
+examples. Demo arithmetic sets are512/128 unique/disjoint at comparable difficulty;
+both120-iteration configs dry-run. BF16-rounding change fractions and real actor
+loop probe deltas are CPU-tested.
+
+P2 includes local generation-config EOS lists and either-token stopping, and
+response-only head value/gradient/token-count equivalence. Rental plan tests check
+ordered stages, persistent paths, both learning rates, opt-in guards, pinned wheel
+ABI/hash, and pre-GPU rejection of incomplete/leaked inputs. The official wheel
+candidate is a torch2.8 binary; the old5080/SM120 workflow is no longer applicable.
+No new memory/offload task is inserted into the revised mandatory sequence.

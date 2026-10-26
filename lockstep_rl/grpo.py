@@ -19,6 +19,7 @@ class GRPOConfig:
     logprob_chunk_size: int = 32
     max_grad_norm: float = 1.0
     autocast_bf16: bool = False
+    fp32_lm_head: bool = False
 
     def __post_init__(self):
         for name in ("group_size", "update_steps", "microbatch_size", "logprob_chunk_size"):

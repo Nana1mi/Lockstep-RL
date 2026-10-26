@@ -4,6 +4,8 @@ test_training_dry_run_without_gpu_or_model (test_cpu_boundaries.CpuBoundariesTes
 test_cpu_scheduler_records_actual_prefix_and_chunk_ranges (test_diagnostics.DiagnosticsTest.test_cpu_scheduler_records_actual_prefix_and_chunk_ranges) ... ok
 test_fixed_trajectory_statistics_and_known_error_label (test_diagnostics.DiagnosticsTest.test_fixed_trajectory_statistics_and_known_error_label) ... ok
 test_graph_and_preemption_evidence_requires_actual_events (test_diagnostics.DiagnosticsTest.test_graph_and_preemption_evidence_requires_actual_events) ... ok
+test_multi_trajectory_metrics_are_token_weighted_but_threshold_counts_trajectories (test_diagnostics.DiagnosticsTest.test_multi_trajectory_metrics_are_token_weighted_but_threshold_counts_trajectories) ... ok
+test_six_block_preemption_cache_switch_and_score_alignment (test_diagnostics.DiagnosticsTest.test_six_block_preemption_cache_switch_and_score_alignment) ... ok
 test_bad_engine_config_and_missing_weights_fail_before_cuda (test_experiments.ExperimentTest.test_bad_engine_config_and_missing_weights_fail_before_cuda) ... ok
 test_baseline_export_uses_exact_fixed_git_source_without_current_extensions (test_experiments.ExperimentTest.test_baseline_export_uses_exact_fixed_git_source_without_current_extensions) ... ok
 test_exact_chat_length_preserves_template_and_thinking_option (test_experiments.ExperimentTest.test_exact_chat_length_preserves_template_and_thinking_option) ... ok
@@ -30,23 +32,35 @@ test_zero_signal_skips_optimizer_and_empty_masks_skip (test_grpo.GRPOTest.test_z
 test_bad_inputs (test_logprobs.SelectedLogprobsTest.test_bad_inputs) ... ok
 test_checkpoint_does_not_save_vocabulary_activations (test_logprobs.SelectedLogprobsTest.test_checkpoint_does_not_save_vocabulary_activations) ... ok
 test_extreme_logits_are_finite (test_logprobs.SelectedLogprobsTest.test_extreme_logits_are_finite) ... ok
+test_fp32_head_disables_autocast_and_observes_hot_weights (test_logprobs.SelectedLogprobsTest.test_fp32_head_disables_autocast_and_observes_hot_weights) ... ok
 test_frozen_hidden_still_trains_head_and_no_grad_scores_match (test_logprobs.SelectedLogprobsTest.test_frozen_hidden_still_trains_head_and_no_grad_scores_match) ... ok
 test_values_and_gradients_match_full_log_softmax (test_logprobs.SelectedLogprobsTest.test_values_and_gradients_match_full_log_softmax) ... ok
+test_order_persistent_outputs_and_both_demo_learning_rates (test_rental_plan.RentalPlanTest.test_order_persistent_outputs_and_both_demo_learning_rates) ... ok
+test_partial_assets_and_leaked_splits_fail_before_gpu (test_rental_plan.RentalPlanTest.test_partial_assets_and_leaked_splits_fail_before_gpu) ... ok
+test_wheel_abi_hash_and_no_download_asset_plan (test_rental_plan.RentalPlanTest.test_wheel_abi_hash_and_no_download_asset_plan) ... ok
+test_actor_change_fraction_measures_bf16_rounding_and_unique_storage (test_revision_cpu.RevisionCPU.test_actor_change_fraction_measures_bf16_rounding_and_unique_storage) ... ok
+test_gsm_prompt_fixture_preserves_full_question_template_and_real_companions (test_revision_cpu.RevisionCPU.test_gsm_prompt_fixture_preserves_full_question_template_and_real_companions) ... ok
+test_local_generation_eos_list_and_fallback (test_revision_cpu.RevisionCPU.test_local_generation_eos_list_and_fallback) ... ok
+test_response_only_projection_matches_dense_values_and_gradients (test_revision_cpu.RevisionCPU.test_response_only_projection_matches_dense_values_and_gradients) ... ok
+test_source_flags_are_one_reduction_per_tensor_and_one_host_batch (test_revision_cpu.RevisionCPU.test_source_flags_are_one_reduction_per_tensor_and_one_host_batch) ... ok
+test_stale_kv_negative_control_detects_wrong_scores_on_cpu (test_revision_cpu.RevisionCPU.test_stale_kv_negative_control_detects_wrong_scores_on_cpu) ... ok
 test_disjoint_validation_and_leakage_rejection (test_rewards.RewardTest.test_disjoint_validation_and_leakage_rejection) ... ok
+test_lenient_formats_and_explicit_failure_reasons (test_rewards.RewardTest.test_lenient_formats_and_explicit_failure_reasons) ... ok
 test_numeric_formats_missing_answers_and_truncation (test_rewards.RewardTest.test_numeric_formats_missing_answers_and_truncation) ... ok
 test_bad_batch_admission_does_not_queue_partial_work (test_rollout.RolloutTest.test_bad_batch_admission_does_not_queue_partial_work) ... ok
 test_chunked_prefill_does_not_advance_replay (test_rollout.RolloutTest.test_chunked_prefill_does_not_advance_replay) ... ok
+test_either_generation_config_eos_stops_and_list_is_recorded (test_rollout.RolloutTest.test_either_generation_config_eos_stops_and_list_is_recorded) ... ok
 test_eos_is_retained_and_ignore_eos_means_length (test_rollout.RolloutTest.test_eos_is_retained_and_ignore_eos_means_length) ... ok
 test_preemption_replays_context_without_rewriting_old_scores (test_rollout.RolloutTest.test_preemption_replays_context_without_rewriting_old_scores) ... ok
 test_prefix_hit_and_logical_invalidation (test_rollout.RolloutTest.test_prefix_hit_and_logical_invalidation) ... ok
 test_sampler_is_fp32_correct_and_does_not_modify_inputs (test_rollout.RolloutTest.test_sampler_is_fp32_correct_and_does_not_modify_inputs) ... ok
 test_cpu_hf_qwen_checkpointing_and_two_updates (test_tiny_qwen.TinyQwenTest.test_cpu_hf_qwen_checkpointing_and_two_updates) ... ok
-test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1804.00it/s]
-Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 48858.38it/s]
+test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1820.44it/s]
+Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 8550.41it/s]
 ok
-test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2828.26it/s]
+test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2589.08it/s]
 ok
-test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 57095.24it/s]
+test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 15407.16it/s]
 ok
 test_teacher_forcing_matches_full_logits_at_response_positions (test_tiny_qwen.TinyQwenTest.test_teacher_forcing_matches_full_logits_at_response_positions) ... ok
 test_active_request_and_live_cache_prevent_update (test_weight_update.WeightUpdateTest.test_active_request_and_live_cache_prevent_update) ... ok
@@ -59,6 +73,6 @@ test_real_upstream_packed_loaders_and_tied_storage (test_weight_update.WeightUpd
 test_success_commits_version_and_invalidates_logical_cache (test_weight_update.WeightUpdateTest.test_success_commits_version_and_invalidates_logical_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 55 tests in 112.181s
+Ran 69 tests in 119.738s
 
 OK

@@ -1,4 +1,6 @@
 import os
+import json
+from pathlib import Path
 from dataclasses import dataclass
 from transformers import AutoConfig
 
@@ -12,14 +14,20 @@ class Config:
     gpu_memory_utilization: float = 0.9
     tensor_parallel_size: int = 1
     enforce_eager: bool = False
+    enable_prefix_caching: bool = True
+    fp32_lm_head: bool = False
     hf_config: AutoConfig | None = None
     eos: int = -1
+    eos_token_ids: tuple[int, ...] = ()
     kvcache_block_size: int = 256
     num_kvcache_blocks: int = -1
     record_trace: bool = False
     diagnostic_kv_blocks: int | None = None
 
     def __post_init__(self):
+        for name in ("enable_prefix_caching", "fp32_lm_head"):
+            if not isinstance(getattr(self, name), bool):
+                raise ValueError(f"{name} must be bool")
         for name in ("max_num_batched_tokens", "max_num_seqs", "max_model_len", "tensor_parallel_size", "kvcache_block_size"):
             value = getattr(self, name)
             if not isinstance(value, int) or isinstance(value, bool):
@@ -42,3 +50,15 @@ class Config:
             raise ValueError("diagnostic_kv_blocks must be positive")
         self.hf_config = AutoConfig.from_pretrained(self.model, local_files_only=True)
         self.max_model_len = min(self.max_model_len, self.hf_config.max_position_embeddings)
+
+
+def load_eos_token_ids(model, fallback):
+    """Prefer local generation_config.json; never access Hub or initialize CUDA."""
+    path = Path(model) / "generation_config.json"
+    value = json.loads(path.read_text(encoding="utf-8")).get("eos_token_id") if path.is_file() else None
+    if value is None:
+        value = fallback
+    values = value if isinstance(value, list) else [] if value is None else [value]
+    if any(not isinstance(token, int) or isinstance(token, bool) or token < 0 for token in values):
+        raise ValueError("generation EOS IDs must be nonnegative integers")
+    return tuple(dict.fromkeys(values))

@@ -17,12 +17,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from lockstep_rl.data import chat_prompts, load_tasks, validate_splits
 from lockstep_rl.grpo import GRPOConfig
-from lockstep_rl.rewards import numeric_reward, simple_tasks
+from lockstep_rl.rewards import reward_details, simple_tasks
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", type=Path, default=Path("configs/train-simple.json"))
+    parser.add_argument("--config", type=Path, default=Path("configs/train-smoke-simple.json"))
     parser.add_argument("--allow-gpu", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--anchor", choices=["rollout", "recomputed"])
@@ -31,6 +31,8 @@ def main():
     parser.add_argument("--output-dir", type=Path, default=Path("results/train"))
     args = parser.parse_args()
     settings = json.loads(args.config.read_text(encoding="utf-8"))
+    if settings.get("reward_parser", "strict") not in ("strict", "lenient"):
+        parser.error("reward_parser must be strict or lenient")
     if args.anchor:
         settings["grpo"]["anchor"] = args.anchor
     config = GRPOConfig(**settings["grpo"])
@@ -100,9 +102,16 @@ def main():
         metadata = {"enable_thinking": False,
                     "chat_template_version": hashlib.sha256(str(template).encode()).hexdigest(),
                     "training_master_dtype": "float32", "actor_dtype": str(engine.config.hf_config.dtype)}
-        initial = evaluate(engine, validation, label="initial", max_tokens=settings["max_tokens"])
+        from nanovllm import SamplingParams
+        sync_probe = engine.generate(chat_prompts(engine.tokenizer, train[:1]),
+            SamplingParams(max_tokens=settings.get("sync_probe_tokens", 16), ignore_eos=True),
+            request_ids=["sync-probe:initial"], use_tqdm=False)[0]
+        save_json(args.output_dir / "sync-probe-trajectory.json", sync_probe)
+        initial = evaluate(engine, validation, label="initial", max_tokens=settings["max_tokens"],
+                           reward_parser=settings.get("reward_parser", "strict"))
         (args.output_dir / "validation-initial.json").write_text(json.dumps(initial, indent=2) + "\n", encoding="utf-8")
         summary = {"optimizer_steps": 0, "policy_commits": 0, "skipped_batches": 0,
+                   "actor_visible_commits": 0, "probe_visible_commits": 0,
                    "iterations": settings["iterations"], "seed": settings["seed"], "scope": "single seed"}
         with (args.output_dir / "metrics.jsonl").open("w", encoding="utf-8") as stream, (args.output_dir / "metrics.csv").open("w", newline="", encoding="utf-8") as csv_stream:
             writer = None
@@ -111,21 +120,42 @@ def main():
                 prompts = chat_prompts(engine.tokenizer, tasks)
                 def reward_fn(record, index):
                     text = engine.tokenizer.decode(record["response_ids"], skip_special_tokens=True)
-                    return numeric_reward(text, tasks[index]["answer"])
+                    detail = reward_details(text, tasks[index]["answer"], settings.get("reward_parser", "strict"))
+                    record.update(detail, response_text=text)
+                    return detail["reward"]
                 records, metrics = run_iteration(engine, trainer, prompts, reward_fn, iteration=iteration,
                                                  max_tokens=settings["max_tokens"], sampling_config=metadata,
-                                                 trajectory_callback=lambda rows: save_json(args.output_dir / f"rollouts-{iteration}.json", rows))
+                                                 trajectory_callback=lambda rows: save_json(args.output_dir / f"rollouts-{iteration}.json", rows),
+                                                 sync_probe=sync_probe)
                 metrics["iteration"] = iteration
+                save_json(args.output_dir / f"rollouts-{iteration}.json", records)
+                metrics["parse_status"] = [r["parse_status"] for r in records]
+                metrics["parse_failure_rate"] = sum(r["parse_status"] != "ok" for r in records) / len(records)
+                lengths = [len(r["response_ids"]) for r in records]
+                metrics["response_lengths"] = lengths
+                metrics["response_length_mean"] = sum(lengths) / len(lengths)
+                metrics["response_length_min"], metrics["response_length_max"] = min(lengths), max(lengths)
+                metrics["reward_min"], metrics["reward_max"] = min(metrics["rewards"]), max(metrics["rewards"])
                 metrics["mean_reward"] = sum(metrics["rewards"]) / len(records)
                 metrics["truncation_fraction"] = sum(r["finish_reason"] == "length" for r in records) / len(records)
                 if (iteration + 1) % settings["evaluation_every"] == 0:
-                    metrics["validation"] = evaluate(engine, validation, label=str(iteration), max_tokens=settings["max_tokens"])
+                    metrics["validation"] = evaluate(engine, validation, label=str(iteration), max_tokens=settings["max_tokens"],
+                                                     reward_parser=settings.get("reward_parser", "strict"))
                 stream.write(json.dumps(metrics) + "\n"); stream.flush()
                 summary["optimizer_steps"] += sum(step["optimizer_step"] for step in metrics["steps"])
                 summary["policy_commits"] += int(metrics["updated"])
+                change = (metrics.get("weight_update") or {}).get("weight_changes") or {}
+                summary["actor_visible_commits"] += int(change.get("changed_fraction", 0) > 0)
+                summary["probe_visible_commits"] += int(metrics.get("sync_probe", {}).get("max_absolute_change", 0) > 0)
                 summary["skipped_batches"] += int(not metrics["updated"])
                 latest = metrics["steps"][-1] if metrics["steps"] else {}
                 flat = {"iteration": iteration, "mean_reward": metrics["mean_reward"],
+                        **{key: metrics[key] for key in ("reward_min", "reward_max", "parse_failure_rate",
+                            "response_length_mean", "response_length_min", "response_length_max")},
+                        "loss": latest.get("loss"), "ratio_mean": latest.get("current_anchor_ratio_mean"),
+                        "ratio_min": latest.get("ratio_min"), "ratio_max": latest.get("ratio_max"),
+                        "actor_changed_fraction": (metrics.get("weight_update") or {}).get("weight_changes", {}).get("changed_fraction"),
+                        "probe_max_absolute_change": metrics.get("sync_probe", {}).get("max_absolute_change"),
                         "validation_accuracy": metrics.get("validation", {}).get("accuracy"),
                         "policy_version": metrics["new_policy_version"], "updated": metrics["updated"],
                         "ratio_outside_fraction": latest.get("ratio_outside_fraction"),
@@ -140,7 +170,8 @@ def main():
         if settings.get("save_final_checkpoint", False):
             from lockstep_rl.checkpoint import save_actor_checkpoint
             save_actor_checkpoint(model, engine.config.hf_config, engine.tokenizer,
-                                  args.output_dir / "checkpoint-final", policy_version=engine.policy_version)
+                                  args.output_dir / "checkpoint-final", policy_version=engine.policy_version,
+                                  eos_token_ids=engine.config.eos_token_ids)
     except Exception as exc:
         failure = {"status": "failed", "error": f"{type(exc).__name__}: {exc}",
                    "traceback": traceback.format_exc(), "engine_state": engine.state,

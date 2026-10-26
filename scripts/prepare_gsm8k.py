@@ -18,22 +18,34 @@ def main():
     parser.add_argument("--output-dir", type=Path, default=Path("data/gsm8k"))
     parser.add_argument("--train-count", type=int, default=64)
     parser.add_argument("--validation-count", type=int, default=32)
+    parser.add_argument("--diagnostic-count", type=int, default=32)
+    parser.add_argument("--fewshot-count", type=int, default=32)
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
     if not args.allow_download:
         parser.error("Dataset download requires manual --allow-download")
-    if min(args.train_count, args.validation_count) < 1:
+    if min(args.train_count, args.validation_count, args.diagnostic_count, args.fewshot_count) < 1:
         parser.error("subset counts must be positive")
     from datasets import load_dataset
     from huggingface_hub import HfApi
     revision = HfApi().dataset_info("openai/gsm8k", revision=args.revision).sha
     dataset = load_dataset("openai/gsm8k", "main", revision=revision)
     subsets = {}
+    pools = {}
+    for split in ("train", "test"):
+        pools[split] = list(range(len(dataset[split])))
+        random.Random(args.seed).shuffle(pools[split])
+    offsets = {"train": 0, "test": 0}
+    selected_indices = {}
     for output_split, source_split, count in (("train", "train", args.train_count),
-                                               ("validation", "test", args.validation_count)):
-        if count > len(dataset[source_split]):
+            ("fewshot", "train", args.fewshot_count), ("validation", "test", args.validation_count),
+            ("diagnostic", "test", args.diagnostic_count)):
+        offset = offsets[source_split]
+        if offset + count > len(dataset[source_split]):
             raise ValueError("requested subset exceeds source split")
-        indices = random.Random(args.seed).sample(range(len(dataset[source_split])), count)
+        indices = pools[source_split][offset:offset + count]
+        offsets[source_split] += count
+        selected_indices[output_split] = indices
         rows = []
         for index in indices:
             row = dataset[source_split][index]
@@ -42,16 +54,22 @@ def main():
                 raise ValueError("GSM8K gold answer did not match the documented numeric parser")
             rows.append({"id": f"gsm8k-{source_split}-{index}",
                          "prompt": row["question"] + "\nEnd with <answer>number</answer>.",
-                         "answer": str(answer)})
+                         "answer": str(answer), "solution": row["answer"]})
         subsets[output_split] = rows
     validate_splits(subsets["train"], subsets["validation"])
+    for left in subsets:
+        for right in subsets:
+            if left < right:
+                validate_splits(subsets[left], subsets[right])
     args.output_dir.mkdir(parents=True, exist_ok=True)
     for split, rows in subsets.items():
         (args.output_dir / f"{split}.jsonl").write_text(
             "".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
     (args.output_dir / "manifest.json").write_text(json.dumps({"dataset": "openai/gsm8k",
          "revision": revision, "seed": args.seed, "validation_source": "test",
-         "train_count": args.train_count, "validation_count": args.validation_count}, indent=2) + "\n", encoding="utf-8")
+         "train_count": args.train_count, "validation_count": args.validation_count,
+         "diagnostic_count": args.diagnostic_count, "fewshot_count": args.fewshot_count,
+         "selected_indices": selected_indices}, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -14,18 +14,23 @@ from lockstep_rl.diagnostics import compare_trajectories, distribution
 from lockstep_rl.experiment_io import provenance, save_json
 
 
-def build_plan(config, output, repeats):
+def build_plan(config, output, repeats, *, sources=("gpu-fp32", "cpu-bf16")):
     root = Path(output)
     jobs = [{"name": "sample", "command": [sys.executable, "scripts/nano_path_worker.py", "--allow-gpu",
              "--config", str(config), "--case", "sample", "--output-dir", str(root / "sample")]}]
     for backend in ("eager", "graph"):
-        for mode in ("fresh", "hot"):
+        for mode in ("fresh", "hot", "negative"):
             for repeat in range(repeats):
-                name = f"{backend}-{mode}-{repeat}"
-                jobs.append({"name": name, "backend": backend, "mode": mode, "repeat": repeat,
-                    "command": [sys.executable, "scripts/weight_sync_worker.py", "--allow-gpu", "--config", str(config),
+              for source in sources if mode == "hot" else ("gpu-fp32",):
+                name = f"{backend}-{mode}-{source}-{repeat}"
+                command = [sys.executable, "scripts/weight_sync_worker.py", "--allow-gpu", "--config", str(config),
                     "--model-b", str(root / "model-B"), "--trajectory", str(root / "sample/rollouts.json"),
-                    "--mode", mode, "--backend", backend, "--output-dir", str(root / name)]})
+                    "--mode", "hot" if mode == "negative" else mode, "--backend", backend, "--source", source,
+                    "--output-dir", str(root / name)]
+                if mode == "negative":
+                    command.append("--skip-invalidate")
+                jobs.append({"name": name, "backend": backend, "mode": mode, "source": source, "repeat": repeat,
+                    "command": command})
     return jobs
 
 
@@ -106,18 +111,32 @@ def main():
                 reference, hashes = references[backend]
                 if hashes != report["parameter_hashes"]:
                     raise RuntimeError("hot/fresh B parameter values differ")
-                stats = assert_outputs_close(output, reference, **tolerance)
+                if job["mode"] == "negative":
+                    stats = compare_trajectories(output, reference)
+                    try:
+                        assert_outputs_close(output, reference, **tolerance)
+                    except RuntimeError:
+                        stats["negative_control_detected"] = True
+                    else:
+                        raise RuntimeError("negative control reused stale cache but scores were indistinguishable; assay failed")
+                else:
+                    stats = assert_outputs_close(output, reference, **tolerance)
                 save_json(folder / "vs-fresh.json", stats)
         timings = []
         for name, report in reports.items():
-            timings.append({"name": name, "mode": report["mode"], "backend": report["backend"],
+            timings.append({"name": name, "mode": "negative" if report["negative_control"] else report["mode"],
+                            "backend": report["backend"], "source": report["source"],
+                            **{key: report.get("weight_update", {}).get("timings", {}).get(key)
+                               for key in ("preflight_seconds", "commit_seconds", "invalidate_seconds")},
                             **{key: report[key] for key in ("recovery_to_ready_seconds", "warmup_generation_seconds",
                                "recovery_including_verified_rollout_seconds", "peak_allocated_bytes", "peak_reserved_bytes")}})
         with (args.output_dir / "timings.csv").open("w", newline="", encoding="utf-8") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(timings[0])); writer.writeheader(); writer.writerows(timings)
-        manifest["timing_groups"] = {f"{backend}-{mode}": distribution([
-            row["recovery_including_verified_rollout_seconds"] for row in timings if row["backend"] == backend and row["mode"] == mode])
-            for backend in ("eager", "graph") for mode in ("fresh", "hot")}
+        manifest["timing_groups"] = {f"{backend}-{mode}-{source}": distribution([
+            row["recovery_including_verified_rollout_seconds"] for row in timings
+            if row["backend"] == backend and row["mode"] == mode and row["source"] == source])
+            for backend in ("eager", "graph") for mode in ("fresh", "hot", "negative")
+            for source in (("gpu-fp32", "cpu-bf16") if mode == "hot" else ("gpu-fp32",))}
         manifest["status"] = "completed"
         manifest["metric_label"] = "Seconds to verified generation"
         save_json(args.output_dir / "manifest.json", manifest)

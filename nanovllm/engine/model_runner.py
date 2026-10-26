@@ -34,6 +34,8 @@ class ModelRunner:
                 torch.set_default_dtype(hf_config.dtype)
                 torch.set_default_device("cuda")
                 self.model = Qwen3ForCausalLM(hf_config)
+                if getattr(config, "fp32_lm_head", False):
+                    self.model.lm_head.fp32_lm_head = True
                 load_model(self.model, config.model)
                 self.sampler = Sampler()
                 self.warmup_model()
@@ -84,6 +86,10 @@ class ModelRunner:
                  for p in self.model.parameters()]
         if before != after:
             raise RuntimeError("weight update changed parameter storage/layout; graphs are invalid")
+
+    def weight_change_statistics(self, plan):
+        from nanovllm.utils.weight_update import effective_weight_change_statistics
+        return effective_weight_change_statistics(plan)
 
     def loop(self):
         while True:

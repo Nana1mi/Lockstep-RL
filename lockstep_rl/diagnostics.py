@@ -29,6 +29,7 @@ def compare_trajectories(rollouts, reference, *, threshold=.1, known_error=False
         raise ValueError("comparison requires identical nonempty request sets")
     delta = []
     rows = []
+    per_trajectory = []
     for key, sample in left.items():
         other = right[key]
         for field in ("prompt_ids", "response_ids"):
@@ -41,8 +42,18 @@ def compare_trajectories(rollouts, reference, *, threshold=.1, known_error=False
         if not np.isfinite(difference).all():
             raise ValueError("comparison contains nonfinite logprobs")
         delta.extend(difference.tolist())
+        if not n:
+            raise ValueError("each diagnostic trajectory must have response tokens")
+        maximum = float(np.abs(difference).max())
+        per_trajectory.append({"request_id": key, "response_tokens": n,
+                               "max_absolute_logprob_error": maximum,
+                               "above_threshold": maximum > threshold})
         for i, value in enumerate(difference):
             rows.append({"request_id": key, "response_index": i, "delta_logp": float(value),
+                         "token_id": sample["response_ids"][i],
+                         "rollout_logprob": float(sample["response_logprobs"][i]),
+                         "reference_logprob": float(other["response_logprobs"][i]),
+                         "position": len(sample["prompt_ids"]) + i,
                          "response_length": n, "prompt_length": len(sample["prompt_ids"])})
     ratio = [math.exp(value) for value in delta]
     grouped = defaultdict(list)
@@ -52,6 +63,8 @@ def compare_trajectories(rollouts, reference, *, threshold=.1, known_error=False
             "absolute_logprob_error": distribution(np.abs(delta)), "ratio": distribution(ratio),
             "threshold": threshold, "above_threshold_fraction": float(np.mean(np.abs(delta) > threshold)),
             "delta_logp": delta, "rows": rows,
+            "trajectory_count": len(per_trajectory), "per_trajectory": per_trajectory,
+            "trajectories_above_threshold": sum(row["above_threshold"] for row in per_trajectory),
             "grouped_by_length": {key: distribution(values) for key, values in grouped.items()},
             "scope": "measured finite trajectories only; maximum is not a global error bound"}
 
@@ -87,7 +100,12 @@ def require_path(trace, path):
     evidence = path_evidence(trace)
     key = {"prefix": "prefix_reused_blocks", "chunked": "chunked_request_count",
            "graph": "graph_replays", "graph_padding": "padded_graph_replays",
-           "preemption": "re_prefill_requests"}[path]
+           "preemption": "re_prefill_requests", "preemption_cached": "re_prefill_requests",
+           "preemption_recompute": "re_prefill_requests"}[path]
     if not evidence[key]:
         raise RuntimeError(f"requested path was not triggered: {path}")
+    if path == "preemption_cached" and evidence["prefix_reused_tokens"] == 0:
+        raise RuntimeError("cached preemption must demonstrate actual prefix reuse")
+    if path == "preemption_recompute" and evidence["prefix_reused_tokens"] != 0:
+        raise RuntimeError("recompute preemption must not reuse prefix KV")
     return evidence

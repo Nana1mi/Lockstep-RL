@@ -13,7 +13,42 @@
         "sample",
         "--output-dir",
         "results/diagnostics/sample"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "single"
     },
     {
       "name": "eager",
@@ -29,7 +64,93 @@
         "results/diagnostics/eager",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "single"
+    },
+    {
+      "name": "repeat",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "repeat",
+        "--output-dir",
+        "results/diagnostics/repeat",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "single"
     },
     {
       "name": "prefix",
@@ -45,7 +166,42 @@
         "results/diagnostics/prefix",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "prefix"
     },
     {
       "name": "chunked",
@@ -61,7 +217,42 @@
         "results/diagnostics/chunked",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "chunked"
     },
     {
       "name": "graph",
@@ -77,7 +268,42 @@
         "results/diagnostics/graph",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "graph"
     },
     {
       "name": "graph_padding",
@@ -93,7 +319,42 @@
         "results/diagnostics/graph_padding",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "graph_padding"
     },
     {
       "name": "batch",
@@ -109,10 +370,45 @@
         "results/diagnostics/batch",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "batch"
     },
     {
-      "name": "preemption",
+      "name": "preemption_cached",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/nano_path_worker.py",
@@ -120,15 +416,186 @@
         "--config",
         "configs/diagnostics.json",
         "--case",
-        "preemption",
+        "preemption_cached",
         "--output-dir",
-        "results/diagnostics/preemption",
+        "results/diagnostics/preemption_cached",
         "--trajectory",
         "results/diagnostics/sample/rollouts.json"
-      ]
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "preemption_cached"
+    },
+    {
+      "name": "preemption_recompute",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "preemption_recompute",
+        "--output-dir",
+        "results/diagnostics/preemption_recompute",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "preemption_recompute"
+    },
+    {
+      "name": "fp32_head",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "fp32_head",
+        "--output-dir",
+        "results/diagnostics/fp32_head",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "single"
     },
     {
       "name": "hf-bfloat16",
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/score_hf.py",
@@ -147,6 +614,40 @@
     },
     {
       "name": "hf-float32",
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/score_hf.py",
@@ -163,5 +664,1672 @@
         "results/diagnostics/hf-float32.json"
       ]
     }
-  ]
+  ],
+  "coverage": [
+    {
+      "case": "sample",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "sample",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "eager",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "repeat",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "prefix",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "chunked",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "graph",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "graph_padding",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "batch",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "preemption_cached",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "preemption_recompute",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "fp32_head",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "hf-bfloat16",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "hf-float32",
+      "request_id": "traj-31"
+    }
+  ],
+  "num_trajectories": 32
 }

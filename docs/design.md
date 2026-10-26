@@ -54,6 +54,15 @@ FP32 logsumexp. Non-reentrant checkpointing recomputes projection/score chunks i
 backward, preventing autograd from retaining every vocabulary chunk. CPU tests
 check scores, gradients, and saved activation shapes against full log_softmax.
 
+The revised scorer first gathers response-mask hidden positions before any head
+projection, then scatters scores into the original dense/masked API. Prompt and
+padding positions never enter the vocabulary GEMM. Optional FP32 head disables
+autocast locally and converts live hidden/weights on each call; no FP32 shadow
+survives a hot update. The decoder hidden-state computation is graph-captured;
+the head executes after graph replay, so live conversion also occurs in graph
+mode. CPU tests compare full FP32 projections and hot weights; actual graph
+behavior remains GPU_PENDING.
+
 GRPO advantages use explicit group IDs and population standard deviation. Each
 microbatch contributes a loss numerator divided by the full batch's valid-token
 count. Frozen anchor/advantage tensors are built once and reused across update
@@ -85,6 +94,22 @@ Statistics compare identical prompt/response IDs and token positions, retaining
 raw per-token deltas and length-group summaries. Maximum error refers only to the
 observed trajectories. Plotting uses saved data only; injected known-error tests
 are labeled separately from natural observations.
+
+The current matrix uses32 real local GSM8K trajectories, each128 response tokens;
+solved few-shot context fills exact block lengths and its token cropping is
+recorded. Independent eager/repeat runs measure noise, and every comparison lists
+pooled errors, per-trajectory maxima and trajectory exceedance counts. Cached and
+cache-disabled preemption are separate experiments, each canonical trajectory
+being the actual victim in its retained replay. Disabling prefix caching disables
+both lookup and hash registration, including self-cache after preemption.
+
+Preflight now reduces each unique source tensor once after dtype conversion,
+collects all finite/alias flags into one host read, and short-circuits identical
+source storage. Nonidentical aliases compare on the source device. Three update
+phases and optional actor-change measurement are timed independently. The manual
+suite separates GPU-FP32/CPU-BF16 sources and includes a test-only invalidation
+bypass; production update has no such switch. BF16 changed-value fractions and
+frozen-probe before/after scores verify numerical visibility of a policy commit.
 
 ## Validation boundary
 

@@ -39,9 +39,9 @@ Oct 26, 2026 · @··
 
 **硬件与环境**
 
-- GPU：RTX 5080 Laptop，16GB 显存，单卡；运行环境以 Linux / WSL2 为主。
+- GPU：租用单张 NVIDIA A100-SXM4-80GB（Ampere / sm80），Linux x86_64；所有对照固定同一型号、同一驱动与依赖栈。原 RTX 5080 / SM120 构建步骤不再适用。
 - 模型：Qwen3-0.6B 完成全部主线；Qwen3-1.7B 只作可选的规模补充验证，不阻塞第一版。
-- 依赖：阶段 0 验证本机上 PyTorch、flash-attn、Triton、prefill、decode 和 CUDA graph 的实际可用性，并记录成功组合。Windows 下已有的 CUDA 测试不代表 WSL2 依赖已验证。
+- 依赖：租卡候选为 Python 3.11、PyTorch 2.8.0+cu128、Transformers 5.5.4 与官方 FA2 2.8.3.post2 预编译 wheel（见 configs/rental.json 的 ABI、URL、SHA256）；禁止现场回退源码编译。CPU 开发另保留 2.11.0+cpu，租卡执行前验证目标 2.8 CPU 兼容性。
 - 推理显存：`gpu_memory_utilization=0.9` 是推理端的总预算比例，扣除已有占用和运行开销后余下的分给 KV。训推同卡时按两者合计峰值设预算，不能只按权重大小估算。见 [ModelRunner](https://github.com/GeeeekExplorer/nano-vllm/blob/bb823b3e06983d71485a8e1f23715ebd87d98ef8/nanovllm/engine/model_runner.py)。
 - 训练显存：阶段 0 用 0.6B、小 microbatch、短序列做全参训练探针，按实测决定是否需要梯度检查点或 offload。词表约 15.2 万，训练端 logits 是主要显存风险之一（见 3.4）。若改用 LoRA，需另行定义 adapter 或合并权重的同步语义，不默认宣称支持。
 - 三方一致性实验的对照模型可以顺序加载和评分，不要求三份模型同时驻留 GPU。
@@ -232,13 +232,11 @@ r_{i,t}(\theta)=\exp\left(\ell^{\theta}_{i,t}-\ell^{\mathrm{anchor}}_{i,t}\right
 
 ### 任务清单
 
-**阶段 0 · 原版与显存探针（10/26–11/08）**
+**阶段 0 · 租卡后原版冒烟（原排期仅作历史参考）**
 
 - [ ] 在 Linux / WSL2 中建立并记录可运行的依赖版本组合
 - [ ] 跑通 `example.py`、`bench.py` 和短/长、单/多请求的基本路径，记录吞吐与显存
-- [ ] 用预定精度与优化器完成 forward → backward → optimizer.step，训练端 logprob 按分块方式实现，测实际峰值
-- [ ] 在推理模型和有限 KV cache 同时驻留时重复训练探针，确定 microbatch、序列长度和 KV 预算
-- [ ] 确定是否需要梯度检查点或受限 offload；只跑通前向不算完成
+- [ ] 可选排障：若真实训练 OOM，再用现有完整 optimizer / 同驻留探针定位；这一版不新增显存任务或 offload 实现
 - [ ] 读完 llm\_engine、scheduler、block\_manager、model\_runner、sampler、loader，写一页调用流程笔记
 
 **阶段 1A · 数据与一致性工具（11/09–11/29）**
@@ -390,3 +388,22 @@ r_{i,t}(\theta)=\exp\left(\ell^{\theta}_{i,t}-\ell^{\mathrm{anchor}}_{i,t}\right
 ### 修订记录
 
 - 第二版（2026-10-26）：吸收 GPT 修订稿的固定 token 重放、路径触发证据、训练显存探针、明确的 GRPO 定义、1A/1B 拆分，以及“不必发现数值问题”的验收口径。在此基础上把 1A 恢复为 3 周、抢占路径重放移到 1B、1B 改为串行，完成线调整为 2027-02-14；失败处理简化为预检加 `broken` 标志；clipping 锚点改为可配置；补充训练端 logits 分块和 Qwen3 思考模式开关。
+
+## 2026-10-27 优先级修订（覆盖上文旧排期的执行顺序）
+
+先在 CPU 上完成并验收 1 → 2 → 3 → 4 → 6 → 5 → 7/8，再人工租卡。
+本轮不新增显存/offload 任务，GPU 运行顺序为环境、基线、诊断、同步、GRPO、性能。
+
+| 顺序 | 实现与 CPU 验收 | 租卡后才可成立的结论 |
+|---|---|---|
+| P0.1 | enable_prefix_caching 开关；6 blocks、两个512 prompt、各300 response：cached有复用、recompute无复用，scores逐位对齐 | 两种真实抢占路径分别报告，不混称全量重算 |
+| P0.2 | 32条真实GSM8K轨迹、128 response；fewshot真实解答填充，traj-k；真实组批、逐条eager、repeat噪声底线；轨迹级统计与dry-run全覆盖 | 数值分布、轨迹最大值与超阈值轨迹数 |
+| P0.3 | live FP32 head、不缓存影子权重；训练评分对应选项；CPU数值/梯度/热更新正确 | FP32 head vs HF FP32误差与吞吐代价 |
+| P1.4 | 单张量一次归约、标量统一读回、同源别名快路、三段计时、GPU-FP32来源、测试专用跳过失效阴性对照 | 各来源分组时延；真实阴性对照必须复用且不符合fresh-B容差 |
+| P1.6 | strict保持旧行为、lenient兼容货币/句点/{,}/text单位；每样本parse_status与失败率 | 格式失败率、答错率与奖励分别观察 |
+| P1.5 | smoke/demo分开；512/128题、16prompt×G8、120轮、lr1e-6/5e-6、每10轮评测；真实actor变化率与固定探针变化 | BF16有效更新可见性与独立学习曲线，版本号不能替代证据 |
+| P2.7/8 | generation_config多EOS；response-only head，值/梯度与全量计算一致 | 真实模型EOS行为及性能 |
+| 租卡准备 | 固定A100-SXM4-80GB；官方预编译wheel/ABI/hash；持久盘预取与总脚本；CPU检查顺序/配置/保护开关 | GPU_PENDING；约3–11.1小时为未实测规划值，原始输出全存持久盘 |
+
+源码和 CPU 验收通过状态以 IMPLEMENTATION_STATUS.md、results/cpu-tests.txt 及指纹清单为准。
+旧实测类复选框继续保持未勾选；没有 GPU 数据时不声称完成数值、性能或学习效果验收。

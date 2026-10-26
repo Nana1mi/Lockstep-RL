@@ -1,5 +1,47 @@
 # Lockstep-RL progress
 
+## 2026-10-27 priority revision (current delivery)
+
+- Implemented P0.1–3, P1.4/6/5, P2.7–8 entirely with CPU development and tests.
+  Exact acceptance map is IMPLEMENTATION_STATUS.md and docs/acceptance-audit.md.
+- Prefix caching is configurable. The6-block, two512-prompt/two300-response CPU
+  simulation shows positive cached reuse vs zero disabled reuse with score/token
+  alignment. Cached and recompute preemption now remain separate measurements.
+- Diagnostics use32 local real GSM8K trajectories,128-token responses, full real
+  questions/templates plus cropped real solved context. Every preemption output
+  is retained from its victim replay; eager/repeat define the noise floor. Raw
+  scores and per-trajectory maxima/exceedance counts accompany pooled statistics.
+- Live FP32 head is configurable in nano/training/scoring, tested against FP32
+  linear, autocast and hot updates, and has independent diagnostic/performance
+  variants. Training projects only response hidden positions.
+- Weight preflight performs one reduction per unique source tensor and aggregates
+  scalar flags, with identical alias storage bypassing equality work. Updates
+  return phase timers; training logs actor-dtype change fractions and fixed-probe
+  score deltas. The functional CPU stale-KV negative control fails as intended;
+  actual GPU sensitivity still must be measured under locked tolerances.
+- Smoke configs are renamed train-smoke-*; two120-iteration demos use512/128
+  arithmetic tasks,16prompt×G8, lr1e-6/5e-6 and evaluation every10. Strict rewards
+  remain compatible; lenient mode/status/failure rates and multiple EOS are added.
+- Rental target is one A100-SXM4-80GB. The official FA2 release matrix has the
+  pinned torch2.8/CUDA12/cp311/ABI-TRUE wheel; the old torch2.11/cu130 SM120 source
+  build is not reused. setup_gpu_env is now wheel-only with ABI/hash checks, and
+  does not overwrite an existing environment. Target2.8 CPU compatibility is
+  checked in a separate project venv, preserving the original2.11 CPU environment.
+- prepare_rental_assets and run_rental provide guarded CPU preparation and ordered
+  persistent-disk execution, all commands/logs/raw output, GPU identity checks and
+  an explicitly unmeasured3–11.1h planning range. No new mandatory memory task.
+- Final full regression:69 tests passed on torch2.11.0+cpu in119.738s and on
+  torch2.8.0+cpu in114.692s;27 focused target-version tests also pass. Artifact
+  validation covers9 GPU dry plans plus the download-only asset dry plan,
+  documentation syntax, installer guards and dependency consistency. The wheel
+  contains all35 library sources with exact byte comparison and isolated imports.
+- Final raw CPU counts/times are refreshed in results/cpu-tests*.txt and the
+  normalized source manifest after the complete checks. All GPU gates remain
+  GPU_PENDING; no card rented, no CUDA execution, no model/data downloaded here.
+
+The following sections describe the prior delivery and intermediate history;
+their test counts, hardware/build attempts and configuration names are historical.
+
 ## Current objective: GPU-validation-ready code delivery
 
 The user updated the goal on 2026-10-26: implement all required modules, run CPU

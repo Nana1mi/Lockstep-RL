@@ -1,0 +1,40 @@
+{
+  "timestamp_utc": "2026-10-26T18:19:03.521309+00:00",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+  "executable": "/mnt/e/Lockstep-RL/.envs/nano_rl_torch28/bin/python",
+  "git": {
+    "returncode": 0,
+    "stdout": "3e39791a8d37abf3cf36f99da55ebe64b301b0c0",
+    "stderr": ""
+  },
+  "packages": {
+    "torch": "2.8.0+cpu",
+    "triton": null,
+    "transformers": "5.5.4",
+    "flash-attn": null,
+    "flash-attn-4": null,
+    "safetensors": "0.8.0",
+    "xxhash": "4.0.2",
+    "numpy": "2.4.6"
+  },
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "name, memory.total [MiB], driver_version\nNVIDIA GeForce RTX 5080 Laptop GPU, 16303 MiB, 596.49",
+    "stderr": ""
+  },
+  "torch_cuda": {
+    "version": null,
+    "status": "GPU_PENDING"
+  },
+  "triton": {
+    "error": "ModuleNotFoundError: No module named 'triton'"
+  },
+  "transformers": {
+    "file": "/mnt/e/Lockstep-RL/.envs/nano_rl_torch28/lib/python3.11/site-packages/transformers/__init__.py"
+  },
+  "flash_attn": {
+    "error": "ModuleNotFoundError: No module named 'flash_attn'"
+  },
+  "status": "metadata_only"
+}

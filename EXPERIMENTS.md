@@ -1,64 +1,80 @@
 # Experiment definitions and evidence
 
-All real GPU experiments are manual-only (`GPU_PENDING`). No fabricated results
-are stored or plotted. CPU fixtures are verification tools, not measurements of
-Qwen3 or nano-vllm GPU behavior. See PLAN.md for the full acceptance requirements.
+All real experiments remain **GPU_PENDING**. CPU fixtures are tests, never
+measurements of Qwen3-0.6B or nano-vllm CUDA behavior. All comparisons use one
+rented NVIDIA A100-SXM4-80GB and one pinned stack/UUID. See GPU_RUNBOOK.md.
 
-| Experiment | Current entry point | Status |
-| --- | --- | --- |
-| WSL/dependency metadata | scripts/environment_probe.py | Implemented; no GPU by default |
-| BF16 varlen/paged KV/Triton/graph primitives | scripts/attention_smoke.py --allow-gpu | GPU_PENDING |
-| Original baseline | scripts/benchmark_suite.py exports the exact fixed Git archive | GPU_PENDING |
-| Engine inference benchmark/memory | bench.py --allow-gpu | GPU_PENDING |
-| Training full optimizer step | scripts/training_memory_probe.py --allow-gpu | GPU_PENDING |
-| Co-resident inference + KV + training | same, --co-resident | GPU_PENDING |
-| Token logprob overhead | benchmark_suite.py for full contract; sampler_benchmark.py for compute only | GPU_PENDING |
-| Fixed trajectory HF/nano, three precisions | scripts/diagnose.py + scripts/score_hf.py | GPU_PENDING |
-| Prefix/chunk/graph/batch/preemption paths | diagnose.py + nano_path_worker.py, actual trace requirements | GPU_PENDING |
-| A-to-B / cache invalidation / graph reuse | weight_sync_experiment.py + weight_sync_worker.py | GPU_PENDING |
-| Hot sync vs initialization | same, 3 independent fresh/hot runs for eager and graph | GPU_PENDING |
-| GRPO rollout vs recomputed anchors | scripts/train_grpo.py --anchor ... --allow-gpu | GPU_PENDING |
-| Independent validation/training curves | validation + metrics JSONL + scripts/plot_results.py | GPU_PENDING |
+| Experiment | Matrix and raw evidence |
+|---|---|
+| Environment | metadata, actual GPU/driver/ABI, BF16, FA2 varlen/paged KV, Triton, graph smoke |
+| Baseline | exact fixed upstream git archive vs current; no patch to original source |
+| Diagnostics | sample + eager/repeat/prefix/chunked/graph/padding/batch/cached-preemption/recompute-preemption/fp32-head + HF BF16/FP32: 13 processes, 32 canonical trajectories each |
+| Noise floor | independent same-config eager and repeat scores; retain pooled/per-trajectory maxima and exceedance counts |
+| FP32 head | nano live FP32 head vs HF FP32, alongside BF16-head results; per-token scores and throughput variant |
+| Weight sync | sample + per backend 3 fresh references, 3 GPU-FP32 hot, 3 CPU-BF16 hot, 3 GPU-FP32 negative controls: 25 workers |
+| GRPO smoke | original short configs, both anchors and two-update smoke; integration only |
+| GRPO demo | 16 prompts×G8, 120 iterations, 512/128 disjoint tasks, evaluation every10, lr1e-6/5e-6 separately |
+| Performance | upstream/current/current-FP32-head × 2 backends × 4 shapes × 3 independent processes =72 workers, each3 nested steady repeats |
+| Sampler compute | original sampler math vs token-logprob compute; synthetic logits, labeled microbenchmark |
 
-## Configuration and execution inventory
+## Statistical and path definitions
 
-- `configs/diagnostics.json`: one sampled trajectory, seven replay cases, and two
-  HF scoring processes. Errors are HF-minus-nano, FP32-minus-BF16, or
-  variant-minus-eager for path comparisons; filenames identify the comparison.
-- `configs/weight-sync.json`: construct a CPU BF16 checkpoint B, save tolerances
-  before measurement, check 3 fresh repeats before 3 hot runs per backend.
-  Parameter hashes and first/new-version cache traces are mandatory evidence.
-- `configs/inference-benchmark.json`: 48 workers (2 sources, 2 backends, 4 shapes,
-  3 process repeats), each with 3 nested steady repeats. Original source comes
-  from commit bb823b3e06983d71485a8e1f23715ebd87d98ef8 without patching it.
-- `configs/train-simple.json`, `configs/train-gsm8k.json`: group size, frozen
-  anchor, update count, accumulation, optimizer and memory candidates. Independent
-  local evaluation is available in `scripts/evaluate.py`; data downloads are
-  explicitly manual through `prepare_gsm8k.py --allow-download`.
-- Every GPU driver is opt-in; `scripts/validate_cpu_artifacts.py` prints/plans
-  jobs and checks syntax only. Its saved plans are not measurements.
-- `torch_compile` is controlled independently of the engine's `enforce_eager`.
-  Force-eager compilation stance still uses the explicit CUDA/Triton attention
-  backend; it does not select a new attention implementation.
+Canonical IDs are traj-k. Eager/sample/repeat/FP32-head run batch1; real trajectories
+group for batch and graph-padding. Every canonical preemption output is collected
+only from its victim replay, with another real trajectory as companion. Repeated
+companions are retained in all-rollouts but excluded from pooled statistics.
+Trace replay_group identifies any repeated companion and joins to raw output.
 
-Raw files are produced below each chosen output directory: manifest/report,
-rollouts/trace, per-token JSON/CSV, timings/metrics CSV and plots. Full commands,
-gate order, expected schema, success criteria and failure feedback are in
-GPU_RUNBOOK.md. Do not infer GPU success from this implemented inventory.
+Prompts are real local GSM8K questions with solved training examples as context.
+Only the leading context may be token-cropped for exact block size; target and
+chat wrappers remain whole. All source IDs, selected indices, solutions, template,
+revision and cropping rules are preserved. Diagnostic/fewshot/train/validation
+subsets are disjoint. No repeated-character or constant-token companions are used.
 
-## Raw records
+delta_logp = right/reference score - left/rollout score, and ratio=exp(delta_logp).
+Pooled quantiles weight tokens; per_trajectory lists each request's maximum error;
+trajectories_above_threshold counts requests with any token crossing threshold.
+The noise-floor distribution is attached to every path comparison; differences
+are not blindly subtracted. HF FP32 promotes identical BF16 effective values.
+CSV retains raw logprobs, token, position and request ID; traces/config/rollouts
+provide execution batches and paths. Finite maxima are not global error bounds.
 
-- Preserve exact model/tokenizer revisions, upstream/project commits, local
-  changes, seed, config, prompt and response IDs, and each per-token score.
-- Save full scheduler traces for numerical path runs. A configuration flag alone
-  is not evidence that a cache hit, chunk, graph replay or preemption happened.
-- Compare exactly matched IDs/tokens/positions; delta = reference logp - rollout
-  logp. exp(delta) is a same-trajectory diagnostic, distinct from training's
-  current/anchor ratio. Record both out-of-range and actually active clip rates.
-- Repeat performance groups at least three times; synchronize timing boundaries
-  and separate cold initialization, compilation/capture, warmup and steady state.
-- `bench.py` repeats warm the same prompts and retain prefix cache. Its JSON says
-  so; do not interpret it as a cold/no-cache benchmark. Trace overhead is labeled.
-- Establish output tolerances before A-to-B runs and preserve failed results.
-- Every GPU result must record laptop power/performance mode and variability.
-  Candidate memory settings are unmeasured until the manual probes pass.
+Cached preemption requires actual preemption/re-prefill and prefix_reused_tokens>0.
+Recompute preemption disables lookup/hash registration and requires zero reuse.
+Do not describe the cached case as full recomputation. Configuration alone is not
+proof that a path occurred; missing trigger aborts the run.
+
+## Synchronization and training measurements
+
+Lock atol/rtol before measurements and verify fresh-repeat stability first.
+Normal hot/fresh parameter hashes must match and scores meet that tolerance.
+GPU-FP32 vs CPU-BF16 source timings are separate groups. preflight/commit/invalidate
+timers exclude the separately timed actor-change measurement; source preparation,
+ready time, first generation and total recovery remain available. No whole
+embedding is copied back to CPU just for tied equality checks.
+
+The test-only --skip-invalidate mode must demonstrate stale prefix reuse AND fail
+the fresh-B score comparison. If its scores are indistinguishable at predeclared
+tolerance, the assay fails rather than claiming successful error detection.
+No production API bypass is exposed. The CPU negative test uses functional cached
+hidden values and catches a score difference, not just a stale-cache metadata flag.
+
+Training JSONL retains each optimizer step's loss, ratio mean/min/max, clipping,
+sample rewards/parse_status, response lengths and phase times; CSV adds common
+summary fields. The driver saves rewarded rollout JSON/text, initial and repeated
+independent validation, actual actor-dtype changed-value fraction/per-parameter
+counts, and a frozen probe trajectory's raw before/after logprobs. Counted actor
+values deduplicate tied storage; BF16-rounding-to-zero is a valid measured result.
+Zero signal skips optimizer/sync; version increments are not learning evidence.
+beta=0 with no reference: reference KL is not defined or reported.
+
+## Persistent records and runtime estimate
+
+The ordered rental runner writes configs, stdout/stderr, failure/manifest files,
+trajectories, per-token and per-step data below persistent-root/results/run-id.
+Every child command/exit/time and fixed GPU inventory are recorded. Never erase
+an unfavorable repeat; use a new run-id after failure. stage-level planning
+ranges are in configs/rental.json, about3–11 GPU hours with30% contingency; these
+are assumptions until measured wall time is available. Asset download and wheel
+preparation occur before paid GPU use. Optional old memory probes remain source
+utilities, outside the revised mandatory sequence.

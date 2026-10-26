@@ -32,6 +32,15 @@ def main():
     count = re.search(r"Ran (\d+) tests in ([0-9.]+)s", log)
     if not count or not log.rstrip().endswith("OK"):
         raise ValueError("CPU test log does not record a complete passing run")
+    compatibility = []
+    compatibility_log = ROOT / "results/cpu-tests-torch28.txt"
+    if compatibility_log.is_file():
+        text = compatibility_log.read_text(encoding="utf-8")
+        match = re.search(r"Ran (\d+) tests in ([0-9.]+)s", text)
+        if not match or not text.rstrip().endswith("OK"):
+            raise ValueError("target PyTorch 2.8 CPU compatibility suite did not pass")
+        compatibility.append({"torch": "2.8.0+cpu", "tests": int(match.group(1)),
+                              "seconds": float(match.group(2)), "log": compatibility_log.name})
     for filename in ("cpu-artifact-checks.json", "package-check.json"):
         if json.loads((ROOT / "results" / filename).read_text())["status"] != "passed":
             raise ValueError(f"failed validation artifact: {filename}")
@@ -45,6 +54,7 @@ def main():
     source = {str(path.relative_to(ROOT)).replace("\\", "/"): digest(path.read_bytes()) for path in files}
     result = {"timestamp_utc": datetime.now(timezone.utc).isoformat(), "status": "passed",
               "cpu_tests": int(count.group(1)), "cpu_test_seconds": float(count.group(2)),
+              "additional_cpu_compatibility": compatibility,
               "source_normalization": "UTF-8 bytes with CRLF normalized to LF, matching Git text normalization",
               "source_files": source, "gpu_validation": "GPU_PENDING",
               "scope": "CPU evidence and committed source identity; no real GPU result"}

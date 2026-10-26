@@ -1,5 +1,7 @@
 import copy
 import unittest
+from types import SimpleNamespace
+from nanovllm.engine.scheduler import Scheduler
 
 from lockstep_rl.diagnostics import compare_trajectories, distribution, path_evidence, require_path
 from nanovllm.engine.sequence import Sequence
@@ -8,6 +10,55 @@ from tests.test_rollout import cpu_engine
 
 
 class DiagnosticsTest(unittest.TestCase):
+    def test_six_block_preemption_cache_switch_and_score_alignment(self):
+        original = Sequence.block_size
+        Sequence.block_size = 256
+        try:
+            evidence = {}
+            for enabled in (True, False):
+                scheduler = Scheduler(SimpleNamespace(max_num_seqs=2, max_num_batched_tokens=2048,
+                    eos=-1, kvcache_block_size=256, num_kvcache_blocks=6,
+                    record_trace=True, enable_prefix_caching=enabled))
+                sequences = [Sequence([100 + i] * 512, SamplingParams(max_tokens=300, ignore_eos=True),
+                                      request_id=f"traj-{i}") for i in range(2)]
+                for seq in sequences:
+                    scheduler.add(seq)
+                for _ in range(2000):
+                    if scheduler.is_finished():
+                        break
+                    seqs, prefill = scheduler.schedule()
+                    tokens = [1000 + seq.num_completion_tokens for seq in seqs]
+                    scores = [-float(token) / 1000 for token in tokens]
+                    scheduler.postprocess(seqs, tokens, prefill, scores)
+                self.assertTrue(scheduler.is_finished())
+                case = "preemption_cached" if enabled else "preemption_recompute"
+                evidence[enabled] = require_path(scheduler.trace, case)
+                for seq in sequences:
+                    self.assertEqual(seq.completion_token_ids, list(range(1000, 1300)))
+                    self.assertEqual(seq.response_logprobs, [-t / 1000 for t in range(1000, 1300)])
+                    self.assertEqual(seq.loss_mask, [1] * 300)
+                if not enabled:
+                    self.assertFalse(scheduler.block_manager.hash_to_block_id)
+            self.assertGreater(evidence[True]["prefix_reused_tokens"], 0)
+            self.assertEqual(evidence[False]["prefix_reused_tokens"], 0)
+        finally:
+            Sequence.block_size = original
+
+    def test_multi_trajectory_metrics_are_token_weighted_but_threshold_counts_trajectories(self):
+        rows = [{"request_id": f"traj-{i}", "prompt_ids": [1], "response_ids": [2] * n,
+                 "response_logprobs": [-2.] * n} for i, n in enumerate((1, 3, 2))]
+        other = copy.deepcopy(rows)
+        other[0]["response_logprobs"] = [-1.6]
+        other[1]["response_logprobs"] = [-1.9] * 3
+        other[2]["response_logprobs"] = [-1.8, -1.4]
+        stats = compare_trajectories(rows, other, threshold=.3)
+        self.assertEqual(stats["trajectory_count"], 3)
+        self.assertEqual(stats["trajectories_above_threshold"], 2)
+        self.assertAlmostEqual(stats["absolute_logprob_error"]["mean"], 1.5 / 6)
+        self.assertEqual([round(r["max_absolute_logprob_error"], 3) for r in stats["per_trajectory"]], [.4, .1, .6])
+        self.assertEqual(stats["rows"][0]["rollout_logprob"], -2.)
+        self.assertEqual(stats["rows"][0]["reference_logprob"], -1.6)
+
     def test_fixed_trajectory_statistics_and_known_error_label(self):
         record = {"request_id": "r", "prompt_ids": [1, 2], "response_ids": [3, 4],
                   "response_logprobs": [-1., -2.]}
