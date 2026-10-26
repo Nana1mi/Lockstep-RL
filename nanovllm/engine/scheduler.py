@@ -1,13 +1,15 @@
 from collections import deque
 
-from nanovllm.config import Config
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from nanovllm.config import Config
 from nanovllm.engine.sequence import Sequence, SequenceStatus
 from nanovllm.engine.block_manager import BlockManager
 
 
 class Scheduler:
 
-    def __init__(self, config: Config):
+    def __init__(self, config: "Config"):
         self.max_num_seqs = config.max_num_seqs
         self.max_num_batched_tokens = config.max_num_batched_tokens
         self.eos = config.eos
@@ -15,12 +17,32 @@ class Scheduler:
         self.block_manager = BlockManager(config.num_kvcache_blocks, config.kvcache_block_size)
         self.waiting: deque[Sequence] = deque()
         self.running: deque[Sequence] = deque()
+        self.record_trace = getattr(config, "record_trace", False)
+        self.trace = []
+
+    def _record(self, event, **details):
+        if self.record_trace:
+            self.trace.append({"event": event, **details})
+
+    def _record_schedule(self, seqs, is_prefill):
+        self._record("schedule", is_prefill=is_prefill,
+                     requests=[{"request_id": seq.request_id, "group_id": seq.group_id,
+                                "start": seq.num_cached_tokens, "end": seq.num_cached_tokens + seq.num_scheduled_tokens,
+                                "context_tokens": len(seq), "response_tokens": seq.num_completion_tokens}
+                               for seq in seqs])
 
     def is_finished(self):
         return not self.waiting and not self.running
 
     def add(self, seq: Sequence):
+        self.validate_request(seq)
         self.waiting.append(seq)
+
+    def validate_request(self, seq):
+        # The final generated token never needs a KV slot, but all preceding ones do.
+        required_blocks = (len(seq) + seq.max_tokens - 2) // self.block_size + 1
+        if required_blocks > len(self.block_manager.blocks):
+            raise ValueError("single request cannot fit the KV block pool within its response budget")
 
     def schedule(self) -> tuple[list[Sequence], bool]:
         scheduled_seqs = []
@@ -43,6 +65,8 @@ class Scheduler:
                 break
             if not seq.block_table:
                 self.block_manager.allocate(seq, num_cached_blocks)
+                self._record("prefix_reuse", request_id=seq.request_id, blocks=num_cached_blocks,
+                             tokens=num_cached_blocks * self.block_size)
             seq.num_scheduled_tokens = min(num_tokens, remaining)
             num_batched_tokens += seq.num_scheduled_tokens
             if seq.num_cached_tokens + seq.num_scheduled_tokens == seq.num_tokens:
@@ -52,6 +76,7 @@ class Scheduler:
             scheduled_seqs.append(seq)
 
         if scheduled_seqs:
+            self._record_schedule(scheduled_seqs, True)
             return scheduled_seqs, True
 
         # decode
@@ -70,23 +95,31 @@ class Scheduler:
                 scheduled_seqs.append(seq)
         assert scheduled_seqs
         self.running.extendleft(reversed(scheduled_seqs))
+        self._record_schedule(scheduled_seqs, False)
         return scheduled_seqs, False
 
     def preempt(self, seq: Sequence):
+        self._record("preempt", request_id=seq.request_id, context_tokens=len(seq),
+                     response_tokens=seq.num_completion_tokens)
         seq.status = SequenceStatus.WAITING
         seq.is_prefill = True
         self.block_manager.deallocate(seq)
         self.waiting.appendleft(seq)
 
-    def postprocess(self, seqs: list[Sequence], token_ids: list[int], is_prefill: bool):
-        for seq, token_id in zip(seqs, token_ids):
+    def postprocess(self, seqs: list[Sequence], token_ids: list[int], is_prefill: bool, logprobs: list[float]):
+        if not len(seqs) == len(token_ids) == len(logprobs):
+            raise ValueError("model output and scheduled sequences must align")
+        for seq, token_id, logprob in zip(seqs, token_ids, logprobs):
             self.block_manager.hash_blocks(seq)
             seq.num_cached_tokens += seq.num_scheduled_tokens
             seq.num_scheduled_tokens = 0
             if is_prefill and seq.num_cached_tokens < seq.num_tokens:
                 continue
             seq.append_token(token_id)
+            seq.response_logprobs.append(float(logprob))
+            seq.loss_mask.append(1)
             if (not seq.ignore_eos and token_id == self.eos) or seq.num_completion_tokens == seq.max_tokens:
+                seq.finish_reason = "eos" if not seq.ignore_eos and token_id == self.eos else "length"
                 seq.status = SequenceStatus.FINISHED
                 self.block_manager.deallocate(seq)
                 self.running.remove(seq)

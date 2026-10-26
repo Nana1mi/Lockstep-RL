@@ -58,6 +58,23 @@ class ModelRunner:
         torch.cuda.synchronize()
         dist.destroy_process_group()
 
+    def prepare_weight_update(self, state_dict):
+        from nanovllm.utils.weight_update import prepare_weight_update
+        torch.cuda.synchronize()
+        return prepare_weight_update(self.model, state_dict)
+
+    def commit_weight_update(self, plan):
+        from nanovllm.utils.weight_update import commit_weight_update
+        before = [(p.data_ptr(), tuple(p.shape), p.dtype, tuple(p.stride()))
+                  for p in self.model.parameters()]
+        torch.cuda.synchronize()
+        commit_weight_update(plan)
+        torch.cuda.synchronize()
+        after = [(p.data_ptr(), tuple(p.shape), p.dtype, tuple(p.stride()))
+                 for p in self.model.parameters()]
+        if before != after:
+            raise RuntimeError("weight update changed parameter storage/layout; graphs are invalid")
+
     def loop(self):
         while True:
             method_name, args = self.read_shm()
@@ -195,11 +212,16 @@ class ModelRunner:
     @torch.inference_mode()
     def run_model(self, input_ids: torch.Tensor, positions: torch.Tensor, is_prefill: bool):
         if is_prefill or self.enforce_eager or input_ids.size(0) > 512:
+            self.last_execution = {"actual_batch": input_ids.size(0), "graph_batch": None,
+                                   "is_prefill": is_prefill, "graph_replay": False}
             return self.model.compute_logits(self.model(input_ids, positions))
         else:
             bs = input_ids.size(0)
             context = get_context()
-            graph = self.graphs[next(x for x in self.graph_bs if x >= bs)]
+            graph_batch = next(x for x in self.graph_bs if x >= bs)
+            graph = self.graphs[graph_batch]
+            self.last_execution = {"actual_batch": bs, "graph_batch": graph_batch,
+                                   "is_prefill": False, "graph_replay": True}
             graph_vars = self.graph_vars
             graph_vars["input_ids"][:bs] = input_ids
             graph_vars["positions"][:bs] = positions
@@ -211,13 +233,19 @@ class ModelRunner:
             graph.replay()
             return self.model.compute_logits(graph_vars["outputs"][:bs])
 
-    def run(self, seqs: list[Sequence], is_prefill: bool) -> list[int]:
+    def run(self, seqs: list[Sequence], is_prefill: bool):
         input_ids, positions = self.prepare_prefill(seqs) if is_prefill else self.prepare_decode(seqs)
         temperatures = self.prepare_sample(seqs) if self.rank == 0 else None
         logits = self.run_model(input_ids, positions, is_prefill)
-        token_ids = self.sampler(logits, temperatures).tolist() if self.rank == 0 else None
+        if self.rank == 0:
+            forced = torch.tensor([seq.next_forced_token for seq in seqs], dtype=torch.int64,
+                                  pin_memory=True).cuda(non_blocking=True)
+            token_ids, logprobs = self.sampler(logits, temperatures, forced)
+            result = token_ids.tolist(), logprobs.tolist()
+        else:
+            result = None
         reset_context()
-        return token_ids
+        return result
 
     @torch.inference_mode()
     def capture_cudagraph(self):
@@ -231,7 +259,8 @@ class ModelRunner:
         context_lens = torch.zeros(max_bs, dtype=torch.int32)
         block_tables = torch.zeros(max_bs, max_num_blocks, dtype=torch.int32)
         outputs = torch.zeros(max_bs, hf_config.hidden_size)
-        self.graph_bs = [1, 2, 4, 8] + list(range(16, max_bs + 1, 16))
+        self.graph_bs = sorted(set(x for x in [1, 2, 4, 8, max_bs] + list(range(16, max_bs + 1, 16))
+                                   if x <= max_bs))
         self.graphs = {}
         self.graph_pool = None
 

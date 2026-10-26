@@ -32,6 +32,17 @@ class BlockManager:
         self.free_block_ids: deque[int] = deque(range(num_blocks))
         self.used_block_ids: set[int] = set()
 
+    def invalidate(self):
+        """Forget logical cache state at idle; never touch GPU KV allocations."""
+        if self.used_block_ids or any(block.ref_count for block in self.blocks):
+            raise RuntimeError("cache invalidation requires no live block references")
+        self.hash_to_block_id.clear()
+        self.free_block_ids = deque(range(len(self.blocks)))
+        for block in self.blocks:
+            block.ref_count = 0
+            block.hash = -1
+            block.token_ids = []
+
     @classmethod
     def compute_hash(cls, token_ids: list[int], prefix: int = -1):
         h = xxhash.xxh64()

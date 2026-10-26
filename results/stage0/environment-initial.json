@@ -1,0 +1,57 @@
+{
+  "timestamp_utc": "2026-10-26T14:14:02.288314+00:00",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+  "executable": "/mnt/e/Lockstep-RL/.venv-linux/bin/python",
+  "git": {
+    "returncode": 0,
+    "stdout": "bb823b3e06983d71485a8e1f23715ebd87d98ef8",
+    "stderr": ""
+  },
+  "packages": {
+    "torch": "2.11.0",
+    "triton": "3.6.0",
+    "transformers": "5.5.4",
+    "flash-attn": null,
+    "flash-attn-4": "4.0.0b9",
+    "safetensors": "0.7.0",
+    "xxhash": "3.6.0",
+    "numpy": "2.4.3"
+  },
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "name, memory.total [MiB], driver_version\nNVIDIA GeForce RTX 5080 Laptop GPU, 16303 MiB, 596.49",
+    "stderr": ""
+  },
+  "torch_cuda": {
+    "version": "13.0",
+    "available": true,
+    "arch_list": [
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ],
+    "name": "NVIDIA GeForce RTX 5080 Laptop GPU",
+    "capability": [
+      12,
+      0
+    ],
+    "bf16_matmul_finite": true
+  },
+  "triton": {
+    "file": "/home/rog/miniconda3/envs/kg_train/lib/python3.11/site-packages/triton/__init__.py"
+  },
+  "transformers": {
+    "file": "/home/rog/miniconda3/envs/kg_train/lib/python3.11/site-packages/transformers/__init__.py"
+  },
+  "flash_attn": {
+    "file": null,
+    "upstream_entrypoints": {
+      "flash_attn_varlen_func": false,
+      "flash_attn_with_kvcache": false
+    }
+  }
+}

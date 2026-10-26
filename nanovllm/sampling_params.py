@@ -8,4 +8,7 @@ class SamplingParams:
     ignore_eos: bool = False
 
     def __post_init__(self):
-        assert self.temperature > 1e-10, "greedy sampling is not permitted"
+        if self.temperature != 1.0:
+            raise ValueError("Lockstep-RL v1 requires temperature=1 (no top-k/top-p)")
+        if not isinstance(self.max_tokens, int) or isinstance(self.max_tokens, bool) or self.max_tokens < 1:
+            raise ValueError("max_tokens must be a positive integer")

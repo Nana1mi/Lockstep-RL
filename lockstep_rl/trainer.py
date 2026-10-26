@@ -1,0 +1,157 @@
+"""Synchronous full-parameter GRPO updates and rollout/sync loop integration."""
+
+from contextlib import nullcontext
+import time
+
+import torch
+
+from lockstep_rl.batch import collate_rollouts
+from lockstep_rl.grpo import GRPOConfig, accumulation_count, clipped_surrogate, group_advantages
+from lockstep_rl.logprobs import selected_logprobs
+
+
+def causal_logprobs(model, batch, *, chunk_size):
+    positions = (batch.attention_mask.cumsum(-1) - 1).clamp_min(0)
+    hidden = model.model(input_ids=batch.input_ids, attention_mask=batch.attention_mask,
+                         position_ids=positions, use_cache=False).last_hidden_state
+    return selected_logprobs(hidden[:, :-1], model.get_output_embeddings(), batch.input_ids[:, 1:], chunk_size)
+
+
+class GRPOTrainer:
+    def __init__(self, model, optimizer, *, config=None, pad_token_id=0, score_fn=causal_logprobs):
+        self.model = model
+        self.optimizer = optimizer
+        self.config = config or GRPOConfig()
+        self.pad_token_id = pad_token_id
+        self.score_fn = score_fn
+
+    @property
+    def device(self):
+        return next(self.model.parameters()).device
+
+    def _autocast(self):
+        return torch.autocast("cuda", dtype=torch.bfloat16) if self.config.autocast_bf16 else nullcontext()
+
+    def _score(self, batch):
+        with self._autocast():
+            return self.score_fn(self.model, batch, chunk_size=self.config.logprob_chunk_size)
+
+    def update(self, records, rewards):
+        if not records:
+            raise ValueError("empty rollout batch")
+        if any(r.get("sampling_config", {}).get("diagnostic_forced", False) or r.get("diagnostic_scoring", False)
+               for r in records):
+            raise ValueError("forced diagnostic trajectories are not sampled RL training data")
+        if len({r["policy_version"] for r in records}) != 1:
+            raise ValueError("synchronous training requires a single rollout policy version")
+        accumulation_count(len(records), self.config)
+        advantages, group_stats = group_advantages(rewards, [r["group_id"] for r in records],
+                                                   group_size=self.config.group_size,
+                                                   epsilon=self.config.advantage_epsilon)
+        total_tokens = sum(sum(r["loss_mask"]) for r in records)
+        result = {"updated": False, "steps": [], "group_stats": group_stats,
+                  "valid_tokens": total_tokens, "anchor": self.config.anchor,
+                  "policy_version": records[0]["policy_version"], "beta": 0,
+                  "advantage_values": advantages.tolist()}
+        if total_tokens == 0 or not advantages.count_nonzero():
+            result["skip_reason"] = "empty_mask" if total_tokens == 0 else "zero_advantages"
+            return result
+        # HF activation checkpointing is gated on training mode. Disable dropout
+        # modules individually so checkpointing works without stochastic ratios.
+        self.model.train()
+        for module in self.model.modules():
+            if isinstance(module, (torch.nn.Dropout, torch.nn.Dropout1d, torch.nn.Dropout2d,
+                                   torch.nn.Dropout3d, torch.nn.AlphaDropout, torch.nn.FeatureAlphaDropout)):
+                module.eval()
+            if getattr(module, "attention_dropout", 0) != 0:
+                raise ValueError("functional attention dropout must be configured to zero")
+        microbatches = []
+        for start in range(0, len(records), self.config.microbatch_size):
+            batch = collate_rollouts(records[start:start + self.config.microbatch_size],
+                                     pad_token_id=self.pad_token_id, device=self.device)
+            advantage = advantages[start:start + self.config.microbatch_size].to(self.device)
+            with torch.no_grad():
+                initial = self._score(batch).detach()
+                anchor = initial.clone() if self.config.anchor == "recomputed" else batch.rollout_logprobs.detach().clone()
+                delta = (initial - batch.rollout_logprobs)[batch.response_mask]
+            microbatches.append((batch, advantage, anchor, delta.cpu()))
+        result["pre_update_current_minus_rollout"] = torch.cat([x[3] for x in microbatches]).tolist()
+        result["pre_update_comparison_scope"] = "includes backend and any FP32-to-BF16 weight-cast differences"
+        result["frozen_anchors"] = [anchor[batch.response_mask].detach().cpu().tolist()
+                                    for batch, _, anchor, _ in microbatches]
+        for update in range(self.config.update_steps):
+            self.optimizer.zero_grad(set_to_none=True)
+            loss_value = 0.
+            counters = []
+            for batch, advantage, anchor, _ in microbatches:
+                current = self._score(batch)
+                loss, stats = clipped_surrogate(current, anchor, advantage, batch.response_mask,
+                                                epsilon=self.config.clip_epsilon,
+                                                total_valid_tokens=total_tokens)
+                loss.backward()
+                loss_value += float(loss.detach())
+                counters.append(stats)
+            grad_norm = torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.config.max_grad_norm,
+                                                       error_if_nonfinite=True)
+            if grad_norm <= 0:
+                result["skip_reason"] = "zero_gradient"
+                break
+            observation = self._observe_nonzero_gradient()
+            self.optimizer.step()
+            parameter, start, before = observation
+            change = float((parameter.detach().reshape(-1)[start:start + len(before)] - before).abs().max())
+            if change == 0:
+                raise RuntimeError("optimizer did not change the observed nonzero-gradient parameter")
+            n = sum(s["valid_tokens"] for s in counters)
+            result["steps"].append({"index": update, "loss": loss_value, "grad_norm": float(grad_norm),
+                                    "max_observed_parameter_delta": change,
+                                    "current_anchor_ratio_mean": sum(s["ratio_sum"] for s in counters) / n,
+                                    "ratio_outside_fraction": sum(s["ratio_outside"] for s in counters) / n,
+                                    "clip_active_fraction": sum(s["clip_active"] for s in counters) / n,
+                                    "ratio_min": min(s["ratio_min"] for s in counters if s["valid_tokens"]),
+                                    "ratio_max": max(s["ratio_max"] for s in counters if s["valid_tokens"])})
+            result["updated"] = True
+        return result
+
+    def _observe_nonzero_gradient(self):
+        parameters = sorted((p for p in self.model.parameters() if p.grad is not None), key=lambda p: p.numel())
+        for p in parameters:
+            flat_grad = p.grad.detach().reshape(-1)
+            for start in range(0, flat_grad.numel(), 4096):
+                if flat_grad[start:start + 4096].count_nonzero():
+                    return p, start, p.detach().reshape(-1)[start:start + 4096].clone()
+        raise RuntimeError("no nonzero gradient found despite positive global norm")
+
+
+def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=128, sampling_config=None):
+    from nanovllm import SamplingParams
+    size = trainer.config.group_size
+    expanded = [prompt for prompt in prompts for _ in range(size)]
+    groups = [f"{iteration}:{i}" for i in range(len(prompts)) for _ in range(size)]
+    requests = [f"{iteration}:{i}:{j}" for i in range(len(prompts)) for j in range(size)]
+    def stamp():
+        if trainer.device.type == "cuda":
+            torch.cuda.synchronize()
+        return time.perf_counter()
+    start = stamp()
+    records = engine.generate(expanded, SamplingParams(max_tokens=max_tokens), request_ids=requests,
+                              group_ids=groups, sampling_config=sampling_config, use_tqdm=False)
+    after_rollout = stamp()
+    if any(r["policy_version"] != engine.policy_version for r in records):
+        raise RuntimeError("rollout records do not match the committed engine version")
+    prompt_by_group = {f"{iteration}:{i}": i for i in range(len(prompts))}
+    if len(records) != len(requests) or {r["request_id"] for r in records} != set(requests):
+        raise RuntimeError("rollout request identity/count mismatch")
+    rewards = [reward_fn(record, prompt_by_group[record["group_id"]]) for record in records]
+    after_reward = stamp()
+    metrics = trainer.update(records, rewards)
+    after_training = stamp()
+    old_version = engine.policy_version
+    if metrics["updated"]:
+        engine.update_weights(trainer.model.state_dict())
+    after_sync = stamp()
+    metrics.update(rewards=rewards, old_policy_version=old_version, new_policy_version=engine.policy_version,
+                   timings={"rollout": after_rollout - start, "reward": after_reward - after_rollout,
+                            "training": after_training - after_reward, "sync": after_sync - after_training,
+                            "total": after_sync - start})
+    return records, metrics

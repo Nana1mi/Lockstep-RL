@@ -193,3 +193,9 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Lockstep-RL local GPU environments and checkpoints
+.venv-linux/
+.models/
+.build/
+.envs/

@@ -3,25 +3,31 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "nano-vllm"
-version = "0.2.0"
+name = "lockstep-rl"
+version = "0.1.0"
 authors = [{ name = "Xingkai Yu" }]
 license = "MIT"
 license-files = ["LICENSE"]
 readme = "README.md"
-description = "a lightweight vLLM implementation built from scratch"
+description = "RL rollout extension of nano-vllm with token logprobs and safe weight synchronization"
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "torch>=2.4.0",
-    "triton>=3.0.0",
     "transformers>=4.51.0",
-    "flash-attn",
     "xxhash",
+    "numpy",
+    "safetensors",
+    "tqdm",
 ]
 
+[project.optional-dependencies]
+gpu = ["triton>=3.0.0", "flash-attn==2.8.3.post2"]
+dev = ["ruff", "matplotlib"]
+data = ["datasets"]
+
 [project.urls]
-Homepage="https://github.com/GeeeekExplorer/nano-vllm"
+Upstream="https://github.com/GeeeekExplorer/nano-vllm"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["nanovllm*"]
+include = ["nanovllm*", "lockstep_rl*"]
