@@ -10,13 +10,17 @@ def main():
     parser.add_argument("--allow-gpu", action="store_true")
     parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--memory-fraction", type=float, default=0.9)
+    parser.add_argument("--max-model-len", type=int, default=2048)
+    parser.add_argument("--token-budget", type=int, default=512)
+    parser.add_argument("--max-num-seqs", type=int, default=8)
     args = parser.parse_args()
     if not args.allow_gpu:
         parser.error("Real GPU experiments require manual --allow-gpu")
     path = os.path.expanduser(args.model)
-    tokenizer = AutoTokenizer.from_pretrained(path)
+    tokenizer = AutoTokenizer.from_pretrained(path, local_files_only=True)
     llm = LLM(path, enforce_eager=True, tensor_parallel_size=1,
-              gpu_memory_utilization=args.memory_fraction)
+              gpu_memory_utilization=args.memory_fraction, max_model_len=args.max_model_len,
+              max_num_batched_tokens=args.token_budget, max_num_seqs=args.max_num_seqs)
 
     sampling_params = SamplingParams(temperature=1.0, max_tokens=args.max_tokens)
     prompts = [

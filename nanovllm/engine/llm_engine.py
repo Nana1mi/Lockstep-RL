@@ -25,10 +25,20 @@ class LLMEngine:
         from nanovllm.config import Config
         from transformers import AutoTokenizer
         import torch.multiprocessing as mp
+        import torch.distributed as dist
         from nanovllm.engine.model_runner import ModelRunner
         config_fields = {field.name for field in fields(Config)}
+        unknown = set(kwargs) - config_fields
+        if unknown:
+            raise ValueError(f"unknown engine configuration fields: {sorted(unknown)}")
+        if dist.is_initialized():
+            raise RuntimeError("an existing process group is active; use one engine per process")
         config_kwargs = {k: v for k, v in kwargs.items() if k in config_fields}
         config = Config(model, **config_kwargs)
+        # Validate CPU assets before creating CUDA/NCCL state or changing the
+        # Sequence block-size convention shared by this process.
+        self.tokenizer = AutoTokenizer.from_pretrained(config.model, use_fast=True, local_files_only=True)
+        config.eos = self.tokenizer.eos_token_id
         self.config = config
         self.policy_version = 0
         self.state = "ready"
@@ -44,8 +54,6 @@ class LLMEngine:
             self.ps.append(process)
             self.events.append(event)
         self.model_runner = ModelRunner(config, 0, self.events)
-        self.tokenizer = AutoTokenizer.from_pretrained(config.model, use_fast=True)
-        config.eos = self.tokenizer.eos_token_id
         self.scheduler = Scheduler(config)
         atexit.register(self.exit)
 
@@ -88,12 +96,15 @@ class LLMEngine:
         metadata = {"model": self.config.model, "tokenizer": self.config.model,
                     "model_revision": getattr(self.config.hf_config, "_commit_hash", None),
                     "chat_template_version": "caller_supplied_token_ids", "enable_thinking": False,
+                    "eos_token_id": self.config.eos, "eos_rule": "single_tokenizer_eos",
                     "top_k": None, "top_p": 1.0}
         reserved = {"model": self.config.model, "tokenizer": self.config.model,
+                    "eos_token_id": self.config.eos, "eos_rule": "single_tokenizer_eos",
                     "temperature": 1, "enable_thinking": False, "top_k": None, "top_p": 1.0}
         if any(key in (sampling_config or {}) and sampling_config[key] != value for key, value in reserved.items()):
             raise ValueError("sampling metadata conflicts with the first-version distribution/configuration")
         metadata.update(sampling_config or {})
+        metadata.update(reserved)
         seq = Sequence(prompt, sampling_params, request_id=request_id, group_id=group_id,
                        policy_version=self.policy_version, forced_response_ids=forced_response_ids,
                        sampling_config=metadata)

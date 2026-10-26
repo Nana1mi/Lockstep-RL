@@ -15,6 +15,7 @@ import torch
 from transformers import AutoModelForCausalLM
 
 from lockstep_rl.logprobs import selected_logprobs
+from lockstep_rl.experiment_io import configure_numerics
 
 
 def memory():
@@ -34,6 +35,8 @@ def main():
     parser.add_argument("--sequence-length", type=int, default=256)
     parser.add_argument("--chunk-size", type=int, default=32)
     parser.add_argument("--steps", type=int, default=2)
+    parser.add_argument("--optimizer", choices=["adamw", "sgd"], default="adamw")
+    parser.add_argument("--disable-torch-compile", action="store_true")
     parser.add_argument("--gradient-checkpointing", action="store_true")
     parser.add_argument("--co-resident", action="store_true")
     parser.add_argument("--inference-memory-fraction", type=float, default=0.3)
@@ -46,7 +49,7 @@ def main():
     record = {"timestamp_utc": datetime.now(timezone.utc).isoformat(),
               "config": {**vars(args), "output": str(args.output)}, "status": "running",
               "precision": "FP32 parameters + BF16 autocast; selected scores FP32",
-              "optimizer": "AdamW(lr=1e-5, foreach=False)", "steps": []}
+              "optimizer": f"{args.optimizer}(lr=1e-5, foreach=False)", "steps": []}
     engine = None
     args.output.parent.mkdir(parents=True, exist_ok=True)
     def save():
@@ -54,7 +57,7 @@ def main():
     save()
     try:
         torch.manual_seed(0)
-        torch.backends.cuda.matmul.allow_tf32 = False
+        record["numerical_settings"] = configure_numerics(torch, compile_enabled=not args.disable_torch_compile)
         torch.cuda.reset_peak_memory_stats()
         record["before"] = memory()
         if args.co_resident:
@@ -73,12 +76,13 @@ def main():
 
         start = time.perf_counter()
         model = AutoModelForCausalLM.from_pretrained(
-            args.model, dtype=torch.float32, attn_implementation="sdpa").to("cuda")
+            args.model, dtype=torch.float32, attn_implementation="sdpa", local_files_only=True).to("cuda")
         model.train()
         model.config.use_cache = False
         if args.gradient_checkpointing:
             model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
-        optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5, foreach=False)
+        optimizer_class = torch.optim.AdamW if args.optimizer == "adamw" else torch.optim.SGD
+        optimizer = optimizer_class(model.parameters(), lr=1e-5, foreach=False)
         torch.cuda.synchronize()
         record["model_load_seconds"] = time.perf_counter() - start
         record["parameter_count"] = sum(p.numel() for p in model.parameters())

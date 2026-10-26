@@ -23,20 +23,30 @@ class ModelRunner:
         self.rank = rank
         self.event = event
 
-        dist.init_process_group("nccl", "tcp://localhost:2333", world_size=self.world_size, rank=rank)
-        torch.cuda.set_device(rank)
         default_dtype = torch.get_default_dtype()
-        torch.set_default_dtype(hf_config.dtype)
-        torch.set_default_device("cuda")
-        self.model = Qwen3ForCausalLM(hf_config)
-        load_model(self.model, config.model)
-        self.sampler = Sampler()
-        self.warmup_model()
-        self.allocate_kv_cache()
-        if not self.enforce_eager:
-            self.capture_cudagraph()
-        torch.set_default_device("cpu")
-        torch.set_default_dtype(default_dtype)
+        default_device = torch.get_default_device()
+        owns_process_group = False
+        try:
+            dist.init_process_group("nccl", "tcp://localhost:2333", world_size=self.world_size, rank=rank)
+            owns_process_group = True
+            torch.cuda.set_device(rank)
+            try:
+                torch.set_default_dtype(hf_config.dtype)
+                torch.set_default_device("cuda")
+                self.model = Qwen3ForCausalLM(hf_config)
+                load_model(self.model, config.model)
+                self.sampler = Sampler()
+                self.warmup_model()
+                self.allocate_kv_cache()
+                if not self.enforce_eager:
+                    self.capture_cudagraph()
+            finally:
+                torch.set_default_device(default_device)
+                torch.set_default_dtype(default_dtype)
+        except Exception:
+            if owns_process_group and dist.is_initialized():
+                dist.destroy_process_group()
+            raise
 
         if self.world_size > 1:
             if rank == 0:
@@ -128,6 +138,8 @@ class ModelRunner:
         head_dim = getattr(hf_config, "head_dim", hf_config.hidden_size // hf_config.num_attention_heads)
         block_bytes = 2 * hf_config.num_hidden_layers * self.block_size * num_kv_heads * head_dim * hf_config.dtype.itemsize
         config.num_kvcache_blocks = int(total * config.gpu_memory_utilization - used - peak + current) // block_bytes
+        if config.diagnostic_kv_blocks is not None:
+            config.num_kvcache_blocks = min(config.num_kvcache_blocks, config.diagnostic_kv_blocks)
         assert config.num_kvcache_blocks > 0
         self.kv_cache = torch.empty(2, hf_config.num_hidden_layers, config.num_kvcache_blocks, self.block_size, num_kv_heads, head_dim)
         layer_id = 0
@@ -212,7 +224,8 @@ class ModelRunner:
     @torch.inference_mode()
     def run_model(self, input_ids: torch.Tensor, positions: torch.Tensor, is_prefill: bool):
         if is_prefill or self.enforce_eager or input_ids.size(0) > 512:
-            self.last_execution = {"actual_batch": input_ids.size(0), "graph_batch": None,
+            actual_batch = get_context().cu_seqlens_q.numel() - 1 if is_prefill else input_ids.size(0)
+            self.last_execution = {"actual_batch": actual_batch, "input_tokens": input_ids.numel(), "graph_batch": None,
                                    "is_prefill": is_prefill, "graph_replay": False}
             return self.model.compute_logits(self.model(input_ids, positions))
         else:
@@ -221,7 +234,7 @@ class ModelRunner:
             graph_batch = next(x for x in self.graph_bs if x >= bs)
             graph = self.graphs[graph_batch]
             self.last_execution = {"actual_batch": bs, "graph_batch": graph_batch,
-                                   "is_prefill": False, "graph_replay": True}
+                                   "is_prefill": False, "graph_replay": True, "input_tokens": bs}
             graph_vars = self.graph_vars
             graph_vars["input_ids"][:bs] = input_ids
             graph_vars["positions"][:bs] = positions

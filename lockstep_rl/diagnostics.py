@@ -11,6 +11,7 @@ def distribution(values):
     if not values.size or not np.isfinite(values).all():
         raise ValueError("distribution requires nonempty finite measurements")
     return {"count": int(values.size), "mean": float(values.mean()), "min": float(values.min()),
+            "std": float(values.std()),
             "p95": float(np.quantile(values, .95)), "p99": float(np.quantile(values, .99)),
             "max": float(values.max())}
 
@@ -58,6 +59,7 @@ def compare_trajectories(rollouts, reference, *, threshold=.1, known_error=False
 def path_evidence(trace):
     counts = Counter(row["event"] for row in trace)
     chunks = defaultdict(list)
+    partial_prefill = set()
     preempted = set()
     re_prefill = set()
     for row in trace:
@@ -66,14 +68,15 @@ def path_evidence(trace):
         if row["event"] == "schedule" and row["is_prefill"]:
             for request in row["requests"]:
                 chunks[request["request_id"]].append((request["start"], request["end"]))
+                if request["end"] < request.get("context_tokens", request["end"]):
+                    partial_prefill.add(request["request_id"])
                 if request["request_id"] in preempted:
                     re_prefill.add(request["request_id"])
     executions = [row for row in trace if row["event"] == "execution"]
     return {"event_counts": dict(counts),
             "prefix_reused_blocks": sum(row["blocks"] for row in trace if row["event"] == "prefix_reuse"),
             "prefix_reused_tokens": sum(row["tokens"] for row in trace if row["event"] == "prefix_reuse"),
-            "prefill_ranges": dict(chunks), "chunked_request_count": sum(
-                any(start > 0 for start, end in ranges[1:]) for ranges in chunks.values()),
+            "prefill_ranges": dict(chunks), "chunked_request_count": len(partial_prefill),
             "graph_replays": sum(row.get("graph_replay", False) for row in executions),
             "padded_graph_replays": sum(row.get("graph_replay", False) and row["graph_batch"] > row["actual_batch"]
                                         for row in executions),

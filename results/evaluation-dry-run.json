@@ -1,0 +1,5 @@
+{
+  "status": "GPU_PENDING",
+  "model": "nonexistent-local-model",
+  "validation_count": 8
+}

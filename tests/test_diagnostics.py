@@ -42,13 +42,16 @@ class DiagnosticsTest(unittest.TestCase):
             Sequence.block_size = old_size
 
     def test_graph_and_preemption_evidence_requires_actual_events(self):
-        trace = [{"event": "preempt", "request_id": "r"},
+        trace = [{"event": "schedule", "is_prefill": True, "requests": [
+                     {"request_id": "r", "start": 0, "end": 7, "context_tokens": 7}]},
+                 {"event": "preempt", "request_id": "r"},
                  {"event": "schedule", "is_prefill": True, "requests": [
-                     {"request_id": "r", "start": 0, "end": 7}]},
+                     {"request_id": "r", "start": 4, "end": 8, "context_tokens": 8}]},
                  {"event": "execution", "is_prefill": False, "actual_batch": 3,
                   "graph_batch": 4, "graph_replay": True}]
         self.assertEqual(require_path(trace, "preemption")["re_prefill_requests"], ["r"])
         self.assertEqual(require_path(trace, "graph_padding")["padded_graph_replays"], 1)
+        self.assertEqual(path_evidence(trace)["chunked_request_count"], 0)
         self.assertEqual(path_evidence([])["preemptions"], 0)
 
 

@@ -21,6 +21,6 @@ def evaluate(engine, tasks, *, label, max_tokens):
         rows.append({"id": task["id"], "reward": numeric_reward(text, task["answer"]),
                      "response_text": text, "finish_reason": record["finish_reason"],
                      "policy_version": record["policy_version"]})
-    return {"count": len(rows), "accuracy": sum(row["reward"] for row in rows) / len(rows),
+    return {"count": len(rows), "accuracy": sum(row["reward"] for row in rows) / len(rows), "rollouts": records,
             "truncation_fraction": sum(row["finish_reason"] == "length" for row in rows) / len(rows),
             "rows": rows}

@@ -2,10 +2,14 @@
 
 import argparse
 import atexit
+import csv
 from dataclasses import asdict
 import hashlib
 import json
+import math
 import random
+import subprocess
+import traceback
 import sys
 from pathlib import Path
 
@@ -34,14 +38,24 @@ def main():
         if not args.train_file or not args.validation_file:
             parser.error("both local train and validation files are required")
         train, validation = load_tasks(args.train_file), load_tasks(args.validation_file)
+        settings["train_file"] = str(args.train_file)
+        settings["validation_file"] = str(args.validation_file)
+        manifest_path = args.train_file.parent / "manifest.json"
+        if manifest_path.is_file():
+            settings["dataset_manifest"] = json.loads(manifest_path.read_text(encoding="utf-8"))
     elif settings["task"] == "simple":
-        train, validation = simple_tasks(count=settings["train_count"]), simple_tasks("validation", settings["validation_count"])
+        operation = settings.get("simple_operation", "add")
+        train, validation = simple_tasks(count=settings["train_count"], operation=operation), simple_tasks("validation", settings["validation_count"], operation)
     else:
         parser.error("GSM8K requires explicit local --train-file and --validation-file")
     validate_splits(train, validation)
     for field in ("iterations", "prompts_per_iteration", "max_tokens", "evaluation_every"):
         if settings[field] < 1:
             parser.error(f"{field} must be positive")
+    if not math.isfinite(settings["learning_rate"]) or settings["learning_rate"] <= 0:
+        parser.error("learning_rate must be finite and positive")
+    if settings.get("optimizer", "adamw") not in ("adamw", "sgd"):
+        parser.error("optimizer must be adamw or sgd")
     if settings["prompts_per_iteration"] > len(train):
         parser.error("prompt batch exceeds the training subset")
     expected_accumulation = (settings["prompts_per_iteration"] * config.group_size + config.microbatch_size - 1) // config.microbatch_size
@@ -53,15 +67,24 @@ def main():
         return
     if not args.allow_gpu:
         parser.error("Real GPU training requires manual --allow-gpu; use --dry-run for CPU validation")
+    if args.output_dir.exists() and any(args.output_dir.iterdir()):
+        parser.error("use a fresh output directory to preserve earlier metrics/rollouts")
     import torch
     from transformers import AutoModelForCausalLM
     from nanovllm import LLM
     from lockstep_rl.evaluation import evaluate
     from lockstep_rl.trainer import GRPOTrainer, run_iteration
+    from lockstep_rl.experiment_io import configure_numerics, provenance, save_json
     random.seed(settings["seed"])
     torch.manual_seed(settings["seed"])
     torch.backends.cuda.matmul.allow_tf32 = False
+    numerical_settings = configure_numerics(torch, compile_enabled=settings.get("torch_compile", True))
+    numerical_settings.update(trainer_autocast_bf16=config.autocast_bf16, actor_autocast=False)
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    save_json(args.output_dir / "provenance.json", provenance(settings["model"]))
+    save_json(args.output_dir / "numerical-settings.json", numerical_settings)
+    save_json(args.output_dir / "train-tasks.json", train)
+    save_json(args.output_dir / "validation-tasks.json", validation)
     (args.output_dir / "config.json").write_text(json.dumps(settings, indent=2) + "\n", encoding="utf-8")
     engine = LLM(settings["model"], **settings["engine"])
     try:
@@ -70,7 +93,8 @@ def main():
         model.config.use_cache = False
         if settings["gradient_checkpointing"]:
             model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
-        optimizer = torch.optim.AdamW(model.parameters(), lr=settings["learning_rate"], foreach=False)
+        optimizer_class = torch.optim.AdamW if settings.get("optimizer", "adamw") == "adamw" else torch.optim.SGD
+        optimizer = optimizer_class(model.parameters(), lr=settings["learning_rate"], foreach=False)
         trainer = GRPOTrainer(model, optimizer, config=config, pad_token_id=engine.tokenizer.pad_token_id or 0)
         template = engine.tokenizer.chat_template
         metadata = {"enable_thinking": False,
@@ -78,7 +102,10 @@ def main():
                     "training_master_dtype": "float32", "actor_dtype": str(engine.config.hf_config.dtype)}
         initial = evaluate(engine, validation, label="initial", max_tokens=settings["max_tokens"])
         (args.output_dir / "validation-initial.json").write_text(json.dumps(initial, indent=2) + "\n", encoding="utf-8")
-        with (args.output_dir / "metrics.jsonl").open("w", encoding="utf-8") as stream:
+        summary = {"optimizer_steps": 0, "policy_commits": 0, "skipped_batches": 0,
+                   "iterations": settings["iterations"], "seed": settings["seed"], "scope": "single seed"}
+        with (args.output_dir / "metrics.jsonl").open("w", encoding="utf-8") as stream, (args.output_dir / "metrics.csv").open("w", newline="", encoding="utf-8") as csv_stream:
+            writer = None
             for iteration in range(settings["iterations"]):
                 tasks = random.sample(train, settings["prompts_per_iteration"])
                 prompts = chat_prompts(engine.tokenizer, tasks)
@@ -86,18 +113,48 @@ def main():
                     text = engine.tokenizer.decode(record["response_ids"], skip_special_tokens=True)
                     return numeric_reward(text, tasks[index]["answer"])
                 records, metrics = run_iteration(engine, trainer, prompts, reward_fn, iteration=iteration,
-                                                 max_tokens=settings["max_tokens"], sampling_config=metadata)
+                                                 max_tokens=settings["max_tokens"], sampling_config=metadata,
+                                                 trajectory_callback=lambda rows: save_json(args.output_dir / f"rollouts-{iteration}.json", rows))
                 metrics["iteration"] = iteration
                 metrics["mean_reward"] = sum(metrics["rewards"]) / len(records)
                 metrics["truncation_fraction"] = sum(r["finish_reason"] == "length" for r in records) / len(records)
                 if (iteration + 1) % settings["evaluation_every"] == 0:
                     metrics["validation"] = evaluate(engine, validation, label=str(iteration), max_tokens=settings["max_tokens"])
-                (args.output_dir / f"rollouts-{iteration}.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
                 stream.write(json.dumps(metrics) + "\n"); stream.flush()
+                summary["optimizer_steps"] += sum(step["optimizer_step"] for step in metrics["steps"])
+                summary["policy_commits"] += int(metrics["updated"])
+                summary["skipped_batches"] += int(not metrics["updated"])
+                latest = metrics["steps"][-1] if metrics["steps"] else {}
+                flat = {"iteration": iteration, "mean_reward": metrics["mean_reward"],
+                        "validation_accuracy": metrics.get("validation", {}).get("accuracy"),
+                        "policy_version": metrics["new_policy_version"], "updated": metrics["updated"],
+                        "ratio_outside_fraction": latest.get("ratio_outside_fraction"),
+                        "clip_active_fraction": latest.get("clip_active_fraction"),
+                        "truncation_fraction": metrics["truncation_fraction"], **metrics["timings"]}
+                if writer is None:
+                    writer = csv.DictWriter(csv_stream, fieldnames=list(flat)); writer.writeheader()
+                writer.writerow(flat); csv_stream.flush()
                 print(json.dumps(metrics))
+        summary["status"] = "completed_with_updates" if summary["optimizer_steps"] else "completed_no_learning_signal"
+        save_json(args.output_dir / "summary.json", summary)
+        if settings.get("save_final_checkpoint", False):
+            from lockstep_rl.checkpoint import save_actor_checkpoint
+            save_actor_checkpoint(model, engine.config.hf_config, engine.tokenizer,
+                                  args.output_dir / "checkpoint-final", policy_version=engine.policy_version)
+    except Exception as exc:
+        failure = {"status": "failed", "error": f"{type(exc).__name__}: {exc}",
+                   "traceback": traceback.format_exc(), "engine_state": engine.state,
+                   "policy_version": engine.policy_version}
+        try:
+            save_json(args.output_dir / "failure.json", failure)
+        except Exception as log_error:
+            print(f"Could not save failure.json: {log_error}", file=sys.stderr)
+        raise
     finally:
         atexit.unregister(engine.exit)
         engine.exit()
+    subprocess.run([sys.executable, "scripts/plot_results.py", "--kind", "training", "--input",
+                    str(args.output_dir / "metrics.jsonl"), "--output", str(args.output_dir / "training.png")], check=True)
 
 
 if __name__ == "__main__":

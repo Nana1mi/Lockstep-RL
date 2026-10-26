@@ -69,6 +69,12 @@ configured updates, then admit only the next committed actor version.
 
 ## Numerical evidence
 
+Experiment configurations separately control manual CUDA graph replay and
+`torch_compile`. Compiler directives can be disabled with the public
+[torch.compiler.set_stance("force_eager") API](https://docs.pytorch.org/docs/2.11/generated/torch.compiler.set_stance.html),
+verified against versioned official documentation through Context7 and a CPU
+backend-counter test. The stance does not remove the explicit Triton KV kernel.
+
 HF FP32 reference first loads BF16 effective weights and promotes their values to
 FP32. It does not recover nonexistent FP32 source precision. FP32-master trainer
 comparisons are labeled as potentially including weight-cast differences.
@@ -80,9 +86,16 @@ raw per-token deltas and length-group summaries. Maximum error refers only to th
 observed trajectories. Plotting uses saved data only; injected known-error tests
 are labeled separately from natural observations.
 
-## Remaining integration work
+## Validation boundary
 
-The manual HF/nano path matrix, full three-way experiment orchestration, A/B
-weight-sync and initialization benchmarks, provenance collection and final
-per-experiment handoff still require implementation/review. Real CUDA primitives,
-graphs, memory budgets and Qwen3 learning behavior remain GPU_PENDING.
+The manual HF/nano path matrix, three-way orchestration, A/B sync/recovery
+benchmarks, original-source and sampler-compute comparisons, provenance and the
+per-experiment handoff are implemented. Real CUDA primitives, graphs, memory
+budgets and Qwen3 learning behavior remain GPU_PENDING. GPU findings may require
+kernel compatibility, tolerances, memory settings or training-budget changes.
+
+Raw training trajectories are persisted before reward/optimization in the manual
+driver so failed updates retain their input data. The rollout timer explicitly
+identifies that persistence overhead. Gradients are released after the update
+batch. Initialization failure only cleans up a process group owned by that
+constructor, preserving an unrelated existing group if initialization is rejected.

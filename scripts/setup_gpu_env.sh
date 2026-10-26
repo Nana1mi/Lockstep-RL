@@ -16,7 +16,7 @@ python_bin="${2:-python3.11}"
 command -v c++ >/dev/null || { printf '%s\n' 'A C++ compiler is required; install build tools manually.' >&2; exit 1; }
 "$python_bin" -m venv .envs/nano_rl
 venv_python="$PWD/.envs/nano_rl/bin/python"
-"$venv_python" -m pip install --upgrade 'torch==2.11.0' --index-url https://download.pytorch.org/whl/cu130
+"$venv_python" -m pip install --upgrade 'torch==2.11.0+cu130' --index-url https://download.pytorch.org/whl/cu130
 "$venv_python" -m pip install 'triton==3.6.0' 'transformers==5.5.4' packaging psutil ninja wheel setuptools numpy xxhash safetensors tqdm matplotlib datasets
 "$venv_python" -m pip install 'nvidia-cuda-nvcc==13.0.88' 'nvidia-cuda-crt==13.0.88' 'nvidia-nvvm==13.0.88' 'nvidia-cuda-runtime==13.0.96'
 export CUDA_HOME="$PWD/.envs/nano_rl/lib/python3.11/site-packages/nvidia/cu13"

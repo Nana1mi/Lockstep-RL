@@ -25,6 +25,8 @@ class Scheduler:
             self.trace.append({"event": event, **details})
 
     def _record_schedule(self, seqs, is_prefill):
+        if not self.record_trace:
+            return
         self._record("schedule", is_prefill=is_prefill,
                      requests=[{"request_id": seq.request_id, "group_id": seq.group_id,
                                 "start": seq.num_cached_tokens, "end": seq.num_cached_tokens + seq.num_scheduled_tokens,

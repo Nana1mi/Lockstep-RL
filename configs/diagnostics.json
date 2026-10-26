@@ -1,0 +1,23 @@
+{
+  "model": ".models/Qwen3-0.6B",
+  "seed": 0,
+  "torch_compile": true,
+  "prompt_tokens": 512,
+  "response_tokens": 32,
+  "chunk_budget": 64,
+  "batch_size": 4,
+  "preemption_kv_blocks": 4,
+  "threshold": 0.1,
+  "attention_backend": "sdpa",
+  "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
+  "engine": {
+    "enforce_eager": true,
+    "tensor_parallel_size": 1,
+    "gpu_memory_utilization": 0.5,
+    "max_num_batched_tokens": 2048,
+    "max_model_len": 2048,
+    "max_num_seqs": 8
+  },
+  "cases": ["eager", "prefix", "chunked", "graph", "graph_padding", "batch", "preemption"],
+  "validation_status": "GPU_PENDING"
+}

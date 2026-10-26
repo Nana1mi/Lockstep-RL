@@ -1,0 +1,122 @@
+{
+  "status": "passed",
+  "documentation_blocks": [
+    {
+      "document": "README.md",
+      "block": 0,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 0,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 1,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 2,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 3,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 4,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 5,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 6,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 7,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 8,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 9,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 10,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 11,
+      "language": "bash"
+    },
+    {
+      "document": "docs/upstream-readme.md",
+      "block": 0,
+      "language": "bash"
+    },
+    {
+      "document": "docs/upstream-readme.md",
+      "block": 1,
+      "language": "bash"
+    },
+    {
+      "document": "docs/upstream-readme.md",
+      "block": 2,
+      "language": "python"
+    }
+  ],
+  "dry_runs": {
+    "diagnostics-dry-run.json": [
+      "scripts/diagnose.py",
+      "--dry-run"
+    ],
+    "weight-sync-dry-run.json": [
+      "scripts/weight_sync_experiment.py",
+      "--dry-run"
+    ],
+    "benchmark-dry-run.json": [
+      "scripts/benchmark_suite.py",
+      "--dry-run"
+    ],
+    "training-dry-run.json": [
+      "scripts/train_grpo.py",
+      "--dry-run"
+    ],
+    "evaluation-dry-run.json": [
+      "scripts/evaluate.py",
+      "--model",
+      "nonexistent-local-model",
+      "--dry-run"
+    ],
+    "hf-score-dry-run.json": [
+      "scripts/score_hf.py",
+      "--model",
+      "nonexistent-local-model",
+      "--trajectory",
+      "unused.json",
+      "--output",
+      "unused.json",
+      "--dry-run"
+    ]
+  },
+  "gpu_installer_guard": "passed",
+  "dependency_check": "passed",
+  "scope": "CPU-only syntax/configuration/entry-point checks; no GPU result"
+}

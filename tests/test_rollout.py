@@ -20,7 +20,7 @@ def cpu_engine(blocks=16, budget=3):
     engine.config = SimpleNamespace(max_num_seqs=8, max_num_batched_tokens=budget,
                                    eos=99, kvcache_block_size=4, num_kvcache_blocks=blocks,
                                    tensor_parallel_size=1, max_model_len=64, model="tiny-cpu",
-                                   hf_config=SimpleNamespace(vocab_size=100))
+                                   hf_config=SimpleNamespace(vocab_size=100, dtype=torch.float32))
     engine.scheduler = Scheduler(engine.config)
     engine.tokenizer = SimpleNamespace(decode=lambda ids: str(ids))
     class Runner:
@@ -81,6 +81,8 @@ class RolloutTest(unittest.TestCase):
                                       forced_response_ids=[[99]], use_tqdm=False)
             self.assertEqual(records[0]["response_ids"], [99])
             self.assertEqual(records[0]["finish_reason"], reason)
+            self.assertEqual(records[0]["sampling_config"]["eos_token_id"], 99)
+            self.assertEqual(records[0]["sampling_config"]["eos_rule"], "single_tokenizer_eos")
 
     def test_preemption_replays_context_without_rewriting_old_scores(self):
         engine = cpu_engine(budget=16)

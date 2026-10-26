@@ -1,0 +1,5 @@
+GPU_PENDING candidate: Python 3.11; torch 2.11.0 cu130; triton 3.6.0; transformers 5.5.4; flash-attn 2.8.3.post2; CUDA compiler 13.0.88.
+Manual install: bash scripts/setup_gpu_env.sh --allow-install /path/to/python3.11
+GPU_PENDING: synthetic BF16 logits; original sampling vs added FP32 selected-token scoring
+No broken requirements found.
+Validated 16 documentation blocks and 6 JSON dry runs

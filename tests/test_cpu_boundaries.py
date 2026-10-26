@@ -28,7 +28,15 @@ assert not torch.cuda.is_initialized()
                    (["scripts/training_memory_probe.py", "--model", "nonexistent", "--output", "unused.json"], "--allow-gpu"),
                    (["bench.py"], "--allow-gpu"), (["example.py"], "--allow-gpu"),
                    (["scripts/train_grpo.py"], "--allow-gpu"),
+                   (["scripts/evaluate.py", "--model", "nonexistent"], "--allow-gpu"),
                    (["scripts/score_hf.py", "--model", "nonexistent", "--trajectory", "unused.json", "--output", "unused.json"], "--allow-gpu"),
+                   (["scripts/diagnose.py"], "--allow-gpu"),
+                   (["scripts/weight_sync_experiment.py"], "--allow-gpu"),
+                   (["scripts/benchmark_suite.py"], "--allow-gpu"),
+                   (["scripts/sampler_benchmark.py"], "--allow-gpu"),
+                   (["scripts/inference_benchmark_worker.py", "--config", "configs/inference-benchmark.json", "--case", "short-single", "--source", "current", "--source-path", ".", "--backend", "eager", "--output", "unused.json"], "--allow-gpu"),
+                   (["scripts/weight_sync_worker.py", "--config", "configs/weight-sync.json", "--mode", "hot", "--backend", "eager", "--model-b", "unused", "--trajectory", "unused.json", "--output-dir", "unused-output"], "--allow-gpu"),
+                   (["scripts/nano_path_worker.py", "--config", "configs/diagnostics.json", "--case", "sample", "--output-dir", "unused-output"], "--allow-gpu"),
                    (["scripts/download_model.py"], "--allow-download"),
                    (["scripts/prepare_gsm8k.py"], "--allow-download")]
         for argv, expected in entries:

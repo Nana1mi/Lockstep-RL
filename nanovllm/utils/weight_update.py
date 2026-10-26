@@ -56,15 +56,22 @@ def prepare_weight_update(model, state_dict):
         raise ValueError("model has no parameters")
     expected = {}
     aliases = defaultdict(list)
+    storage_views = {}
     mapping = getattr(model, "packed_modules_mapping", {})
     for name, parameter in parameters.items():
-        aliases[_storage_key(parameter)].append(name)
+        if (parameter.layout != torch.strided or not parameter.is_floating_point()
+                or parameter.device.type == "meta" or parameter.numel() == 0):
+            raise ValueError(f"unsupported target shape/layout/dtype/device: {name}")
+        key = _storage_key(parameter)
+        storage = (parameter.untyped_storage().data_ptr(), parameter.device)
+        if storage in storage_views and storage_views[storage] != key:
+            raise ValueError("partial/overlapping parameter aliases are unsupported in v1")
+        storage_views[storage] = key
+        aliases[key].append(name)
         module_path, _, leaf = name.rpartition(".")
         module = model.get_submodule(module_path)
         if getattr(module, "tp_size", 1) != 1:
             raise NotImplementedError("weight updates are validated for TP=1 only")
-        if parameter.layout != torch.strided or not parameter.is_floating_point():
-            raise ValueError(f"unsupported target layout/dtype: {name}")
         packed = [(src, shard) for src, (dst, shard) in mapping.items()
                   if module_path.split(".")[-1] == dst]
         if packed:

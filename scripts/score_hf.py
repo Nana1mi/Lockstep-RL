@@ -18,6 +18,7 @@ def main():
     parser.add_argument("--chunk-size", type=int, default=32)
     parser.add_argument("--allow-gpu", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--disable-torch-compile", action="store_true")
     args = parser.parse_args()
     if args.chunk_size < 1:
         parser.error("chunk-size must be positive")
@@ -28,13 +29,17 @@ def main():
         parser.error("GPU scoring requires manual --allow-gpu")
     import torch
     from lockstep_rl.scoring import load_effective_hf, score_records
+    from lockstep_rl.experiment_io import configure_numerics, provenance, save_json
     records = json.loads(args.trajectory.read_text(encoding="utf-8"))
-    torch.backends.cuda.matmul.allow_tf32 = False
+    report = {"provenance": provenance(args.model), "numerical_settings": configure_numerics(torch, compile_enabled=not args.disable_torch_compile),
+              "attention_backend": args.attention_backend, "dtype": args.dtype, "autocast": False,
+              "effective_weights": "BF16 values, promoted for FP32 reference"}
     model = load_effective_hf(args.model, dtype=getattr(torch, args.dtype), device="cuda",
                               attention_backend=args.attention_backend)
     scores = score_records(model, records, chunk_size=args.chunk_size)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(scores, indent=2) + "\n", encoding="utf-8")
+    save_json(args.output.with_suffix(".report.json"), report)
 
 
 if __name__ == "__main__":

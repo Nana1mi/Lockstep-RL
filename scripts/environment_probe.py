@@ -37,6 +37,8 @@ def main():
     try:
         import torch
         record["torch_cuda"] = {"version": torch.version.cuda, "status": "GPU_PENDING"}
+        if args.allow_gpu and not torch.cuda.is_available():
+            raise RuntimeError("manual GPU validation requested, but CUDA is unavailable")
         if args.allow_gpu and torch.cuda.is_available():
             record["torch_cuda"].update(available=True, arch_list=torch.cuda.get_arch_list())
             record["torch_cuda"].update(name=torch.cuda.get_device_name(),
@@ -58,8 +60,15 @@ def main():
         except Exception as exc:
             record[module] = {"error": f"{type(exc).__name__}: {exc}"}
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    ready = (record.get("torch_cuda", {}).get("bf16_matmul_finite") is True
+             and all(record.get("flash_attn", {}).get("upstream_entrypoints", {}).get(name, False)
+                     for name in ("flash_attn_varlen_func", "flash_attn_with_kvcache"))
+             and "error" not in record.get("triton", {}))
+    record["status"] = ("torch_cuda_and_imports_passed_attention_pending" if ready else "failed") if args.allow_gpu else "metadata_only"
     args.output.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(record, indent=2))
+    if args.allow_gpu and not ready:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

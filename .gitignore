@@ -199,3 +199,7 @@ cython_debug/
 .models/
 .build/
 .envs/
+*.safetensors
+*.pt
+*.pth
+results/**/upstream-source/

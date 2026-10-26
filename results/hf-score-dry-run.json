@@ -1,0 +1,5 @@
+{
+  "status": "GPU_PENDING",
+  "dtype": "bfloat16",
+  "trajectory": "unused.json"
+}

@@ -8,7 +8,7 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True)
-    parser.add_argument("--kind", choices=["consistency", "training"], required=True)
+    parser.add_argument("--kind", choices=["consistency", "training", "benchmark"], required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     import matplotlib
@@ -23,6 +23,16 @@ def main():
         ax.hist(values, bins=min(50, max(1, len(values))))
         ax.set(xlabel="Reference logprob - rollout logprob", ylabel="Token count",
                title="Known-error test fixture" if data.get("known_error_injection") else "Measured fixed-trajectory differences")
+    elif args.kind == "benchmark":
+        data = json.loads(args.input.read_text(encoding="utf-8"))
+        groups = data.get("groups", data.get("timing_groups", {}))
+        if not groups:
+            parser.error("no measured benchmark groups in input")
+        fig, ax = plt.subplots(figsize=(max(8, len(groups) * .65), 5))
+        ax.bar(list(groups), [value["mean"] for value in groups.values()],
+               yerr=[value["std"] for value in groups.values()], capsize=3)
+        ax.set_ylabel(data.get("metric_label", "Seconds to verified generation"))
+        ax.tick_params(axis="x", labelrotation=45)
     else:
         rows = [json.loads(line) for line in args.input.read_text(encoding="utf-8").splitlines() if line.strip()]
         if not rows:
@@ -39,7 +49,7 @@ def main():
             if points:
                 axes[1].plot([p[0] for p in points], [p[1] for p in points], label=metric)
         axes[1].legend()
-        for stage in ("rollout", "reward", "training", "sync"):
+        for stage in ("rollout", "reward", "weight_cast_diagnostics", "training", "sync"):
             axes[2].plot(x, [row["timings"][stage] for row in rows], label=stage)
         axes[2].legend()
         axes[2].set_ylabel("Seconds")

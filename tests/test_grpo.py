@@ -7,7 +7,8 @@ from torch import nn
 
 from lockstep_rl.batch import collate_rollouts
 from lockstep_rl.grpo import GRPOConfig, clipped_surrogate, group_advantages
-from lockstep_rl.trainer import GRPOTrainer, run_iteration
+from lockstep_rl.trainer import GRPOTrainer, run_iteration, weight_cast_statistics
+from lockstep_rl.scoring import score_records
 from nanovllm.engine.sequence import Sequence
 from nanovllm.utils.weight_update import prepare_weight_update, commit_weight_update
 from tests.test_rollout import cpu_engine
@@ -44,6 +45,54 @@ def records():
 
 
 class GRPOTest(unittest.TestCase):
+    def test_trajectory_persistence_precedes_reward_failure(self):
+        model = ToyLM()
+        engine = cpu_engine(blocks=64, budget=16)
+        trainer = GRPOTrainer(model, torch.optim.SGD(model.parameters(), lr=.01))
+        saved = []
+        def failing_reward(record, index):
+            raise RuntimeError("injected reward failure")
+        old_size = Sequence.block_size
+        Sequence.block_size = 4
+        try:
+            with self.assertRaisesRegex(RuntimeError, "reward failure"):
+                run_iteration(engine, trainer, [[1, 2]], failing_reward, iteration=0, max_tokens=2,
+                              trajectory_callback=lambda rows: saved.extend(rows))
+        finally:
+            Sequence.block_size = old_size
+        self.assertEqual(len(saved), 4)
+        self.assertEqual({r["policy_version"] for r in saved}, {0})
+        self.assertEqual(engine.policy_version, 0)
+        self.assertFalse(trainer.optimizer.state)
+
+    def test_all_clipped_zero_gradient_retains_ratio_diagnostics_without_step(self):
+        torch.manual_seed(123)
+        model = ToyLM()
+        rows = records()
+        scored = score_records(model, rows)
+        for i, row in enumerate(rows):
+            ratio = .5 if i < 2 else 1.5
+            row["response_logprobs"] = [value - torch.log(torch.tensor(ratio)).item()
+                                         for value in scored[i]["response_logprobs"]]
+        optimizer = torch.optim.AdamW(model.parameters(), lr=.001)
+        trainer = GRPOTrainer(model, optimizer, config=GRPOConfig(anchor="rollout"))
+        result = trainer.update(rows, [0, 1, 2, 3])
+        self.assertFalse(result["updated"])
+        self.assertEqual(result["skip_reason"], "zero_gradient")
+        self.assertEqual(result["steps"][0]["clip_active_fraction"], 1.)
+        self.assertFalse(result["steps"][0]["optimizer_step"])
+        self.assertFalse(optimizer.state)
+
+    def test_weight_cast_error_is_measured_separately_and_bad_configs_rejected(self):
+        model = ToyLM()
+        same = weight_cast_statistics(model, torch.float32)
+        rounded = weight_cast_statistics(model, torch.bfloat16)
+        self.assertEqual(same["max_absolute_error"], 0)
+        self.assertGreater(rounded["max_absolute_error"], 0)
+        for kwargs in ({"update_steps": 1.5}, {"advantage_epsilon": float("nan")}):
+            with self.assertRaises(ValueError):
+                GRPOConfig(**kwargs)
+
     def test_population_std_and_explicit_interleaved_groups(self):
         adv, stats = group_advantages([1, 3, 2, 3], ["a", "b", "a", "b"], group_size=2)
         torch.testing.assert_close(adv, torch.tensor([-1., 0., 1., 0.]), atol=3e-6, rtol=0)
@@ -137,6 +186,11 @@ class GRPOTest(unittest.TestCase):
                     return tokens, scores
                 raise AssertionError(method)
         engine.model_runner = Runner()
+        bad = dict(model.state_dict())
+        bad["head.weight"] = torch.zeros(1)
+        with self.assertRaises(ValueError):
+            engine.update_weights(bad)
+        self.assertEqual((engine.state, engine.policy_version), ("ready", 0))
         trainer = GRPOTrainer(model, torch.optim.AdamW(model.parameters(), lr=.003),
                               config=GRPOConfig(anchor="recomputed", update_steps=2))
         old_size = Sequence.block_size

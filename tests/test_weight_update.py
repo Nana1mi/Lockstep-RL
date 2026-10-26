@@ -1,4 +1,5 @@
 import unittest
+import threading
 from unittest.mock import patch
 
 import torch
@@ -50,6 +51,55 @@ class CpuWeightRunner:
 
 
 class WeightUpdateTest(unittest.TestCase):
+    def test_partial_parameter_aliases_are_rejected_before_copy(self):
+        model = nn.Module()
+        model.a = nn.Parameter(torch.zeros(8))
+        model.b = nn.Parameter(model.a.data[2:])
+        with self.assertRaisesRegex(ValueError, "partial"):
+            prepare_weight_update(model, {"a": torch.ones(8), "b": torch.ones(6)})
+        self.assertFalse(model.a.count_nonzero())
+
+    def test_admission_waits_for_commit_and_gets_new_policy_version(self):
+        engine = cpu_engine()
+        entered, release, started, admitted = (threading.Event() for _ in range(4))
+        errors = []
+        class Runner(CpuWeightRunner):
+            def call(self, method, value):
+                if method == "prepare_weight_update":
+                    entered.set()
+                    if not release.wait(5):
+                        raise RuntimeError("test release timeout")
+                return super().call(method, value)
+        engine.model_runner = Runner(TinyPackedModel())
+        def update():
+            try:
+                engine.update_weights(source_weights())
+            except Exception as exc:
+                errors.append(exc)
+        def add():
+            from nanovllm import SamplingParams
+            started.set()
+            try:
+                engine.add_request([1, 2], SamplingParams(max_tokens=2), request_id="concurrent")
+                admitted.set()
+            except Exception as exc:
+                errors.append(exc)
+        updater, admission = threading.Thread(target=update), threading.Thread(target=add)
+        updater.start()
+        try:
+            self.assertTrue(entered.wait(5))
+            admission.start()
+            self.assertTrue(started.wait(5))
+            self.assertFalse(admitted.wait(.05))
+        finally:
+            release.set()
+            updater.join(5)
+            if admission.ident is not None:
+                admission.join(5)
+        self.assertFalse(errors)
+        self.assertTrue(admitted.is_set())
+        self.assertEqual(engine.scheduler.waiting[0].policy_version, 1)
+
     def test_real_upstream_packed_loaders_and_tied_storage(self):
         model = TinyPackedModel()
         pointers = [p.data_ptr() for p in model.parameters()]

@@ -2,6 +2,10 @@
 
 - Project scope and acceptance gates are defined in `PLAN.md`. Keep the fixed
   upstream baseline `bb823b3e06983d71485a8e1f23715ebd87d98ef8` identifiable.
+- For library/framework/SDK/API/CLI/cloud details, first resolve the library in
+  Context7, then query scoped current documentation (version-specific when given).
+  Prefer primary package documentation. General code review does not need a
+  library lookup when no library/platform API fact is involved.
 - Use Linux / WSL2 for CUDA execution. Windows CUDA availability is not evidence
   that the Linux dependency stack works.
 - Delivery target is GPU-validation-ready. Dates in PLAN.md are advisory.

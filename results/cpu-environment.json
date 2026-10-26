@@ -1,11 +1,11 @@
 {
-  "timestamp_utc": "2026-10-26T15:05:16.392706+00:00",
+  "timestamp_utc": "2026-10-26T16:52:21.863931+00:00",
   "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
   "python": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
   "executable": "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
   "git": {
     "returncode": 0,
-    "stdout": "bb823b3e06983d71485a8e1f23715ebd87d98ef8",
+    "stdout": "db946eecccc7eeb36ceff24b6a5f1c27a48976fd",
     "stderr": ""
   },
   "packages": {
@@ -35,5 +35,6 @@
   },
   "flash_attn": {
     "error": "ModuleNotFoundError: No module named 'flash_attn'"
-  }
+  },
+  "status": "metadata_only"
 }

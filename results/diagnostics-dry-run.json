@@ -1,0 +1,167 @@
+{
+  "status": "GPU_PENDING",
+  "jobs": [
+    {
+      "name": "sample",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "sample",
+        "--output-dir",
+        "results/diagnostics/sample"
+      ]
+    },
+    {
+      "name": "eager",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "eager",
+        "--output-dir",
+        "results/diagnostics/eager",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "prefix",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "prefix",
+        "--output-dir",
+        "results/diagnostics/prefix",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "chunked",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "chunked",
+        "--output-dir",
+        "results/diagnostics/chunked",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "graph",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "graph",
+        "--output-dir",
+        "results/diagnostics/graph",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "graph_padding",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "graph_padding",
+        "--output-dir",
+        "results/diagnostics/graph_padding",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "batch",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "batch",
+        "--output-dir",
+        "results/diagnostics/batch",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "preemption",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "preemption",
+        "--output-dir",
+        "results/diagnostics/preemption",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ]
+    },
+    {
+      "name": "hf-bfloat16",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/score_hf.py",
+        "--allow-gpu",
+        "--model",
+        ".models/Qwen3-0.6B",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json",
+        "--dtype",
+        "bfloat16",
+        "--attention-backend",
+        "sdpa",
+        "--output",
+        "results/diagnostics/hf-bfloat16.json"
+      ]
+    },
+    {
+      "name": "hf-float32",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/score_hf.py",
+        "--allow-gpu",
+        "--model",
+        ".models/Qwen3-0.6B",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json",
+        "--dtype",
+        "float32",
+        "--attention-backend",
+        "sdpa",
+        "--output",
+        "results/diagnostics/hf-float32.json"
+      ]
+    }
+  ]
+}

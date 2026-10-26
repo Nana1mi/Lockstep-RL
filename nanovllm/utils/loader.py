@@ -10,8 +10,24 @@ def default_weight_loader(param: nn.Parameter, loaded_weight: torch.Tensor):
 
 
 def load_model(model: nn.Module, path: str):
+    files = glob(os.path.join(path, "*.safetensors"))
+    if not files:
+        raise ValueError(f"checkpoint has no safetensors weights: {path}")
+    # Keep the original loader's copy path independent of hot-update copying,
+    # but preflight a complete TP=1 checkpoint before initializing any weights.
+    if all(getattr(module, "tp_size", 1) == 1 for module in model.modules()):
+        from nanovllm.utils.weight_update import prepare_weight_update
+        state = {}
+        for file in files:
+            with safe_open(file, "pt", "cpu") as source:
+                for key in source.keys():
+                    if key in state:
+                        raise ValueError(f"duplicate checkpoint weight key: {key}")
+                    state[key] = source.get_tensor(key)
+        prepare_weight_update(model, state)
+        del state
     packed_modules_mapping = getattr(model, "packed_modules_mapping", {})
-    for file in glob(os.path.join(path, "*.safetensors")):
+    for file in files:
         with safe_open(file, "pt", "cpu") as f:
             for weight_name in f.keys():
                 for k in packed_modules_mapping:

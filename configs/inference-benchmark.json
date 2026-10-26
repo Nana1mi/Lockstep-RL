@@ -1,0 +1,22 @@
+{
+  "model": ".models/Qwen3-0.6B",
+  "seed": 0,
+  "torch_compile": true,
+  "process_repeats": 3,
+  "steady_repeats": 3,
+  "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
+  "engine": {
+    "gpu_memory_utilization": 0.5,
+    "max_num_batched_tokens": 2048,
+    "max_model_len": 2048,
+    "max_num_seqs": 8,
+    "tensor_parallel_size": 1
+  },
+  "cases": {
+    "short-single": {"requests": 1, "input_tokens": 32, "output_tokens": 32},
+    "short-multi": {"requests": 4, "input_tokens": 32, "output_tokens": 32},
+    "long-single": {"requests": 1, "input_tokens": 1024, "output_tokens": 64},
+    "long-multi": {"requests": 4, "input_tokens": 1024, "output_tokens": 64}
+  },
+  "validation_status": "GPU_PENDING; full rollout-data-contract overhead vs exact original source"
+}

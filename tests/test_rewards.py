@@ -13,6 +13,8 @@ class RewardTest(unittest.TestCase):
         self.assertEqual(numeric_reward("<answer>1.25</answer>", "1.250"), 1.)
         self.assertEqual(numeric_reward("<answer>2</answer> then <answer>3</answer>", "3"), 1.)
         self.assertIsNone(extract_answer("#### no answer"))
+        self.assertEqual(numeric_reward("<answer>1,,234</answer>", "1234"), 0.)
+        self.assertEqual(numeric_reward("<answer>1234</answer><answer>unknown</answer>", "1234"), 0.)
 
     def test_disjoint_validation_and_leakage_rejection(self):
         train, validation = simple_tasks(), simple_tasks("validation")

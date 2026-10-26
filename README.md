@@ -2,7 +2,7 @@
 
 RL rollout infrastructure built on [nano-vllm](https://github.com/GeeeekExplorer/nano-vllm), fixed at `bb823b3e06983d71485a8e1f23715ebd87d98ef8`.
 
-Development is in progress toward **GPU-validation-ready**. Real GPU correctness, memory feasibility and performance are `GPU_PENDING`. See [implementation status](IMPLEMENTATION_STATUS.md), [progress](PROGRESS.md), [experiments](EXPERIMENTS.md), and the [manual GPU runbook](GPU_RUNBOOK.md).
+The first-version source is **GPU-validation-ready**: 55 CPU tests passed, manual experiment entry points and configurations are prepared, and real GPU correctness, memory feasibility and performance are `GPU_PENDING`. See [implementation status](IMPLEMENTATION_STATUS.md), [acceptance audit](docs/acceptance-audit.md), [progress](PROGRESS.md), [experiments](EXPERIMENTS.md), and the [manual GPU runbook](GPU_RUNBOOK.md).
 
 ## Scope and attribution
 
@@ -17,6 +17,7 @@ bash scripts/setup_cpu_env.sh /path/to/python3.11
 CUDA_VISIBLE_DEVICES= .envs/nano_rl/bin/python -m unittest discover -s tests -v
 .envs/nano_rl/bin/ruff check --select E9,F lockstep_rl nanovllm scripts tests example.py bench.py
 .envs/nano_rl/bin/python scripts/train_grpo.py --dry-run
+.envs/nano_rl/bin/python scripts/validate_cpu_artifacts.py
 ```
 
 Base installation does not compile Triton/FlashAttention. CUDA-only imports are deferred. GPU entry points require `--allow-gpu`; model/dataset downloads require `--allow-download`. The runbook defines manual setup and experimental boundaries.
@@ -49,6 +50,6 @@ Teacher forcing compares identical prompt/response IDs, next-token positions, pa
 
 Preserve raw trajectories, per-token scores, traces, configurations, code/model revisions and environment settings. `scripts/plot_results.py` plots supplied observations only. No Lockstep-RL benchmark or learning-quality result has been claimed.
 
-GPU attention, graphs, A-to-B equivalence, co-resident memory, three-way numerics and Qwen3 training remain `GPU_PENDING`. Experiment orchestration and final handoff documentation are still being completed.
+GPU attention, graphs, A-to-B equivalence, co-resident memory, three-way numerics and Qwen3 training remain `GPU_PENDING`. Experiment orchestration and the staged manual handoff are implemented. Memory settings and tolerances may need revision after the first real measurements.
 
 Multi-GPU weight updates, asynchronous RL, LoRA synchronization, production serving, automatic rollback and full batch invariance are outside v1 scope.

@@ -21,6 +21,12 @@ class GRPOConfig:
     autocast_bf16: bool = False
 
     def __post_init__(self):
+        for name in ("group_size", "update_steps", "microbatch_size", "logprob_chunk_size"):
+            value = getattr(self, name)
+            if not isinstance(value, int) or isinstance(value, bool):
+                raise ValueError(f"{name} must be an integer")
+        if not all(math.isfinite(value) for value in (self.clip_epsilon, self.advantage_epsilon, self.max_grad_norm)):
+            raise ValueError("GRPO numerical settings must be finite")
         if self.group_size < 2 or self.anchor not in ("rollout", "recomputed"):
             raise ValueError("group_size >= 2 and a supported clipping anchor are required")
         if not 0 < self.clip_epsilon < 1 or self.advantage_epsilon <= 0:

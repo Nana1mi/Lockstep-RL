@@ -17,6 +17,23 @@ def causal_logprobs(model, batch, *, chunk_size):
     return selected_logprobs(hidden[:, :-1], model.get_output_embeddings(), batch.input_ids[:, 1:], chunk_size)
 
 
+@torch.no_grad()
+def weight_cast_statistics(model, target_dtype):
+    total = maximum = None
+    count = 0
+    for parameter in model.parameters():
+        for chunk in parameter.detach().reshape(-1).split(1024 * 1024):
+            error = (chunk.to(target_dtype).to(chunk.dtype).float() - chunk.float()).abs()
+            value, peak = error.sum(), error.max()
+            total = value if total is None else total + value
+            maximum = peak if maximum is None else torch.maximum(maximum, peak)
+            count += chunk.numel()
+    if not count:
+        raise ValueError("cannot measure an empty model")
+    return {"target_dtype": str(target_dtype), "parameter_values": count,
+            "mean_absolute_error": float(total / count), "max_absolute_error": float(maximum)}
+
+
 class GRPOTrainer:
     def __init__(self, model, optimizer, *, config=None, pad_token_id=0, score_fn=causal_logprobs):
         self.model = model
@@ -44,6 +61,12 @@ class GRPOTrainer:
             raise ValueError("forced diagnostic trajectories are not sampled RL training data")
         if len({r["policy_version"] for r in records}) != 1:
             raise ValueError("synchronous training requires a single rollout policy version")
+        prompts_by_group = {}
+        for record in records:
+            prompt = tuple(record["prompt_ids"])
+            previous = prompts_by_group.setdefault(record["group_id"], prompt)
+            if previous != prompt:
+                raise ValueError("responses in one group must have identical prompt tokens")
         accumulation_count(len(records), self.config)
         advantages, group_stats = group_advantages(rewards, [r["group_id"] for r in records],
                                                    group_size=self.config.group_size,
@@ -54,6 +77,7 @@ class GRPOTrainer:
                   "policy_version": records[0]["policy_version"], "beta": 0,
                   "advantage_values": advantages.tolist()}
         if total_tokens == 0 or not advantages.count_nonzero():
+            self.optimizer.zero_grad(set_to_none=True)
             result["skip_reason"] = "empty_mask" if total_tokens == 0 else "zero_advantages"
             return result
         # HF activation checkpointing is gated on training mode. Disable dropout
@@ -93,37 +117,48 @@ class GRPOTrainer:
                 counters.append(stats)
             grad_norm = torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.config.max_grad_norm,
                                                        error_if_nonfinite=True)
+            n = sum(s["valid_tokens"] for s in counters)
+            step_metrics = {"index": update, "loss": loss_value, "grad_norm": float(grad_norm),
+                            "current_anchor_ratio_mean": sum(s["ratio_sum"] for s in counters) / n,
+                            "ratio_outside_fraction": sum(s["ratio_outside"] for s in counters) / n,
+                            "clip_active_fraction": sum(s["clip_active"] for s in counters) / n,
+                            "ratio_min": min(s["ratio_min"] for s in counters if s["valid_tokens"]),
+                            "ratio_max": max(s["ratio_max"] for s in counters if s["valid_tokens"])}
             if grad_norm <= 0:
                 result["skip_reason"] = "zero_gradient"
+                step_metrics.update(optimizer_step=False, max_observed_parameter_delta=0.)
+                result["steps"].append(step_metrics)
                 break
             observation = self._observe_nonzero_gradient()
             self.optimizer.step()
-            parameter, start, before = observation
-            change = float((parameter.detach().reshape(-1)[start:start + len(before)] - before).abs().max())
+            change = max(float((parameter.detach().reshape(-1)[start:start + len(before)] - before).abs().max())
+                         for parameter, start, before in observation)
             if change == 0:
                 raise RuntimeError("optimizer did not change the observed nonzero-gradient parameter")
-            n = sum(s["valid_tokens"] for s in counters)
-            result["steps"].append({"index": update, "loss": loss_value, "grad_norm": float(grad_norm),
-                                    "max_observed_parameter_delta": change,
-                                    "current_anchor_ratio_mean": sum(s["ratio_sum"] for s in counters) / n,
-                                    "ratio_outside_fraction": sum(s["ratio_outside"] for s in counters) / n,
-                                    "clip_active_fraction": sum(s["clip_active"] for s in counters) / n,
-                                    "ratio_min": min(s["ratio_min"] for s in counters if s["valid_tokens"]),
-                                    "ratio_max": max(s["ratio_max"] for s in counters if s["valid_tokens"])})
+            step_metrics.update(optimizer_step=True, max_observed_parameter_delta=change)
+            result["steps"].append(step_metrics)
             result["updated"] = True
+        self.optimizer.zero_grad(set_to_none=True)
         return result
 
     def _observe_nonzero_gradient(self):
         parameters = sorted((p for p in self.model.parameters() if p.grad is not None), key=lambda p: p.numel())
+        observations = []
         for p in parameters:
             flat_grad = p.grad.detach().reshape(-1)
             for start in range(0, flat_grad.numel(), 4096):
                 if flat_grad[start:start + 4096].count_nonzero():
-                    return p, start, p.detach().reshape(-1)[start:start + 4096].clone()
+                    observations.append((p, start, p.detach().reshape(-1)[start:start + 4096].clone()))
+                    break
+            if len(observations) == 8:
+                return observations
+        if observations:
+            return observations
         raise RuntimeError("no nonzero gradient found despite positive global norm")
 
 
-def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=128, sampling_config=None):
+def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=128, sampling_config=None,
+                  trajectory_callback=None):
     from nanovllm import SamplingParams
     size = trainer.config.group_size
     expanded = [prompt for prompt in prompts for _ in range(size)]
@@ -136,6 +171,8 @@ def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=
     start = stamp()
     records = engine.generate(expanded, SamplingParams(max_tokens=max_tokens), request_ids=requests,
                               group_ids=groups, sampling_config=sampling_config, use_tqdm=False)
+    if trajectory_callback is not None:
+        trajectory_callback(records)
     after_rollout = stamp()
     if any(r["policy_version"] != engine.policy_version for r in records):
         raise RuntimeError("rollout records do not match the committed engine version")
@@ -144,6 +181,8 @@ def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=
         raise RuntimeError("rollout request identity/count mismatch")
     rewards = [reward_fn(record, prompt_by_group[record["group_id"]]) for record in records]
     after_reward = stamp()
+    cast_error = weight_cast_statistics(trainer.model, engine.config.hf_config.dtype)
+    after_cast_diagnostics = stamp()
     metrics = trainer.update(records, rewards)
     after_training = stamp()
     old_version = engine.policy_version
@@ -151,7 +190,10 @@ def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=
         engine.update_weights(trainer.model.state_dict())
     after_sync = stamp()
     metrics.update(rewards=rewards, old_policy_version=old_version, new_policy_version=engine.policy_version,
+                   rollout_includes_persistence=trajectory_callback is not None,
+                   pre_update_weight_cast_error=cast_error,
                    timings={"rollout": after_rollout - start, "reward": after_reward - after_rollout,
-                            "training": after_training - after_reward, "sync": after_sync - after_training,
+                            "weight_cast_diagnostics": after_cast_diagnostics - after_reward,
+                            "training": after_training - after_cast_diagnostics, "sync": after_sync - after_training,
                             "total": after_sync - start})
     return records, metrics

@@ -1,4 +1,8 @@
 import tempfile
+import copy
+import json
+from pathlib import Path
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -9,6 +13,7 @@ from lockstep_rl.grpo import GRPOConfig
 from lockstep_rl.trainer import GRPOTrainer
 from lockstep_rl.batch import collate_rollouts
 from lockstep_rl.scoring import load_effective_hf, score_records
+from lockstep_rl.checkpoint import save_actor_checkpoint
 from nanovllm.models.qwen3 import Qwen3ForCausalLM as NanoQwen3
 from nanovllm.utils.loader import load_model
 from nanovllm.utils.weight_update import commit_weight_update, prepare_weight_update
@@ -23,6 +28,23 @@ def config():
 
 
 class TinyQwenTest(unittest.TestCase):
+    def test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged(self):
+        model = Qwen3ForCausalLM(config())
+        master = {name: value.detach().clone() for name, value in model.state_dict().items()}
+        actor_config = copy.deepcopy(model.config)
+        actor_config.dtype = torch.bfloat16
+        tokenizer = SimpleNamespace(save_pretrained=lambda path: None)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "actor"
+            save_actor_checkpoint(model, actor_config, tokenizer, path, policy_version=7)
+            loaded = load_effective_hf(path, dtype=torch.bfloat16, device="cpu")
+            self.assertEqual(json.loads((path / "_lockstep_model.json").read_text())["policy_version"], 7)
+        for name, value in model.state_dict().items():
+            torch.testing.assert_close(value, master[name], atol=0, rtol=0)
+        for left, right in zip(model.parameters(), loaded.parameters()):
+            torch.testing.assert_close(right, left.to(torch.bfloat16), atol=0, rtol=0)
+        self.assertEqual(loaded.lm_head.weight.data_ptr(), loaded.model.embed_tokens.weight.data_ptr())
+
     def test_teacher_forcing_matches_full_logits_at_response_positions(self):
         torch.manual_seed(8)
         model = Qwen3ForCausalLM(config()).eval()

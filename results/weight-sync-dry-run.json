@@ -1,0 +1,299 @@
+{
+  "status": "GPU_PENDING",
+  "jobs": [
+    {
+      "name": "sample",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--case",
+        "sample",
+        "--output-dir",
+        "results/weight-sync/sample"
+      ]
+    },
+    {
+      "name": "eager-fresh-0",
+      "backend": "eager",
+      "mode": "fresh",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "eager",
+        "--output-dir",
+        "results/weight-sync/eager-fresh-0"
+      ]
+    },
+    {
+      "name": "eager-fresh-1",
+      "backend": "eager",
+      "mode": "fresh",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "eager",
+        "--output-dir",
+        "results/weight-sync/eager-fresh-1"
+      ]
+    },
+    {
+      "name": "eager-fresh-2",
+      "backend": "eager",
+      "mode": "fresh",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "eager",
+        "--output-dir",
+        "results/weight-sync/eager-fresh-2"
+      ]
+    },
+    {
+      "name": "eager-hot-0",
+      "backend": "eager",
+      "mode": "hot",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--output-dir",
+        "results/weight-sync/eager-hot-0"
+      ]
+    },
+    {
+      "name": "eager-hot-1",
+      "backend": "eager",
+      "mode": "hot",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--output-dir",
+        "results/weight-sync/eager-hot-1"
+      ]
+    },
+    {
+      "name": "eager-hot-2",
+      "backend": "eager",
+      "mode": "hot",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--output-dir",
+        "results/weight-sync/eager-hot-2"
+      ]
+    },
+    {
+      "name": "graph-fresh-0",
+      "backend": "graph",
+      "mode": "fresh",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "graph",
+        "--output-dir",
+        "results/weight-sync/graph-fresh-0"
+      ]
+    },
+    {
+      "name": "graph-fresh-1",
+      "backend": "graph",
+      "mode": "fresh",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "graph",
+        "--output-dir",
+        "results/weight-sync/graph-fresh-1"
+      ]
+    },
+    {
+      "name": "graph-fresh-2",
+      "backend": "graph",
+      "mode": "fresh",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "graph",
+        "--output-dir",
+        "results/weight-sync/graph-fresh-2"
+      ]
+    },
+    {
+      "name": "graph-hot-0",
+      "backend": "graph",
+      "mode": "hot",
+      "repeat": 0,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--output-dir",
+        "results/weight-sync/graph-hot-0"
+      ]
+    },
+    {
+      "name": "graph-hot-1",
+      "backend": "graph",
+      "mode": "hot",
+      "repeat": 1,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--output-dir",
+        "results/weight-sync/graph-hot-1"
+      ]
+    },
+    {
+      "name": "graph-hot-2",
+      "backend": "graph",
+      "mode": "hot",
+      "repeat": 2,
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/weight-sync.json",
+        "--model-b",
+        "results/weight-sync/model-B",
+        "--trajectory",
+        "results/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--output-dir",
+        "results/weight-sync/graph-hot-2"
+      ]
+    }
+  ],
+  "tolerances": {
+    "atol": 0.001,
+    "rtol": 0.001
+  }
+}

@@ -1,13 +1,42 @@
 # Lockstep-RL progress
 
-## Current objective: GPU-validation-ready development (in progress)
+## Current objective: GPU-validation-ready code delivery
 
 The user updated the goal on 2026-10-26: implement all required modules, run CPU
 checks, and prepare every GPU experiment for manual execution. Do not run CUDA
 work or download large models/data autonomously. GPU validation does not block
 independent coding. The technical scope remains in `PLAN.md`; dates are advisory.
 
-### Current implementation
+### Final CPU-verified delivery
+
+- All mandatory A–E source modules and their manual experiment entry points are
+  implemented. The detailed requirement/evidence map is docs/acceptance-audit.md.
+- Final full suite: **55 CPU tests passed in 112.181s**. Ruff E9/F, compileall,
+  Bash syntax, dependency consistency, 16 documentation blocks and six dry plans
+  passed. Wheel build and isolated CPU imports passed; 34 library sources match
+  the packaged bytes. See results/ for raw records.
+- Completed the subprocess-isolated three-way/path matrix, exact original Git
+  source benchmark, sampler compute benchmark, prelocked-tolerance A/B recovery
+  suite, and independent local evaluation. None was run on a real GPU.
+- Added explicit torch.compile control separate from CUDA graph mode, checked
+  against versioned official Context7 docs and a CPU backend-counter test.
+- Added actual BF16 weight-cast diagnostics, all-clipped zero-gradient records,
+  gradient release, early trajectory persistence/failure records and an optional
+  actor-effective checkpoint with exact CPU round-trip tests.
+- Review fixed partial parameter aliases, incomplete initial checkpoints, global
+  dtype/device restoration and preserving unrelated existing process groups on
+  rejected initialization. Concurrency tests verify new admission gets the
+  successfully committed version.
+- First checkpoint: db946ee. Final code/documentation checkpoint is delivered as
+  HEAD and identified in the final response. No remote push was performed.
+- All real GPU gates remain GPU_PENDING. Continue manually from GPU_RUNBOOK.md;
+  FA2/SM120, numerical tolerances, actual memory and learning signal may need fixes
+  after those measurements. No throughput or Qwen3 learning claim is made.
+
+The sections below preserve the earlier development history; later delivery
+status above supersedes their intermediate remaining-work notes.
+
+### Intermediate implementation history
 
 - A: Integrated FP32 selected-token scores, aligned response masks, EOS/length,
   request/group IDs, policy versions and sampling metadata. Added fixed-token
@@ -60,7 +89,7 @@ independent coding. The technical scope remains in `PLAN.md`; dates are advisory
   and torchvision CUDA 12.8 conflict. The independent CPU environment resolves
   this without changing the old environment; its complete suite passed.
 
-### Next work
+### Intermediate next-work notes (completed in final delivery)
 
 1. Finish the manual fixed-trajectory/path matrix and three-way comparison driver,
    with guaranteed trigger checks and raw provenance.
