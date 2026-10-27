@@ -1,0 +1,38 @@
+[
+  {
+    "url": "https://pypi.tuna.tsinghua.edu.cn/simple/uv/",
+    "code": 0,
+    "headers": "HTTP/2 200 \nserver: nginx/1.22.1\ndate: Tue, 27 Oct 2026 07:34:18 GMT\ncontent-type: text/html\ncontent-length: 1844354\nlast-modified: Tue, 27 Oct 2026 00:51:22 GMT\nvary: Accept-Encoding\netag: \"6adff58a-1c2482\"\naccept-ranges: bytes\n\n",
+    "error": ""
+  },
+  {
+    "url": "https://repo.anaconda.com/pkgs/main/linux-64/current_repodata.json",
+    "code": 0,
+    "headers": "HTTP/2 200 \ndate: Tue, 27 Oct 2026 07:34:24 GMT\ncontent-type: application/json\ncontent-length: 18814488\ncf-ray: a51004a5cc39d12a-LAX\ncf-cache-status: HIT\naccept-ranges: bytes\nage: 18156\ncache-control: public, max-age=30\netag: \"ff24ecfdac7120bba3e54ab6aace05d2\"\nexpires: Tue, 27 Oct 2026 07:34:54 GMT\nlast-modified: Tue, 27 Oct 2026 02:31:22 GMT\nserver: cloudflare\ncontent-security-policy: upgrade-insecure-requests; frame-ancestors 'self' https://content.anaconda.com/\nx-robots-tag: noindex\nx-amz-id-2: fFdUSDv+BfwVSqJNLTR689pJ90F21gVR6mKGI1R3LMzZe4g2VsMynsIWLY5KQvcbr+3VAxfS0B9mBJCvMVMr0TSMn/zuFVpN\nx-amz-request-id: VP9Q4SYE1ZEVVFC3\nx-amz-version-id: 4W.9bUEpiZaki.SWRucXtKKSJX9jyq9j\nset-cookie: __cf_bm=fZ_8UYSomET11geeqJtlJ6Yy0RirYtzeVwdroWejG44-1793086464.9300852-1.0.1.1-evrMP1Sc2Kq5Y8Ke7CsuPRcydB9nHEyUtYvR6tPjcLUsL8uQp_4VweY5B_kI3VgZbpoF2ortvxaqv5avOkZ4Q6JyRLIdK5O897AdHsxj_zDRJuyXnI4xo4o5TGB667ez; HttpOnly; SameSite=None; Secure; Path=/; Domain=anaconda.com; Expires=Tue, 27 Oct 2026 08:04:24 GMT\n\n",
+    "error": ""
+  },
+  {
+    "url": "https://download.pytorch.org/whl/cu128/torch/",
+    "code": 0,
+    "headers": "HTTP/2 200 \ncontent-type: text/html\ncontent-length: 89396\nserver: AmazonS3\nlast-modified: Tue, 27 Oct 2026 07:23:05 GMT\nx-amz-server-side-encryption: AES256\nx-amz-version-id: d1v_JJKscoataJWM7G9IBnDRl45uJDtH\naccept-ranges: bytes\ndate: Tue, 27 Oct 2026 07:33:49 GMT\ncache-control: max-age=600, public, must-revalidate\netag: \"6d25695b2f0f86f35f8c4ebe3c4365c8\"\nx-cache: Hit from cloudfront\nvia: 1.1 3ed8c48da1db0ee107820298e6b3753a.cloudfront.net (CloudFront)\nx-amz-cf-pop: HKG61-P1\nx-amz-cf-id: mG5MBd1T6utlbLXDf595_d8w8FW3DKg9BOci78keEMt872czFECgCw==\nage: 31\n\n",
+    "error": ""
+  },
+  {
+    "url": "https://hf-mirror.com/api/models/Qwen/Qwen3-0.6B",
+    "code": 0,
+    "headers": "HTTP/2 200 \naccess-control-allow-origin: https://hf-mirror.com\naccess-control-expose-headers: X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash,RateLimit,RateLimit-Policy\naccess-control-max-age: 86400\nage: 5545\nalt-svc: h3=\":443\"; ma=2592000\ncf-cache-status: HIT\ncf-ray: a5100499fd851be3-NRT\ncontent-type: application/json; charset=utf-8\ncross-origin-opener-policy: same-origin\ndate: Tue, 27 Oct 2026 07:34:23 GMT\netag: W/\"2362-vSVcVwyzsafrBdUp8lDGjJUD34g\"\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nratelimit: \"api\";r=499;t=269\nratelimit-policy: \"fixed window\";\"api\";q=500;w=300\nreferrer-policy: strict-origin-when-cross-origin\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Yi0hpS9UAPdRoj5BpZoaWEmSFcou4vJtZjqfSRNKB9etGCHtM1Qu3yh21OnST7qHCMI0ndYvFU9lRPa%2BMTBq3C%2BMM4Ms3QL1O3%2FN%2FyKquaod%2FBg5MFgZRlOt3fbxexFskQimRI71pKo%3D\"}]}\nserver: cloudflare\nstrict-transport-security: max-age=31536000\nvary: Origin, Accept-Encoding\nvia: 2.0 Caddy\nvia: 2.0 Caddy\nvia: 2.0 Caddy\nvia: 1.1 d694eac03cd6dc48a34be10ef919bdd4.cloudfront.net (CloudFront)\nx-amz-cf-id: 9f5Yc4a-GnqPZqKDSPVp6Vg0c3RTZhi2_q0fNIXmIPM6jDhTdah2Sw==\nx-amz-cf-pop: NRT12-P2\nx-cache: Miss from cloudfront\nx-powered-by: huggingface-moon\nx-request-id: Root=1-6ae03e55-4a15146b35689ac76355e1a6;a94ab1ad-bf35-4f92-a07a-2159691eb1b1\n\n",
+    "error": ""
+  },
+  {
+    "url": "https://huggingface.co/api/models/Qwen/Qwen3-0.6B",
+    "code": 28,
+    "headers": "",
+    "error": "curl: (28) Failed to connect to huggingface.co port 443 after 5211 ms: Connection timed out\n"
+  },
+  {
+    "url": "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3.post2/flash_attn-2.8.3.post2%2Bcu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl",
+    "code": 28,
+    "headers": "",
+    "error": "curl: (28) Connection timeout after 10001 ms\n"
+  }
+]

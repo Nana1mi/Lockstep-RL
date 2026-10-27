@@ -1,0 +1,5 @@
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting nvidia-cufile-cu12==1.13.1.3
+  Downloading https://pypi.nvidia.com/nvidia-cufile-cu12/nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+Saved /root/gpufree-data/lockstep/wheelhouse/nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+Successfully downloaded nvidia-cufile-cu12

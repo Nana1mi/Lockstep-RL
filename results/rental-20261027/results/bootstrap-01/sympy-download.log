@@ -1,0 +1,6 @@
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting sympy>=1.13.3
+  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Saved /root/gpufree-data/lockstep/wheelhouse/sympy-1.14.0-py3-none-any.whl
+Successfully downloaded sympy

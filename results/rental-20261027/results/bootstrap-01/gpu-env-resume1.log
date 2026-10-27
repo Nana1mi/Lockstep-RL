@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/root/gpufree-data/lockstep/ops/resume_gpu_env.py", line 24, in <module>
+    metadata = urllib.request.urlopen(metadata_url, timeout=30).read().decode()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/gpufree-data/lockstep/py311/lib/python3.11/http/client.py", line 504, in read
+    s = self._safe_read(self.length)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/gpufree-data/lockstep/py311/lib/python3.11/http/client.py", line 667, in _safe_read
+    raise IncompleteRead(data, amt - len(data))
+http.client.IncompleteRead: IncompleteRead(29227 bytes read, 1527 more expected)
+
+[lockstep-task] {"returncode": 1, "timed_out": false, "error": null, "timeout_seconds": 839.99999833107, "wall_seconds": 0.8643353140214458, "pid": 6694, "process_group": 6694, "nccl_port": null, "cleanup": {"process_groups": [], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

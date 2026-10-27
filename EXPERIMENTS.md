@@ -149,3 +149,34 @@ CPU新增验证覆盖卡名/驱动/区域/mount门槛、根分区bind拒绝、�
 无site-packages进程模拟18项/4.223秒，全部OK。包内38份库源码通过字节校验；真实网络、磁盘、
 显存、驱动/ABI与L40S吞吐仍GPU_PENDING。初次CRLF安装保护失败及修复前TIME_WAIT日志是历史失败证据，
 当前通过状态见最新full CPU/artifact/package日志和源码指纹，不能把它们当作真卡验证。
+
+
+## 2026-10-27 授权 L40S 远程验证（当前证据）
+
+用户在本会话提供租卡 SSH、授权必需资产下载和远程 GPU 测试，并续费两小时用于完成实验环境。
+本次实测：NVIDIA L40S，驱动580.126.09，安徽区；数据盘/root/gpufree-data，
+PERSIST=/root/gpufree-data/lockstep；Python3.11、torch2.8.0+cu128、Transformers5.5.4、
+官方FA2 2.8.3.post2固定wheel/hash。环境与缓存、模型、数据、结果均在持久盘；没有更换注意力后端。
+直连网络受限，通过本机Clash的SSH loopback反向隧道获取官方资产；没有公开代理端口。
+
+- 环境CUDA与六项注意力/分页KV/Triton/CUDA graph检查通过。
+- preflight-01短基线24/24通过：原版/current/live-FP32/cached-FP32 × eager/graph ×3独立进程。
+  仅short-single，32输入/32输出；不是完整96-worker、多长度/多请求性能结论。编排墙钟1178.52秒。
+- readiness-grpo-02通过：seed0，temperature1，max_tokens128，4 prompts×G8，2轮，lr5e-6，
+  microbatch4/accumulation8，checkpointing开启，enforce_eager=true，推理fraction0.3。
+  真实奖励产生2次optimizer step、1次policy commit；另1轮因奖励全相同跳过。
+  bf16 actor变化比例0.0658077364，固定探针logprob最大变化0.0465011597；
+  三阶段同步和0.032931759秒（单次观测，不能概括同步性能）。这是闭环冒烟，不是学习效果证据。
+- 演示显存探针通过：同卡fraction0.4，microbatch16，sequence256，无checkpointing，2步AdamW。
+  峰值allocated36920615424 B、reserved38321258496 B；最低观察free8790540288 B。
+  这是给定形状的容量证据，不保证2048-token长上下文或所有真实rollout形状。
+- GSM8K四个互斥子集与Qwen3-0.6B官方资产下载、revision及文件hash清单完成。
+- 发现并修复两个真实安装/入口问题：FA2 --no-deps安装缺einops；Transformers5.5.4
+  apply_chat_template默认BatchEncoding，显式return_dict=False恢复token列表契约。
+  最初训练失败与下载超时原始日志保留，不以重试覆盖。
+- 修复后CPU2.11完整109项/135.595秒、CPU2.8完整109项/133.487秒，均通过；
+  新回归覆盖Transformers5聊天token返回契约。CPU日志不是GPU精度证据。
+
+完整32轨迹诊断、抢占/缓存对照、专门权重同步阴性对照、长上下文吞吐、两档学习率120轮学习实验
+仍为GPU_PENDING。没有运行完整演示、没有保存训练checkpoint、没有自动续费或停止租卡实例。
+原始证据目录见results/rental-20261027/README.md及轻量ZIP；真实模型、数据内容、环境、wheel均不入包。

@@ -1,0 +1,67 @@
+{
+  "status": "managed_python_ready",
+  "persistent_root": "/root/gpufree-data/lockstep",
+  "environment": {
+    "UV_PYTHON_INSTALL_DIR": "/root/gpufree-data/lockstep/python",
+    "UV_CACHE_DIR": "/root/gpufree-data/lockstep/uv-cache"
+  },
+  "commands": [],
+  "note": "Preserve the same absolute mount path/OS/architecture. Recreate venv if those change.",
+  "provider": "conda",
+  "source_archive": null,
+  "python": {
+    "version": [
+      3,
+      11
+    ],
+    "base_prefix": "/root/gpufree-data/lockstep/py311",
+    "executable": "/root/gpufree-data/lockstep/py311/bin/python3.11"
+  },
+  "resolved_executable": "/root/gpufree-data/lockstep/py311/bin/python3.11"
+}
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting torch==2.8.0+cu128
+  Downloading https://download-r2.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (30 kB)
+Collecting filelock (from torch==2.8.0+cu128)
+  Downloading filelock-3.32.3-py3-none-any.whl.metadata (2.0 kB)
+Collecting typing-extensions>=4.10.0 (from torch==2.8.0+cu128)
+  Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting sympy>=1.13.3 (from torch==2.8.0+cu128)
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx (from torch==2.8.0+cu128)
+  Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+Collecting jinja2 (from torch==2.8.0+cu128)
+  Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec (from torch==2.8.0+cu128)
+  Downloading fsspec-2026.7.0-py3-none-any.whl.metadata (10 kB)
+Collecting nvidia-cuda-nvrtc-cu12==12.8.93 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cuda-nvrtc-cu12/nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 88.0/88.0 MB 1.8 MB/s eta 0:00:00
+Collecting nvidia-cuda-runtime-cu12==12.8.90 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cuda-runtime-cu12/nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 954.8/954.8 kB 2.1 MB/s eta 0:00:00
+Collecting nvidia-cuda-cupti-cu12==12.8.90 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cuda-cupti-cu12/nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.2/10.2 MB 1.5 MB/s eta 0:00:00
+Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cudnn-cu12/nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 706.8/706.8 MB 4.4 MB/s eta 0:00:00
+Collecting nvidia-cublas-cu12==12.8.4.1 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cublas-cu12/nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 594.3/594.3 MB 8.0 MB/s eta 0:00:00
+Collecting nvidia-cufft-cu12==11.3.3.83 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cufft-cu12/nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (193.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 193.1/193.1 MB 5.7 MB/s eta 0:00:00
+Collecting nvidia-curand-cu12==10.3.9.90 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-curand-cu12/nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (63.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.6/63.6 MB 3.5 MB/s eta 0:00:00
+Collecting nvidia-cusolver-cu12==11.7.3.90 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cusolver-cu12/nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (267.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 267.5/267.5 MB 1.9 MB/s eta 0:00:00
+Collecting nvidia-cusparse-cu12==12.5.8.93 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cusparse-cu12/nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (288.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 288.2/288.2 MB 1.6 MB/s eta 0:00:00
+Collecting nvidia-cusparselt-cu12==0.7.1 (from torch==2.8.0+cu128)
+  Downloading https://pypi.nvidia.com/nvidia-cusparselt-cu12/nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+
+[lockstep-task] {"returncode": 124, "timed_out": true, "error": "task wall-clock timeout", "timeout_seconds": 999.9999988079071, "wall_seconds": 1000.0533951210091, "pid": 754, "process_group": 754, "nccl_port": null, "cleanup": {"process_groups": [754], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

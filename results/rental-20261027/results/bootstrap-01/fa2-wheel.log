@@ -1,0 +1,8 @@
+Fetching pinned official wheel
+downloaded_bytes 52428800
+downloaded_bytes 104857600
+downloaded_bytes 157286400
+downloaded_bytes 209715200
+{"bytes": 256238631, "sha256": "92aabf18ecfcf5d620ac7fe97fafe88f83e714b7a790e4bf219dff4a404cfb38", "wheel": "/root/gpufree-data/lockstep/wheels/flash_attn-2.8.3.post2+cu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl"}
+
+[lockstep-task] {"returncode": 0, "timed_out": false, "error": null, "timeout_seconds": 899.9999985694885, "wall_seconds": 55.94667624204885, "pid": 697, "process_group": 697, "nccl_port": null, "cleanup": {"process_groups": [], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

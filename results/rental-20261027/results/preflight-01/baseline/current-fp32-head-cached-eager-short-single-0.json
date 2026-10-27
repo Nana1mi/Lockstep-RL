@@ -1,0 +1,292 @@
+{
+  "source": "current",
+  "module_path": "/root/gpufree-data/lockstep/repo/nanovllm/__init__.py",
+  "backend": "eager",
+  "fp32_lm_head": true,
+  "cache_fp32_lm_head": true,
+  "module_import_seconds": 0.9291712429840118,
+  "case": "short-single",
+  "config": {
+    "model": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+    "seed": 0,
+    "torch_compile": true,
+    "process_repeats": 3,
+    "steady_repeats": 3,
+    "power_mode": "L40S observed power limit350W; platform default clocks, no clock changes",
+    "engine": {
+      "gpu_memory_utilization": 0.5,
+      "max_num_batched_tokens": 2048,
+      "max_model_len": 2048,
+      "max_num_seqs": 8,
+      "tensor_parallel_size": 1
+    },
+    "cases": {
+      "short-single": {
+        "requests": 1,
+        "input_tokens": 32,
+        "output_tokens": 32
+      }
+    },
+    "validation_status": "GPU_PENDING; full rollout-data-contract overhead vs exact original source"
+  },
+  "numerical_settings": {
+    "tf32_matmul": false,
+    "tf32_cudnn": false,
+    "bf16_reduced_precision_reduction": false,
+    "torch_compile_enabled": true,
+    "compiler_stance": "default"
+  },
+  "provenance": {
+    "timestamp_utc": "2026-10-27T08:48:23.793449+00:00",
+    "rental_region": "\u5b89\u5fbd\u533a",
+    "platform": "Linux-5.15.0-198-generic-x86_64-with-glibc2.35",
+    "python": "3.11.18 (main, Oct 26 2026, 18:19:35) [GCC 14.3.0]",
+    "commit": {
+      "returncode": 0,
+      "stdout": "3f59e33e5340bbb1827023e18db6fd0168b4fb02\n",
+      "stderr": ""
+    },
+    "status": {
+      "returncode": 0,
+      "stdout": " M scripts/setup_gpu_env.sh\n?? results/stage0/model.json\n",
+      "stderr": ""
+    },
+    "diff_sha256": "530b7f47439da16ccba62215a3da9367ca65f56184eae762d8710efecb26d723",
+    "diff": {
+      "returncode": 0,
+      "stdout": "diff --git a/scripts/setup_gpu_env.sh b/scripts/setup_gpu_env.sh\nindex 7b134de..5e7b74e 100644\n--- a/scripts/setup_gpu_env.sh\n+++ b/scripts/setup_gpu_env.sh\n@@ -41,7 +41,7 @@ if [[ -n \"$wheelhouse\" ]]; then\n else\n   \"$venv_python\" -m pip install 'torch==2.8.0+cu128' --index-url \"$torch_index\"\n fi\n-\"$venv_python\" -m pip install --index-url \"$pip_index\" 'transformers==5.5.4' packaging psutil wheel 'setuptools>=77' numpy xxhash safetensors tqdm matplotlib datasets ruff\n+\"$venv_python\" -m pip install --index-url \"$pip_index\" 'transformers==5.5.4' einops packaging psutil wheel 'setuptools>=77' numpy xxhash safetensors tqdm matplotlib datasets ruff\n \"$venv_python\" scripts/verify_gpu_wheel.py --wheel \"$wheel_file\"\n \"$venv_python\" -m pip install --only-binary=:all: --no-deps \"$wheel_file\"\n \"$venv_python\" -m pip install --no-deps --no-build-isolation -e .\n",
+      "stderr": ""
+    },
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.5.4",
+      "triton": "3.4.0",
+      "flash-attn": "2.8.3.post2",
+      "numpy": "2.4.6"
+    },
+    "gpu_inventory": {
+      "returncode": 0,
+      "stdout": "name, memory.total [MiB], driver_version\nNVIDIA L40S, 46068 MiB, 580.126.09\n",
+      "stderr": ""
+    },
+    "torch_cuda_build": "12.8",
+    "model": {
+      "repo": "Qwen/Qwen3-0.6B",
+      "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "source": {
+        "kind": "huggingface",
+        "endpoint": "https://huggingface.co"
+      },
+      "requested_revision": "main",
+      "local_path": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+      "status": "complete",
+      "files": {
+        "config.json": {
+          "bytes": 726,
+          "sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd"
+        },
+        "generation_config.json": {
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        },
+        "merges.txt": {
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        "model.safetensors": {
+          "bytes": 1503300328,
+          "sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+        },
+        "tokenizer.json": {
+          "bytes": 11422654,
+          "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+        },
+        "tokenizer_config.json": {
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "vocab.json": {
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      }
+    }
+  },
+  "status": "completed",
+  "initialization_seconds": 44.59757353598252,
+  "cold_scope": "new process; disk/compiler caches may be warm; constructor and module imports recorded separately",
+  "kv_blocks": 725,
+  "fp32_head_cache_bytes": 622329856,
+  "warmup_seconds": 1.6416751600336283,
+  "prompt_token_ids": [
+    [
+      6411,
+      6990,
+      763,
+      4342,
+      8476,
+      8061,
+      6734,
+      5069,
+      7908,
+      5966,
+      9658,
+      3678,
+      8368,
+      2381,
+      4717,
+      2389,
+      1653,
+      4204,
+      8825,
+      9961,
+      2507,
+      5181,
+      1718,
+      1308,
+      5509,
+      7835,
+      9271,
+      1749,
+      5896,
+      7213,
+      5280,
+      3450
+    ]
+  ],
+  "cache_state": "same prompts warmed, prefix cache retained",
+  "measurements": [
+    {
+      "repeat": 0,
+      "seconds": 0.4680287860101089,
+      "output_tokens": 32,
+      "output_tokens_per_second": 68.37186292064702,
+      "peak_allocated_bytes": 23132989440,
+      "peak_reserved_bytes": 23204986880,
+      "response_ids": [
+        [
+          3540,
+          44370,
+          10757,
+          28543,
+          9256,
+          6593,
+          9256,
+          6593,
+          62,
+          17,
+          22236,
+          356,
+          29999,
+          77587,
+          79842,
+          12924,
+          867,
+          3450,
+          3540,
+          44370,
+          10757,
+          28543,
+          9256,
+          6593,
+          9256,
+          6593,
+          62,
+          17,
+          22236,
+          356,
+          29999,
+          77587
+        ]
+      ]
+    },
+    {
+      "repeat": 1,
+      "seconds": 0.46201691403985023,
+      "output_tokens": 32,
+      "output_tokens_per_second": 69.26153356636617,
+      "peak_allocated_bytes": 23132989440,
+      "peak_reserved_bytes": 23204986880,
+      "response_ids": [
+        [
+          28157,
+          148374,
+          23981,
+          2647,
+          136661,
+          244,
+          32610,
+          132495,
+          21660,
+          12924,
+          2005,
+          198,
+          44227,
+          198,
+          42525,
+          198,
+          77582,
+          1949,
+          12,
+          3652,
+          1234,
+          481,
+          693,
+          2352,
+          325,
+          481,
+          22283,
+          3731,
+          62,
+          76761,
+          198,
+          54521
+        ]
+      ]
+    },
+    {
+      "repeat": 2,
+      "seconds": 0.46690682496409863,
+      "output_tokens": 32,
+      "output_tokens_per_second": 68.53615815630997,
+      "peak_allocated_bytes": 23132989440,
+      "peak_reserved_bytes": 23204986880,
+      "response_ids": [
+        [
+          20606,
+          49049,
+          11,
+          3570,
+          1966,
+          5668,
+          63156,
+          24751,
+          284,
+          330,
+          16369,
+          608,
+          6978,
+          608,
+          3761,
+          9388,
+          396,
+          92,
+          128514,
+          126591,
+          63332,
+          125678,
+          36055,
+          61741,
+          131005,
+          29281,
+          10764,
+          72509,
+          12802,
+          135032,
+          56290,
+          18411
+        ]
+      ]
+    }
+  ]
+}

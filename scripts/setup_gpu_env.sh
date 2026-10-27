@@ -41,7 +41,7 @@ if [[ -n "$wheelhouse" ]]; then
 else
   "$venv_python" -m pip install 'torch==2.8.0+cu128' --index-url "$torch_index"
 fi
-"$venv_python" -m pip install --index-url "$pip_index" 'transformers==5.5.4' packaging psutil wheel 'setuptools>=77' numpy xxhash safetensors tqdm matplotlib datasets ruff
+"$venv_python" -m pip install --index-url "$pip_index" 'transformers==5.5.4' einops packaging psutil wheel 'setuptools>=77' numpy xxhash safetensors tqdm matplotlib datasets ruff
 "$venv_python" scripts/verify_gpu_wheel.py --wheel "$wheel_file"
 "$venv_python" -m pip install --only-binary=:all: --no-deps "$wheel_file"
 "$venv_python" -m pip install --no-deps --no-build-isolation -e .

@@ -11,6 +11,7 @@ from torch import nn
 from safetensors.torch import save_file
 
 from lockstep_rl.experiment_io import exact_chat_prompt, provenance
+from lockstep_rl.data import chat_prompts
 from nanovllm.engine.model_runner import ModelRunner
 from nanovllm.engine.llm_engine import LLMEngine
 from nanovllm.engine.sequence import Sequence
@@ -167,12 +168,24 @@ class ExperimentTest(unittest.TestCase):
     def test_exact_chat_length_preserves_template_and_thinking_option(self):
         class Tokenizer:
             def apply_chat_template(self, messages, **kwargs):
-                if kwargs != {"tokenize": True, "add_generation_prompt": True, "enable_thinking": False}:
+                if kwargs != {"tokenize": True, "return_dict": False, "add_generation_prompt": True, "enable_thinking": False}:
                     raise AssertionError(kwargs)
                 return [1, 2] + [3] * len(messages[0]["content"].split()) + [4, 5]
         prompt = exact_chat_prompt(Tokenizer(), 512)
         self.assertEqual(len(prompt), 512)
         self.assertEqual(prompt[:2], [1, 2]); self.assertEqual(prompt[-2:], [4, 5])
+
+    def test_training_chat_tokens_opt_out_of_transformers5_dictionary_default(self):
+        class Tokenizer:
+            def apply_chat_template(self, messages, **kwargs):
+                self_check = {"tokenize": True, "return_dict": False,
+                              "add_generation_prompt": True, "enable_thinking": False}
+                if kwargs != self_check:
+                    return {"input_ids": [1, 2, 3], "attention_mask": [1, 1, 1]}
+                return [1, len(messages[0]["content"]), 3]
+        prompts = chat_prompts(Tokenizer(), [{"prompt": "first"}, {"prompt": "next"}])
+        self.assertEqual(prompts, [[1, 5, 3], [1, 4, 3]])
+        self.assertTrue(all(isinstance(token, int) for row in prompts for token in row))
 
     def test_missing_or_incomplete_checkpoint_never_silently_uses_random_weights(self):
         model = nn.Linear(2, 2)

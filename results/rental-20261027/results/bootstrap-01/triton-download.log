@@ -1,0 +1,6 @@
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting triton==3.4.0
+  Downloading https://download-r2.pytorch.org/whl/triton-3.4.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+Downloading https://download-r2.pytorch.org/whl/triton-3.4.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (155.5 MB)
+Saved /root/gpufree-data/lockstep/wheelhouse/triton-3.4.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Successfully downloaded triton

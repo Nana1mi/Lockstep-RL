@@ -1,0 +1,58 @@
+Tue Oct 27 08:58:22 UTC 2026
+Tue Oct 27 16:58:22 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.126.09             Driver Version: 580.126.09     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:0E:00.0 Off |                    0 |
+| N/A   35C    P0             78W /  350W |    1755MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2.8.0+cu128 12.8
+Name: flash_attn
+Version: 2.8.3.post2
+Summary: Flash Attention: Fast and Memory-Efficient Exact Attention
+Home-page: https://github.com/Dao-AILab/flash-attention
+Author: Tri Dao
+Author-email: tri@tridao.me
+License: 
+Location: /root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages
+Requires: einops, torch
+Required-by: 
+---
+Name: transformers
+Version: 5.5.4
+Summary: Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training.
+Home-page: https://github.com/huggingface/transformers
+Author: The Hugging Face team (past and future) with the help of all our contributors (https://github.com/huggingface/transformers/graphs/contributors)
+Author-email: transformers@huggingface.co
+License: Apache 2.0 License
+Location: /root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages
+Requires: huggingface-hub, numpy, packaging, pyyaml, regex, safetensors, tokenizers, tqdm, typer
+Required-by: lockstep-rl
+---
+Name: einops
+Version: 0.8.2
+Summary: A new flavour of deep learning operations
+Home-page: 
+Author: Alex Rogozhnikov
+Author-email: 
+License: MIT
+Location: /root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages
+Requires: 
+Required-by: flash_attn
+No broken requirements found.
+Filesystem                                                         Size  Used Avail Use% Mounted on
+overlay                                                             30G  2.5G   27G   9% /
+/dev/mapper/lvmdata-pvc--33933081--e356--49bb--9f24--2791b0e8e8af   49G   15G   35G  31% /root/gpufree-data

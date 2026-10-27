@@ -1,0 +1,1 @@
+{"pid": 15970, "command": ["/usr/bin/python3", "/root/gpufree-data/lockstep/ops/run_command.py", "gsm8k-assets", "600", "/root/gpufree-data/lockstep/envs/nano_rl/bin/python", "scripts/prepare_gsm8k.py", "--allow-download", "--hf-endpoint", "https://huggingface.co", "--output-dir", "/root/gpufree-data/lockstep/data/gsm8k"]}

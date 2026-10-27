@@ -1,0 +1,13 @@
+Collecting einops
+  Downloading einops-0.8.2-py3-none-any.whl.metadata (13 kB)
+Downloading einops-0.8.2-py3-none-any.whl (65 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.6/65.6 kB 195.0 kB/s eta 0:00:00
+Installing collected packages: einops
+Successfully installed einops-0.8.2
+
+[notice] A new release of pip is available: 24.0 -> 26.2.2
+[notice] To update, run: /root/gpufree-data/lockstep/envs/nano_rl/bin/python -m pip install --upgrade pip
+No broken requirements found.
+Dependency closure passed; pinned environment ready for manual GPU smoke
+
+[lockstep-task] {"returncode": 0, "timed_out": false, "error": null, "timeout_seconds": 239.9999988079071, "wall_seconds": 3.9335497769061476, "pid": 7249, "process_group": 7249, "nccl_port": null, "cleanup": {"process_groups": [], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

@@ -1,0 +1,5 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Generating train split:   0%|          | 0/7473 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 7473/7473 [00:00<00:00, 542274.94 examples/s]
+Generating test split:   0%|          | 0/1319 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 1319/1319 [00:00<00:00, 424352.76 examples/s]
+
+[lockstep-task] {"returncode": 0, "timed_out": false, "error": null, "timeout_seconds": 599.9999988079071, "wall_seconds": 10.716684962972067, "pid": 15971, "process_group": 15971, "nccl_port": null, "cleanup": {"process_groups": [], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

@@ -1,0 +1,38 @@
+{
+  "model": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+  "seed": 0,
+  "torch_compile": true,
+  "prompt_tokens": 1024,
+  "num_trajectories": 32,
+  "question_file": "/root/gpufree-data/lockstep/data/gsm8k/diagnostic.jsonl",
+  "fewshot_file": "/root/gpufree-data/lockstep/data/gsm8k/fewshot.jsonl",
+  "response_tokens": 128,
+  "chunk_budget": 64,
+  "batch_size": 4,
+  "preemption_kv_blocks": 8,
+  "threshold": 0.1,
+  "attention_backend": "sdpa",
+  "power_mode": "L40S observed power limit350W; platform default clocks, no clock changes",
+  "engine": {
+    "enforce_eager": true,
+    "tensor_parallel_size": 1,
+    "gpu_memory_utilization": 0.5,
+    "max_num_batched_tokens": 2048,
+    "max_model_len": 2048,
+    "max_num_seqs": 8
+  },
+  "cases": [
+    "eager",
+    "repeat",
+    "prefix",
+    "chunked",
+    "graph",
+    "graph_padding",
+    "batch",
+    "preemption_cached",
+    "preemption_recompute",
+    "fp32_head",
+    "fp32_head_cached"
+  ],
+  "validation_status": "GPU_PENDING"
+}

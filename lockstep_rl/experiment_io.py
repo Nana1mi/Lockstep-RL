@@ -83,7 +83,7 @@ def exact_chat_prompt(tokenizer, length, *, filler=" a"):
     count = max(1, length - 32)
     for _ in range(16):
         ids = tokenizer.apply_chat_template([{"role": "user", "content": filler * count}],
-                                            tokenize=True, add_generation_prompt=True, enable_thinking=False)
+                                            tokenize=True, return_dict=False, add_generation_prompt=True, enable_thinking=False)
         if len(ids) == length:
             return ids
         count += length - len(ids)

@@ -1,0 +1,97 @@
+{
+  "status": "confirmed",
+  "confirmed_at": "2026-10-27T07:44:36.239269+00:00",
+  "expected_gpu_name": "NVIDIA L40S",
+  "gpu": {
+    "name": "NVIDIA L40S",
+    "uuid": "GPU-15c69a4e-c79c-6755-7164-179d13640868",
+    "driver": "580.126.09",
+    "memory": "46068 MiB"
+  },
+  "mount": {
+    "persistent_root": "/root/gpufree-data/lockstep",
+    "data": {
+      "target": "/root/gpufree-data",
+      "source": "/dev/mapper/lvmdata-pvc--33933081--e356--49bb--9f24--2791b0e8e8af",
+      "fstype": "ext4",
+      "maj:min": "253:22"
+    },
+    "system": {
+      "target": "/",
+      "source": "overlay",
+      "fstype": "overlay",
+      "maj:min": "0:310"
+    }
+  },
+  "region": "安徽区",
+  "platform": {
+    "region": "安徽区",
+    "billing": "按量计费",
+    "vcpu": 24,
+    "ram_gb": 120,
+    "system_disk_gb": 30,
+    "data_disk_gb": 50,
+    "data_disk_expand_cny_per_gb_day": 0.01,
+    "image": "开发/CUDA 12.8.0 / Python 3.10 / Ubuntu 22.04 (cuda_only, conda)"
+  },
+  "network": {
+    "pypi.org": {
+      "command": [
+        "curl",
+        "-I",
+        "--connect-timeout",
+        "5",
+        "--max-time",
+        "20",
+        "https://pypi.org"
+      ],
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 Connection established\n\nHTTP/2 200 \nserver: gunicorn\ncontent-type: text/html; charset=UTF-8\nreferrer-policy: origin-when-cross-origin\ncontent-security-policy: base-uri 'self'; connect-src 'self' https://api.github.com/repos/ https://api.github.com/search/issues https://gitlab.com/api/ https://analytics.python.org *.ethicalads.io https://api.pwnedpasswords.com https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/sre/mathmaps/ https://2p66nmmycsj3.statuspage.io; default-src 'none'; font-src 'self'; form-action 'self' https://checkout.stripe.com https://billing.stripe.com; frame-ancestors 'none'; frame-src 'none'; img-src 'self' https://pypi-camo.freetls.fastly.net/ *.ethicalads.io ethicalads.blob.core.windows.net; script-src 'self' https://analytics.python.org *.ethicalads.io 'sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0=' https://cdn.jsdelivr.net/npm/mathjax@3.2.2/ 'sha256-1CldwzdEg2k1wTmf7s5RWVd7NMXI/7nxxjJM2C4DqII='; style-src 'self' *.ethicalads.io 'sha256-2YHqZokjiizkHi1Zt+6ar0XJ0OeEy/egBnlm+MDMtrM=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-JLEjeN9e5dGsz5475WyRaoA4eQOdNPxDIeUhclnJDCE=' 'sha256-mQyxHEuwZJqpxCw3SLmc4YOySNKXunyu2Oiz1r3/wAE=' 'sha256-OCf+kv5Asiwp++8PIevKBYSgnNLNUZvxAp4a7wMLuKA=' 'sha256-h5LOiLhk6wiJrGsG5ItM0KimwzWQH/yAcmoJDJL//bY='\netag: \"ZX4I46w/LrZjl5+77YKUhg\"\naccept-ranges: bytes\ndate: Tue, 27 Oct 2026 07:44:40 GMT\nx-served-by: cache-iad-khef600034-IAD, cache-iad-khef600051-IAD, cache-nrt-rjaa8190051-NRT\nx-cache: MISS, HIT, HIT\nx-cache-hits: 0, 4, 1\nx-timer: S1793087080.247861,VS0,VE2\nvary: Cookie, Accept-Encoding\nstrict-transport-security: max-age=31536000; includeSubDomains; preload\nx-frame-options: deny\nx-xss-protection: 1; mode=block\nx-content-type-options: nosniff\nx-permitted-cross-domain-policies: none\npermissions-policy: publickey-credentials-create=(self),publickey-credentials-get=(self),accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),execution-while-not-rendered=(),execution-while-out-of-viewport=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),hid=(),identity-credentials-get=(),idle-detection=(),local-fonts=(),magnetometer=(),microphone=(),midi=(),otp-credentials=(),payment=(),picture-in-picture=(),screen-wake-lock=(),serial=(),speaker-selection=(),storage-access=(),usb=(),web-share=(),xr-spatial-tracking=()\ncontent-length: 27885\n\n",
+      "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0\n  0 27885    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0\n"
+    },
+    "download.pytorch.org": {
+      "command": [
+        "curl",
+        "-I",
+        "--connect-timeout",
+        "5",
+        "--max-time",
+        "20",
+        "https://download.pytorch.org"
+      ],
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 Connection established\n\nHTTP/2 403 \ncontent-type: application/xml\nx-amz-bucket-region: us-east-1\nserver: AmazonS3\ndate: Tue, 27 Oct 2026 07:44:44 GMT\nx-cache: Error from cloudfront\nvia: 1.1 476ec5a2fffedac4229b9f79c5c3458e.cloudfront.net (CloudFront)\nx-amz-cf-pop: NRT57-P10\nx-amz-cf-id: GzD46GKcIdElkjvZUA9N8kxmZ1okGjOeLUCe2hejauno7mVOXMWV6A==\n\n",
+      "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0\n"
+    },
+    "github.com": {
+      "command": [
+        "curl",
+        "-I",
+        "--connect-timeout",
+        "5",
+        "--max-time",
+        "20",
+        "https://github.com"
+      ],
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 Connection established\n\nHTTP/2 200 \ndate: Tue, 27 Oct 2026 07:44:37 GMT\ncontent-type: text/html; charset=utf-8\nvary: X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, X-Requested-With, X-GitHub-Client-Version, Accept-Language, Sec-Fetch-Site,Accept-Encoding, Accept, X-Requested-With\ncontent-language: en-US\netag: W/\"0071f6e797f895832a6dd106a95eb0e3\"\ncache-control: max-age=0, private, must-revalidate\nstrict-transport-security: max-age=31536000; includeSubdomains; preload\nx-frame-options: deny\nx-content-type-options: nosniff\nx-xss-protection: 0\nreferrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin\ncontent-security-policy: default-src 'none'; base-uri 'self'; child-src github.githubassets.com github.com/assets-cdn/worker/ github.com/assets/ gist.github.com/assets-cdn/worker/; connect-src 'self' uploads.github.com www.githubstatus.com collector.github.com raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com *.rel.tunnels.api.visualstudio.com wss://*.rel.tunnels.api.visualstudio.com github.githubassets.com objects-origin.githubusercontent.com copilot-proxy.githubusercontent.com proxy.individual.githubcopilot.com proxy.business.githubcopilot.com proxy.enterprise.githubcopilot.com *.actions.githubusercontent.com wss://*.actions.githubusercontent.com productionresultssa0.blob.core.windows.net productionresultssa1.blob.core.windows.net productionresultssa2.blob.core.windows.net productionresultssa3.blob.core.windows.net productionresultssa4.blob.core.windows.net productionresultssa5.blob.core.windows.net productionresultssa6.blob.core.windows.net productionresultssa7.blob.core.windows.net productionresultssa8.blob.core.windows.net productionresultssa9.blob.core.windows.net productionresultssa10.blob.core.windows.net productionresultssa11.blob.core.windows.net productionresultssa12.blob.core.windows.net productionresultssa13.blob.core.windows.net productionresultssa14.blob.core.windows.net productionresultssa15.blob.core.windows.net productionresultssa16.blob.core.windows.net productionresultssa17.blob.core.windows.net productionresultssa18.blob.core.windows.net productionresultssa19.blob.core.windows.net productionresultssa30.blob.core.windows.net productionresultssa31.blob.core.windows.net productionresultssa32.blob.core.windows.net github-production-repository-image-32fea6.s3.amazonaws.com github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com wss://alive.github.com wss://alive-staging.github.com api.githubcopilot.com api.individual.githubcopilot.com api.business.githubcopilot.com api.enterprise.githubcopilot.com wss://production-copilot-host.webpubsub.azure.com wss://production-copilot-host-centralus.webpubsub.azure.com wss://production-copilot-host-centralus-02.webpubsub.azure.com wss://production-copilot-host-westus.webpubsub.azure.com api.github.com/cmc_internal/api/ edge.fullstory.com rs.fullstory.com; font-src github.githubassets.com; form-action 'self' github.com gist.github.com copilot-workspace.githubnext.com objects-origin.githubusercontent.com; frame-ancestors 'none'; frame-src viewscreen.githubusercontent.com notebooks.githubusercontent.com www.youtube-nocookie.com; img-src 'self' data: blob: github.githubassets.com media.githubusercontent.com camo.githubusercontent.com identicons.github.com avatars.githubusercontent.com private-avatars.githubusercontent.com github-cloud.s3.amazonaws.com objects.githubusercontent.com release-assets.githubusercontent.com secured-user-images.githubusercontent.com user-images.githubusercontent.com private-user-images.githubusercontent.com opengraph.githubassets.com repository-images.githubusercontent.com marketplace-screenshots.githubusercontent.com copilotprodattachments.blob.core.windows.net/github-production-copilot-attachments/ github-production-user-asset-6210df.s3.amazonaws.com customer-stories-feed.github.com spotlights-feed.github.com explore-feed.github.com *.googleusercontent.com objects-origin.githubusercontent.com *.githubusercontent.com images.ctfassets.net/8aevphvgewt8/; manifest-src 'self'; media-src github.com user-images.githubusercontent.com secured-user-images.githubusercontent.com private-user-images.githubusercontent.com github-production-user-asset-6210df.s3.amazonaws.com gist.github.com github.githubassets.com assets.ctfassets.net/8aevphvgewt8/ videos.ctfassets.net/8aevphvgewt8/; script-src github.githubassets.com 'sha256-6AKuI+cDd1MoUL1u4eqrA9PXmnPAkOB4h7421hPUUm0='; style-src 'unsafe-inline' github.githubassets.com; upgrade-insecure-requests; worker-src github.githubassets.com github.com/assets-cdn/worker/ github.com/assets/ gist.github.com/assets-cdn/worker/\nserver: github.com\naccept-ranges: bytes\nset-cookie: _gh_sess=%2FFs%2FIkhfcRkjSKn3X%2BMObpnMnnh3iO6D%2Fuf0Nk2UfzebCfXpH1jfQW5bgo4wQn6dCzM77lp6IXm44jlxUad5gPh99vwnHG8EtUhFWRK79dpCOt3WydDb%2FsVsBFbEIMSX4P0ZKbqSMFYaF8M7YGmlZps2pReogaRMyZvCnFIKJyk%2FNyo0CVaWibfVbLKAJ5rfYxzkMKQOKWp9AWCdKKgtSDGklB%2Fek9XDuSShVRwwLNSKsfCjobYn2UOauaX5TllwLtjKK5d27ue3RlNOL2WIJg%3D%3D--b%2FE5gD9j6dcnfMHc--tTYSWmWejv7bvqWiOoVJPQ%3D%3D; path=/; HttpOnly; secure; SameSite=Lax\nset-cookie: _octo=GH1.1.274725717.1793087088; expires=Wed, 27 Oct 2027 07:44:48 GMT; domain=.github.com; path=/; secure; SameSite=Lax\nset-cookie: logged_in=no; expires=Wed, 27 Oct 2027 07:44:48 GMT; domain=.github.com; path=/; HttpOnly; secure; SameSite=Lax\nx-github-request-id: 0E2F:271E05:1CC652:2886FD:6AE05670\nx-github-edge-region: japaneast\n\n",
+      "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0\n"
+    },
+    "huggingface.co": {
+      "command": [
+        "curl",
+        "-I",
+        "--connect-timeout",
+        "5",
+        "--max-time",
+        "20",
+        "https://huggingface.co"
+      ],
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 Connection established\n\nHTTP/2 200 \ncontent-type: text/html; charset=utf-8\ncontent-length: 175008\ndate: Tue, 27 Oct 2026 07:44:46 GMT\netag: W/\"2aba0-I0cjsYqRGkNDJVwJ77V4JpyqYL8\"\nx-powered-by: huggingface-moon\nx-request-id: Root=1-6ae0566e-0e797e99411d516d4e136416\ncross-origin-opener-policy: same-origin\nreferrer-policy: strict-origin-when-cross-origin\nlink: </.well-known/ai-catalog.json>; rel=\"ai-catalog\"; type=\"application/ai-catalog+json\"\nlink: </.well-known/api-catalog>; rel=\"api-catalog\"\nx-frame-options: DENY\nx-cache: Hit from cloudfront\nvia: 1.1 c5d8e8ff3b6ac1a7b3dd00013627faf0.cloudfront.net (CloudFront)\nx-amz-cf-pop: NRT12-P2\nalt-svc: h3=\":443\"; ma=86400\nx-amz-cf-id: a25ytofKIcqzCsD7vsNLrRAJu3hXzNbhjFOrEIkMRXkLnasco_TJ6g==\nage: 5\nstrict-transport-security: max-age=31536000\n\n",
+      "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n  0  170k    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n"
+    }
+  },
+  "gpu_validation": "GPU_PENDING",
+  "scope": "read-only metadata; network failures require explicit fallback selection"
+}

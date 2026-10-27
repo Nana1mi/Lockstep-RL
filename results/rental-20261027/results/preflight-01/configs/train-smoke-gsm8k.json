@@ -1,0 +1,38 @@
+{
+  "model": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+  "seed": 0,
+  "reward_parser": "strict",
+  "torch_compile": true,
+  "iterations": 8,
+  "prompts_per_iteration": 1,
+  "max_tokens": 256,
+  "learning_rate": 1e-06,
+  "optimizer": "adamw",
+  "gradient_checkpointing": true,
+  "task": "gsm8k-local",
+  "save_final_checkpoint": false,
+  "train_count": 64,
+  "validation_count": 32,
+  "evaluation_every": 1,
+  "engine": {
+    "enforce_eager": true,
+    "tensor_parallel_size": 1,
+    "gpu_memory_utilization": 0.3,
+    "max_num_batched_tokens": 512,
+    "max_model_len": 2048,
+    "max_num_seqs": 8
+  },
+  "grpo": {
+    "group_size": 4,
+    "clip_epsilon": 0.2,
+    "advantage_epsilon": 1e-06,
+    "anchor": "rollout",
+    "update_steps": 1,
+    "microbatch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "logprob_chunk_size": 32,
+    "max_grad_norm": 1.0,
+    "autocast_bf16": true
+  },
+  "validation_status": "GPU_PENDING; single-seed candidate, not established memory or learning result"
+}

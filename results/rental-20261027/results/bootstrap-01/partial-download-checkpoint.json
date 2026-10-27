@@ -1,0 +1,10 @@
+[
+  {
+    "partial": "/root/gpufree-data/lockstep/wheelhouse/torch-2.8.0+cu128-cp311-cp311-manylinux_2_28_x86_64.whl.part",
+    "bytes": 740075520,
+    "url": "https://download-r2.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp311-cp311-manylinux_2_28_x86_64.whl#sha256=039b9dcdd6bdbaa10a8a5cd6be22c4cb3e3589a341e5f904cbb571ca28f55bed",
+    "expected_sha256": "039b9dcdd6bdbaa10a8a5cd6be22c4cb3e3589a341e5f904cbb571ca28f55bed",
+    "verified": false,
+    "note": "hardlinked current partial; resume only with matching official wheel SHA256"
+  }
+]

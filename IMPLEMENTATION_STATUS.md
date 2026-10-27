@@ -1,5 +1,13 @@
 # Implementation and verification status
 
+**2026-10-27 rental update:** Explicitly authorized L40S execution passed environment,
+six attention/graph tests, 24 short inference baseline workers, a real two-iteration
+GRPO update/sync smoke and the 16×256 co-resident memory probe. Full diagnostics,
+long-context performance and learning claims remain GPU_PENDING. The older
+pre-rental entries below are historical; details and raw data are in
+`results/rental-20261027/README.md`, PROGRESS and EXPERIMENTS.
+
+
 2026-10-27 pre-rental review: finish CPU changes before renting a GPU. No CUDA kernel,
 model/data download or rental was started for this revision. Historical environment
 attempts in PROGRESS are not current validation evidence.

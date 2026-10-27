@@ -1,0 +1,42 @@
+[
+  {
+    "id": "simple-validation-0",
+    "prompt": "Compute 12 * 17. Return only <answer>number</answer>.",
+    "answer": "204"
+  },
+  {
+    "id": "simple-validation-1",
+    "prompt": "Compute 14 * 24. Return only <answer>number</answer>.",
+    "answer": "336"
+  },
+  {
+    "id": "simple-validation-2",
+    "prompt": "Compute 16 * 31. Return only <answer>number</answer>.",
+    "answer": "496"
+  },
+  {
+    "id": "simple-validation-3",
+    "prompt": "Compute 18 * 38. Return only <answer>number</answer>.",
+    "answer": "684"
+  },
+  {
+    "id": "simple-validation-4",
+    "prompt": "Compute 20 * 22. Return only <answer>number</answer>.",
+    "answer": "440"
+  },
+  {
+    "id": "simple-validation-5",
+    "prompt": "Compute 22 * 29. Return only <answer>number</answer>.",
+    "answer": "638"
+  },
+  {
+    "id": "simple-validation-6",
+    "prompt": "Compute 24 * 36. Return only <answer>number</answer>.",
+    "answer": "864"
+  },
+  {
+    "id": "simple-validation-7",
+    "prompt": "Compute 26 * 20. Return only <answer>number</answer>.",
+    "answer": "520"
+  }
+]

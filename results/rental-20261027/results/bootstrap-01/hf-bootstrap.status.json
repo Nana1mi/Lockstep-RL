@@ -1,0 +1,16 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "error": null,
+  "timeout_seconds": 239.9999988079071,
+  "wall_seconds": 44.005281343939714,
+  "pid": 696,
+  "process_group": 696,
+  "nccl_port": null,
+  "cleanup": {
+    "process_groups": [],
+    "sigkill_required": false,
+    "surviving_pids": [],
+    "subreaper": true
+  }
+}

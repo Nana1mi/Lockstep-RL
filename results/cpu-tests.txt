@@ -19,6 +19,7 @@ test_runner_does_not_destroy_a_preexisting_group_when_init_is_rejected (test_exp
 test_runner_init_failure_restores_defaults_and_distributed_state (test_experiments.ExperimentTest.test_runner_init_failure_restores_defaults_and_distributed_state) ... ok
 test_sync_plan_locks_repeated_fresh_references_before_hot (test_experiments.ExperimentTest.test_sync_plan_locks_repeated_fresh_references_before_hot) ... ok
 test_tokenizer_failure_precedes_gpu_runner_and_shared_state_changes (test_experiments.ExperimentTest.test_tokenizer_failure_precedes_gpu_runner_and_shared_state_changes) ... ok
+test_training_chat_tokens_opt_out_of_transformers5_dictionary_default (test_experiments.ExperimentTest.test_training_chat_tokens_opt_out_of_transformers5_dictionary_default) ... ok
 test_all_clipped_zero_gradient_retains_ratio_diagnostics_without_step (test_grpo.GRPOTest.test_all_clipped_zero_gradient_retains_ratio_diagnostics_without_step) ... ok
 test_clip_signs_and_actual_clip_fraction (test_grpo.GRPOTest.test_clip_signs_and_actual_clip_fraction) ... ok
 test_full_cpu_rollout_update_sync_next_rollout_loop (test_grpo.GRPOTest.test_full_cpu_rollout_update_sync_next_rollout_loop) ... ok
@@ -61,7 +62,14 @@ test_baseline_localhost_preflight_detects_ipv6_listener (test_process_runner.Pro
 test_fast_parent_exit_does_not_leave_detached_orphan (test_process_runner.ProcessRunnerTests.test_fast_parent_exit_does_not_leave_detached_orphan) ... ok
 test_inherited_automatic_port_selects_fresh_free_port (test_process_runner.ProcessRunnerTests.test_inherited_automatic_port_selects_fresh_free_port) ... ok
 test_invalid_limits_and_launch_failure (test_process_runner.ProcessRunnerTests.test_invalid_limits_and_launch_failure) ... ok
-test_nested_runner_interruption_cleans_its_own_new_session (test_process_runner.ProcessRunnerTests.test_nested_runner_interruption_cleans_its_own_new_session) ... ok
+test_nested_runner_interruption_cleans_its_own_new_session (test_process_runner.ProcessRunnerTests.test_nested_runner_interruption_cleans_its_own_new_session) ... Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/mnt/e/Lockstep-RL/lockstep_rl/process_runner.py", line 220, in run_task
+    time.sleep(min(0.05, max(0, local_deadline - time.monotonic())))
+  File "/mnt/e/Lockstep-RL/lockstep_rl/process_runner.py", line 202, in interrupted
+    raise TaskInterrupted(f"received signal {sig}")
+lockstep_rl.process_runner.TaskInterrupted: received signal 15
+ok
 test_normal_exit_preserves_code_and_restores_signal_handlers (test_process_runner.ProcessRunnerTests.test_normal_exit_preserves_code_and_restores_signal_handlers) ... ok
 test_original_baseline_checks_fixed_port_even_with_override (test_process_runner.ProcessRunnerTests.test_original_baseline_checks_fixed_port_even_with_override) ... ok
 test_parent_deadline_limits_child_budget_without_starting_expired_work (test_process_runner.ProcessRunnerTests.test_parent_deadline_limits_child_budget_without_starting_expired_work) ... ok
@@ -94,12 +102,12 @@ test_preemption_replays_context_without_rewriting_old_scores (test_rollout.Rollo
 test_prefix_hit_and_logical_invalidation (test_rollout.RolloutTest.test_prefix_hit_and_logical_invalidation) ... ok
 test_sampler_is_fp32_correct_and_does_not_modify_inputs (test_rollout.RolloutTest.test_sampler_is_fp32_correct_and_does_not_modify_inputs) ... ok
 test_cpu_hf_qwen_checkpointing_and_two_updates (test_tiny_qwen.TinyQwenTest.test_cpu_hf_qwen_checkpointing_and_two_updates) ... ok
-test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1739.65it/s]
-Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 36472.21it/s]
+test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1505.49it/s]
+Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 7422.54it/s]
 ok
-test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1970.08it/s]
+test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1986.88it/s]
 ok
-test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 36157.79it/s]
+test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 53720.15it/s]
 ok
 test_teacher_forcing_matches_full_logits_at_response_positions (test_tiny_qwen.TinyQwenTest.test_teacher_forcing_matches_full_logits_at_response_positions) ... ok
 test_active_request_and_live_cache_prevent_update (test_weight_update.WeightUpdateTest.test_active_request_and_live_cache_prevent_update) ... ok
@@ -112,6 +120,6 @@ test_real_upstream_packed_loaders_and_tied_storage (test_weight_update.WeightUpd
 test_success_commits_version_and_invalidates_logical_cache (test_weight_update.WeightUpdateTest.test_success_commits_version_and_invalidates_logical_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 108 tests in 138.349s
+Ran 109 tests in 135.595s
 
 OK

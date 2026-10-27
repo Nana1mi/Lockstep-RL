@@ -25,5 +25,5 @@ def validate_splits(train, validation):
 
 def chat_prompts(tokenizer, tasks):
     return [tokenizer.apply_chat_template([{"role": "user", "content": row["prompt"]}],
-                                          tokenize=True, add_generation_prompt=True,
+                                          tokenize=True, return_dict=False, add_generation_prompt=True,
                                           enable_thinking=False) for row in tasks]

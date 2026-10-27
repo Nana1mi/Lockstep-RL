@@ -1,0 +1,38 @@
+[
+  {
+    "file": "nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    "bytes": 288216466
+  },
+  {
+    "file": "nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl",
+    "bytes": 706758467
+  },
+  {
+    "file": "nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl",
+    "bytes": 267506905
+  },
+  {
+    "file": "nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    "bytes": 10248621
+  },
+  {
+    "file": "nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    "bytes": 193118695
+  },
+  {
+    "file": "nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl",
+    "bytes": 88040029
+  },
+  {
+    "file": "nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl",
+    "bytes": 63619976
+  },
+  {
+    "file": "nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl",
+    "bytes": 594346921
+  },
+  {
+    "file": "nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    "bytes": 954765
+  }
+]

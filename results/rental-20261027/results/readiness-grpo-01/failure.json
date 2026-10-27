@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "error": "ValueError: token ID outside model vocabulary",
+  "traceback": "Traceback (most recent call last):\n  File \"/root/gpufree-data/lockstep/repo/scripts/train_grpo.py\", line 106, in main\n    sync_probe = engine.generate(chat_prompts(engine.tokenizer, train[:1]),\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py\", line 17, in wrapper\n    return method(self, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py\", line 192, in generate\n    pending = [self._build_request(\n              ^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py\", line 192, in <listcomp>\n    pending = [self._build_request(\n               ^^^^^^^^^^^^^^^^^^^^\n  File \"/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py\", line 99, in _build_request\n    raise ValueError(\"token ID outside model vocabulary\")\nValueError: token ID outside model vocabulary\n",
+  "engine_state": "ready",
+  "policy_version": 0
+}

@@ -7,9 +7,12 @@ preserved; [historical upstream results](docs/upstream-readme.md) are not our me
 The current revision implements the CPU-verifiable P0/P1/P2 changes before GPU rental.
 CPU regression runs cover both torch2.11.0+cpu and torch2.8.0+cpu; exact current
 counts and timings are in `results/cpu-tests*.txt` and the validation manifest.
-Real CUDA accuracy, cache/graph behavior, learning effects and performance remain
-**GPU_PENDING**. Current verification is recorded in [status](IMPLEMENTATION_STATUS.md),
-[progress](PROGRESS.md) and `results/`. No real GPU result or training curve is supplied.
+The explicitly authorized 2026-10-27 L40S rental passed environment/FA2/Triton/graph
+gates, all 24 short inference baseline workers, and a two-iteration GRPO smoke with
+real optimizer updates and actor/probe-visible weight synchronization. Full numerical
+diagnostics, long-context performance and learning effects remain **GPU_PENDING**.
+Current evidence and limits are recorded in [status](IMPLEMENTATION_STATUS.md),
+[progress](PROGRESS.md) and `results/`.
 
 ## CPU development
 

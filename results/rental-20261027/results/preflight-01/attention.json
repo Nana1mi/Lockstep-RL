@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "dtype": "bfloat16",
+  "reference": "FP32 SDPA",
+  "atol": 0.02,
+  "rtol": 0.02,
+  "tests": {
+    "varlen_prefill": {
+      "max_abs_error": 0.007954597473144531,
+      "mean_abs_error": 0.000703516649082303,
+      "status": "passed"
+    },
+    "triton_key_write": {
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "status": "passed"
+    },
+    "triton_value_write": {
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "status": "passed"
+    },
+    "paged_prefix_prefill": {
+      "max_abs_error": 0.007292985916137695,
+      "mean_abs_error": 0.0007759585278108716,
+      "status": "passed"
+    },
+    "paged_decode": {
+      "max_abs_error": 0.004738330841064453,
+      "mean_abs_error": 0.0007476299651898444,
+      "status": "passed"
+    },
+    "cuda_graph_decode_replay": {
+      "max_abs_error": 0.00547480583190918,
+      "mean_abs_error": 0.0006651585572399199,
+      "status": "passed"
+    }
+  }
+}

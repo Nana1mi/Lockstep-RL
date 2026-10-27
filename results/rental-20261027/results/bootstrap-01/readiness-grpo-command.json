@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/root/gpufree-data/lockstep/ops/run_command.py",
+    "readiness-grpo",
+    "1200",
+    "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+    "scripts/train_grpo.py",
+    "--allow-gpu",
+    "--config",
+    "/root/gpufree-data/lockstep/configs/readiness-grpo.json",
+    "--anchor",
+    "recomputed",
+    "--output-dir",
+    "/root/gpufree-data/lockstep/results/readiness-grpo-01"
+  ],
+  "baseline_returncode": 0,
+  "scope": "2 iterations,4 prompts,G8,2 updates; execution/sync readiness only"
+}

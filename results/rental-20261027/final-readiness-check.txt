@@ -1,0 +1,16 @@
+pid, process_name, used_gpu_memory [MiB]
+
+Filesystem                                                         Size  Used Avail Use% Mounted on
+/dev/mapper/lvmdata-pvc--33933081--e356--49bb--9f24--2791b0e8e8af   49G   15G   35G  31% /root/gpufree-data
+
+manifests [('models/Qwen3-0.6B/_lockstep_model.json', True), ('data/gsm8k/manifest.json', True), ('envs/nano_rl/environment-freeze.txt', True)]
+rental-first-pass 0 []
+readiness-grpo-retry 0 []
+demo-memory-probe 0 []
+gsm8k-assets 0 []
+source diff  lockstep_rl/data.py          | 2 +-
+ lockstep_rl/experiment_io.py | 2 +-
+ scripts/setup_gpu_env.sh     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+

@@ -1,0 +1,23 @@
+{
+  "authorization": "User explicitly requested remote GPU testing for this hour and allowed required dependency/model downloads after network inspection; user requested local Clash proxy.",
+  "started_utc": "2026-10-27T07:24:00Z",
+  "billing_deadline_utc": "2026-10-27T10:24:00Z",
+  "work_deadline_utc": "2026-10-27T10:19:00Z",
+  "source_commit": "3f59e33e5340bbb1827023e18db6fd0168b4fb02",
+  "upstream_commit": "bb823b3e06983d71485a8e1f23715ebd87d98ef8",
+  "gpu_scope": [
+    "environment",
+    "attention",
+    "short baseline only"
+  ],
+  "excluded": [
+    "full GRPO",
+    "full diagnostics",
+    "full 96-worker performance suite",
+    "driver changes",
+    "public proxy listener"
+  ],
+  "proxy": "SSH reverse forward 127.0.0.1:17897 to local Clash 127.0.0.1:7897; no Clash configuration change",
+  "credential_storage": "Password entered interactively; not stored in scripts, command arguments or repository",
+  "extension": "User extended rental by two hours and authorized continued setup until experiments are supported, including minimal GPU smoke validation."
+}

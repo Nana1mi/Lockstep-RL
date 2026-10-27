@@ -1,0 +1,6 @@
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting jinja2
+  Using cached https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl (134 kB)
+Saved /root/gpufree-data/lockstep/wheelhouse/jinja2-3.1.6-py3-none-any.whl
+Successfully downloaded jinja2

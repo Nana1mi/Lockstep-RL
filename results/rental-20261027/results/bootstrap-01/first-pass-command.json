@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/root/gpufree-data/lockstep/ops/run_command.py",
+    "rental-first-pass",
+    "6308",
+    "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+    "scripts/run_rental.py",
+    "--persistent-root",
+    "/root/gpufree-data/lockstep",
+    "--run-id",
+    "preflight-01",
+    "--python",
+    "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+    "--stages",
+    "environment",
+    "baseline",
+    "--power-mode",
+    "L40S observed power limit350W; platform default clocks, no clock changes",
+    "--gpu-id",
+    "0",
+    "--allow-gpu"
+  ],
+  "source": "3f59e33",
+  "work_deadline_utc": "2026-10-27T08:19:00Z"
+}

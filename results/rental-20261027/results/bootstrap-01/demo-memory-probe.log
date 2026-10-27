@@ -1,0 +1,138 @@
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  32%|███▏      | 101/311 [00:00<00:00, 811.22it/s]Loading weights:  59%|█████▉    | 183/311 [00:00<00:00, 760.27it/s]Loading weights:  83%|████████▎ | 259/311 [00:00<00:00, 555.67it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 593.00it/s]
+{
+  "timestamp_utc": "2026-10-27T08:57:51.046059+00:00",
+  "config": {
+    "model": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+    "allow_gpu": true,
+    "batch_size": 16,
+    "sequence_length": 256,
+    "chunk_size": 32,
+    "steps": 2,
+    "optimizer": "adamw",
+    "disable_torch_compile": false,
+    "gradient_checkpointing": false,
+    "co_resident": true,
+    "inference_memory_fraction": 0.4,
+    "output": "/root/gpufree-data/lockstep/results/demo-memory-probe-01.json"
+  },
+  "status": "passed",
+  "precision": "FP32 parameters + BF16 autocast; selected scores FP32",
+  "optimizer": "adamw(lr=1e-5, foreach=False)",
+  "steps": [
+    {
+      "index": 0,
+      "loss": 11.875805854797363,
+      "grad_norm": 45.63140106201172,
+      "max_parameter_delta": 1.0073184967041016e-05,
+      "seconds": 1.1025032550096512,
+      "after_forward": {
+        "allocated_bytes": 31182569472,
+        "reserved_bytes": 31612469248,
+        "peak_allocated_bytes": 31532681216,
+        "peak_reserved_bytes": 31612469248,
+        "device_free_bytes": 15509815296,
+        "device_total_bytes": 47665709056
+      },
+      "after_backward": {
+        "allocated_bytes": 23229829120,
+        "reserved_bytes": 33569112064,
+        "peak_allocated_bytes": 32151166976,
+        "peak_reserved_bytes": 33569112064,
+        "device_free_bytes": 13542686720,
+        "device_total_bytes": 47665709056
+      },
+      "after_step": {
+        "allocated_bytes": 27999277056,
+        "reserved_bytes": 35437674496,
+        "peak_allocated_bytes": 32151166976,
+        "peak_reserved_bytes": 35437674496,
+        "device_free_bytes": 11674124288,
+        "device_total_bytes": 47665709056
+      },
+      "valid_tokens": 2048
+    },
+    {
+      "index": 1,
+      "loss": 11.523393630981445,
+      "grad_norm": 30.820980072021484,
+      "max_parameter_delta": 1.0073184967041016e-05,
+      "seconds": 0.900591247016564,
+      "after_forward": {
+        "allocated_bytes": 35960537600,
+        "reserved_bytes": 36387684352,
+        "peak_allocated_bytes": 36310649344,
+        "peak_reserved_bytes": 36387684352,
+        "device_free_bytes": 10724114432,
+        "device_total_bytes": 47665709056
+      },
+      "after_backward": {
+        "allocated_bytes": 27999277056,
+        "reserved_bytes": 37698404352,
+        "peak_allocated_bytes": 36920615424,
+        "peak_reserved_bytes": 37698404352,
+        "device_free_bytes": 9413394432,
+        "device_total_bytes": 47665709056
+      },
+      "after_step": {
+        "allocated_bytes": 27999277056,
+        "reserved_bytes": 38321258496,
+        "peak_allocated_bytes": 36920615424,
+        "peak_reserved_bytes": 38321258496,
+        "device_free_bytes": 8790540288,
+        "device_total_bytes": 47665709056
+      },
+      "valid_tokens": 2048
+    }
+  ],
+  "numerical_settings": {
+    "tf32_matmul": false,
+    "tf32_cudnn": false,
+    "bf16_reduced_precision_reduction": false,
+    "torch_compile_enabled": true,
+    "compiler_stance": "default"
+  },
+  "before": {
+    "allocated_bytes": 0,
+    "reserved_bytes": 0,
+    "peak_allocated_bytes": 0,
+    "peak_reserved_bytes": 0,
+    "device_free_bytes": 47210364928,
+    "device_total_bytes": 47665709056
+  },
+  "inference": {
+    "kv_bytes": 17205035008,
+    "num_kv_blocks": 586,
+    "pre_training_output_ids": [
+      11295,
+      17,
+      17,
+      78305
+    ],
+    "memory": {
+      "allocated_bytes": 18426640384,
+      "reserved_bytes": 18501074944,
+      "peak_allocated_bytes": 18428773888,
+      "peak_reserved_bytes": 18501074944,
+      "device_free_bytes": 28621209600,
+      "device_total_bytes": 47665709056
+    },
+    "post_training_output_ids": [
+      32181,
+      247,
+      18947,
+      100080
+    ]
+  },
+  "model_load_seconds": 1.5860420379322022,
+  "parameter_count": 596049920,
+  "loaded": {
+    "allocated_bytes": 20811365376,
+    "reserved_bytes": 20877148160,
+    "peak_allocated_bytes": 20811365376,
+    "peak_reserved_bytes": 20877148160,
+    "device_free_bytes": 26245136384,
+    "device_total_bytes": 47665709056
+  }
+}
+
+[lockstep-task] {"returncode": 0, "timed_out": false, "error": null, "timeout_seconds": 599.9999985694885, "wall_seconds": 54.59510415804107, "pid": 17673, "process_group": 17673, "nccl_port": null, "cleanup": {"process_groups": [17673], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

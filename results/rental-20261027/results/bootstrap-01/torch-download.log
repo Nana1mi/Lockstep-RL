@@ -1,0 +1,4 @@
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting torch==2.8.0+cu128
+  Using cached https://download-r2.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (30 kB)
+Downloading https://download-r2.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp311-cp311-manylinux_2_28_x86_64.whl (889.2 MB)

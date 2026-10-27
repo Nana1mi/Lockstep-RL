@@ -1,0 +1,2562 @@
+[
+  {
+    "id": "simple-train-0",
+    "prompt": "Compute 11 * 17. Return only <answer>number</answer>.",
+    "answer": "187"
+  },
+  {
+    "id": "simple-train-1",
+    "prompt": "Compute 13 * 24. Return only <answer>number</answer>.",
+    "answer": "312"
+  },
+  {
+    "id": "simple-train-2",
+    "prompt": "Compute 15 * 31. Return only <answer>number</answer>.",
+    "answer": "465"
+  },
+  {
+    "id": "simple-train-3",
+    "prompt": "Compute 17 * 38. Return only <answer>number</answer>.",
+    "answer": "646"
+  },
+  {
+    "id": "simple-train-4",
+    "prompt": "Compute 19 * 22. Return only <answer>number</answer>.",
+    "answer": "418"
+  },
+  {
+    "id": "simple-train-5",
+    "prompt": "Compute 21 * 29. Return only <answer>number</answer>.",
+    "answer": "609"
+  },
+  {
+    "id": "simple-train-6",
+    "prompt": "Compute 23 * 36. Return only <answer>number</answer>.",
+    "answer": "828"
+  },
+  {
+    "id": "simple-train-7",
+    "prompt": "Compute 25 * 20. Return only <answer>number</answer>.",
+    "answer": "500"
+  },
+  {
+    "id": "simple-train-8",
+    "prompt": "Compute 27 * 27. Return only <answer>number</answer>.",
+    "answer": "729"
+  },
+  {
+    "id": "simple-train-9",
+    "prompt": "Compute 29 * 34. Return only <answer>number</answer>.",
+    "answer": "986"
+  },
+  {
+    "id": "simple-train-10",
+    "prompt": "Compute 31 * 18. Return only <answer>number</answer>.",
+    "answer": "558"
+  },
+  {
+    "id": "simple-train-11",
+    "prompt": "Compute 33 * 25. Return only <answer>number</answer>.",
+    "answer": "825"
+  },
+  {
+    "id": "simple-train-12",
+    "prompt": "Compute 35 * 32. Return only <answer>number</answer>.",
+    "answer": "1120"
+  },
+  {
+    "id": "simple-train-13",
+    "prompt": "Compute 37 * 39. Return only <answer>number</answer>.",
+    "answer": "1443"
+  },
+  {
+    "id": "simple-train-14",
+    "prompt": "Compute 39 * 23. Return only <answer>number</answer>.",
+    "answer": "897"
+  },
+  {
+    "id": "simple-train-15",
+    "prompt": "Compute 41 * 30. Return only <answer>number</answer>.",
+    "answer": "1230"
+  },
+  {
+    "id": "simple-train-16",
+    "prompt": "Compute 43 * 37. Return only <answer>number</answer>.",
+    "answer": "1591"
+  },
+  {
+    "id": "simple-train-17",
+    "prompt": "Compute 45 * 21. Return only <answer>number</answer>.",
+    "answer": "945"
+  },
+  {
+    "id": "simple-train-18",
+    "prompt": "Compute 47 * 28. Return only <answer>number</answer>.",
+    "answer": "1316"
+  },
+  {
+    "id": "simple-train-19",
+    "prompt": "Compute 49 * 35. Return only <answer>number</answer>.",
+    "answer": "1715"
+  },
+  {
+    "id": "simple-train-20",
+    "prompt": "Compute 51 * 19. Return only <answer>number</answer>.",
+    "answer": "969"
+  },
+  {
+    "id": "simple-train-21",
+    "prompt": "Compute 53 * 26. Return only <answer>number</answer>.",
+    "answer": "1378"
+  },
+  {
+    "id": "simple-train-22",
+    "prompt": "Compute 55 * 33. Return only <answer>number</answer>.",
+    "answer": "1815"
+  },
+  {
+    "id": "simple-train-23",
+    "prompt": "Compute 57 * 17. Return only <answer>number</answer>.",
+    "answer": "969"
+  },
+  {
+    "id": "simple-train-24",
+    "prompt": "Compute 59 * 24. Return only <answer>number</answer>.",
+    "answer": "1416"
+  },
+  {
+    "id": "simple-train-25",
+    "prompt": "Compute 61 * 31. Return only <answer>number</answer>.",
+    "answer": "1891"
+  },
+  {
+    "id": "simple-train-26",
+    "prompt": "Compute 63 * 38. Return only <answer>number</answer>.",
+    "answer": "2394"
+  },
+  {
+    "id": "simple-train-27",
+    "prompt": "Compute 65 * 22. Return only <answer>number</answer>.",
+    "answer": "1430"
+  },
+  {
+    "id": "simple-train-28",
+    "prompt": "Compute 67 * 29. Return only <answer>number</answer>.",
+    "answer": "1943"
+  },
+  {
+    "id": "simple-train-29",
+    "prompt": "Compute 69 * 36. Return only <answer>number</answer>.",
+    "answer": "2484"
+  },
+  {
+    "id": "simple-train-30",
+    "prompt": "Compute 71 * 20. Return only <answer>number</answer>.",
+    "answer": "1420"
+  },
+  {
+    "id": "simple-train-31",
+    "prompt": "Compute 73 * 27. Return only <answer>number</answer>.",
+    "answer": "1971"
+  },
+  {
+    "id": "simple-train-32",
+    "prompt": "Compute 11 * 35. Return only <answer>number</answer>.",
+    "answer": "385"
+  },
+  {
+    "id": "simple-train-33",
+    "prompt": "Compute 13 * 19. Return only <answer>number</answer>.",
+    "answer": "247"
+  },
+  {
+    "id": "simple-train-34",
+    "prompt": "Compute 15 * 26. Return only <answer>number</answer>.",
+    "answer": "390"
+  },
+  {
+    "id": "simple-train-35",
+    "prompt": "Compute 17 * 33. Return only <answer>number</answer>.",
+    "answer": "561"
+  },
+  {
+    "id": "simple-train-36",
+    "prompt": "Compute 19 * 17. Return only <answer>number</answer>.",
+    "answer": "323"
+  },
+  {
+    "id": "simple-train-37",
+    "prompt": "Compute 21 * 24. Return only <answer>number</answer>.",
+    "answer": "504"
+  },
+  {
+    "id": "simple-train-38",
+    "prompt": "Compute 23 * 31. Return only <answer>number</answer>.",
+    "answer": "713"
+  },
+  {
+    "id": "simple-train-39",
+    "prompt": "Compute 25 * 38. Return only <answer>number</answer>.",
+    "answer": "950"
+  },
+  {
+    "id": "simple-train-40",
+    "prompt": "Compute 27 * 22. Return only <answer>number</answer>.",
+    "answer": "594"
+  },
+  {
+    "id": "simple-train-41",
+    "prompt": "Compute 29 * 29. Return only <answer>number</answer>.",
+    "answer": "841"
+  },
+  {
+    "id": "simple-train-42",
+    "prompt": "Compute 31 * 36. Return only <answer>number</answer>.",
+    "answer": "1116"
+  },
+  {
+    "id": "simple-train-43",
+    "prompt": "Compute 33 * 20. Return only <answer>number</answer>.",
+    "answer": "660"
+  },
+  {
+    "id": "simple-train-44",
+    "prompt": "Compute 35 * 27. Return only <answer>number</answer>.",
+    "answer": "945"
+  },
+  {
+    "id": "simple-train-45",
+    "prompt": "Compute 37 * 34. Return only <answer>number</answer>.",
+    "answer": "1258"
+  },
+  {
+    "id": "simple-train-46",
+    "prompt": "Compute 39 * 18. Return only <answer>number</answer>.",
+    "answer": "702"
+  },
+  {
+    "id": "simple-train-47",
+    "prompt": "Compute 41 * 25. Return only <answer>number</answer>.",
+    "answer": "1025"
+  },
+  {
+    "id": "simple-train-48",
+    "prompt": "Compute 43 * 32. Return only <answer>number</answer>.",
+    "answer": "1376"
+  },
+  {
+    "id": "simple-train-49",
+    "prompt": "Compute 45 * 39. Return only <answer>number</answer>.",
+    "answer": "1755"
+  },
+  {
+    "id": "simple-train-50",
+    "prompt": "Compute 47 * 23. Return only <answer>number</answer>.",
+    "answer": "1081"
+  },
+  {
+    "id": "simple-train-51",
+    "prompt": "Compute 49 * 30. Return only <answer>number</answer>.",
+    "answer": "1470"
+  },
+  {
+    "id": "simple-train-52",
+    "prompt": "Compute 51 * 37. Return only <answer>number</answer>.",
+    "answer": "1887"
+  },
+  {
+    "id": "simple-train-53",
+    "prompt": "Compute 53 * 21. Return only <answer>number</answer>.",
+    "answer": "1113"
+  },
+  {
+    "id": "simple-train-54",
+    "prompt": "Compute 55 * 28. Return only <answer>number</answer>.",
+    "answer": "1540"
+  },
+  {
+    "id": "simple-train-55",
+    "prompt": "Compute 57 * 35. Return only <answer>number</answer>.",
+    "answer": "1995"
+  },
+  {
+    "id": "simple-train-56",
+    "prompt": "Compute 59 * 19. Return only <answer>number</answer>.",
+    "answer": "1121"
+  },
+  {
+    "id": "simple-train-57",
+    "prompt": "Compute 61 * 26. Return only <answer>number</answer>.",
+    "answer": "1586"
+  },
+  {
+    "id": "simple-train-58",
+    "prompt": "Compute 63 * 33. Return only <answer>number</answer>.",
+    "answer": "2079"
+  },
+  {
+    "id": "simple-train-59",
+    "prompt": "Compute 65 * 17. Return only <answer>number</answer>.",
+    "answer": "1105"
+  },
+  {
+    "id": "simple-train-60",
+    "prompt": "Compute 67 * 24. Return only <answer>number</answer>.",
+    "answer": "1608"
+  },
+  {
+    "id": "simple-train-61",
+    "prompt": "Compute 69 * 31. Return only <answer>number</answer>.",
+    "answer": "2139"
+  },
+  {
+    "id": "simple-train-62",
+    "prompt": "Compute 71 * 38. Return only <answer>number</answer>.",
+    "answer": "2698"
+  },
+  {
+    "id": "simple-train-63",
+    "prompt": "Compute 73 * 22. Return only <answer>number</answer>.",
+    "answer": "1606"
+  },
+  {
+    "id": "simple-train-64",
+    "prompt": "Compute 11 * 30. Return only <answer>number</answer>.",
+    "answer": "330"
+  },
+  {
+    "id": "simple-train-65",
+    "prompt": "Compute 13 * 37. Return only <answer>number</answer>.",
+    "answer": "481"
+  },
+  {
+    "id": "simple-train-66",
+    "prompt": "Compute 15 * 21. Return only <answer>number</answer>.",
+    "answer": "315"
+  },
+  {
+    "id": "simple-train-67",
+    "prompt": "Compute 17 * 28. Return only <answer>number</answer>.",
+    "answer": "476"
+  },
+  {
+    "id": "simple-train-68",
+    "prompt": "Compute 19 * 35. Return only <answer>number</answer>.",
+    "answer": "665"
+  },
+  {
+    "id": "simple-train-69",
+    "prompt": "Compute 21 * 19. Return only <answer>number</answer>.",
+    "answer": "399"
+  },
+  {
+    "id": "simple-train-70",
+    "prompt": "Compute 23 * 26. Return only <answer>number</answer>.",
+    "answer": "598"
+  },
+  {
+    "id": "simple-train-71",
+    "prompt": "Compute 25 * 33. Return only <answer>number</answer>.",
+    "answer": "825"
+  },
+  {
+    "id": "simple-train-72",
+    "prompt": "Compute 27 * 17. Return only <answer>number</answer>.",
+    "answer": "459"
+  },
+  {
+    "id": "simple-train-73",
+    "prompt": "Compute 29 * 24. Return only <answer>number</answer>.",
+    "answer": "696"
+  },
+  {
+    "id": "simple-train-74",
+    "prompt": "Compute 31 * 31. Return only <answer>number</answer>.",
+    "answer": "961"
+  },
+  {
+    "id": "simple-train-75",
+    "prompt": "Compute 33 * 38. Return only <answer>number</answer>.",
+    "answer": "1254"
+  },
+  {
+    "id": "simple-train-76",
+    "prompt": "Compute 35 * 22. Return only <answer>number</answer>.",
+    "answer": "770"
+  },
+  {
+    "id": "simple-train-77",
+    "prompt": "Compute 37 * 29. Return only <answer>number</answer>.",
+    "answer": "1073"
+  },
+  {
+    "id": "simple-train-78",
+    "prompt": "Compute 39 * 36. Return only <answer>number</answer>.",
+    "answer": "1404"
+  },
+  {
+    "id": "simple-train-79",
+    "prompt": "Compute 41 * 20. Return only <answer>number</answer>.",
+    "answer": "820"
+  },
+  {
+    "id": "simple-train-80",
+    "prompt": "Compute 43 * 27. Return only <answer>number</answer>.",
+    "answer": "1161"
+  },
+  {
+    "id": "simple-train-81",
+    "prompt": "Compute 45 * 34. Return only <answer>number</answer>.",
+    "answer": "1530"
+  },
+  {
+    "id": "simple-train-82",
+    "prompt": "Compute 47 * 18. Return only <answer>number</answer>.",
+    "answer": "846"
+  },
+  {
+    "id": "simple-train-83",
+    "prompt": "Compute 49 * 25. Return only <answer>number</answer>.",
+    "answer": "1225"
+  },
+  {
+    "id": "simple-train-84",
+    "prompt": "Compute 51 * 32. Return only <answer>number</answer>.",
+    "answer": "1632"
+  },
+  {
+    "id": "simple-train-85",
+    "prompt": "Compute 53 * 39. Return only <answer>number</answer>.",
+    "answer": "2067"
+  },
+  {
+    "id": "simple-train-86",
+    "prompt": "Compute 55 * 23. Return only <answer>number</answer>.",
+    "answer": "1265"
+  },
+  {
+    "id": "simple-train-87",
+    "prompt": "Compute 57 * 30. Return only <answer>number</answer>.",
+    "answer": "1710"
+  },
+  {
+    "id": "simple-train-88",
+    "prompt": "Compute 59 * 37. Return only <answer>number</answer>.",
+    "answer": "2183"
+  },
+  {
+    "id": "simple-train-89",
+    "prompt": "Compute 61 * 21. Return only <answer>number</answer>.",
+    "answer": "1281"
+  },
+  {
+    "id": "simple-train-90",
+    "prompt": "Compute 63 * 28. Return only <answer>number</answer>.",
+    "answer": "1764"
+  },
+  {
+    "id": "simple-train-91",
+    "prompt": "Compute 65 * 35. Return only <answer>number</answer>.",
+    "answer": "2275"
+  },
+  {
+    "id": "simple-train-92",
+    "prompt": "Compute 67 * 19. Return only <answer>number</answer>.",
+    "answer": "1273"
+  },
+  {
+    "id": "simple-train-93",
+    "prompt": "Compute 69 * 26. Return only <answer>number</answer>.",
+    "answer": "1794"
+  },
+  {
+    "id": "simple-train-94",
+    "prompt": "Compute 71 * 33. Return only <answer>number</answer>.",
+    "answer": "2343"
+  },
+  {
+    "id": "simple-train-95",
+    "prompt": "Compute 73 * 17. Return only <answer>number</answer>.",
+    "answer": "1241"
+  },
+  {
+    "id": "simple-train-96",
+    "prompt": "Compute 11 * 25. Return only <answer>number</answer>.",
+    "answer": "275"
+  },
+  {
+    "id": "simple-train-97",
+    "prompt": "Compute 13 * 32. Return only <answer>number</answer>.",
+    "answer": "416"
+  },
+  {
+    "id": "simple-train-98",
+    "prompt": "Compute 15 * 39. Return only <answer>number</answer>.",
+    "answer": "585"
+  },
+  {
+    "id": "simple-train-99",
+    "prompt": "Compute 17 * 23. Return only <answer>number</answer>.",
+    "answer": "391"
+  },
+  {
+    "id": "simple-train-100",
+    "prompt": "Compute 19 * 30. Return only <answer>number</answer>.",
+    "answer": "570"
+  },
+  {
+    "id": "simple-train-101",
+    "prompt": "Compute 21 * 37. Return only <answer>number</answer>.",
+    "answer": "777"
+  },
+  {
+    "id": "simple-train-102",
+    "prompt": "Compute 23 * 21. Return only <answer>number</answer>.",
+    "answer": "483"
+  },
+  {
+    "id": "simple-train-103",
+    "prompt": "Compute 25 * 28. Return only <answer>number</answer>.",
+    "answer": "700"
+  },
+  {
+    "id": "simple-train-104",
+    "prompt": "Compute 27 * 35. Return only <answer>number</answer>.",
+    "answer": "945"
+  },
+  {
+    "id": "simple-train-105",
+    "prompt": "Compute 29 * 19. Return only <answer>number</answer>.",
+    "answer": "551"
+  },
+  {
+    "id": "simple-train-106",
+    "prompt": "Compute 31 * 26. Return only <answer>number</answer>.",
+    "answer": "806"
+  },
+  {
+    "id": "simple-train-107",
+    "prompt": "Compute 33 * 33. Return only <answer>number</answer>.",
+    "answer": "1089"
+  },
+  {
+    "id": "simple-train-108",
+    "prompt": "Compute 35 * 17. Return only <answer>number</answer>.",
+    "answer": "595"
+  },
+  {
+    "id": "simple-train-109",
+    "prompt": "Compute 37 * 24. Return only <answer>number</answer>.",
+    "answer": "888"
+  },
+  {
+    "id": "simple-train-110",
+    "prompt": "Compute 39 * 31. Return only <answer>number</answer>.",
+    "answer": "1209"
+  },
+  {
+    "id": "simple-train-111",
+    "prompt": "Compute 41 * 38. Return only <answer>number</answer>.",
+    "answer": "1558"
+  },
+  {
+    "id": "simple-train-112",
+    "prompt": "Compute 43 * 22. Return only <answer>number</answer>.",
+    "answer": "946"
+  },
+  {
+    "id": "simple-train-113",
+    "prompt": "Compute 45 * 29. Return only <answer>number</answer>.",
+    "answer": "1305"
+  },
+  {
+    "id": "simple-train-114",
+    "prompt": "Compute 47 * 36. Return only <answer>number</answer>.",
+    "answer": "1692"
+  },
+  {
+    "id": "simple-train-115",
+    "prompt": "Compute 49 * 20. Return only <answer>number</answer>.",
+    "answer": "980"
+  },
+  {
+    "id": "simple-train-116",
+    "prompt": "Compute 51 * 27. Return only <answer>number</answer>.",
+    "answer": "1377"
+  },
+  {
+    "id": "simple-train-117",
+    "prompt": "Compute 53 * 34. Return only <answer>number</answer>.",
+    "answer": "1802"
+  },
+  {
+    "id": "simple-train-118",
+    "prompt": "Compute 55 * 18. Return only <answer>number</answer>.",
+    "answer": "990"
+  },
+  {
+    "id": "simple-train-119",
+    "prompt": "Compute 57 * 25. Return only <answer>number</answer>.",
+    "answer": "1425"
+  },
+  {
+    "id": "simple-train-120",
+    "prompt": "Compute 59 * 32. Return only <answer>number</answer>.",
+    "answer": "1888"
+  },
+  {
+    "id": "simple-train-121",
+    "prompt": "Compute 61 * 39. Return only <answer>number</answer>.",
+    "answer": "2379"
+  },
+  {
+    "id": "simple-train-122",
+    "prompt": "Compute 63 * 23. Return only <answer>number</answer>.",
+    "answer": "1449"
+  },
+  {
+    "id": "simple-train-123",
+    "prompt": "Compute 65 * 30. Return only <answer>number</answer>.",
+    "answer": "1950"
+  },
+  {
+    "id": "simple-train-124",
+    "prompt": "Compute 67 * 37. Return only <answer>number</answer>.",
+    "answer": "2479"
+  },
+  {
+    "id": "simple-train-125",
+    "prompt": "Compute 69 * 21. Return only <answer>number</answer>.",
+    "answer": "1449"
+  },
+  {
+    "id": "simple-train-126",
+    "prompt": "Compute 71 * 28. Return only <answer>number</answer>.",
+    "answer": "1988"
+  },
+  {
+    "id": "simple-train-127",
+    "prompt": "Compute 73 * 35. Return only <answer>number</answer>.",
+    "answer": "2555"
+  },
+  {
+    "id": "simple-train-128",
+    "prompt": "Compute 11 * 20. Return only <answer>number</answer>.",
+    "answer": "220"
+  },
+  {
+    "id": "simple-train-129",
+    "prompt": "Compute 13 * 27. Return only <answer>number</answer>.",
+    "answer": "351"
+  },
+  {
+    "id": "simple-train-130",
+    "prompt": "Compute 15 * 34. Return only <answer>number</answer>.",
+    "answer": "510"
+  },
+  {
+    "id": "simple-train-131",
+    "prompt": "Compute 17 * 18. Return only <answer>number</answer>.",
+    "answer": "306"
+  },
+  {
+    "id": "simple-train-132",
+    "prompt": "Compute 19 * 25. Return only <answer>number</answer>.",
+    "answer": "475"
+  },
+  {
+    "id": "simple-train-133",
+    "prompt": "Compute 21 * 32. Return only <answer>number</answer>.",
+    "answer": "672"
+  },
+  {
+    "id": "simple-train-134",
+    "prompt": "Compute 23 * 39. Return only <answer>number</answer>.",
+    "answer": "897"
+  },
+  {
+    "id": "simple-train-135",
+    "prompt": "Compute 25 * 23. Return only <answer>number</answer>.",
+    "answer": "575"
+  },
+  {
+    "id": "simple-train-136",
+    "prompt": "Compute 27 * 30. Return only <answer>number</answer>.",
+    "answer": "810"
+  },
+  {
+    "id": "simple-train-137",
+    "prompt": "Compute 29 * 37. Return only <answer>number</answer>.",
+    "answer": "1073"
+  },
+  {
+    "id": "simple-train-138",
+    "prompt": "Compute 31 * 21. Return only <answer>number</answer>.",
+    "answer": "651"
+  },
+  {
+    "id": "simple-train-139",
+    "prompt": "Compute 33 * 28. Return only <answer>number</answer>.",
+    "answer": "924"
+  },
+  {
+    "id": "simple-train-140",
+    "prompt": "Compute 35 * 35. Return only <answer>number</answer>.",
+    "answer": "1225"
+  },
+  {
+    "id": "simple-train-141",
+    "prompt": "Compute 37 * 19. Return only <answer>number</answer>.",
+    "answer": "703"
+  },
+  {
+    "id": "simple-train-142",
+    "prompt": "Compute 39 * 26. Return only <answer>number</answer>.",
+    "answer": "1014"
+  },
+  {
+    "id": "simple-train-143",
+    "prompt": "Compute 41 * 33. Return only <answer>number</answer>.",
+    "answer": "1353"
+  },
+  {
+    "id": "simple-train-144",
+    "prompt": "Compute 43 * 17. Return only <answer>number</answer>.",
+    "answer": "731"
+  },
+  {
+    "id": "simple-train-145",
+    "prompt": "Compute 45 * 24. Return only <answer>number</answer>.",
+    "answer": "1080"
+  },
+  {
+    "id": "simple-train-146",
+    "prompt": "Compute 47 * 31. Return only <answer>number</answer>.",
+    "answer": "1457"
+  },
+  {
+    "id": "simple-train-147",
+    "prompt": "Compute 49 * 38. Return only <answer>number</answer>.",
+    "answer": "1862"
+  },
+  {
+    "id": "simple-train-148",
+    "prompt": "Compute 51 * 22. Return only <answer>number</answer>.",
+    "answer": "1122"
+  },
+  {
+    "id": "simple-train-149",
+    "prompt": "Compute 53 * 29. Return only <answer>number</answer>.",
+    "answer": "1537"
+  },
+  {
+    "id": "simple-train-150",
+    "prompt": "Compute 55 * 36. Return only <answer>number</answer>.",
+    "answer": "1980"
+  },
+  {
+    "id": "simple-train-151",
+    "prompt": "Compute 57 * 20. Return only <answer>number</answer>.",
+    "answer": "1140"
+  },
+  {
+    "id": "simple-train-152",
+    "prompt": "Compute 59 * 27. Return only <answer>number</answer>.",
+    "answer": "1593"
+  },
+  {
+    "id": "simple-train-153",
+    "prompt": "Compute 61 * 34. Return only <answer>number</answer>.",
+    "answer": "2074"
+  },
+  {
+    "id": "simple-train-154",
+    "prompt": "Compute 63 * 18. Return only <answer>number</answer>.",
+    "answer": "1134"
+  },
+  {
+    "id": "simple-train-155",
+    "prompt": "Compute 65 * 25. Return only <answer>number</answer>.",
+    "answer": "1625"
+  },
+  {
+    "id": "simple-train-156",
+    "prompt": "Compute 67 * 32. Return only <answer>number</answer>.",
+    "answer": "2144"
+  },
+  {
+    "id": "simple-train-157",
+    "prompt": "Compute 69 * 39. Return only <answer>number</answer>.",
+    "answer": "2691"
+  },
+  {
+    "id": "simple-train-158",
+    "prompt": "Compute 71 * 23. Return only <answer>number</answer>.",
+    "answer": "1633"
+  },
+  {
+    "id": "simple-train-159",
+    "prompt": "Compute 73 * 30. Return only <answer>number</answer>.",
+    "answer": "2190"
+  },
+  {
+    "id": "simple-train-160",
+    "prompt": "Compute 11 * 38. Return only <answer>number</answer>.",
+    "answer": "418"
+  },
+  {
+    "id": "simple-train-161",
+    "prompt": "Compute 13 * 22. Return only <answer>number</answer>.",
+    "answer": "286"
+  },
+  {
+    "id": "simple-train-162",
+    "prompt": "Compute 15 * 29. Return only <answer>number</answer>.",
+    "answer": "435"
+  },
+  {
+    "id": "simple-train-163",
+    "prompt": "Compute 17 * 36. Return only <answer>number</answer>.",
+    "answer": "612"
+  },
+  {
+    "id": "simple-train-164",
+    "prompt": "Compute 19 * 20. Return only <answer>number</answer>.",
+    "answer": "380"
+  },
+  {
+    "id": "simple-train-165",
+    "prompt": "Compute 21 * 27. Return only <answer>number</answer>.",
+    "answer": "567"
+  },
+  {
+    "id": "simple-train-166",
+    "prompt": "Compute 23 * 34. Return only <answer>number</answer>.",
+    "answer": "782"
+  },
+  {
+    "id": "simple-train-167",
+    "prompt": "Compute 25 * 18. Return only <answer>number</answer>.",
+    "answer": "450"
+  },
+  {
+    "id": "simple-train-168",
+    "prompt": "Compute 27 * 25. Return only <answer>number</answer>.",
+    "answer": "675"
+  },
+  {
+    "id": "simple-train-169",
+    "prompt": "Compute 29 * 32. Return only <answer>number</answer>.",
+    "answer": "928"
+  },
+  {
+    "id": "simple-train-170",
+    "prompt": "Compute 31 * 39. Return only <answer>number</answer>.",
+    "answer": "1209"
+  },
+  {
+    "id": "simple-train-171",
+    "prompt": "Compute 33 * 23. Return only <answer>number</answer>.",
+    "answer": "759"
+  },
+  {
+    "id": "simple-train-172",
+    "prompt": "Compute 35 * 30. Return only <answer>number</answer>.",
+    "answer": "1050"
+  },
+  {
+    "id": "simple-train-173",
+    "prompt": "Compute 37 * 37. Return only <answer>number</answer>.",
+    "answer": "1369"
+  },
+  {
+    "id": "simple-train-174",
+    "prompt": "Compute 39 * 21. Return only <answer>number</answer>.",
+    "answer": "819"
+  },
+  {
+    "id": "simple-train-175",
+    "prompt": "Compute 41 * 28. Return only <answer>number</answer>.",
+    "answer": "1148"
+  },
+  {
+    "id": "simple-train-176",
+    "prompt": "Compute 43 * 35. Return only <answer>number</answer>.",
+    "answer": "1505"
+  },
+  {
+    "id": "simple-train-177",
+    "prompt": "Compute 45 * 19. Return only <answer>number</answer>.",
+    "answer": "855"
+  },
+  {
+    "id": "simple-train-178",
+    "prompt": "Compute 47 * 26. Return only <answer>number</answer>.",
+    "answer": "1222"
+  },
+  {
+    "id": "simple-train-179",
+    "prompt": "Compute 49 * 33. Return only <answer>number</answer>.",
+    "answer": "1617"
+  },
+  {
+    "id": "simple-train-180",
+    "prompt": "Compute 51 * 17. Return only <answer>number</answer>.",
+    "answer": "867"
+  },
+  {
+    "id": "simple-train-181",
+    "prompt": "Compute 53 * 24. Return only <answer>number</answer>.",
+    "answer": "1272"
+  },
+  {
+    "id": "simple-train-182",
+    "prompt": "Compute 55 * 31. Return only <answer>number</answer>.",
+    "answer": "1705"
+  },
+  {
+    "id": "simple-train-183",
+    "prompt": "Compute 57 * 38. Return only <answer>number</answer>.",
+    "answer": "2166"
+  },
+  {
+    "id": "simple-train-184",
+    "prompt": "Compute 59 * 22. Return only <answer>number</answer>.",
+    "answer": "1298"
+  },
+  {
+    "id": "simple-train-185",
+    "prompt": "Compute 61 * 29. Return only <answer>number</answer>.",
+    "answer": "1769"
+  },
+  {
+    "id": "simple-train-186",
+    "prompt": "Compute 63 * 36. Return only <answer>number</answer>.",
+    "answer": "2268"
+  },
+  {
+    "id": "simple-train-187",
+    "prompt": "Compute 65 * 20. Return only <answer>number</answer>.",
+    "answer": "1300"
+  },
+  {
+    "id": "simple-train-188",
+    "prompt": "Compute 67 * 27. Return only <answer>number</answer>.",
+    "answer": "1809"
+  },
+  {
+    "id": "simple-train-189",
+    "prompt": "Compute 69 * 34. Return only <answer>number</answer>.",
+    "answer": "2346"
+  },
+  {
+    "id": "simple-train-190",
+    "prompt": "Compute 71 * 18. Return only <answer>number</answer>.",
+    "answer": "1278"
+  },
+  {
+    "id": "simple-train-191",
+    "prompt": "Compute 73 * 25. Return only <answer>number</answer>.",
+    "answer": "1825"
+  },
+  {
+    "id": "simple-train-192",
+    "prompt": "Compute 11 * 33. Return only <answer>number</answer>.",
+    "answer": "363"
+  },
+  {
+    "id": "simple-train-193",
+    "prompt": "Compute 13 * 17. Return only <answer>number</answer>.",
+    "answer": "221"
+  },
+  {
+    "id": "simple-train-194",
+    "prompt": "Compute 15 * 24. Return only <answer>number</answer>.",
+    "answer": "360"
+  },
+  {
+    "id": "simple-train-195",
+    "prompt": "Compute 17 * 31. Return only <answer>number</answer>.",
+    "answer": "527"
+  },
+  {
+    "id": "simple-train-196",
+    "prompt": "Compute 19 * 38. Return only <answer>number</answer>.",
+    "answer": "722"
+  },
+  {
+    "id": "simple-train-197",
+    "prompt": "Compute 21 * 22. Return only <answer>number</answer>.",
+    "answer": "462"
+  },
+  {
+    "id": "simple-train-198",
+    "prompt": "Compute 23 * 29. Return only <answer>number</answer>.",
+    "answer": "667"
+  },
+  {
+    "id": "simple-train-199",
+    "prompt": "Compute 25 * 36. Return only <answer>number</answer>.",
+    "answer": "900"
+  },
+  {
+    "id": "simple-train-200",
+    "prompt": "Compute 27 * 20. Return only <answer>number</answer>.",
+    "answer": "540"
+  },
+  {
+    "id": "simple-train-201",
+    "prompt": "Compute 29 * 27. Return only <answer>number</answer>.",
+    "answer": "783"
+  },
+  {
+    "id": "simple-train-202",
+    "prompt": "Compute 31 * 34. Return only <answer>number</answer>.",
+    "answer": "1054"
+  },
+  {
+    "id": "simple-train-203",
+    "prompt": "Compute 33 * 18. Return only <answer>number</answer>.",
+    "answer": "594"
+  },
+  {
+    "id": "simple-train-204",
+    "prompt": "Compute 35 * 25. Return only <answer>number</answer>.",
+    "answer": "875"
+  },
+  {
+    "id": "simple-train-205",
+    "prompt": "Compute 37 * 32. Return only <answer>number</answer>.",
+    "answer": "1184"
+  },
+  {
+    "id": "simple-train-206",
+    "prompt": "Compute 39 * 39. Return only <answer>number</answer>.",
+    "answer": "1521"
+  },
+  {
+    "id": "simple-train-207",
+    "prompt": "Compute 41 * 23. Return only <answer>number</answer>.",
+    "answer": "943"
+  },
+  {
+    "id": "simple-train-208",
+    "prompt": "Compute 43 * 30. Return only <answer>number</answer>.",
+    "answer": "1290"
+  },
+  {
+    "id": "simple-train-209",
+    "prompt": "Compute 45 * 37. Return only <answer>number</answer>.",
+    "answer": "1665"
+  },
+  {
+    "id": "simple-train-210",
+    "prompt": "Compute 47 * 21. Return only <answer>number</answer>.",
+    "answer": "987"
+  },
+  {
+    "id": "simple-train-211",
+    "prompt": "Compute 49 * 28. Return only <answer>number</answer>.",
+    "answer": "1372"
+  },
+  {
+    "id": "simple-train-212",
+    "prompt": "Compute 51 * 35. Return only <answer>number</answer>.",
+    "answer": "1785"
+  },
+  {
+    "id": "simple-train-213",
+    "prompt": "Compute 53 * 19. Return only <answer>number</answer>.",
+    "answer": "1007"
+  },
+  {
+    "id": "simple-train-214",
+    "prompt": "Compute 55 * 26. Return only <answer>number</answer>.",
+    "answer": "1430"
+  },
+  {
+    "id": "simple-train-215",
+    "prompt": "Compute 57 * 33. Return only <answer>number</answer>.",
+    "answer": "1881"
+  },
+  {
+    "id": "simple-train-216",
+    "prompt": "Compute 59 * 17. Return only <answer>number</answer>.",
+    "answer": "1003"
+  },
+  {
+    "id": "simple-train-217",
+    "prompt": "Compute 61 * 24. Return only <answer>number</answer>.",
+    "answer": "1464"
+  },
+  {
+    "id": "simple-train-218",
+    "prompt": "Compute 63 * 31. Return only <answer>number</answer>.",
+    "answer": "1953"
+  },
+  {
+    "id": "simple-train-219",
+    "prompt": "Compute 65 * 38. Return only <answer>number</answer>.",
+    "answer": "2470"
+  },
+  {
+    "id": "simple-train-220",
+    "prompt": "Compute 67 * 22. Return only <answer>number</answer>.",
+    "answer": "1474"
+  },
+  {
+    "id": "simple-train-221",
+    "prompt": "Compute 69 * 29. Return only <answer>number</answer>.",
+    "answer": "2001"
+  },
+  {
+    "id": "simple-train-222",
+    "prompt": "Compute 71 * 36. Return only <answer>number</answer>.",
+    "answer": "2556"
+  },
+  {
+    "id": "simple-train-223",
+    "prompt": "Compute 73 * 20. Return only <answer>number</answer>.",
+    "answer": "1460"
+  },
+  {
+    "id": "simple-train-224",
+    "prompt": "Compute 11 * 28. Return only <answer>number</answer>.",
+    "answer": "308"
+  },
+  {
+    "id": "simple-train-225",
+    "prompt": "Compute 13 * 35. Return only <answer>number</answer>.",
+    "answer": "455"
+  },
+  {
+    "id": "simple-train-226",
+    "prompt": "Compute 15 * 19. Return only <answer>number</answer>.",
+    "answer": "285"
+  },
+  {
+    "id": "simple-train-227",
+    "prompt": "Compute 17 * 26. Return only <answer>number</answer>.",
+    "answer": "442"
+  },
+  {
+    "id": "simple-train-228",
+    "prompt": "Compute 19 * 33. Return only <answer>number</answer>.",
+    "answer": "627"
+  },
+  {
+    "id": "simple-train-229",
+    "prompt": "Compute 21 * 17. Return only <answer>number</answer>.",
+    "answer": "357"
+  },
+  {
+    "id": "simple-train-230",
+    "prompt": "Compute 23 * 24. Return only <answer>number</answer>.",
+    "answer": "552"
+  },
+  {
+    "id": "simple-train-231",
+    "prompt": "Compute 25 * 31. Return only <answer>number</answer>.",
+    "answer": "775"
+  },
+  {
+    "id": "simple-train-232",
+    "prompt": "Compute 27 * 38. Return only <answer>number</answer>.",
+    "answer": "1026"
+  },
+  {
+    "id": "simple-train-233",
+    "prompt": "Compute 29 * 22. Return only <answer>number</answer>.",
+    "answer": "638"
+  },
+  {
+    "id": "simple-train-234",
+    "prompt": "Compute 31 * 29. Return only <answer>number</answer>.",
+    "answer": "899"
+  },
+  {
+    "id": "simple-train-235",
+    "prompt": "Compute 33 * 36. Return only <answer>number</answer>.",
+    "answer": "1188"
+  },
+  {
+    "id": "simple-train-236",
+    "prompt": "Compute 35 * 20. Return only <answer>number</answer>.",
+    "answer": "700"
+  },
+  {
+    "id": "simple-train-237",
+    "prompt": "Compute 37 * 27. Return only <answer>number</answer>.",
+    "answer": "999"
+  },
+  {
+    "id": "simple-train-238",
+    "prompt": "Compute 39 * 34. Return only <answer>number</answer>.",
+    "answer": "1326"
+  },
+  {
+    "id": "simple-train-239",
+    "prompt": "Compute 41 * 18. Return only <answer>number</answer>.",
+    "answer": "738"
+  },
+  {
+    "id": "simple-train-240",
+    "prompt": "Compute 43 * 25. Return only <answer>number</answer>.",
+    "answer": "1075"
+  },
+  {
+    "id": "simple-train-241",
+    "prompt": "Compute 45 * 32. Return only <answer>number</answer>.",
+    "answer": "1440"
+  },
+  {
+    "id": "simple-train-242",
+    "prompt": "Compute 47 * 39. Return only <answer>number</answer>.",
+    "answer": "1833"
+  },
+  {
+    "id": "simple-train-243",
+    "prompt": "Compute 49 * 23. Return only <answer>number</answer>.",
+    "answer": "1127"
+  },
+  {
+    "id": "simple-train-244",
+    "prompt": "Compute 51 * 30. Return only <answer>number</answer>.",
+    "answer": "1530"
+  },
+  {
+    "id": "simple-train-245",
+    "prompt": "Compute 53 * 37. Return only <answer>number</answer>.",
+    "answer": "1961"
+  },
+  {
+    "id": "simple-train-246",
+    "prompt": "Compute 55 * 21. Return only <answer>number</answer>.",
+    "answer": "1155"
+  },
+  {
+    "id": "simple-train-247",
+    "prompt": "Compute 57 * 28. Return only <answer>number</answer>.",
+    "answer": "1596"
+  },
+  {
+    "id": "simple-train-248",
+    "prompt": "Compute 59 * 35. Return only <answer>number</answer>.",
+    "answer": "2065"
+  },
+  {
+    "id": "simple-train-249",
+    "prompt": "Compute 61 * 19. Return only <answer>number</answer>.",
+    "answer": "1159"
+  },
+  {
+    "id": "simple-train-250",
+    "prompt": "Compute 63 * 26. Return only <answer>number</answer>.",
+    "answer": "1638"
+  },
+  {
+    "id": "simple-train-251",
+    "prompt": "Compute 65 * 33. Return only <answer>number</answer>.",
+    "answer": "2145"
+  },
+  {
+    "id": "simple-train-252",
+    "prompt": "Compute 67 * 17. Return only <answer>number</answer>.",
+    "answer": "1139"
+  },
+  {
+    "id": "simple-train-253",
+    "prompt": "Compute 69 * 24. Return only <answer>number</answer>.",
+    "answer": "1656"
+  },
+  {
+    "id": "simple-train-254",
+    "prompt": "Compute 71 * 31. Return only <answer>number</answer>.",
+    "answer": "2201"
+  },
+  {
+    "id": "simple-train-255",
+    "prompt": "Compute 73 * 38. Return only <answer>number</answer>.",
+    "answer": "2774"
+  },
+  {
+    "id": "simple-train-256",
+    "prompt": "Compute 11 * 23. Return only <answer>number</answer>.",
+    "answer": "253"
+  },
+  {
+    "id": "simple-train-257",
+    "prompt": "Compute 13 * 30. Return only <answer>number</answer>.",
+    "answer": "390"
+  },
+  {
+    "id": "simple-train-258",
+    "prompt": "Compute 15 * 37. Return only <answer>number</answer>.",
+    "answer": "555"
+  },
+  {
+    "id": "simple-train-259",
+    "prompt": "Compute 17 * 21. Return only <answer>number</answer>.",
+    "answer": "357"
+  },
+  {
+    "id": "simple-train-260",
+    "prompt": "Compute 19 * 28. Return only <answer>number</answer>.",
+    "answer": "532"
+  },
+  {
+    "id": "simple-train-261",
+    "prompt": "Compute 21 * 35. Return only <answer>number</answer>.",
+    "answer": "735"
+  },
+  {
+    "id": "simple-train-262",
+    "prompt": "Compute 23 * 19. Return only <answer>number</answer>.",
+    "answer": "437"
+  },
+  {
+    "id": "simple-train-263",
+    "prompt": "Compute 25 * 26. Return only <answer>number</answer>.",
+    "answer": "650"
+  },
+  {
+    "id": "simple-train-264",
+    "prompt": "Compute 27 * 33. Return only <answer>number</answer>.",
+    "answer": "891"
+  },
+  {
+    "id": "simple-train-265",
+    "prompt": "Compute 29 * 17. Return only <answer>number</answer>.",
+    "answer": "493"
+  },
+  {
+    "id": "simple-train-266",
+    "prompt": "Compute 31 * 24. Return only <answer>number</answer>.",
+    "answer": "744"
+  },
+  {
+    "id": "simple-train-267",
+    "prompt": "Compute 33 * 31. Return only <answer>number</answer>.",
+    "answer": "1023"
+  },
+  {
+    "id": "simple-train-268",
+    "prompt": "Compute 35 * 38. Return only <answer>number</answer>.",
+    "answer": "1330"
+  },
+  {
+    "id": "simple-train-269",
+    "prompt": "Compute 37 * 22. Return only <answer>number</answer>.",
+    "answer": "814"
+  },
+  {
+    "id": "simple-train-270",
+    "prompt": "Compute 39 * 29. Return only <answer>number</answer>.",
+    "answer": "1131"
+  },
+  {
+    "id": "simple-train-271",
+    "prompt": "Compute 41 * 36. Return only <answer>number</answer>.",
+    "answer": "1476"
+  },
+  {
+    "id": "simple-train-272",
+    "prompt": "Compute 43 * 20. Return only <answer>number</answer>.",
+    "answer": "860"
+  },
+  {
+    "id": "simple-train-273",
+    "prompt": "Compute 45 * 27. Return only <answer>number</answer>.",
+    "answer": "1215"
+  },
+  {
+    "id": "simple-train-274",
+    "prompt": "Compute 47 * 34. Return only <answer>number</answer>.",
+    "answer": "1598"
+  },
+  {
+    "id": "simple-train-275",
+    "prompt": "Compute 49 * 18. Return only <answer>number</answer>.",
+    "answer": "882"
+  },
+  {
+    "id": "simple-train-276",
+    "prompt": "Compute 51 * 25. Return only <answer>number</answer>.",
+    "answer": "1275"
+  },
+  {
+    "id": "simple-train-277",
+    "prompt": "Compute 53 * 32. Return only <answer>number</answer>.",
+    "answer": "1696"
+  },
+  {
+    "id": "simple-train-278",
+    "prompt": "Compute 55 * 39. Return only <answer>number</answer>.",
+    "answer": "2145"
+  },
+  {
+    "id": "simple-train-279",
+    "prompt": "Compute 57 * 23. Return only <answer>number</answer>.",
+    "answer": "1311"
+  },
+  {
+    "id": "simple-train-280",
+    "prompt": "Compute 59 * 30. Return only <answer>number</answer>.",
+    "answer": "1770"
+  },
+  {
+    "id": "simple-train-281",
+    "prompt": "Compute 61 * 37. Return only <answer>number</answer>.",
+    "answer": "2257"
+  },
+  {
+    "id": "simple-train-282",
+    "prompt": "Compute 63 * 21. Return only <answer>number</answer>.",
+    "answer": "1323"
+  },
+  {
+    "id": "simple-train-283",
+    "prompt": "Compute 65 * 28. Return only <answer>number</answer>.",
+    "answer": "1820"
+  },
+  {
+    "id": "simple-train-284",
+    "prompt": "Compute 67 * 35. Return only <answer>number</answer>.",
+    "answer": "2345"
+  },
+  {
+    "id": "simple-train-285",
+    "prompt": "Compute 69 * 19. Return only <answer>number</answer>.",
+    "answer": "1311"
+  },
+  {
+    "id": "simple-train-286",
+    "prompt": "Compute 71 * 26. Return only <answer>number</answer>.",
+    "answer": "1846"
+  },
+  {
+    "id": "simple-train-287",
+    "prompt": "Compute 73 * 33. Return only <answer>number</answer>.",
+    "answer": "2409"
+  },
+  {
+    "id": "simple-train-288",
+    "prompt": "Compute 11 * 18. Return only <answer>number</answer>.",
+    "answer": "198"
+  },
+  {
+    "id": "simple-train-289",
+    "prompt": "Compute 13 * 25. Return only <answer>number</answer>.",
+    "answer": "325"
+  },
+  {
+    "id": "simple-train-290",
+    "prompt": "Compute 15 * 32. Return only <answer>number</answer>.",
+    "answer": "480"
+  },
+  {
+    "id": "simple-train-291",
+    "prompt": "Compute 17 * 39. Return only <answer>number</answer>.",
+    "answer": "663"
+  },
+  {
+    "id": "simple-train-292",
+    "prompt": "Compute 19 * 23. Return only <answer>number</answer>.",
+    "answer": "437"
+  },
+  {
+    "id": "simple-train-293",
+    "prompt": "Compute 21 * 30. Return only <answer>number</answer>.",
+    "answer": "630"
+  },
+  {
+    "id": "simple-train-294",
+    "prompt": "Compute 23 * 37. Return only <answer>number</answer>.",
+    "answer": "851"
+  },
+  {
+    "id": "simple-train-295",
+    "prompt": "Compute 25 * 21. Return only <answer>number</answer>.",
+    "answer": "525"
+  },
+  {
+    "id": "simple-train-296",
+    "prompt": "Compute 27 * 28. Return only <answer>number</answer>.",
+    "answer": "756"
+  },
+  {
+    "id": "simple-train-297",
+    "prompt": "Compute 29 * 35. Return only <answer>number</answer>.",
+    "answer": "1015"
+  },
+  {
+    "id": "simple-train-298",
+    "prompt": "Compute 31 * 19. Return only <answer>number</answer>.",
+    "answer": "589"
+  },
+  {
+    "id": "simple-train-299",
+    "prompt": "Compute 33 * 26. Return only <answer>number</answer>.",
+    "answer": "858"
+  },
+  {
+    "id": "simple-train-300",
+    "prompt": "Compute 35 * 33. Return only <answer>number</answer>.",
+    "answer": "1155"
+  },
+  {
+    "id": "simple-train-301",
+    "prompt": "Compute 37 * 17. Return only <answer>number</answer>.",
+    "answer": "629"
+  },
+  {
+    "id": "simple-train-302",
+    "prompt": "Compute 39 * 24. Return only <answer>number</answer>.",
+    "answer": "936"
+  },
+  {
+    "id": "simple-train-303",
+    "prompt": "Compute 41 * 31. Return only <answer>number</answer>.",
+    "answer": "1271"
+  },
+  {
+    "id": "simple-train-304",
+    "prompt": "Compute 43 * 38. Return only <answer>number</answer>.",
+    "answer": "1634"
+  },
+  {
+    "id": "simple-train-305",
+    "prompt": "Compute 45 * 22. Return only <answer>number</answer>.",
+    "answer": "990"
+  },
+  {
+    "id": "simple-train-306",
+    "prompt": "Compute 47 * 29. Return only <answer>number</answer>.",
+    "answer": "1363"
+  },
+  {
+    "id": "simple-train-307",
+    "prompt": "Compute 49 * 36. Return only <answer>number</answer>.",
+    "answer": "1764"
+  },
+  {
+    "id": "simple-train-308",
+    "prompt": "Compute 51 * 20. Return only <answer>number</answer>.",
+    "answer": "1020"
+  },
+  {
+    "id": "simple-train-309",
+    "prompt": "Compute 53 * 27. Return only <answer>number</answer>.",
+    "answer": "1431"
+  },
+  {
+    "id": "simple-train-310",
+    "prompt": "Compute 55 * 34. Return only <answer>number</answer>.",
+    "answer": "1870"
+  },
+  {
+    "id": "simple-train-311",
+    "prompt": "Compute 57 * 18. Return only <answer>number</answer>.",
+    "answer": "1026"
+  },
+  {
+    "id": "simple-train-312",
+    "prompt": "Compute 59 * 25. Return only <answer>number</answer>.",
+    "answer": "1475"
+  },
+  {
+    "id": "simple-train-313",
+    "prompt": "Compute 61 * 32. Return only <answer>number</answer>.",
+    "answer": "1952"
+  },
+  {
+    "id": "simple-train-314",
+    "prompt": "Compute 63 * 39. Return only <answer>number</answer>.",
+    "answer": "2457"
+  },
+  {
+    "id": "simple-train-315",
+    "prompt": "Compute 65 * 23. Return only <answer>number</answer>.",
+    "answer": "1495"
+  },
+  {
+    "id": "simple-train-316",
+    "prompt": "Compute 67 * 30. Return only <answer>number</answer>.",
+    "answer": "2010"
+  },
+  {
+    "id": "simple-train-317",
+    "prompt": "Compute 69 * 37. Return only <answer>number</answer>.",
+    "answer": "2553"
+  },
+  {
+    "id": "simple-train-318",
+    "prompt": "Compute 71 * 21. Return only <answer>number</answer>.",
+    "answer": "1491"
+  },
+  {
+    "id": "simple-train-319",
+    "prompt": "Compute 73 * 28. Return only <answer>number</answer>.",
+    "answer": "2044"
+  },
+  {
+    "id": "simple-train-320",
+    "prompt": "Compute 11 * 36. Return only <answer>number</answer>.",
+    "answer": "396"
+  },
+  {
+    "id": "simple-train-321",
+    "prompt": "Compute 13 * 20. Return only <answer>number</answer>.",
+    "answer": "260"
+  },
+  {
+    "id": "simple-train-322",
+    "prompt": "Compute 15 * 27. Return only <answer>number</answer>.",
+    "answer": "405"
+  },
+  {
+    "id": "simple-train-323",
+    "prompt": "Compute 17 * 34. Return only <answer>number</answer>.",
+    "answer": "578"
+  },
+  {
+    "id": "simple-train-324",
+    "prompt": "Compute 19 * 18. Return only <answer>number</answer>.",
+    "answer": "342"
+  },
+  {
+    "id": "simple-train-325",
+    "prompt": "Compute 21 * 25. Return only <answer>number</answer>.",
+    "answer": "525"
+  },
+  {
+    "id": "simple-train-326",
+    "prompt": "Compute 23 * 32. Return only <answer>number</answer>.",
+    "answer": "736"
+  },
+  {
+    "id": "simple-train-327",
+    "prompt": "Compute 25 * 39. Return only <answer>number</answer>.",
+    "answer": "975"
+  },
+  {
+    "id": "simple-train-328",
+    "prompt": "Compute 27 * 23. Return only <answer>number</answer>.",
+    "answer": "621"
+  },
+  {
+    "id": "simple-train-329",
+    "prompt": "Compute 29 * 30. Return only <answer>number</answer>.",
+    "answer": "870"
+  },
+  {
+    "id": "simple-train-330",
+    "prompt": "Compute 31 * 37. Return only <answer>number</answer>.",
+    "answer": "1147"
+  },
+  {
+    "id": "simple-train-331",
+    "prompt": "Compute 33 * 21. Return only <answer>number</answer>.",
+    "answer": "693"
+  },
+  {
+    "id": "simple-train-332",
+    "prompt": "Compute 35 * 28. Return only <answer>number</answer>.",
+    "answer": "980"
+  },
+  {
+    "id": "simple-train-333",
+    "prompt": "Compute 37 * 35. Return only <answer>number</answer>.",
+    "answer": "1295"
+  },
+  {
+    "id": "simple-train-334",
+    "prompt": "Compute 39 * 19. Return only <answer>number</answer>.",
+    "answer": "741"
+  },
+  {
+    "id": "simple-train-335",
+    "prompt": "Compute 41 * 26. Return only <answer>number</answer>.",
+    "answer": "1066"
+  },
+  {
+    "id": "simple-train-336",
+    "prompt": "Compute 43 * 33. Return only <answer>number</answer>.",
+    "answer": "1419"
+  },
+  {
+    "id": "simple-train-337",
+    "prompt": "Compute 45 * 17. Return only <answer>number</answer>.",
+    "answer": "765"
+  },
+  {
+    "id": "simple-train-338",
+    "prompt": "Compute 47 * 24. Return only <answer>number</answer>.",
+    "answer": "1128"
+  },
+  {
+    "id": "simple-train-339",
+    "prompt": "Compute 49 * 31. Return only <answer>number</answer>.",
+    "answer": "1519"
+  },
+  {
+    "id": "simple-train-340",
+    "prompt": "Compute 51 * 38. Return only <answer>number</answer>.",
+    "answer": "1938"
+  },
+  {
+    "id": "simple-train-341",
+    "prompt": "Compute 53 * 22. Return only <answer>number</answer>.",
+    "answer": "1166"
+  },
+  {
+    "id": "simple-train-342",
+    "prompt": "Compute 55 * 29. Return only <answer>number</answer>.",
+    "answer": "1595"
+  },
+  {
+    "id": "simple-train-343",
+    "prompt": "Compute 57 * 36. Return only <answer>number</answer>.",
+    "answer": "2052"
+  },
+  {
+    "id": "simple-train-344",
+    "prompt": "Compute 59 * 20. Return only <answer>number</answer>.",
+    "answer": "1180"
+  },
+  {
+    "id": "simple-train-345",
+    "prompt": "Compute 61 * 27. Return only <answer>number</answer>.",
+    "answer": "1647"
+  },
+  {
+    "id": "simple-train-346",
+    "prompt": "Compute 63 * 34. Return only <answer>number</answer>.",
+    "answer": "2142"
+  },
+  {
+    "id": "simple-train-347",
+    "prompt": "Compute 65 * 18. Return only <answer>number</answer>.",
+    "answer": "1170"
+  },
+  {
+    "id": "simple-train-348",
+    "prompt": "Compute 67 * 25. Return only <answer>number</answer>.",
+    "answer": "1675"
+  },
+  {
+    "id": "simple-train-349",
+    "prompt": "Compute 69 * 32. Return only <answer>number</answer>.",
+    "answer": "2208"
+  },
+  {
+    "id": "simple-train-350",
+    "prompt": "Compute 71 * 39. Return only <answer>number</answer>.",
+    "answer": "2769"
+  },
+  {
+    "id": "simple-train-351",
+    "prompt": "Compute 73 * 23. Return only <answer>number</answer>.",
+    "answer": "1679"
+  },
+  {
+    "id": "simple-train-352",
+    "prompt": "Compute 11 * 31. Return only <answer>number</answer>.",
+    "answer": "341"
+  },
+  {
+    "id": "simple-train-353",
+    "prompt": "Compute 13 * 38. Return only <answer>number</answer>.",
+    "answer": "494"
+  },
+  {
+    "id": "simple-train-354",
+    "prompt": "Compute 15 * 22. Return only <answer>number</answer>.",
+    "answer": "330"
+  },
+  {
+    "id": "simple-train-355",
+    "prompt": "Compute 17 * 29. Return only <answer>number</answer>.",
+    "answer": "493"
+  },
+  {
+    "id": "simple-train-356",
+    "prompt": "Compute 19 * 36. Return only <answer>number</answer>.",
+    "answer": "684"
+  },
+  {
+    "id": "simple-train-357",
+    "prompt": "Compute 21 * 20. Return only <answer>number</answer>.",
+    "answer": "420"
+  },
+  {
+    "id": "simple-train-358",
+    "prompt": "Compute 23 * 27. Return only <answer>number</answer>.",
+    "answer": "621"
+  },
+  {
+    "id": "simple-train-359",
+    "prompt": "Compute 25 * 34. Return only <answer>number</answer>.",
+    "answer": "850"
+  },
+  {
+    "id": "simple-train-360",
+    "prompt": "Compute 27 * 18. Return only <answer>number</answer>.",
+    "answer": "486"
+  },
+  {
+    "id": "simple-train-361",
+    "prompt": "Compute 29 * 25. Return only <answer>number</answer>.",
+    "answer": "725"
+  },
+  {
+    "id": "simple-train-362",
+    "prompt": "Compute 31 * 32. Return only <answer>number</answer>.",
+    "answer": "992"
+  },
+  {
+    "id": "simple-train-363",
+    "prompt": "Compute 33 * 39. Return only <answer>number</answer>.",
+    "answer": "1287"
+  },
+  {
+    "id": "simple-train-364",
+    "prompt": "Compute 35 * 23. Return only <answer>number</answer>.",
+    "answer": "805"
+  },
+  {
+    "id": "simple-train-365",
+    "prompt": "Compute 37 * 30. Return only <answer>number</answer>.",
+    "answer": "1110"
+  },
+  {
+    "id": "simple-train-366",
+    "prompt": "Compute 39 * 37. Return only <answer>number</answer>.",
+    "answer": "1443"
+  },
+  {
+    "id": "simple-train-367",
+    "prompt": "Compute 41 * 21. Return only <answer>number</answer>.",
+    "answer": "861"
+  },
+  {
+    "id": "simple-train-368",
+    "prompt": "Compute 43 * 28. Return only <answer>number</answer>.",
+    "answer": "1204"
+  },
+  {
+    "id": "simple-train-369",
+    "prompt": "Compute 45 * 35. Return only <answer>number</answer>.",
+    "answer": "1575"
+  },
+  {
+    "id": "simple-train-370",
+    "prompt": "Compute 47 * 19. Return only <answer>number</answer>.",
+    "answer": "893"
+  },
+  {
+    "id": "simple-train-371",
+    "prompt": "Compute 49 * 26. Return only <answer>number</answer>.",
+    "answer": "1274"
+  },
+  {
+    "id": "simple-train-372",
+    "prompt": "Compute 51 * 33. Return only <answer>number</answer>.",
+    "answer": "1683"
+  },
+  {
+    "id": "simple-train-373",
+    "prompt": "Compute 53 * 17. Return only <answer>number</answer>.",
+    "answer": "901"
+  },
+  {
+    "id": "simple-train-374",
+    "prompt": "Compute 55 * 24. Return only <answer>number</answer>.",
+    "answer": "1320"
+  },
+  {
+    "id": "simple-train-375",
+    "prompt": "Compute 57 * 31. Return only <answer>number</answer>.",
+    "answer": "1767"
+  },
+  {
+    "id": "simple-train-376",
+    "prompt": "Compute 59 * 38. Return only <answer>number</answer>.",
+    "answer": "2242"
+  },
+  {
+    "id": "simple-train-377",
+    "prompt": "Compute 61 * 22. Return only <answer>number</answer>.",
+    "answer": "1342"
+  },
+  {
+    "id": "simple-train-378",
+    "prompt": "Compute 63 * 29. Return only <answer>number</answer>.",
+    "answer": "1827"
+  },
+  {
+    "id": "simple-train-379",
+    "prompt": "Compute 65 * 36. Return only <answer>number</answer>.",
+    "answer": "2340"
+  },
+  {
+    "id": "simple-train-380",
+    "prompt": "Compute 67 * 20. Return only <answer>number</answer>.",
+    "answer": "1340"
+  },
+  {
+    "id": "simple-train-381",
+    "prompt": "Compute 69 * 27. Return only <answer>number</answer>.",
+    "answer": "1863"
+  },
+  {
+    "id": "simple-train-382",
+    "prompt": "Compute 71 * 34. Return only <answer>number</answer>.",
+    "answer": "2414"
+  },
+  {
+    "id": "simple-train-383",
+    "prompt": "Compute 73 * 18. Return only <answer>number</answer>.",
+    "answer": "1314"
+  },
+  {
+    "id": "simple-train-384",
+    "prompt": "Compute 11 * 26. Return only <answer>number</answer>.",
+    "answer": "286"
+  },
+  {
+    "id": "simple-train-385",
+    "prompt": "Compute 13 * 33. Return only <answer>number</answer>.",
+    "answer": "429"
+  },
+  {
+    "id": "simple-train-386",
+    "prompt": "Compute 15 * 17. Return only <answer>number</answer>.",
+    "answer": "255"
+  },
+  {
+    "id": "simple-train-387",
+    "prompt": "Compute 17 * 24. Return only <answer>number</answer>.",
+    "answer": "408"
+  },
+  {
+    "id": "simple-train-388",
+    "prompt": "Compute 19 * 31. Return only <answer>number</answer>.",
+    "answer": "589"
+  },
+  {
+    "id": "simple-train-389",
+    "prompt": "Compute 21 * 38. Return only <answer>number</answer>.",
+    "answer": "798"
+  },
+  {
+    "id": "simple-train-390",
+    "prompt": "Compute 23 * 22. Return only <answer>number</answer>.",
+    "answer": "506"
+  },
+  {
+    "id": "simple-train-391",
+    "prompt": "Compute 25 * 29. Return only <answer>number</answer>.",
+    "answer": "725"
+  },
+  {
+    "id": "simple-train-392",
+    "prompt": "Compute 27 * 36. Return only <answer>number</answer>.",
+    "answer": "972"
+  },
+  {
+    "id": "simple-train-393",
+    "prompt": "Compute 29 * 20. Return only <answer>number</answer>.",
+    "answer": "580"
+  },
+  {
+    "id": "simple-train-394",
+    "prompt": "Compute 31 * 27. Return only <answer>number</answer>.",
+    "answer": "837"
+  },
+  {
+    "id": "simple-train-395",
+    "prompt": "Compute 33 * 34. Return only <answer>number</answer>.",
+    "answer": "1122"
+  },
+  {
+    "id": "simple-train-396",
+    "prompt": "Compute 35 * 18. Return only <answer>number</answer>.",
+    "answer": "630"
+  },
+  {
+    "id": "simple-train-397",
+    "prompt": "Compute 37 * 25. Return only <answer>number</answer>.",
+    "answer": "925"
+  },
+  {
+    "id": "simple-train-398",
+    "prompt": "Compute 39 * 32. Return only <answer>number</answer>.",
+    "answer": "1248"
+  },
+  {
+    "id": "simple-train-399",
+    "prompt": "Compute 41 * 39. Return only <answer>number</answer>.",
+    "answer": "1599"
+  },
+  {
+    "id": "simple-train-400",
+    "prompt": "Compute 43 * 23. Return only <answer>number</answer>.",
+    "answer": "989"
+  },
+  {
+    "id": "simple-train-401",
+    "prompt": "Compute 45 * 30. Return only <answer>number</answer>.",
+    "answer": "1350"
+  },
+  {
+    "id": "simple-train-402",
+    "prompt": "Compute 47 * 37. Return only <answer>number</answer>.",
+    "answer": "1739"
+  },
+  {
+    "id": "simple-train-403",
+    "prompt": "Compute 49 * 21. Return only <answer>number</answer>.",
+    "answer": "1029"
+  },
+  {
+    "id": "simple-train-404",
+    "prompt": "Compute 51 * 28. Return only <answer>number</answer>.",
+    "answer": "1428"
+  },
+  {
+    "id": "simple-train-405",
+    "prompt": "Compute 53 * 35. Return only <answer>number</answer>.",
+    "answer": "1855"
+  },
+  {
+    "id": "simple-train-406",
+    "prompt": "Compute 55 * 19. Return only <answer>number</answer>.",
+    "answer": "1045"
+  },
+  {
+    "id": "simple-train-407",
+    "prompt": "Compute 57 * 26. Return only <answer>number</answer>.",
+    "answer": "1482"
+  },
+  {
+    "id": "simple-train-408",
+    "prompt": "Compute 59 * 33. Return only <answer>number</answer>.",
+    "answer": "1947"
+  },
+  {
+    "id": "simple-train-409",
+    "prompt": "Compute 61 * 17. Return only <answer>number</answer>.",
+    "answer": "1037"
+  },
+  {
+    "id": "simple-train-410",
+    "prompt": "Compute 63 * 24. Return only <answer>number</answer>.",
+    "answer": "1512"
+  },
+  {
+    "id": "simple-train-411",
+    "prompt": "Compute 65 * 31. Return only <answer>number</answer>.",
+    "answer": "2015"
+  },
+  {
+    "id": "simple-train-412",
+    "prompt": "Compute 67 * 38. Return only <answer>number</answer>.",
+    "answer": "2546"
+  },
+  {
+    "id": "simple-train-413",
+    "prompt": "Compute 69 * 22. Return only <answer>number</answer>.",
+    "answer": "1518"
+  },
+  {
+    "id": "simple-train-414",
+    "prompt": "Compute 71 * 29. Return only <answer>number</answer>.",
+    "answer": "2059"
+  },
+  {
+    "id": "simple-train-415",
+    "prompt": "Compute 73 * 36. Return only <answer>number</answer>.",
+    "answer": "2628"
+  },
+  {
+    "id": "simple-train-416",
+    "prompt": "Compute 11 * 21. Return only <answer>number</answer>.",
+    "answer": "231"
+  },
+  {
+    "id": "simple-train-417",
+    "prompt": "Compute 13 * 28. Return only <answer>number</answer>.",
+    "answer": "364"
+  },
+  {
+    "id": "simple-train-418",
+    "prompt": "Compute 15 * 35. Return only <answer>number</answer>.",
+    "answer": "525"
+  },
+  {
+    "id": "simple-train-419",
+    "prompt": "Compute 17 * 19. Return only <answer>number</answer>.",
+    "answer": "323"
+  },
+  {
+    "id": "simple-train-420",
+    "prompt": "Compute 19 * 26. Return only <answer>number</answer>.",
+    "answer": "494"
+  },
+  {
+    "id": "simple-train-421",
+    "prompt": "Compute 21 * 33. Return only <answer>number</answer>.",
+    "answer": "693"
+  },
+  {
+    "id": "simple-train-422",
+    "prompt": "Compute 23 * 17. Return only <answer>number</answer>.",
+    "answer": "391"
+  },
+  {
+    "id": "simple-train-423",
+    "prompt": "Compute 25 * 24. Return only <answer>number</answer>.",
+    "answer": "600"
+  },
+  {
+    "id": "simple-train-424",
+    "prompt": "Compute 27 * 31. Return only <answer>number</answer>.",
+    "answer": "837"
+  },
+  {
+    "id": "simple-train-425",
+    "prompt": "Compute 29 * 38. Return only <answer>number</answer>.",
+    "answer": "1102"
+  },
+  {
+    "id": "simple-train-426",
+    "prompt": "Compute 31 * 22. Return only <answer>number</answer>.",
+    "answer": "682"
+  },
+  {
+    "id": "simple-train-427",
+    "prompt": "Compute 33 * 29. Return only <answer>number</answer>.",
+    "answer": "957"
+  },
+  {
+    "id": "simple-train-428",
+    "prompt": "Compute 35 * 36. Return only <answer>number</answer>.",
+    "answer": "1260"
+  },
+  {
+    "id": "simple-train-429",
+    "prompt": "Compute 37 * 20. Return only <answer>number</answer>.",
+    "answer": "740"
+  },
+  {
+    "id": "simple-train-430",
+    "prompt": "Compute 39 * 27. Return only <answer>number</answer>.",
+    "answer": "1053"
+  },
+  {
+    "id": "simple-train-431",
+    "prompt": "Compute 41 * 34. Return only <answer>number</answer>.",
+    "answer": "1394"
+  },
+  {
+    "id": "simple-train-432",
+    "prompt": "Compute 43 * 18. Return only <answer>number</answer>.",
+    "answer": "774"
+  },
+  {
+    "id": "simple-train-433",
+    "prompt": "Compute 45 * 25. Return only <answer>number</answer>.",
+    "answer": "1125"
+  },
+  {
+    "id": "simple-train-434",
+    "prompt": "Compute 47 * 32. Return only <answer>number</answer>.",
+    "answer": "1504"
+  },
+  {
+    "id": "simple-train-435",
+    "prompt": "Compute 49 * 39. Return only <answer>number</answer>.",
+    "answer": "1911"
+  },
+  {
+    "id": "simple-train-436",
+    "prompt": "Compute 51 * 23. Return only <answer>number</answer>.",
+    "answer": "1173"
+  },
+  {
+    "id": "simple-train-437",
+    "prompt": "Compute 53 * 30. Return only <answer>number</answer>.",
+    "answer": "1590"
+  },
+  {
+    "id": "simple-train-438",
+    "prompt": "Compute 55 * 37. Return only <answer>number</answer>.",
+    "answer": "2035"
+  },
+  {
+    "id": "simple-train-439",
+    "prompt": "Compute 57 * 21. Return only <answer>number</answer>.",
+    "answer": "1197"
+  },
+  {
+    "id": "simple-train-440",
+    "prompt": "Compute 59 * 28. Return only <answer>number</answer>.",
+    "answer": "1652"
+  },
+  {
+    "id": "simple-train-441",
+    "prompt": "Compute 61 * 35. Return only <answer>number</answer>.",
+    "answer": "2135"
+  },
+  {
+    "id": "simple-train-442",
+    "prompt": "Compute 63 * 19. Return only <answer>number</answer>.",
+    "answer": "1197"
+  },
+  {
+    "id": "simple-train-443",
+    "prompt": "Compute 65 * 26. Return only <answer>number</answer>.",
+    "answer": "1690"
+  },
+  {
+    "id": "simple-train-444",
+    "prompt": "Compute 67 * 33. Return only <answer>number</answer>.",
+    "answer": "2211"
+  },
+  {
+    "id": "simple-train-445",
+    "prompt": "Compute 69 * 17. Return only <answer>number</answer>.",
+    "answer": "1173"
+  },
+  {
+    "id": "simple-train-446",
+    "prompt": "Compute 71 * 24. Return only <answer>number</answer>.",
+    "answer": "1704"
+  },
+  {
+    "id": "simple-train-447",
+    "prompt": "Compute 73 * 31. Return only <answer>number</answer>.",
+    "answer": "2263"
+  },
+  {
+    "id": "simple-train-448",
+    "prompt": "Compute 11 * 39. Return only <answer>number</answer>.",
+    "answer": "429"
+  },
+  {
+    "id": "simple-train-449",
+    "prompt": "Compute 13 * 23. Return only <answer>number</answer>.",
+    "answer": "299"
+  },
+  {
+    "id": "simple-train-450",
+    "prompt": "Compute 15 * 30. Return only <answer>number</answer>.",
+    "answer": "450"
+  },
+  {
+    "id": "simple-train-451",
+    "prompt": "Compute 17 * 37. Return only <answer>number</answer>.",
+    "answer": "629"
+  },
+  {
+    "id": "simple-train-452",
+    "prompt": "Compute 19 * 21. Return only <answer>number</answer>.",
+    "answer": "399"
+  },
+  {
+    "id": "simple-train-453",
+    "prompt": "Compute 21 * 28. Return only <answer>number</answer>.",
+    "answer": "588"
+  },
+  {
+    "id": "simple-train-454",
+    "prompt": "Compute 23 * 35. Return only <answer>number</answer>.",
+    "answer": "805"
+  },
+  {
+    "id": "simple-train-455",
+    "prompt": "Compute 25 * 19. Return only <answer>number</answer>.",
+    "answer": "475"
+  },
+  {
+    "id": "simple-train-456",
+    "prompt": "Compute 27 * 26. Return only <answer>number</answer>.",
+    "answer": "702"
+  },
+  {
+    "id": "simple-train-457",
+    "prompt": "Compute 29 * 33. Return only <answer>number</answer>.",
+    "answer": "957"
+  },
+  {
+    "id": "simple-train-458",
+    "prompt": "Compute 31 * 17. Return only <answer>number</answer>.",
+    "answer": "527"
+  },
+  {
+    "id": "simple-train-459",
+    "prompt": "Compute 33 * 24. Return only <answer>number</answer>.",
+    "answer": "792"
+  },
+  {
+    "id": "simple-train-460",
+    "prompt": "Compute 35 * 31. Return only <answer>number</answer>.",
+    "answer": "1085"
+  },
+  {
+    "id": "simple-train-461",
+    "prompt": "Compute 37 * 38. Return only <answer>number</answer>.",
+    "answer": "1406"
+  },
+  {
+    "id": "simple-train-462",
+    "prompt": "Compute 39 * 22. Return only <answer>number</answer>.",
+    "answer": "858"
+  },
+  {
+    "id": "simple-train-463",
+    "prompt": "Compute 41 * 29. Return only <answer>number</answer>.",
+    "answer": "1189"
+  },
+  {
+    "id": "simple-train-464",
+    "prompt": "Compute 43 * 36. Return only <answer>number</answer>.",
+    "answer": "1548"
+  },
+  {
+    "id": "simple-train-465",
+    "prompt": "Compute 45 * 20. Return only <answer>number</answer>.",
+    "answer": "900"
+  },
+  {
+    "id": "simple-train-466",
+    "prompt": "Compute 47 * 27. Return only <answer>number</answer>.",
+    "answer": "1269"
+  },
+  {
+    "id": "simple-train-467",
+    "prompt": "Compute 49 * 34. Return only <answer>number</answer>.",
+    "answer": "1666"
+  },
+  {
+    "id": "simple-train-468",
+    "prompt": "Compute 51 * 18. Return only <answer>number</answer>.",
+    "answer": "918"
+  },
+  {
+    "id": "simple-train-469",
+    "prompt": "Compute 53 * 25. Return only <answer>number</answer>.",
+    "answer": "1325"
+  },
+  {
+    "id": "simple-train-470",
+    "prompt": "Compute 55 * 32. Return only <answer>number</answer>.",
+    "answer": "1760"
+  },
+  {
+    "id": "simple-train-471",
+    "prompt": "Compute 57 * 39. Return only <answer>number</answer>.",
+    "answer": "2223"
+  },
+  {
+    "id": "simple-train-472",
+    "prompt": "Compute 59 * 23. Return only <answer>number</answer>.",
+    "answer": "1357"
+  },
+  {
+    "id": "simple-train-473",
+    "prompt": "Compute 61 * 30. Return only <answer>number</answer>.",
+    "answer": "1830"
+  },
+  {
+    "id": "simple-train-474",
+    "prompt": "Compute 63 * 37. Return only <answer>number</answer>.",
+    "answer": "2331"
+  },
+  {
+    "id": "simple-train-475",
+    "prompt": "Compute 65 * 21. Return only <answer>number</answer>.",
+    "answer": "1365"
+  },
+  {
+    "id": "simple-train-476",
+    "prompt": "Compute 67 * 28. Return only <answer>number</answer>.",
+    "answer": "1876"
+  },
+  {
+    "id": "simple-train-477",
+    "prompt": "Compute 69 * 35. Return only <answer>number</answer>.",
+    "answer": "2415"
+  },
+  {
+    "id": "simple-train-478",
+    "prompt": "Compute 71 * 19. Return only <answer>number</answer>.",
+    "answer": "1349"
+  },
+  {
+    "id": "simple-train-479",
+    "prompt": "Compute 73 * 26. Return only <answer>number</answer>.",
+    "answer": "1898"
+  },
+  {
+    "id": "simple-train-480",
+    "prompt": "Compute 11 * 34. Return only <answer>number</answer>.",
+    "answer": "374"
+  },
+  {
+    "id": "simple-train-481",
+    "prompt": "Compute 13 * 18. Return only <answer>number</answer>.",
+    "answer": "234"
+  },
+  {
+    "id": "simple-train-482",
+    "prompt": "Compute 15 * 25. Return only <answer>number</answer>.",
+    "answer": "375"
+  },
+  {
+    "id": "simple-train-483",
+    "prompt": "Compute 17 * 32. Return only <answer>number</answer>.",
+    "answer": "544"
+  },
+  {
+    "id": "simple-train-484",
+    "prompt": "Compute 19 * 39. Return only <answer>number</answer>.",
+    "answer": "741"
+  },
+  {
+    "id": "simple-train-485",
+    "prompt": "Compute 21 * 23. Return only <answer>number</answer>.",
+    "answer": "483"
+  },
+  {
+    "id": "simple-train-486",
+    "prompt": "Compute 23 * 30. Return only <answer>number</answer>.",
+    "answer": "690"
+  },
+  {
+    "id": "simple-train-487",
+    "prompt": "Compute 25 * 37. Return only <answer>number</answer>.",
+    "answer": "925"
+  },
+  {
+    "id": "simple-train-488",
+    "prompt": "Compute 27 * 21. Return only <answer>number</answer>.",
+    "answer": "567"
+  },
+  {
+    "id": "simple-train-489",
+    "prompt": "Compute 29 * 28. Return only <answer>number</answer>.",
+    "answer": "812"
+  },
+  {
+    "id": "simple-train-490",
+    "prompt": "Compute 31 * 35. Return only <answer>number</answer>.",
+    "answer": "1085"
+  },
+  {
+    "id": "simple-train-491",
+    "prompt": "Compute 33 * 19. Return only <answer>number</answer>.",
+    "answer": "627"
+  },
+  {
+    "id": "simple-train-492",
+    "prompt": "Compute 35 * 26. Return only <answer>number</answer>.",
+    "answer": "910"
+  },
+  {
+    "id": "simple-train-493",
+    "prompt": "Compute 37 * 33. Return only <answer>number</answer>.",
+    "answer": "1221"
+  },
+  {
+    "id": "simple-train-494",
+    "prompt": "Compute 39 * 17. Return only <answer>number</answer>.",
+    "answer": "663"
+  },
+  {
+    "id": "simple-train-495",
+    "prompt": "Compute 41 * 24. Return only <answer>number</answer>.",
+    "answer": "984"
+  },
+  {
+    "id": "simple-train-496",
+    "prompt": "Compute 43 * 31. Return only <answer>number</answer>.",
+    "answer": "1333"
+  },
+  {
+    "id": "simple-train-497",
+    "prompt": "Compute 45 * 38. Return only <answer>number</answer>.",
+    "answer": "1710"
+  },
+  {
+    "id": "simple-train-498",
+    "prompt": "Compute 47 * 22. Return only <answer>number</answer>.",
+    "answer": "1034"
+  },
+  {
+    "id": "simple-train-499",
+    "prompt": "Compute 49 * 29. Return only <answer>number</answer>.",
+    "answer": "1421"
+  },
+  {
+    "id": "simple-train-500",
+    "prompt": "Compute 51 * 36. Return only <answer>number</answer>.",
+    "answer": "1836"
+  },
+  {
+    "id": "simple-train-501",
+    "prompt": "Compute 53 * 20. Return only <answer>number</answer>.",
+    "answer": "1060"
+  },
+  {
+    "id": "simple-train-502",
+    "prompt": "Compute 55 * 27. Return only <answer>number</answer>.",
+    "answer": "1485"
+  },
+  {
+    "id": "simple-train-503",
+    "prompt": "Compute 57 * 34. Return only <answer>number</answer>.",
+    "answer": "1938"
+  },
+  {
+    "id": "simple-train-504",
+    "prompt": "Compute 59 * 18. Return only <answer>number</answer>.",
+    "answer": "1062"
+  },
+  {
+    "id": "simple-train-505",
+    "prompt": "Compute 61 * 25. Return only <answer>number</answer>.",
+    "answer": "1525"
+  },
+  {
+    "id": "simple-train-506",
+    "prompt": "Compute 63 * 32. Return only <answer>number</answer>.",
+    "answer": "2016"
+  },
+  {
+    "id": "simple-train-507",
+    "prompt": "Compute 65 * 39. Return only <answer>number</answer>.",
+    "answer": "2535"
+  },
+  {
+    "id": "simple-train-508",
+    "prompt": "Compute 67 * 23. Return only <answer>number</answer>.",
+    "answer": "1541"
+  },
+  {
+    "id": "simple-train-509",
+    "prompt": "Compute 69 * 30. Return only <answer>number</answer>.",
+    "answer": "2070"
+  },
+  {
+    "id": "simple-train-510",
+    "prompt": "Compute 71 * 37. Return only <answer>number</answer>.",
+    "answer": "2627"
+  },
+  {
+    "id": "simple-train-511",
+    "prompt": "Compute 73 * 21. Return only <answer>number</answer>.",
+    "answer": "1533"
+  }
+]

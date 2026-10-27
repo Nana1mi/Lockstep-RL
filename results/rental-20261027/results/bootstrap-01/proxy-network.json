@@ -1,0 +1,29 @@
+{
+  "listener": "State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess\nLISTEN 0      128        127.0.0.1:17897      0.0.0.0:*          \n",
+  "probe": [
+    {
+      "url": "https://pypi.org/simple/uv/",
+      "returncode": 0,
+      "headers": "e=31536000; includeSubDomains; preload\nx-frame-options: deny\nx-xss-protection: 1; mode=block\nx-content-type-options: nosniff\nx-permitted-cross-domain-policies: none\npermissions-policy: publickey-credentials-create=(self),publickey-credentials-get=(self),accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),execution-while-not-rendered=(),execution-while-out-of-viewport=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),hid=(),identity-credentials-get=(),idle-detection=(),local-fonts=(),magnetometer=(),microphone=(),midi=(),otp-credentials=(),payment=(),picture-in-picture=(),screen-wake-lock=(),serial=(),speaker-selection=(),storage-access=(),usb=(),web-share=(),xr-spatial-tracking=()\ncontent-length: 3052683\n\n",
+      "stderr": ""
+    },
+    {
+      "url": "https://github.com/Dao-AILab/flash-attention/releases/expanded_assets/v2.8.3.post2",
+      "returncode": 0,
+      "headers": "anges: bytes\nset-cookie: _gh_sess=zQX8igQ2rM69JcxPXpX2G3TyEFWkwT85bAnUemGA9QFoAoaLlombrOZ2ij7kg02z9d94KnelLIU9djNsa%2BEck209cEgFSrJer1LIwO%2B%2B8N7h14f5mM4jYtFXAEjeM5lZT1NLol9%2BUaGkzuV%2FKyMnltWPEPT%2F4bIHEmQ4v2qr%2Bz%2Fi78LPCeq%2FR9570n0StcmjzhkTEf7zgpcHSWoKIlmFi%2Fx2pm%2Bvluh950dnafVhWTFVyoQ5vHQsdF3Kmb25Lx1RoIJdu3fnNKVsrKKQzpwmKQ%3D%3D--aTT0ATwLtHq9ccUK--%2B5ny0hLrnTnkk7YKubfDuA%3D%3D; path=/; HttpOnly; secure; SameSite=Lax\nset-cookie: _octo=GH1.1.349133457.1793086794; expires=Wed, 27 Oct 2027 07:39:54 GMT; domain=.github.com; path=/; secure; SameSite=Lax\nset-cookie: logged_in=no; expires=Wed, 27 Oct 2027 07:39:54 GMT; domain=.github.com; path=/; HttpOnly; secure; SameSite=Lax\ncontent-length: 204599\nx-github-request-id: 3F9F:84367:1C0924:2776E8:6AE05549\nx-github-edge-region: japaneast\n\n",
+      "stderr": ""
+    },
+    {
+      "url": "https://huggingface.co/api/models/Qwen/Qwen3-0.6B",
+      "returncode": 0,
+      "headers": "ace-moon\nx-request-id: Root=1-6ae0554a-03a5876e0c22894d2ef7ef65\nratelimit: \"api\";r=495;t=130\nratelimit-policy: \"fixed window\";\"api\";q=500;w=300\ncross-origin-opener-policy: same-origin\nreferrer-policy: strict-origin-when-cross-origin\naccess-control-max-age: 86400\naccess-control-allow-origin: https://huggingface.co\nvary: Origin\naccess-control-expose-headers: X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash,RateLimit,RateLimit-Policy\nx-cache: Miss from cloudfront\nvia: 1.1 f8fa8a86fddb455ef2c0b061077f6a6a.cloudfront.net (CloudFront)\nx-amz-cf-pop: NRT12-P2\nalt-svc: h3=\":443\"; ma=86400\nx-amz-cf-id: R7CH2EDjmNMFPByqP4DBcHfa6KGVELm5cE9n52z4NmtM_bRSENTciw==\nstrict-transport-security: max-age=31536000\n\n",
+      "stderr": ""
+    },
+    {
+      "url": "https://download.pytorch.org/whl/cu128/torch/",
+      "returncode": 0,
+      "headers": "HTTP/1.1 200 Connection established\n\nHTTP/2 200 \ncontent-type: text/html\ncontent-length: 89396\nserver: AmazonS3\ndate: Tue, 27 Oct 2026 07:31:03 GMT\nlast-modified: Tue, 27 Oct 2026 07:23:05 GMT\netag: \"6d25695b2f0f86f35f8c4ebe3c4365c8\"\nx-amz-server-side-encryption: AES256\ncache-control: max-age=600, public, must-revalidate\nx-amz-version-id: d1v_JJKscoataJWM7G9IBnDRl45uJDtH\naccept-ranges: bytes\nx-cache: Hit from cloudfront\nvia: 1.1 307b355478f652c217202220a7c46550.cloudfront.net (CloudFront)\nx-amz-cf-pop: NRT57-P10\nx-amz-cf-id: z8VpLXXpprm709qzhV0pzrEBXuSY6bprdb_44hYaxF1jw8wfEwgBmg==\nage: 532\n\n",
+      "stderr": ""
+    }
+  ]
+}

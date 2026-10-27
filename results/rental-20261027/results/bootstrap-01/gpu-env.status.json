@@ -1,0 +1,18 @@
+{
+  "returncode": 124,
+  "timed_out": true,
+  "error": "task wall-clock timeout",
+  "timeout_seconds": 999.9999988079071,
+  "wall_seconds": 1000.0533951210091,
+  "pid": 754,
+  "process_group": 754,
+  "nccl_port": null,
+  "cleanup": {
+    "process_groups": [
+      754
+    ],
+    "sigkill_required": false,
+    "surviving_pids": [],
+    "subreaper": true
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/root/gpufree-data/lockstep/ops/run_command.py",
+    "demo-memory-probe",
+    "600",
+    "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+    "scripts/training_memory_probe.py",
+    "--allow-gpu",
+    "--model",
+    "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+    "--batch-size",
+    "16",
+    "--sequence-length",
+    "256",
+    "--steps",
+    "2",
+    "--co-resident",
+    "--inference-memory-fraction",
+    "0.4",
+    "--output",
+    "/root/gpufree-data/lockstep/results/demo-memory-probe-01.json"
+  ],
+  "scope": "2 real AdamW steps, synthetic256 tokens x16, no gradient checkpointing, inferencefraction0.4; not a long-context guarantee"
+}

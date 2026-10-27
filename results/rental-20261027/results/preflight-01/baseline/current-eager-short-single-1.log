@@ -1,0 +1,2 @@
+
+[lockstep-task] {"returncode": 0, "timed_out": false, "error": null, "timeout_seconds": 449.9999964237213, "wall_seconds": 51.902355005033314, "pid": 9863, "process_group": 9863, "nccl_port": 33055, "cleanup": {"process_groups": [9863], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

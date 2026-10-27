@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/root/gpufree-data/lockstep/ops/resume_gpu_env2.py", line 29, in <module>
+    if not req.marker or req.marker.evaluate():
+                         ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages/pip/_vendor/packaging/markers.py", line 304, in evaluate
+    return _evaluate_markers(self._markers, current_environment)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages/pip/_vendor/packaging/markers.py", line 234, in _evaluate_markers
+    lhs_value = _get_env(environment, lhs.value)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages/pip/_vendor/packaging/markers.py", line 215, in _get_env
+    raise UndefinedEnvironmentName(
+pip._vendor.packaging.markers.UndefinedEnvironmentName: 'extra' does not exist in evaluation environment.
+
+[lockstep-task] {"returncode": 1, "timed_out": false, "error": null, "timeout_seconds": 699.9999988079071, "wall_seconds": 0.10273207805585116, "pid": 6993, "process_group": 6993, "nccl_port": null, "cleanup": {"process_groups": [], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}

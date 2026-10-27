@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/root/gpufree-data/lockstep/ops/run_command.py",
+    "readiness-grpo-retry",
+    "1200",
+    "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+    "scripts/train_grpo.py",
+    "--allow-gpu",
+    "--config",
+    "/root/gpufree-data/lockstep/configs/readiness-grpo.json",
+    "--anchor",
+    "recomputed",
+    "--output-dir",
+    "/root/gpufree-data/lockstep/results/readiness-grpo-02"
+  ],
+  "reason": "Transformers5 return_dict default compatibility fix"
+}

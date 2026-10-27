@@ -1,0 +1,9 @@
+{
+  "tf32_matmul": false,
+  "tf32_cudnn": false,
+  "bf16_reduced_precision_reduction": false,
+  "torch_compile_enabled": true,
+  "compiler_stance": "default",
+  "trainer_autocast_bf16": true,
+  "actor_autocast": false
+}

@@ -1,0 +1,21 @@
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 44/311 [00:00<00:00, 439.43it/s]Loading weights:  33%|███▎      | 104/311 [00:00<00:00, 531.47it/s]Loading weights:  51%|█████     | 159/311 [00:00<00:00, 538.90it/s]Loading weights:  71%|███████▏  | 222/311 [00:00<00:00, 574.38it/s]Loading weights:  90%|█████████ | 280/311 [00:00<00:00, 558.52it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 596.10it/s]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/root/gpufree-data/lockstep/repo/scripts/train_grpo.py", line 192, in <module>
+[rank0]:     main()
+[rank0]:   File "/root/gpufree-data/lockstep/repo/scripts/train_grpo.py", line 106, in main
+[rank0]:     sync_probe = engine.generate(chat_prompts(engine.tokenizer, train[:1]),
+[rank0]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py", line 17, in wrapper
+[rank0]:     return method(self, *args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py", line 192, in generate
+[rank0]:     pending = [self._build_request(
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py", line 192, in <listcomp>
+[rank0]:     pending = [self._build_request(
+[rank0]:                ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/root/gpufree-data/lockstep/repo/nanovllm/engine/llm_engine.py", line 99, in _build_request
+[rank0]:     raise ValueError("token ID outside model vocabulary")
+[rank0]: ValueError: token ID outside model vocabulary
+
+[lockstep-task] {"returncode": 1, "timed_out": false, "error": null, "timeout_seconds": 1199.9999985694885, "wall_seconds": 54.40511897299439, "pid": 15621, "process_group": 15621, "nccl_port": null, "cleanup": {"process_groups": [15621], "sigkill_required": false, "surviving_pids": [], "subreaper": true}}
