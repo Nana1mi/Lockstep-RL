@@ -171,7 +171,8 @@ preflight/commit/invalidate 三段计时，以及另外的变化率测量时间�
 
 输入：train-smoke-simple/gsm8k 保留小规模；train-two-updates 专门验证两次 update 的冻结锚点。
 两档演示分别用 lr1e-6/5e-6，16prompt×G8、120轮、train512/validation128、每10轮评测。
-microbatch16、accumulation8、关闭 gradient checkpointing；保留 smoke 小配置作排障。
+microbatch16、accumulation8、关闭 backbone gradient checkpointing；输出头分块重算仍保留，
+smoke 小配置保留作排障。
 CPU 验证128条数据与完整batch全局token归一目标一致，A100 的实际显存和提速尚未实测。
 默认 beta0 无 reference；不要报告不存在的 reference KL。演示 anchor=recomputed，
 短冒烟另外比较 rollout/recomputed。推理预算为 A100 候选0.6，非 KV-only 比例，仍按实测调整。

@@ -22,10 +22,11 @@ STAGE_ALIASES = {"sync": "weight_sync", "grpo_smoke_and_two_demos": "grpo"}
 def validate_assets(persistent, splits=None):
     """Fail before any CUDA stage if paid-run inputs are missing or partial."""
     persistent = Path(persistent)
-    ready = json.loads((persistent / "assets-ready.json").read_text())
     model = persistent / "models/Qwen3-0.6B"
     manifest = json.loads((model / "_lockstep_model.json").read_text())
-    if ready.get("status") != "downloaded_not_gpu_validated" or manifest.get("status") != "complete":
+    # The global ready marker is informational: a dataset download failure must
+    # not prevent model-only baseline/performance jobs from running.
+    if manifest.get("status") != "complete":
         raise ValueError("persistent asset/model preparation is incomplete")
     if not any(path.stat().st_size > 8 for path in model.glob("*.safetensors")):
         raise ValueError("no complete local model weight file")

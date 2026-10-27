@@ -40,6 +40,7 @@ test_cached_head_initial_load_and_tied_commit_refresh_without_forward_conversion
 test_demo_128_sequences_microbatch16_matches_full_token_normalization (test_prerental_review.PrerentalReviewTest.test_demo_128_sequences_microbatch16_matches_full_token_normalization) ... ok
 test_eos_inclusive_population_excludes_extreme_tail_and_exports_it (test_prerental_review.PrerentalReviewTest.test_eos_inclusive_population_excludes_extreme_tail_and_exports_it) ... ok
 test_managed_python_is_persistent_and_rejects_host_fallback (test_prerental_review.PrerentalReviewTest.test_managed_python_is_persistent_and_rejects_host_fallback) ... ok
+test_model_only_inputs_do_not_require_dataset_or_global_ready_marker (test_prerental_review.PrerentalReviewTest.test_model_only_inputs_do_not_require_dataset_or_global_ready_marker) ... ok
 test_rental_soft_failures_continue_and_hard_failures_stop (test_prerental_review.PrerentalReviewTest.test_rental_soft_failures_continue_and_hard_failures_stop) ... ok
 test_seeded_fewshot_rotation_is_diverse_and_reproducible (test_prerental_review.PrerentalReviewTest.test_seeded_fewshot_rotation_is_diverse_and_reproducible) ... ok
 test_stage_selection_always_includes_environment_and_has_no_side_effects (test_prerental_review.PrerentalReviewTest.test_stage_selection_always_includes_environment_and_has_no_side_effects) ... ok
@@ -63,12 +64,12 @@ test_preemption_replays_context_without_rewriting_old_scores (test_rollout.Rollo
 test_prefix_hit_and_logical_invalidation (test_rollout.RolloutTest.test_prefix_hit_and_logical_invalidation) ... ok
 test_sampler_is_fp32_correct_and_does_not_modify_inputs (test_rollout.RolloutTest.test_sampler_is_fp32_correct_and_does_not_modify_inputs) ... ok
 test_cpu_hf_qwen_checkpointing_and_two_updates (test_tiny_qwen.TinyQwenTest.test_cpu_hf_qwen_checkpointing_and_two_updates) ... ok
-test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1909.11it/s]
-Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 36693.10it/s]
+test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1608.25it/s]
+Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 21500.77it/s]
 ok
-test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2141.04it/s]
+test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2399.49it/s]
 ok
-test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 46883.88it/s]
+test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 47249.53it/s]
 ok
 test_teacher_forcing_matches_full_logits_at_response_positions (test_tiny_qwen.TinyQwenTest.test_teacher_forcing_matches_full_logits_at_response_positions) ... ok
 test_active_request_and_live_cache_prevent_update (test_weight_update.WeightUpdateTest.test_active_request_and_live_cache_prevent_update) ... ok
@@ -81,6 +82,6 @@ test_real_upstream_packed_loaders_and_tied_storage (test_weight_update.WeightUpd
 test_success_commits_version_and_invalidates_logical_cache (test_weight_update.WeightUpdateTest.test_success_commits_version_and_invalidates_logical_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 77 tests in 133.314s
+Ran 78 tests in 138.100s
 
 OK

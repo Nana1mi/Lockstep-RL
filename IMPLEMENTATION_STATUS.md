@@ -16,8 +16,8 @@ attempts in PROGRESS are not current validation evidence.
 | P2.8 | Response-only vocabulary projection | Dense value/gradient equivalence and actual projected-token count | Real resource/performance impact GPU_PENDING |
 | Rental | A100-SXM4-80GB; persistent managed Python; soft failure continuation and --stages | Mocked hard/soft failures and startup errors, selected plans, interpreter path/host-fallback checks | Rental execution GPU_PENDING |
 
-Full regression: **77 passed in136.612s on torch2.11.0+cpu**, **77 passed
-in133.314s on torch2.8.0+cpu**. Earlier69-test runs are historical.
+Full regression: **78 passed in142.601s on torch2.11.0+cpu**, **78 passed
+in138.100s on torch2.8.0+cpu**. Earlier69/77-test runs are historical.
 Raw logs and exact normalized source fingerprints are in `results/cpu-tests*.txt`
 and `results/validation-manifest.json`. CPU2.11 and the separate CPU2.8 candidate
 environment remain distinct; neither is evidence of CUDA compatibility.

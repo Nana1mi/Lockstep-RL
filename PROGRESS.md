@@ -24,9 +24,12 @@
   wall times stay separate. Per-trajectory example rotation is seed-reproducible.
   Repeat0 is non-discriminative; measured HF-BF16/FP32 is a precision reference,
   never an automatic bug verdict or a tolerance chosen after seeing results.
-- Final full CPU suites:77 tests passed in136.612s on torch2.11 and133.314s on
+- Final full CPU suites:78 tests passed in142.601s on torch2.11 and138.100s on
   torch2.8. Ten GPU dry plans plus asset/managed-Python dry runs, nine document
   blocks, static/dependency checks and all35 wheel source-byte checks passed.
+- Model-only stages also ignore the informational global asset-ready marker;
+  missing diagnostic data is checked only for jobs that consume it. This boundary
+  has a dedicated regression test in the final78-test suites.
 - Full CPU logs and normalized source fingerprints are refreshed for this review.
   No CUDA work, rental, model/data or
   managed interpreter download has been performed by the agent.

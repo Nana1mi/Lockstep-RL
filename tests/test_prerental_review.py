@@ -18,7 +18,7 @@ from nanovllm.layers.embed_head import ParallelLMHead
 from nanovllm.utils.context import reset_context
 from nanovllm.utils.loader import load_model
 from nanovllm.utils.weight_update import prepare_weight_update, commit_weight_update
-from scripts.run_rental import build_plan, execute_jobs
+from scripts.run_rental import build_plan, execute_jobs, validate_assets
 from scripts.setup_managed_python import managed_plan, prepare_managed_python
 from scripts.weight_sync_experiment import assert_outputs_close
 from tests.test_rollout import cpu_engine
@@ -29,6 +29,17 @@ from lockstep_rl.trainer import GRPOTrainer
 
 
 class PrerentalReviewTest(unittest.TestCase):
+    def test_model_only_inputs_do_not_require_dataset_or_global_ready_marker(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            model = root / "models/Qwen3-0.6B"
+            model.mkdir(parents=True)
+            (model / "_lockstep_model.json").write_text(json.dumps({"status": "complete"}))
+            (model / "fixture.safetensors").write_bytes(b"file presence fixture only")
+            validate_assets(root, splits=[])
+            with self.assertRaises(FileNotFoundError):
+                validate_assets(root, splits=["diagnostic", "fewshot"])
+
     def test_demo_128_sequences_microbatch16_matches_full_token_normalization(self):
         torch.manual_seed(15)
         source = ToyLM()

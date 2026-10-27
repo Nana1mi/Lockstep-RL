@@ -81,7 +81,8 @@ not treated as evidence of a numerical change.
 `train-demo-simple*.json` presets use 16 prompts × G=8, 120 iterations,
 512/128 disjoint arithmetic questions, evaluation every 10 iterations, and
 learning rates 1e-6 / 5e-6. They are candidates, not evidence of learning.
-The A100 demo uses microbatch16, accumulation8 and no gradient checkpointing;
+The A100 demo uses microbatch16, accumulation8 and no backbone gradient checkpointing;
+output-head chunk recomputation remains to bound vocabulary activations.
 the 128-sequence objective is CPU-tested against a full batch. Speedup is unmeasured.
 `strict` reward parsing preserves old behavior; `lenient` also accepts currency,
 trailing sentence periods, `{,}` and text units. Each sample has parse_status

@@ -1,13 +1,13 @@
 {
-  "timestamp_utc": "2026-10-27T02:59:41.767013+00:00",
+  "timestamp_utc": "2026-10-27T03:11:59.684261+00:00",
   "status": "passed",
-  "cpu_tests": 77,
-  "cpu_test_seconds": 136.612,
+  "cpu_tests": 78,
+  "cpu_test_seconds": 142.601,
   "additional_cpu_compatibility": [
     {
       "torch": "2.8.0+cpu",
-      "tests": 77,
-      "seconds": 133.314,
+      "tests": 78,
+      "seconds": 138.1,
       "log": "cpu-tests-torch28.txt"
     }
   ],
@@ -61,7 +61,7 @@
     "scripts/plot_results.py": "40c24624e0d31956fc3e6e08990d6b9b2ed8c09a2ce51c6cd39e4c2284b734fc",
     "scripts/prepare_gsm8k.py": "0b5fd04c0117ecbf6a29a41e1976489fe47fc562018bc09176e212149a0ff6a5",
     "scripts/prepare_rental_assets.py": "3b68a137a6b11007eea913af5afe869cfd7c08a03b3e4f413ff4e7a2ea161e3c",
-    "scripts/run_rental.py": "b24dc39bf30e175a9435f031a8fedb05d5b09b8cb46e9851cde057dc531b7701",
+    "scripts/run_rental.py": "696663286c21e820934f8079f493d963efa87ffcf895a096712b333d0b028dc4",
     "scripts/sampler_benchmark.py": "e3c3a1ec709d6665c2633f1723855401969393e43fdf141580e820c6e35d6efc",
     "scripts/score_hf.py": "95edec99723aa2e606558edd4c753970f05dfdd1dee6e045e4c51d3082e798d0",
     "scripts/setup_managed_python.py": "ea6a3127ee78b70e8f35755f0905cc4d22df5c8a350a5410ec9303d5336029a9",
@@ -81,7 +81,7 @@
     "tests/test_experiments.py": "832a05292e35af3a6d5aa61919125e2219be31aa72dac887dcd0b91106664808",
     "tests/test_grpo.py": "9d5e5c45d1ee034f7556ac947add84cb0587be0d395dbaa55d4819ec624b1205",
     "tests/test_logprobs.py": "3d81d91152d3d3b6a8a50b28a68dd1e2e51bc1967d2fa1df69aea15b29af4c93",
-    "tests/test_prerental_review.py": "b080431daa9e8065ee30907b00ba9ac82fb1002ca90e8b290351f664da03dc98",
+    "tests/test_prerental_review.py": "ee77620c34c76af944fbd4216b7d1c69492e6e59f6228b0bc8bbfd3758d1c2d9",
     "tests/test_rental_plan.py": "b908d6cbb26676274176f82f84428098ee8f762761449fa1c6257fd35fd0942c",
     "tests/test_revision_cpu.py": "54aaf683dd297c9e7f08e145a1db2f515594bc994c8aa7defec605adc9053d00",
     "tests/test_rewards.py": "e1995183ace4ddbe433c5b0b9c6ac742218f496469fb1e6e37e9b03752bf6ee1",
