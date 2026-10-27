@@ -1,0 +1,13 @@
+{
+  "status": "PREFLIGHT_PENDING",
+  "gpu_name": null,
+  "driver": null,
+  "mount": null,
+  "network": {
+    "pypi.org": null,
+    "download.pytorch.org": null,
+    "github.com": null,
+    "huggingface.co": null
+  },
+  "minimum_driver_major": 570
+}

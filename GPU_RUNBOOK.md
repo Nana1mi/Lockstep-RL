@@ -1,12 +1,15 @@
 # Lockstep-RL 租卡人工执行手册
 
-目标为 **单张 NVIDIA A100-SXM4-80GB（Ampere sm80）、Linux x86_64**。
-所有 baseline、诊断、同步、训练、性能对照使用同型号、同驱动/依赖和同一 GPU UUID。
+目标为 **单张 NVIDIA L40S 48GB（Ada sm_89）、Linux x86_64**。
+平台：安徽区按量计费，24vCPU、120GB RAM；系统盘30GB，数据盘50GB（可扩容，平台给定0.01元/GB/天）。
+镜像为开发/CUDA12.8.0/Python3.10/Ubuntu22.04（cuda_only，带conda），运行栈仍用持久Python3.11。
+所有 baseline、诊断、同步、训练、性能对照使用同L40S型号、同安徽区、同驱动/依赖和同一 GPU UUID。
+A100-SXM4-80GB的旧设置仅为历史，不能继续用于当前预检或耗时引用。
 RTX 5080 / SM120 / cu130 本地构建步骤已不再适用，旧记录仅保留为历史。
 所有真实实验仍为 **GPU_PENDING**。先完成 CPU 测试，再由操作者租卡并运行本手册；
 Agent 不启动 GPU、不租卡、不自动下载大型模型或数据。
 
-## 0. 租卡之前：源码、持久盘、依赖文件
+## 0. 付费之前：源码、持久盘、依赖文件
 
 目的：付费开机前备齐输入。需要 Linux/WSL、Python3.11、独立 CPU 环境及可挂载的
 持久盘；下面 `/persistent/lockstep` 由操作者换成真实挂载位置。数据与结果不能只存临时系统盘。
@@ -16,7 +19,7 @@ Agent 不启动 GPU、不租卡、不自动下载大型模型或数据。
 bash scripts/setup_cpu_env.sh /path/to/python3.11
 CUDA_VISIBLE_DEVICES= .envs/nano_rl/bin/python -m unittest discover -s tests -v
 .envs/nano_rl/bin/python scripts/validate_cpu_artifacts.py
-PERSIST=/persistent/lockstep
+PERSIST=/USER_MUST_SET_ACTUAL_DATA_DISK/lockstep
 .envs/nano_rl/bin/python -m pip install datasets
 .envs/nano_rl/bin/python scripts/prepare_rental_assets.py --persistent-root "$PERSIST" --dry-run
 # 只有下面这条由人工决定执行；下载在没有付费 GPU 的 CPU 实例/挂载盘上完成。
@@ -27,7 +30,7 @@ PERSIST=/persistent/lockstep
 在付费 GPU 开机前的 Linux CPU 节点上，用系统任意受支持的 python3 做一次性 bootstrap：
 
 ```bash
-PERSIST=/persistent/lockstep
+PERSIST=/USER_MUST_SET_ACTUAL_DATA_DISK/lockstep
 python3 -m venv "$PERSIST/bootstrap"
 "$PERSIST/bootstrap/bin/python" -m pip install uv
 "$PERSIST/bootstrap/bin/python" scripts/setup_managed_python.py --persistent-root "$PERSIST" --dry-run
@@ -54,19 +57,60 @@ torch2.8 来自[官方安装矩阵](https://pytorch.org/get-started/previous-ver
 中的 cu12/torch2.8/ABI-TRUE/cp311 wheel，URL/hash 固定在 configs/rental.json。
 这是避免现场编译的组合，不代表已经验证 CUDA kernel。CPU2.11 与 CPU2.8 记录单独保留。
 
-## 1. 人工安装与环境关口
+## 1. 开机后按顺序预检、安装与环境关口
 
-目的：确认二进制 ABI、BF16、FA2 varlen/paged KV、Triton 和 graph primitives。
-前置：A100-SXM4-80GB 已由操作者选定，持久盘挂载且资产校验通过；宿主驱动不由脚本修改。
+目的：先获取未知项，再安装二进制依赖；不猜卡名、驱动或挂载点。
+按顺序执行，前四项为只读或安装准备；只有第五项显式allow-gpu才执行CUDA任务。
+
+1. `nvidia-smi`记录完整输出，并用下面查询取得单卡name/UUID/driver；驱动主版本必须>=570，
+   不满足即停止。不要自动升级驱动。卡名预计类似NVIDIA L40S，但只有实际输出可填expected。
+2. `df -h`与`findmnt`确认数据盘，设置PERSIST；必须是数据盘而非30GB系统盘。
+3. 四个域名执行`curl -I`，保留成功/失败/HTTP状态。失败时按下一节显式选镜像或离线，不盲目重试。
+4. 安装持久Python3.11与GPU环境，准备模型/数据/wheel并校验hash；解释器、缓存也必须在数据盘。
+5. 第2节只运行`--stages environment baseline --run-id preflight-01`。
+6. 人工审阅后，用新run-id执行全量；此前对照必须同型号、同区域、同驱动。
 
 ```bash
-PERSIST=/persistent/lockstep
+nvidia-smi
+nvidia-smi --id=0 --query-gpu=name,uuid,driver_version,memory.total --format=csv,noheader
+df -h
+findmnt
+# 以下值只能在看到实际输出后填写；不能直接保留占位执行。
+PERSIST=/USER_MUST_SET_ACTUAL_DATA_DISK/lockstep
+export XDG_CACHE_HOME="$PERSIST/cache"
+export HF_HOME="$PERSIST/cache/huggingface"
+export PIP_CACHE_DIR="$PERSIST/cache/pip"
+export UV_CACHE_DIR="$PERSIST/uv-cache"
+EXPECTED_GPU_NAME='USER_MUST_COPY_EXACT_NVIDIA_SMI_NAME'
+mkdir -p "$PERSIST"
+python3 scripts/rental_preflight.py --persistent-root "$PERSIST" \
+  --expected-gpu-name "$EXPECTED_GPU_NAME" --region 安徽区 --gpu-id 0 --check-network
+```
+
+预检不import torch、不执行CUDA、不下载资产。脚本用findmnt的设备号拒绝根文件系统及其bind目录，
+把实际name/UUID/driver/挂载信息/区域/四域HEAD输出写到`$PERSIST/rental-preflight.json`，不覆写旧记录。
+所有未知值在`configs/rental.json.preflight_pending`为null；这个记录才是已确认值，原模板不自动猜填。
+总脚本启动前重新核对该记录与实际GPU、驱动、数据盘。平台区域由操作者在控制台确认，无法从
+nvidia-smi推断；HTTP HEAD连通也不代表后续大文件一定可下载。可单独检查同四域：
+
+```bash
+for domain in pypi.org download.pytorch.org github.com huggingface.co; do
+  curl -I --connect-timeout 5 --max-time 20 "https://$domain"
+done
+```
+
+驱动门槛按本项目>=570执行；[CUDA12.8官方发布说明](https://docs.nvidia.com/cuda/archive/12.8.0/cuda-toolkit-release-notes/index.html)
+列出工具包配套驱动，仍需真卡验证ABI/内核。L40S的48GB/864GB/s见[NVIDIA规格](https://www.nvidia.com/en-us/data-center/l40s/)。
+
+```bash
+# PERSIST沿用上面实际数据盘值，不要替换成系统盘上的/persistent目录。
+# wheel须先按第0节预取，或从可信联网机器下载后上传到数据盘；不需要先下载模型。
 WHEEL="$PERSIST/wheels/flash_attn-2.8.3.post2+cu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl"
 bash scripts/setup_gpu_env.sh --dry-run
 MANAGED_PY=$(cat "$PERSIST/python-executable.txt")
 bash scripts/setup_gpu_env.sh --allow-install --env "$PERSIST/envs/nano_rl" --wheel "$WHEEL" --python "$MANAGED_PY"
 GPU_PY="$PERSIST/envs/nano_rl/bin/python"
-"$GPU_PY" scripts/run_rental.py --persistent-root "$PERSIST" --run-id review-01 --dry-run
+"$GPU_PY" scripts/run_rental.py --persistent-root "$PERSIST" --run-id preflight-01 --stages environment baseline --dry-run
 ```
 
 安装器只接受新环境路径、指定 wheel 并校验文件名/torch/CUDA/ABI/SHA256，FA2 不回退源码编译；
@@ -82,7 +126,7 @@ torch 自带 CUDA runtime，不安装编译器或升级系统驱动。若 wheel 
 现有 memory probe 仅保留为遇到 OOM 时的可选排障工具。
 
 ```bash
-PERSIST=/persistent/lockstep
+PERSIST=/USER_MUST_SET_ACTUAL_DATA_DISK/lockstep
 GPU_PY="$PERSIST/envs/nano_rl/bin/python"
 # 第一次开机只跑环境、attention、短基线；约半小时是规划值，不是实测承诺。
 "$GPU_PY" scripts/run_rental.py --persistent-root "$PERSIST" --run-id preflight-01 \
@@ -94,7 +138,7 @@ GPU_PY="$PERSIST/envs/nano_rl/bin/python"
 与对照可用后再执行下面的全量命令；不要把两段一次性串联。使用全新的run-id：
 
 ```bash
-PERSIST=/persistent/lockstep
+PERSIST=/USER_MUST_SET_ACTUAL_DATA_DISK/lockstep
 GPU_PY="$PERSIST/envs/nano_rl/bin/python"
 "$GPU_PY" scripts/run_rental.py --persistent-root "$PERSIST" --run-id review-01 \
   --python "$GPU_PY" --power-mode "记录真实租卡功耗/性能模式" --gpu-id 0 --allow-gpu
@@ -108,9 +152,9 @@ GPU_PY="$PERSIST/envs/nano_rl/bin/python"
 不覆盖旧失败或不利结果。结束状态 executed_review_raw_results 仅表示命令执行完，仍需审阅数据。
 
 任务预算固定在 `configs/task-timeouts.json`：每项 expected_seconds × 3，包含初始化/编译，
-dry-run 的每个 job 都显示预算。当前总任务上限：environment/attention 各9分钟、baseline30分钟、
-diagnostics90分钟、weight-sync60分钟、两档demo各270分钟、performance90分钟；其余见配置。
-诊断/同步 worker 各6分钟、benchmark worker4.5分钟、绘图/归档各90秒。都是未实测估计，
+dry-run 的每个 job 都显示预算。当前总任务上限：environment/attention 各12分钟、baseline50分钟、
+diagnostics150分钟、weight-sync108分钟、两档demo各480分钟、performance150分钟；其余见配置。
+诊断/同步 worker 各10.5分钟、benchmark worker7.5分钟、绘图/归档各90秒。这些是L40S未实测预算，不是A100的实测换算，preflight-01后按各job实际时长重新校准。
 应根据原始日志调整配置后用新 run-id 重跑。外层预算约束整项工作（含CPU准备），嵌套 worker
 继承绝对截止时间，不能逐层叠加预算。检查 GPU inventory 的 nvidia-smi 与元数据命令另有30秒上限。
 
@@ -150,9 +194,11 @@ CUDA_VISIBLE_DEVICES= python3 -S -m unittest tests.test_process_runner -v
 普通失败的汇总状态为 completed_with_failures，硬关口失败为 blocked_by_environment；manifest
 列出 failed_jobs/skipped_jobs/各退出码。一个失败组不会自动阻塞其他组或被当作通过。
 
-未实测的规划估算：环境0.1–0.25h、基线0.1–0.3h、诊断0.4–1.5h、同步0.3–1h、
-GRPO 冒烟+两档演示1–4h、性能0.4–1.5h；合计2.3–8.55h，加30%预留约 **3–11.1 GPU小时**。
-这不是吞吐实测或价格承诺；安装/下载应在开机前处理，CPU 开销仍计入租用墙钟时间。
+未实测的L40S规划估算：环境0.1–0.3h、基线0.15–0.5h、诊断0.7–2.5h、同步0.5–1.8h、
+GRPO 冒烟+两档演示1.8–7h、性能0.7–2.5h；合计3.95–14.6h，加30%预留约 **5.14–18.98 GPU小时**。
+这不是吞吐实测或价格承诺；能预先上传的资产应在付费前准备，开机后安装/补齐下载和CPU开销
+也计入租用墙钟时间。50GB数据盘还要容纳环境/wheel/cache/B模型/checkpoint，逐阶段用df/du检查
+实际余量，必要时由操作者扩容；不能把空闲系统盘当PERSIST替代。
 首轮真实耗时出来后按 manifest 调整预算。
 
 以下各节给出总脚本已执行的阶段、输出和人工验收口径；需要单独重试时使用对应原始命令，
@@ -217,9 +263,12 @@ preflight/commit/invalidate 三段计时，以及另外的变化率测量时间�
 两档演示分别用 lr1e-6/5e-6，16prompt×G8、120轮、train512/validation128、每10轮评测。
 microbatch16、accumulation8、关闭 backbone gradient checkpointing；输出头分块重算仍保留，
 smoke 小配置保留作排障。
-CPU 验证128条数据与完整batch全局token归一目标一致，A100 的实际显存和提速尚未实测。
+当前演示fraction0.4约为总显存19.2GB的推理侧预算，剩余给FP32 actor、梯度、Adam状态、activation
+与碎片；这不是KV-only份额，也不是已证明48GB能放下。microbatch16必须经人工显存探针确认。
+如OOM，保留失败原始输出，用新run-id配置microbatch8且accumulation16；不要只改一个值。
+CPU 验证128条数据与完整batch全局token归一目标一致，L40S 的实际显存和提速尚未实测。
 默认 beta0 无 reference；不要报告不存在的 reference KL。演示 anchor=recomputed，
-短冒烟另外比较 rollout/recomputed。推理预算为 A100 候选0.6，非 KV-only 比例，仍按实测调整。
+短冒烟另外比较 rollout/recomputed。推理预算为 L40S 候选0.4，非 KV-only 比例，仍按实测调整。
 
 strict 保持原格式规则；lenient 接受货币符号、句末句点、{,}和文本单位。
 每样本记录 ok/no_answer/unparseable、reward 和 text；解析失败率与答错率分开看。
@@ -253,3 +302,74 @@ Sampler 合成 logits microbenchmark 单独标注，不能冒充端到端结果�
 - 首次失败阶段和原始错误、未通过项、墙钟 GPU 小时。大日志可保留开头和最后几百步，但不删原始数值表。
 
 在真实材料回来之前，所有上述 GPU 验收均保持未完成。
+
+## 国内网络与离线上传回退（均由人工选择）
+
+先保留四域HEAD失败输出，再选择回退；脚本不自动从官方切到第三方。模型和数据支持HF兼容的
+hf-mirror endpoint（不把ModelScope URL当HF API）；manifest同时记录实际endpoint、请求revision、
+解析出的commit revision，以及模型文件/四份子集的大小和SHA256。首次使用资产时总脚本核验hash，
+同一轮不反复hash整份权重。旧资产manifest若缺files，需要人工重新准备并建立完整清单。
+镜像信任边界不同，哈希记录供复核，不声称第三方内容经过官方签名认证。所有下载仍需--allow-download。
+
+```bash
+# 可选：仅包索引走国内镜像；torch仍锁cu128，也可指向已备齐依赖的离线wheelhouse。
+PIP_MIRROR=https://pypi.tuna.tsinghua.edu.cn/simple
+bash scripts/setup_gpu_env.sh --allow-install --env "$PERSIST/envs/nano_rl" \
+  --wheel "$WHEEL" --python "$MANAGED_PY" --pip-index-url "$PIP_MIRROR"
+# 若download.pytorch.org不可达，先在可联网Linux x86_64/Python3.11机器上备齐所有wheel后上传：
+# --wheelhouse "$PERSIST/wheelhouse" 禁止索引网络；torch仍要求2.8.0+cu128，ABI验证不变。
+# 任选官方源或明确的HF镜像，实际选哪个就记录哪个，不自动fallback。
+"$GPU_PY" scripts/prepare_rental_assets.py --persistent-root "$PERSIST" \
+  --hf-endpoint https://hf-mirror.com --wheel "$WHEEL" --allow-download
+```
+
+`--model-revision`/`--dataset-revision`可指定已确认commit；默认main也先解析为具体commit再下载。
+HF接口依据[HfApi endpoint](https://huggingface.co/docs/huggingface_hub/package_reference/hf_api)
+与[snapshot_download](https://huggingface.co/docs/huggingface_hub/package_reference/file_download)。
+模型/数据准备须用已装datasets/huggingface_hub的CPU环境或GPU venv（GPU_PY），不要用裸MANAGED_PY。
+如果未在付费前准备模型/数据，在GPU环境安装好后、preflight-01之前用上面的命令补齐。
+FA2 wheel若GitHub不通，在联网机器按rental.json固定URL下载后上传到数据盘wheels，传--wheel。
+文件名与原官方SHA256仍严格校验；不换wheel、不回退源码编译。uv工具本身也可预下载wheel上传安装。
+
+解释器首选第0节uv-managed路径。GitHub/Python下载不通时可在联网机器下载官方
+python-build-standalone的Linux x86_64 Python3.11 install_only包及可信官方SHA256，上传数据盘。
+固定包名/哈希由实际选定官方release获取，不猜值。人工核验后解压到数据盘，再注册：
+
+```bash
+PY_ARCHIVE="$PERSIST/uploads/USER_MUST_SET_OFFICIAL_PY311_ARCHIVE.tar.gz"
+PY_SHA256=USER_MUST_SET_OFFICIAL_ARCHIVE_SHA256
+printf '%s  %s\n' "$PY_SHA256" "$PY_ARCHIVE" | sha256sum -c -
+mkdir -p "$PERSIST/python-upload"
+tar -xf "$PY_ARCHIVE" -C "$PERSIST/python-upload"
+# 以下解释器路径按实际archive内部结构确认；脚本只注册，不解压/安装其他内容。
+python3 scripts/setup_managed_python.py --persistent-root "$PERSIST" --provider uploaded \
+  --python "$PERSIST/python-upload/python/bin/python3.11" --source-archive "$PY_ARCHIVE" \
+  --source-sha256 "$PY_SHA256" --allow-install
+```
+
+uv原生支持配置[Python安装镜像](https://docs.astral.sh/uv/reference/environment/#uv_python_install_mirror)，
+并按其下载元数据校验SHA256；上面的上传路径直接注册已有解释器，manifest记录archive hash/来源。
+如改用镜像自带conda，创建**新的持久prefix**，不修改base或既有环境：
+
+```bash
+conda create -y -p "$PERSIST/py311" python=3.11
+python3 scripts/setup_managed_python.py --persistent-root "$PERSIST" --provider conda \
+  --python "$PERSIST/py311/bin/python" --allow-install
+MANAGED_PY=$(cat "$PERSIST/python-executable.txt")
+# setup_gpu_env.sh --python "$MANAGED_PY" 仍另建独立GPU venv。
+```
+
+依据[conda prefix环境](https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html#specifying-a-location-for-an-environment)。
+注册时要求Python3.11且executable/base_prefix都在PERSIST，拒绝宿主机回退；记录provider为conda或uploaded。
+解释器已注册则拒绝覆写；换绝对挂载位置/平台仍须重新建venv，不能把指向旧路径的venv直接搬用。
+所有pip/HF/uv缓存也设置在数据盘（HF_HOME、XDG_CACHE_HOME、PIP_CACHE_DIR、UV_CACHE_DIR）。
+
+人工显存探针（不纳入自动开机流程，预检通过后再执行；Agent不运行）：
+
+```bash
+"$GPU_PY" scripts/training_memory_probe.py --allow-gpu --model "$PERSIST/models/Qwen3-0.6B" \
+  --batch-size 16 --sequence-length 256 --steps 2 --optimizer adamw --co-resident \
+  --inference-memory-fraction 0.4 --output "$PERSIST/results/memory-l40s-mb16.json"
+```
+
+探针是候选共驻形状，仍须结合真实GRPO峰值判断；不是所有长度/编译状态的显存保证。

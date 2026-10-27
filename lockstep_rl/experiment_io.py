@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import hashlib
 import importlib.metadata
 import json
+import os
 import platform
 import subprocess
 import sys
@@ -22,6 +23,7 @@ def provenance(model_path=None):
         return {"returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
     diff = git("diff", "HEAD")
     result = {"timestamp_utc": datetime.now(timezone.utc).isoformat(),
+              "rental_region": os.environ.get("LOCKSTEP_RENTAL_REGION"),
               "platform": platform.platform(), "python": sys.version,
               "commit": git("rev-parse", "HEAD"), "status": git("status", "--porcelain"),
               "diff_sha256": hashlib.sha256(diff["stdout"].encode()).hexdigest(),

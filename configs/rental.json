@@ -1,7 +1,7 @@
 {
-  "gpu_name": "NVIDIA A100-SXM4-80GB",
+  "gpu_name": "L40S",
   "gpu_count": 1,
-  "architecture": "Ampere sm80",
+  "architecture": "Ada sm_89",
   "python": "3.11",
   "torch": "2.8.0+cu128",
   "transformers": "5.5.4",
@@ -11,13 +11,54 @@
   "wheel_sha256": "92aabf18ecfcf5d620ac7fe97fafe88f83e714b7a790e4bf219dff4a404cfb38",
   "source": "https://github.com/Dao-AILab/flash-attention/releases/expanded_assets/v2.8.3.post2",
   "estimated_gpu_hours": {
-    "environment": [0.1, 0.25],
-    "baseline": [0.1, 0.3],
-    "diagnostics": [0.4, 1.5],
-    "weight_sync": [0.3, 1.0],
-    "grpo_smoke_and_two_demos": [1.0, 4.0],
-    "performance": [0.4, 1.5]
+    "environment": [
+      0.1,
+      0.3
+    ],
+    "baseline": [
+      0.15,
+      0.5
+    ],
+    "diagnostics": [
+      0.7,
+      2.5
+    ],
+    "weight_sync": [
+      0.5,
+      1.8
+    ],
+    "grpo_smoke_and_two_demos": [
+      1.8,
+      7.0
+    ],
+    "performance": [
+      0.7,
+      2.5
+    ]
   },
-  "estimate_status": "Planning assumptions only, not measured; 30 percent contingency is added by run_rental.py",
-  "validation_status": "GPU_PENDING; wheel availability verified, runtime ABI and kernels still require manual smoke"
+  "estimate_status": "Unmeasured L40S planning ranges: 864 GB/s memory bandwidth suggests slower decode than A100, but workload/compile/training do not scale by bandwidth alone. Recalibrate after preflight-01; add 30 percent contingency.",
+  "validation_status": "GPU_PENDING; wheel availability verified, runtime ABI and kernels still require manual smoke",
+  "expected_gpu_name": null,
+  "minimum_driver_major": 570,
+  "platform": {
+    "region": "安徽区",
+    "billing": "按量计费",
+    "vcpu": 24,
+    "ram_gb": 120,
+    "system_disk_gb": 30,
+    "data_disk_gb": 50,
+    "data_disk_expand_cny_per_gb_day": 0.01,
+    "image": "开发/CUDA 12.8.0 / Python 3.10 / Ubuntu 22.04 (cuda_only, conda)"
+  },
+  "preflight_pending": {
+    "actual_gpu_name": null,
+    "driver_version": null,
+    "persistent_mount": null,
+    "network": {
+      "pypi.org": null,
+      "download.pytorch.org": null,
+      "github.com": null,
+      "huggingface.co": null
+    }
+  }
 }

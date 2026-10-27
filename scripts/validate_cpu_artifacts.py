@@ -59,6 +59,12 @@ def main():
     if payload["status"] != "INSTALL_PENDING":
         raise ValueError("managed Python dry-run must not install an interpreter")
     (ROOT / "results/managed-python-dry-run.json").write_text(json.dumps(payload, indent=2) + "\n")
+    preflight = subprocess.run([sys.executable, "scripts/rental_preflight.py", "--persistent-root", "/unknown-data-disk", "--dry-run"],
+                              cwd=ROOT, env=env, capture_output=True, text=True, check=True)
+    payload = json.loads(preflight.stdout)
+    if payload["status"] != "PREFLIGHT_PENDING" or any(payload[key] is not None for key in ("gpu_name", "driver", "mount")):
+        raise ValueError("rental preflight must not invent actual machine values")
+    (ROOT / "results/rental-preflight-dry-run.json").write_text(json.dumps(payload, indent=2) + "\n")
     guard = subprocess.run(["bash", "scripts/setup_gpu_env.sh"], cwd=ROOT, env=env, capture_output=True, text=True)
     if guard.returncode != 2 or "--allow-install" not in guard.stderr:
         raise ValueError("GPU installer was not opt-in guarded")

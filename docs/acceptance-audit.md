@@ -56,7 +56,7 @@ The manifest binds the evidence to normalized source/config files; after the fin
 ## Review conclusions and remaining risks
 
 No unsupported GPU, TP-update, async, LoRA, batch-invariance, throughput or learning
-claim is made. Real GPU validation on the A100-SXM4-80GB may require fixes to FA2 ABI,
+claim is made. Real GPU validation on the L40S 48GB may require fixes to FA2 ABI,
 paged/graph kernels, numerical tolerances, memory configuration or reward budget.
 The code provides the required controls, trace/failure evidence and manual gates.
 No sleep/offload direction has been selected without a memory measurement.
@@ -107,3 +107,11 @@ in results; first-pass rental dry-run selects only environment/attention/baselin
 An unkillable descendant is an infrastructure stop, and occupied ports never
 authorize killing other processes. Deadlines are estimates, not a demonstrated
 GPU runtime or automatic rental shutdown. All real GPU gates remain pending.
+
+Current target is L40S48GB/Ada sm_89 in Anhui, same region/model/driver for contrasts.
+CPU tests reject unconfirmed names, old drivers, changed identity/mount/region and
+system-disk bind mounts. Tiny mocked downloads verify HF mirror endpoint, resolved
+revision and SHA256 manifests. Uploaded wheel/Python and persistent conda paths are
+checked without downloading/installing real assets. Demo fraction0.4/mb16 remains
+GPU_PENDING with an8/acc16 OOM fallback. Hardware observations stay null until the
+operator's preflight. The old A100 budget is historical and never a L40S measurement.

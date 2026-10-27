@@ -1,3 +1,5 @@
+> 当前硬件以文末L40S修订为准；本文前面出现的A100配置和估时均为历史记录，不能用于当前执行。
+
 # nano-vllm RL Rollout 引擎项目计划书
 
 Oct 26, 2026 · @··
@@ -434,3 +436,20 @@ r_{i,t}(\theta)=\exp\left(\ell^{\theta}_{i,t}-\ell^{\mathrm{anchor}}_{i,t}\right
   选空闲端口。固定上游仍用2333并单独检查，不修改对照源码，不杀无关占用者。
 - 首次人工开机仅--stages environment baseline，约半小时为规划值；审阅后以新run-id跑全量。
   该执行安排不等于已租卡；所有真实GPU验收仍GPU_PENDING。
+
+## L40S 租卡目标修订（覆盖此前 A100 配置与估时）
+
+当前目标为安徽区按量计费的1×L40S 48GB（Ada sm_89），24vCPU/120GB RAM、30GB系统盘、
+50GB可扩容数据盘（平台给定扩容价0.01元/GB/天）；Ubuntu22.04/CUDA12.8.0/Python3.10带conda镜像。
+运行解释器仍为持久盘Python3.11；torch2.8.0+cu128/Transformers5.5.4/FA2官方wheel与hash不变。
+此前A100排期、显存比例和小时数仅作历史；所有当前对照须同L40S型号、同安徽区域、同一驱动。
+实际卡名、驱动、挂载点、四域网络可达性未获取，不填猜测值，依GPU_RUNBOOK预检记录后使用。
+
+演示推理fraction从0.6降为0.4，microbatch16/accumulation8/不启用checkpointing保留待人工显存探针；
+OOM仅在新run-id配置回退microbatch8/accumulation16。smoke0.3、独立诊断/同步/benchmark0.5顺序运行，
+不与GRPO actor同时驻留。预算是候选值而非48GB适配已实测。L40S超时/总时数重新放宽，先跑
+preflight-01环境/基线后按实际耗时更新，不能用显存带宽比直接推导训练或端到端性能。
+
+先记录nvidia-smi（驱动>=570）、df/findmnt确认数据盘、四域curl-I，再安装Python/GPU栈/资产校验；
+CPU代码只准备可配置pip镜像、HF兼容镜像源及其revision/hash、离线官方wheel/持久解释器与conda回退。
+Agent不租卡、不跑GPU、不下载大文件。所有真实GPU与网络/磁盘/运行时间验证仍待人工完成。

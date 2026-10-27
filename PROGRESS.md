@@ -239,3 +239,26 @@ status above supersedes their intermediate remaining-work notes.
 目标版本定向43项/7.640秒，禁用site-packages的标准库模拟18项/4.182秒，全部通过。
 文档/配置/干跑、ruff与37个库源码wheel内容校验通过；精确当前文件指纹见validation-manifest。
 命令均限定CUDA_VISIBLE_DEVICES为空；没有执行真实GPU任务。审阅包增量基准为c279ed4。
+
+
+## L40S 48GB 安徽区迁移（相对88a52c2）
+
+按用户新目标更新当前配置/手册：L40S Ada sm_89、按量24vCPU/120GB、30GB系统盘与50GB数据盘，
+Ubuntu22.04/CUDA12.8.0/Python3.10带conda镜像。保留原官方FA2 wheel/hash和Python3.11/torch2.8/cu128。
+演示fraction0.4，microbatch16与关闭checkpointing保持候选；OOM8/acc16必须新run-id。
+加入只读rental_preflight：未知实际值不猜填，读取卡名/驱动>=570、拒绝根盘及同设备bind的PERSIST，
+记录同安徽区/GPU UUID/驱动/数据盘；总脚本在CUDA子任务之前验证。四域HEAD结果仅作为网络证据。
+镜像源/两类revision显式传入模型和数据准备，manifest写入来源和逐文件SHA256；用前一次校验，
+模型不每任务反复hash。支持官方wheel上传校验、pip index/torch cu128索引与离线wheelhouse。
+持久Python支持原uv、已有conda prefix和上传官方archive校验后的解释器，拒绝宿主机base_prefix。
+新CPU验证使用小型夹具与mock，不下载大模型/数据，不租卡、不执行GPU或真实显存/性能实验。
+
+初次文档/CLI检查发现setup_gpu_env.sh被Windows编辑器写成CRLF，导致bash在保护开关之前报错。
+已保留results/cpu-l40s-initial-checks.txt并恢复LF；随后重跑Linux语法/未授权安装保护与全套CPU。
+
+本轮最终实跑：CPU torch2.11全套108项/138.349秒，CPU torch2.8全套108项/135.199秒，
+定向L40S/rental24项/1.871秒，无site-packages进程测试18项/4.223秒，全部通过。
+Linux findmnt JSON字段格式做了本机只读检查，不作为租卡挂载点实测；实际租卡预检值仍全部未知。
+ruff通过，wheel包含38份库源码且字节一致、CPU隔离导入通过；文档/干跑及最终源码指纹另存results。
+所有CPU测试命令均设置CUDA_VISIBLE_DEVICES为空；未执行GPU任务、未租卡、未下载真实模型/数据。
+交付提供相对88a52c2的独立增量补丁，另保留相对固定上游的全量补丁与轻量ZIP。

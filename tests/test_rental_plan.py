@@ -48,7 +48,9 @@ class RentalPlanTest(unittest.TestCase):
             self.assertFalse(persistent.exists())
         stages = list(dict.fromkeys(job["stage"] for job in plan["jobs"]))
         self.assertEqual(stages, ["environment", "baseline", "diagnostics", "weight_sync", "grpo", "performance"])
-        self.assertEqual(plan["hardware"], "NVIDIA A100-SXM4-80GB")
+        self.assertEqual(plan["hardware"], "L40S")
+        self.assertIsNone(plan["expected_gpu_name"])
+        self.assertEqual(plan["platform"]["region"], "安徽区")
         self.assertTrue(all("--allow-gpu" in job["command"] for job in plan["jobs"]))
         self.assertEqual(len(plan["jobs"]), 13)
         for name, rate in (("train-demo-simple", 1e-6), ("train-demo-simple-lr5e-6", 5e-6)):

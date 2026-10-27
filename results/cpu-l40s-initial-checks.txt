@@ -1,0 +1,1 @@
+scripts/setup_gpu_env.sh: line 3: set: pipefail: invalid option name

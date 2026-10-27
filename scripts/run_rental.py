@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT))
 from lockstep_rl.experiment_io import save_json
 from lockstep_rl.process_runner import run_task, task_budget
 from lockstep_rl.data import load_tasks, validate_splits
+from lockstep_rl.rental import validate_preflight, verify_hashes
 
 STAGES = ("environment", "baseline", "diagnostics", "weight_sync", "grpo", "performance")
 STAGE_ALIASES = {"sync": "weight_sync", "grpo_smoke_and_two_demos": "grpo"}
@@ -103,7 +104,8 @@ def build_plan(persistent, run_id, python, power_mode, stages=None):
     high = sum(estimates[stage][1] for stage in selected)
     return {"status": "GPU_PENDING", "output": str(output), "jobs": jobs, "configs": configs,
             "selected_stages": selected, "failure_policy": "only environment/attention hard-gate; other job failures/timeouts continue after process-tree cleanup; cleanup/inventory failures stop as infrastructure failures",
-            "hardware": rental["gpu_name"], "estimate": {"base_gpu_hours": [low, high],
+            "hardware": rental["gpu_name"], "expected_gpu_name": rental["expected_gpu_name"],
+            "platform": rental["platform"], "estimate": {"base_gpu_hours": [low, high],
             "with_30_percent_contingency": [round(low * 1.3, 2), round(high * 1.3, 2)],
             "scope": "Unmeasured planning range; no installation/download time; wall-clock rental time includes CPU overhead"}}
 
@@ -126,6 +128,7 @@ def execute_jobs(plan, inventory, env, gpu_id, *, validate_inputs=True, inventor
                 "gpu": inventory, "completed_jobs": [], "failed_jobs": [], "skipped_jobs": []}
     reader = inventory_reader or gpu_inventory
     start = time.perf_counter()
+    verified = set()
     try:
         for index, job in enumerate(plan["jobs"]):
             if reader(gpu_id) != inventory:
@@ -138,6 +141,19 @@ def execute_jobs(plan, inventory, env, gpu_id, *, validate_inputs=True, inventor
                 try:
                     if validate_inputs and not job["hard_gate"]:
                         validate_assets(output.parent.parent, job["asset_splits"])
+                        persistent = output.parent.parent
+                        if "model" not in verified:
+                            model = persistent / "models/Qwen3-0.6B"
+                            verify_hashes(model, json.loads((model / "_lockstep_model.json").read_text())["files"])
+                            verified.add("model")
+                        if job["asset_splits"]:
+                            data = persistent / "data/gsm8k"
+                            hashes = json.loads((data / "manifest.json").read_text())["files"]
+                            for split in job["asset_splits"]:
+                                if split not in verified:
+                                    name = split + ".jsonl"
+                                    verify_hashes(data, {name: hashes[name]})
+                                    verified.add(split)
                     result = run_task(job["command"], timeout_seconds=job["timeout_seconds"],
                                       cwd=ROOT, env=env, stdout=log, nccl=True)
                     task_record = result.record()
@@ -176,6 +192,7 @@ def main():
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--power-mode", default="USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE")
     parser.add_argument("--gpu-id", default="0")
+    parser.add_argument("--preflight-file", type=Path, help="Defaults to PERSIST/rental-preflight.json")
     parser.add_argument("--allow-gpu", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--stages", nargs="+", choices=[*STAGES, *STAGE_ALIASES],
@@ -191,15 +208,21 @@ def main():
     if args.power_mode.startswith("USER_MUST"):
         parser.error("record actual rental power/performance mode")
     inventory = gpu_inventory(args.gpu_id)
-    if inventory["name"] != plan["hardware"]:
-        parser.error("all contrasts must use the selected A100-SXM4-80GB model; do not silently mix hardware")
+    rental = json.loads((ROOT / "configs/rental.json").read_text(encoding="utf-8"))
+    preflight_path = args.preflight_file or args.persistent_root / "rental-preflight.json"
+    try:
+        preflight = validate_preflight(json.loads(preflight_path.read_text(encoding="utf-8")), args.persistent_root, inventory, rental)
+    except (OSError, ValueError, KeyError) as exc:
+        parser.error(f"confirmed rental preflight required before CUDA: {exc}")
+    plan["preflight"] = preflight
+    plan["expected_gpu_name"] = preflight["expected_gpu_name"]
     output = Path(plan["output"])
     if output.exists() and any(output.iterdir()):
         parser.error("use a new run-id; previous raw results must remain intact")
     (output / "configs").mkdir(parents=True, exist_ok=True)
     for name, config in plan["configs"].items():
         save_json(output / "configs" / f"{name}.json", config)
-    env = {**os.environ, "CUDA_VISIBLE_DEVICES": args.gpu_id}
+    env = {**os.environ, "CUDA_VISIBLE_DEVICES": args.gpu_id, "LOCKSTEP_RENTAL_REGION": preflight["region"]}
     manifest = execute_jobs(plan, inventory, env, args.gpu_id)
     print(json.dumps({"status": manifest["status"], "failed_jobs": manifest["failed_jobs"], "manifest": str(output / "manifest.json")}))
     if manifest["failed_jobs"]:

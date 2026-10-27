@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -9,12 +10,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from lockstep_rl.data import validate_splits
 from lockstep_rl.rewards import extract_answer
+from lockstep_rl.rental import file_hashes
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--revision", default="main")
+    parser.add_argument("--hf-endpoint", default=os.environ.get("HF_ENDPOINT", "https://huggingface.co"))
     parser.add_argument("--output-dir", type=Path, default=Path("data/gsm8k"))
     parser.add_argument("--train-count", type=int, default=64)
     parser.add_argument("--validation-count", type=int, default=32)
@@ -26,9 +29,12 @@ def main():
         parser.error("Dataset download requires manual --allow-download")
     if min(args.train_count, args.validation_count, args.diagnostic_count, args.fewshot_count) < 1:
         parser.error("subset counts must be positive")
+    # Set before importing datasets/hub: their endpoint constants are initialized
+    # on import. The explicit HfApi client resolves the revision on the same source.
+    os.environ["HF_ENDPOINT"] = args.hf_endpoint
     from datasets import load_dataset
     from huggingface_hub import HfApi
-    revision = HfApi().dataset_info("openai/gsm8k", revision=args.revision).sha
+    revision = HfApi(endpoint=args.hf_endpoint).dataset_info("openai/gsm8k", revision=args.revision).sha
     dataset = load_dataset("openai/gsm8k", "main", revision=revision)
     subsets = {}
     pools = {}
@@ -66,6 +72,8 @@ def main():
         (args.output_dir / f"{split}.jsonl").write_text(
             "".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
     (args.output_dir / "manifest.json").write_text(json.dumps({"dataset": "openai/gsm8k",
+         "source": {"kind": "huggingface", "endpoint": args.hf_endpoint}, "requested_revision": args.revision,
+         "files": file_hashes(args.output_dir, [args.output_dir / f"{split}.jsonl" for split in subsets]),
          "revision": revision, "seed": args.seed, "validation_source": "test",
          "train_count": args.train_count, "validation_count": args.validation_count,
          "diagnostic_count": args.diagnostic_count, "fewshot_count": args.fewshot_count,

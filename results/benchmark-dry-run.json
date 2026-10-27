@@ -28,8 +28,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-short-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -58,8 +58,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-short-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -88,8 +88,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-short-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -118,8 +118,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-short-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -148,8 +148,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-short-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -178,8 +178,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-short-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -208,8 +208,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-long-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -238,8 +238,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-long-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -268,8 +268,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-long-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -298,8 +298,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-long-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -328,8 +328,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-long-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -358,8 +358,8 @@
         "--output",
         "results/inference-benchmark/baseline-eager-long-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -388,8 +388,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-short-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -418,8 +418,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-short-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -448,8 +448,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-short-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -478,8 +478,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-short-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -508,8 +508,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-short-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -538,8 +538,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-short-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -568,8 +568,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-long-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -598,8 +598,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-long-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -628,8 +628,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-long-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -658,8 +658,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-long-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -688,8 +688,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-long-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -718,8 +718,8 @@
         "--output",
         "results/inference-benchmark/baseline-graph-long-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -748,8 +748,8 @@
         "--output",
         "results/inference-benchmark/current-eager-short-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -778,8 +778,8 @@
         "--output",
         "results/inference-benchmark/current-eager-short-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -808,8 +808,8 @@
         "--output",
         "results/inference-benchmark/current-eager-short-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -838,8 +838,8 @@
         "--output",
         "results/inference-benchmark/current-eager-short-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -868,8 +868,8 @@
         "--output",
         "results/inference-benchmark/current-eager-short-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -898,8 +898,8 @@
         "--output",
         "results/inference-benchmark/current-eager-short-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -928,8 +928,8 @@
         "--output",
         "results/inference-benchmark/current-eager-long-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -958,8 +958,8 @@
         "--output",
         "results/inference-benchmark/current-eager-long-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -988,8 +988,8 @@
         "--output",
         "results/inference-benchmark/current-eager-long-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1018,8 +1018,8 @@
         "--output",
         "results/inference-benchmark/current-eager-long-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1048,8 +1048,8 @@
         "--output",
         "results/inference-benchmark/current-eager-long-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1078,8 +1078,8 @@
         "--output",
         "results/inference-benchmark/current-eager-long-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1108,8 +1108,8 @@
         "--output",
         "results/inference-benchmark/current-graph-short-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1138,8 +1138,8 @@
         "--output",
         "results/inference-benchmark/current-graph-short-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1168,8 +1168,8 @@
         "--output",
         "results/inference-benchmark/current-graph-short-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1198,8 +1198,8 @@
         "--output",
         "results/inference-benchmark/current-graph-short-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1228,8 +1228,8 @@
         "--output",
         "results/inference-benchmark/current-graph-short-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1258,8 +1258,8 @@
         "--output",
         "results/inference-benchmark/current-graph-short-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1288,8 +1288,8 @@
         "--output",
         "results/inference-benchmark/current-graph-long-single-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1318,8 +1318,8 @@
         "--output",
         "results/inference-benchmark/current-graph-long-single-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1348,8 +1348,8 @@
         "--output",
         "results/inference-benchmark/current-graph-long-single-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1378,8 +1378,8 @@
         "--output",
         "results/inference-benchmark/current-graph-long-multi-0.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1408,8 +1408,8 @@
         "--output",
         "results/inference-benchmark/current-graph-long-multi-1.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1438,8 +1438,8 @@
         "--output",
         "results/inference-benchmark/current-graph-long-multi-2.json"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1469,8 +1469,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-short-single-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1500,8 +1500,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-short-single-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1531,8 +1531,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-short-single-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1562,8 +1562,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-short-multi-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1593,8 +1593,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-short-multi-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1624,8 +1624,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-short-multi-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1655,8 +1655,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-long-single-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1686,8 +1686,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-long-single-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1717,8 +1717,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-long-single-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1748,8 +1748,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-long-multi-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1779,8 +1779,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-long-multi-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1810,8 +1810,8 @@
         "results/inference-benchmark/current-fp32-head-live-eager-long-multi-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1841,8 +1841,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-short-single-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1872,8 +1872,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-short-single-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1903,8 +1903,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-short-single-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1934,8 +1934,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-short-multi-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1965,8 +1965,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-short-multi-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -1996,8 +1996,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-short-multi-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2027,8 +2027,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-long-single-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2058,8 +2058,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-long-single-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2089,8 +2089,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-long-single-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2120,8 +2120,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-long-multi-0.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2151,8 +2151,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-long-multi-1.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2182,8 +2182,8 @@
         "results/inference-benchmark/current-fp32-head-live-graph-long-multi-2.json",
         "--fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2214,8 +2214,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2246,8 +2246,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2278,8 +2278,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2310,8 +2310,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2342,8 +2342,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2374,8 +2374,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2406,8 +2406,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2438,8 +2438,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2470,8 +2470,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2502,8 +2502,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2534,8 +2534,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2566,8 +2566,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2598,8 +2598,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2630,8 +2630,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2662,8 +2662,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2694,8 +2694,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2726,8 +2726,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2758,8 +2758,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2790,8 +2790,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2822,8 +2822,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2854,8 +2854,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2886,8 +2886,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2918,8 +2918,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     },
     {
@@ -2950,8 +2950,8 @@
         "--fp32-lm-head",
         "--cache-fp32-lm-head"
       ],
-      "expected_seconds": 90,
-      "timeout_seconds": 270,
+      "expected_seconds": 150,
+      "timeout_seconds": 450,
       "timeout_basis": "unmeasured expected wall seconds times multiplier"
     }
   ]

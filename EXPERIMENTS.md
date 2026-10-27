@@ -2,7 +2,7 @@
 
 All real experiments remain **GPU_PENDING**. CPU fixtures are tests, never
 measurements of Qwen3-0.6B or nano-vllm CUDA behavior. All comparisons use one
-rented NVIDIA A100-SXM4-80GB and one pinned stack/UUID. See GPU_RUNBOOK.md.
+rented L40S 48GB in Anhui and one pinned driver/stack/UUID. A100 references below are historical. See GPU_RUNBOOK.md.
 
 | Experiment | Matrix and raw evidence |
 |---|---|
@@ -76,7 +76,7 @@ The ordered rental runner writes configs, stdout/stderr, failure/manifest files,
 trajectories, per-token and per-step data below persistent-root/results/run-id.
 Every child command/exit/time and fixed GPU inventory are recorded. Never erase
 an unfavorable repeat; use a new run-id after failure. stage-level planning
-ranges are in configs/rental.json, about3–11 GPU hours with30% contingency; these
+ranges are in configs/rental.json, about5.14–18.98 GPU hours with30% contingency; these
 are assumptions until measured wall time is available. Asset download and wheel
 preparation occur before paid GPU use. Optional old memory probes remain source
 utilities, outside the revised mandatory sequence.
@@ -131,3 +131,21 @@ must share a fixed persistent mount path; arbitrary relocation is unsupported.
 最终结果：完整CPU2.11为96项/161.707秒，CPU2.8为96项/160.333秒；定向CPU2.8为43项/7.640秒，
 无torch标准库为18项/4.182秒，全部OK。当前源码通过ruff和37库文件wheel字节一致性检查。
 文档命令、11个JSON dry-run及源码指纹另存results；CPU日志不是GPU耗时/精度/学习数据。
+
+## L40S 48GB 安徽区目标变更（当前）
+
+按量计费，24vCPU/120GB RAM、30GB系统盘/50GB数据盘可扩容，镜像Ubuntu22.04/CUDA12.8.0/
+Python3.10带conda。真实卡名、驱动版本、挂载点与四域网络尚未知，rental.json保留null。
+驱动>=570、明确L40S卡名、独立数据盘与安徽区域确认后才可进入GPU编排；首次仅environment/baseline。
+上一版A100配置、96项CPU日志及其时间仅为历史，当前测试证据以本轮results和指纹为准。
+
+CPU新增验证覆盖卡名/驱动/区域/mount门槛、根分区bind拒绝、镜像endpoint+解析revision+文件SHA256、
+篡改检测、官方wheel离线上传不访问GitHub、conda与已校验上传解释器注册。模型和数据均为几十字节
+夹具，下载API/安装调用mock；没有连接镜像或下载真实资产，没有初始化CUDA或运行显存探针。
+演示fraction0.4，microbatch16/acc8待真卡显存确认；OOM手动回退8/16并用新run-id。
+当前小时数5.14–18.98（含30%）和3倍任务caps为未实测规划，preflight-01后按原始耗时校准。
+
+本轮结果：CPU2.11 108项/138.349秒，CPU2.8 108项/135.199秒，L40S定向24项/1.871秒，
+无site-packages进程模拟18项/4.223秒，全部OK。包内38份库源码通过字节校验；真实网络、磁盘、
+显存、驱动/ABI与L40S吞吐仍GPU_PENDING。初次CRLF安装保护失败及修复前TIME_WAIT日志是历史失败证据，
+当前通过状态见最新full CPU/artifact/package日志和源码指纹，不能把它们当作真卡验证。

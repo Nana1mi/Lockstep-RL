@@ -6,7 +6,11 @@
       "scripts/download_model.py",
       "--allow-download",
       "--destination",
-      "/persistent/lockstep/models/Qwen3-0.6B"
+      "/persistent/lockstep/models/Qwen3-0.6B",
+      "--revision",
+      "main",
+      "--hf-endpoint",
+      "https://huggingface.co"
     ],
     [
       "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -21,7 +25,11 @@
       "--fewshot-count",
       "32",
       "--output-dir",
-      "/persistent/lockstep/data/gsm8k"
+      "/persistent/lockstep/data/gsm8k",
+      "--revision",
+      "main",
+      "--hf-endpoint",
+      "https://huggingface.co"
     ]
   ],
   "wheel": "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3.post2/flash_attn-2.8.3.post2%2Bcu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl",

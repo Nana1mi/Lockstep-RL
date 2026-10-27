@@ -49,8 +49,8 @@
         "traj-31"
       ],
       "batching": "single",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": []
     },
@@ -104,8 +104,8 @@
         "traj-31"
       ],
       "batching": "single",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -161,8 +161,8 @@
         "traj-31"
       ],
       "batching": "single",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -218,8 +218,8 @@
         "traj-31"
       ],
       "batching": "prefix",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -275,8 +275,8 @@
         "traj-31"
       ],
       "batching": "chunked",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -332,8 +332,8 @@
         "traj-31"
       ],
       "batching": "graph",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -389,8 +389,8 @@
         "traj-31"
       ],
       "batching": "graph_padding",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -446,8 +446,8 @@
         "traj-31"
       ],
       "batching": "batch",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -503,8 +503,8 @@
         "traj-31"
       ],
       "batching": "preemption_cached",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -560,8 +560,8 @@
         "traj-31"
       ],
       "batching": "preemption_recompute",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -617,8 +617,8 @@
         "traj-31"
       ],
       "batching": "single",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -674,8 +674,8 @@
         "traj-31"
       ],
       "batching": "single",
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -732,8 +732,8 @@
         "--output",
         "results/diagnostics/hf-bfloat16.json"
       ],
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"
@@ -790,8 +790,8 @@
         "--output",
         "results/diagnostics/hf-float32.json"
       ],
-      "expected_seconds": 120,
-      "timeout_seconds": 360,
+      "expected_seconds": 210,
+      "timeout_seconds": 630,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "depends_on": [
         "sample"

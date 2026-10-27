@@ -7,8 +7,8 @@
       "name": "environment",
       "hard_gate": true,
       "asset_splits": [],
-      "expected_seconds": 180,
-      "timeout_seconds": 540,
+      "expected_seconds": 240,
+      "timeout_seconds": 720,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -23,8 +23,8 @@
       "name": "attention",
       "hard_gate": true,
       "asset_splits": [],
-      "expected_seconds": 180,
-      "timeout_seconds": 540,
+      "expected_seconds": 240,
+      "timeout_seconds": 720,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -42,8 +42,8 @@
         "diagnostic",
         "fewshot"
       ],
-      "expected_seconds": 1800,
-      "timeout_seconds": 5400,
+      "expected_seconds": 3000,
+      "timeout_seconds": 9000,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -63,8 +63,8 @@
         "diagnostic",
         "fewshot"
       ],
-      "expected_seconds": 1200,
-      "timeout_seconds": 3600,
+      "expected_seconds": 2160,
+      "timeout_seconds": 6480,
       "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
@@ -279,7 +279,7 @@
         "enable_prefix_caching": true,
         "fp32_lm_head": false,
         "tensor_parallel_size": 1,
-        "gpu_memory_utilization": 0.6,
+        "gpu_memory_utilization": 0.4,
         "max_num_batched_tokens": 4096,
         "max_model_len": 2048,
         "max_num_seqs": 32
@@ -297,7 +297,7 @@
         "autocast_bf16": true,
         "fp32_lm_head": false
       },
-      "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
+      "validation_status": "GPU_PENDING; L40S 48GB co-resident candidate: fraction0.4, microbatch16, accumulation8, no backbone checkpointing. Confirm with manual memory probe; OOM fallback microbatch8/accumulation16 under a fresh run-id."
     },
     "train-demo-simple-lr5e-6": {
       "model": "/persistent/lockstep/models/Qwen3-0.6B",
@@ -322,7 +322,7 @@
         "enable_prefix_caching": true,
         "fp32_lm_head": false,
         "tensor_parallel_size": 1,
-        "gpu_memory_utilization": 0.6,
+        "gpu_memory_utilization": 0.4,
         "max_num_batched_tokens": 4096,
         "max_model_len": 2048,
         "max_num_seqs": 32
@@ -340,7 +340,7 @@
         "autocast_bf16": true,
         "fp32_lm_head": false
       },
-      "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
+      "validation_status": "GPU_PENDING; L40S 48GB co-resident candidate: fraction0.4, microbatch16, accumulation8, no backbone checkpointing. Confirm with manual memory probe; OOM fallback microbatch8/accumulation16 under a fresh run-id."
     },
     "baseline-smoke": {
       "model": "/persistent/lockstep/models/Qwen3-0.6B",
@@ -411,15 +411,26 @@
     "weight_sync"
   ],
   "failure_policy": "only environment/attention hard-gate; other job failures/timeouts continue after process-tree cleanup; cleanup/inventory failures stop as infrastructure failures",
-  "hardware": "NVIDIA A100-SXM4-80GB",
+  "hardware": "L40S",
+  "expected_gpu_name": null,
+  "platform": {
+    "region": "\u5b89\u5fbd\u533a",
+    "billing": "\u6309\u91cf\u8ba1\u8d39",
+    "vcpu": 24,
+    "ram_gb": 120,
+    "system_disk_gb": 30,
+    "data_disk_gb": 50,
+    "data_disk_expand_cny_per_gb_day": 0.01,
+    "image": "\u5f00\u53d1/CUDA 12.8.0 / Python 3.10 / Ubuntu 22.04 (cuda_only, conda)"
+  },
   "estimate": {
     "base_gpu_hours": [
-      0.8,
-      2.75
+      1.2999999999999998,
+      4.6
     ],
     "with_30_percent_contingency": [
-      1.04,
-      3.58
+      1.69,
+      5.98
     ],
     "scope": "Unmeasured planning range; no installation/download time; wall-clock rental time includes CPU overhead"
   }

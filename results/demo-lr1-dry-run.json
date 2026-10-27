@@ -23,7 +23,7 @@
       "enable_prefix_caching": true,
       "fp32_lm_head": false,
       "tensor_parallel_size": 1,
-      "gpu_memory_utilization": 0.6,
+      "gpu_memory_utilization": 0.4,
       "max_num_batched_tokens": 4096,
       "max_model_len": 2048,
       "max_num_seqs": 32
@@ -41,7 +41,7 @@
       "autocast_bf16": true,
       "fp32_lm_head": false
     },
-    "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
+    "validation_status": "GPU_PENDING; L40S 48GB co-resident candidate: fraction0.4, microbatch16, accumulation8, no backbone checkpointing. Confirm with manual memory probe; OOM fallback microbatch8/accumulation16 under a fresh run-id."
   },
   "grpo": {
     "group_size": 8,

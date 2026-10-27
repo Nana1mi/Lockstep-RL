@@ -33,8 +33,9 @@
 - The user revision dated 2026-10-27 explicitly authorizes PLAN/README/runbook
   updates and prioritizes P0.1-3, then P1.4/6/5, P2.7-8 before rental. No new
   mandatory memory/offload task is part of this revision.
-- Rental target is one NVIDIA A100-SXM4-80GB on Linux. Old RTX5080/SM120 build
-  instructions are historical. Pin official FA2 wheel/torch/Python/CUDA/ABI/hash;
+- Current rental target is one L40S 48GB (Ada sm_89), Anhui region, Linux.
+  A100-SXM4-80GB and RTX5080/SM120 instructions are historical. Actual GPU name,
+  driver >=570 and separate data-disk mount require manual preflight evidence. Pin official FA2 wheel/torch/Python/CUDA/ABI/hash;
   do not silently fall back to source compilation or mix GPU models in contrasts.
 
 - The later pre-rental review authorizes an additional commit-refreshed cached
@@ -43,3 +44,7 @@
   attention failures hard-gate independent jobs; support --stages retry under a
   fresh run-id. Report sync_seconds as the three update phases, excluding change
   measurement. No real GPU execution/download/rental is authorized by this review.
+
+- The L40S revision keeps the official FA2 wheel URL/hash and Python/torch pins.
+  Demo inference fraction is0.4; microbatch16/no checkpointing awaits manual memory
+  validation, with microbatch8/accumulation16 as documented OOM fallback.

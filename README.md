@@ -81,7 +81,7 @@ not treated as evidence of a numerical change.
 `train-demo-simple*.json` presets use 16 prompts × G=8, 120 iterations,
 512/128 disjoint arithmetic questions, evaluation every 10 iterations, and
 learning rates 1e-6 / 5e-6. They are candidates, not evidence of learning.
-The A100 demo uses microbatch16, accumulation8 and no backbone gradient checkpointing;
+The L40S demo uses inference fraction0.4, microbatch16, accumulation8 and no backbone gradient checkpointing;
 output-head chunk recomputation remains to bound vocabulary activations.
 the 128-sequence objective is CPU-tested against a full batch. Speedup is unmeasured.
 `strict` reward parsing preserves old behavior; `lenient` also accepts currency,
@@ -91,8 +91,8 @@ Generation stops at any local generation_config EOS ID and records the full list
 
 ## Rental handoff
 
-All contrasts target **one rented NVIDIA A100-SXM4-80GB, Linux x86_64**. The old
-RTX 5080/SM120 setup is historical and no longer applies. To avoid compiling FA2,
+All contrasts target **one L40S 48GB (Ada sm_89), Anhui region, Linux x86_64**. The A100 and
+RTX 5080/SM120 setups are historical and no longer applies. To avoid compiling FA2,
 the candidate pins a published official torch-2.8 / CUDA-12 / cp311 / ABI-TRUE wheel;
 the wheel filename, ABI and SHA256 are checked before installation. Availability
 was checked against the [official release assets](https://github.com/Dao-AILab/flash-attention/releases/expanded_assets/v2.8.3.post2);
@@ -126,9 +126,22 @@ killing their owner. This preflight cannot reserve a port across process startup
 The dependency-free regression command is
 `python3 -S -m unittest tests.test_process_runner -v` on Linux/WSL2.
 The runner saves all raw output/configs/logs on persistent storage and records wall
-time. The planning estimate is about **3–11 GPU hours including 30% contingency**,
+time. The planning estimate is about **5.14–18.98 GPU hours including 30% contingency**,
 not a measured runtime or cost quote. No card has been rented or started.
 
 Limitations: no TP updates, async RL, LoRA sync, dynamic KV offload, automatic
 rollback or guarantee of learning. FA2 ABI/kernels, numerical tolerances and
 actual training budget must be verified on the rented card.
+
+The domestic rental has24vCPU/120GB RAM, a30GB system disk and50GB expandable data
+disk; image Ubuntu22.04/CUDA12.8.0/Python3.10 with conda. Keep all interpreters,
+venvs, caches, assets and results on the data disk. Exact GPU name, driver>=570,
+mount point and network reachability are unresolved placeholders in rental.json.
+Manual `rental_preflight.py` records the observed identity/data mount/network;
+`run_rental.py` checks that record before any GPU subprocess. It does not infer a
+name from the product label or accept a system-disk PERSIST.
+Optional pip indexes/wheelhouse, HF-compatible mirror endpoints with pinned
+revision and file SHA256, uploaded official wheel/Python archive, and persistent
+conda Python3.11 registration are described in the runbook. No automatic source
+switch or FA2 source build is used. Demo microbatch16 awaits the manual memory
+probe; OOM fallback8 also changes accumulation to16 under a fresh run-id.

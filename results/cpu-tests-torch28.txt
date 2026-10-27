@@ -29,6 +29,18 @@ test_trajectory_persistence_precedes_reward_failure (test_grpo.GRPOTest.test_tra
 test_uneven_microbatch_accumulation_matches_full_token_objective (test_grpo.GRPOTest.test_uneven_microbatch_accumulation_matches_full_token_objective) ... ok
 test_weight_cast_error_is_measured_separately_and_bad_configs_rejected (test_grpo.GRPOTest.test_weight_cast_error_is_measured_separately_and_bad_configs_rejected) ... ok
 test_zero_signal_skips_optimizer_and_empty_masks_skip (test_grpo.GRPOTest.test_zero_signal_skips_optimizer_and_empty_masks_skip) ... ok
+test_dataset_mirror_resolves_same_endpoint_and_hashes_subsets (test_l40s_rental.L40SRentalTests.test_dataset_mirror_resolves_same_endpoint_and_hashes_subsets) ... ok
+test_exact_name_and_driver_gate_reject_guesses_and_old_drivers (test_l40s_rental.L40SRentalTests.test_exact_name_and_driver_gate_reject_guesses_and_old_drivers) ... ok
+test_external_conda_prefix_is_persistent_and_host_prefix_is_rejected (test_l40s_rental.L40SRentalTests.test_external_conda_prefix_is_persistent_and_host_prefix_is_rejected) ... ok
+test_findmnt_rejects_system_disk_and_same_filesystem_bind_mount (test_l40s_rental.L40SRentalTests.test_findmnt_rejects_system_disk_and_same_filesystem_bind_mount) ... ok
+test_hash_checks_detect_tampering_and_path_escape (test_l40s_rental.L40SRentalTests.test_hash_checks_detect_tampering_and_path_escape) ... ok
+test_mirror_and_revision_propagate_to_both_assets_without_execution (test_l40s_rental.L40SRentalTests.test_mirror_and_revision_propagate_to_both_assets_without_execution) ... ok
+test_model_mirror_manifest_records_actual_resolved_revision_and_hashes (test_l40s_rental.L40SRentalTests.test_model_mirror_manifest_records_actual_resolved_revision_and_hashes) ... ok
+test_region_identity_and_mount_must_match_confirmed_record (test_l40s_rental.L40SRentalTests.test_region_identity_and_mount_must_match_confirmed_record) ... ok
+test_target_placeholders_wheel_pins_and_memory_budget (test_l40s_rental.L40SRentalTests.test_target_placeholders_wheel_pins_and_memory_budget) ... ok
+test_uploaded_official_wheel_is_verified_without_github_access (test_l40s_rental.L40SRentalTests.test_uploaded_official_wheel_is_verified_without_github_access) ... ok
+test_uploaded_python_records_verified_archive_without_uv_install (test_l40s_rental.L40SRentalTests.test_uploaded_python_records_verified_archive_without_uv_install) ... ok
+test_uploaded_python_requires_archive_hash (test_l40s_rental.L40SRentalTests.test_uploaded_python_requires_archive_hash) ... ok
 test_bad_inputs (test_logprobs.SelectedLogprobsTest.test_bad_inputs) ... ok
 test_checkpoint_does_not_save_vocabulary_activations (test_logprobs.SelectedLogprobsTest.test_checkpoint_does_not_save_vocabulary_activations) ... ok
 test_extreme_logits_are_finite (test_logprobs.SelectedLogprobsTest.test_extreme_logits_are_finite) ... ok
@@ -82,12 +94,12 @@ test_preemption_replays_context_without_rewriting_old_scores (test_rollout.Rollo
 test_prefix_hit_and_logical_invalidation (test_rollout.RolloutTest.test_prefix_hit_and_logical_invalidation) ... ok
 test_sampler_is_fp32_correct_and_does_not_modify_inputs (test_rollout.RolloutTest.test_sampler_is_fp32_correct_and_does_not_modify_inputs) ... ok
 test_cpu_hf_qwen_checkpointing_and_two_updates (test_tiny_qwen.TinyQwenTest.test_cpu_hf_qwen_checkpointing_and_two_updates) ... ok
-test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1829.18it/s]
-Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 13863.71it/s]
+test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1486.81it/s]
+Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 34444.69it/s]
 ok
-test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2022.33it/s]
+test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2890.63it/s]
 ok
-test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 21365.97it/s]
+test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 51585.57it/s]
 ok
 test_teacher_forcing_matches_full_logits_at_response_positions (test_tiny_qwen.TinyQwenTest.test_teacher_forcing_matches_full_logits_at_response_positions) ... ok
 test_active_request_and_live_cache_prevent_update (test_weight_update.WeightUpdateTest.test_active_request_and_live_cache_prevent_update) ... ok
@@ -100,6 +112,6 @@ test_real_upstream_packed_loaders_and_tied_storage (test_weight_update.WeightUpd
 test_success_commits_version_and_invalidates_logical_cache (test_weight_update.WeightUpdateTest.test_success_commits_version_and_invalidates_logical_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 96 tests in 160.333s
+Ran 108 tests in 135.199s
 
 OK
