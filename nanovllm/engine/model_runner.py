@@ -10,6 +10,7 @@ from nanovllm.models.qwen3 import Qwen3ForCausalLM
 from nanovllm.layers.sampler import Sampler
 from nanovllm.utils.context import set_context, get_context, reset_context
 from nanovllm.utils.loader import load_model
+from lockstep_rl.rendezvous import rendezvous_settings
 
 
 class ModelRunner:
@@ -27,7 +28,8 @@ class ModelRunner:
         default_device = torch.get_default_device()
         owns_process_group = False
         try:
-            dist.init_process_group("nccl", "tcp://localhost:2333", world_size=self.world_size, rank=rank)
+            rendezvous, init_timeout = rendezvous_settings()
+            dist.init_process_group("nccl", rendezvous, world_size=self.world_size, rank=rank, timeout=init_timeout)
             owns_process_group = True
             torch.cuda.set_device(rank)
             try:

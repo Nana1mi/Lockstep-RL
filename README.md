@@ -111,6 +111,20 @@ environment/attention checks are hard gates; other job failures are saved and
 independent jobs continue, with a nonzero final exit if anything failed.
 `--stages diagnostics sync` retries a subset under a new run-id, always repeating
 environment/attention. Hardware changes/user interruption still stop the run.
+First manually run `--stages environment baseline` under `preflight-01`, review FA2
+and graph evidence, then use a fresh run-id for the full suite. Roughly half an hour
+for this first pass is an unmeasured planning estimate.
+Every task has an explicit budget (expected wall seconds × 3 in
+`configs/task-timeouts.json`). Workers inherit the parent deadline. Timeout124,
+PID/PGID, port and cleanup records are saved; independent tasks/workers continue,
+while failed sampling dependencies are skipped. Linux sessions/subreaper cleanup
+covers orphan workers and escalates TERM to KILL; a surviving process is an
+infrastructure stop. Current workers pick a fresh free NCCL port, or respect
+`LOCKSTEP_NCCL_PORT`; initialization defaults to120s. Exact upstream code still
+uses2333, which is checked before each baseline worker. Occupied ports fail without
+killing their owner. This preflight cannot reserve a port across process startup.
+The dependency-free regression command is
+`python3 -S -m unittest tests.test_process_runner -v` on Linux/WSL2.
 The runner saves all raw output/configs/logs on persistent storage and records wall
 time. The planning estimate is about **3–11 GPU hours including 30% contingency**,
 not a measured runtime or cost quote. No card has been rented or started.

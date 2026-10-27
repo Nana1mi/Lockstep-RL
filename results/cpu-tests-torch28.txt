@@ -44,6 +44,24 @@ test_model_only_inputs_do_not_require_dataset_or_global_ready_marker (test_prere
 test_rental_soft_failures_continue_and_hard_failures_stop (test_prerental_review.PrerentalReviewTest.test_rental_soft_failures_continue_and_hard_failures_stop) ... ok
 test_seeded_fewshot_rotation_is_diverse_and_reproducible (test_prerental_review.PrerentalReviewTest.test_seeded_fewshot_rotation_is_diverse_and_reproducible) ... ok
 test_stage_selection_always_includes_environment_and_has_no_side_effects (test_prerental_review.PrerentalReviewTest.test_stage_selection_always_includes_environment_and_has_no_side_effects) ... ok
+test_auto_port_and_explicit_override_reach_child (test_process_runner.ProcessRunnerTests.test_auto_port_and_explicit_override_reach_child) ... ok
+test_baseline_localhost_preflight_detects_ipv6_listener (test_process_runner.ProcessRunnerTests.test_baseline_localhost_preflight_detects_ipv6_listener) ... ok
+test_fast_parent_exit_does_not_leave_detached_orphan (test_process_runner.ProcessRunnerTests.test_fast_parent_exit_does_not_leave_detached_orphan) ... ok
+test_inherited_automatic_port_selects_fresh_free_port (test_process_runner.ProcessRunnerTests.test_inherited_automatic_port_selects_fresh_free_port) ... ok
+test_invalid_limits_and_launch_failure (test_process_runner.ProcessRunnerTests.test_invalid_limits_and_launch_failure) ... ok
+test_nested_runner_interruption_cleans_its_own_new_session (test_process_runner.ProcessRunnerTests.test_nested_runner_interruption_cleans_its_own_new_session) ... ok
+test_normal_exit_preserves_code_and_restores_signal_handlers (test_process_runner.ProcessRunnerTests.test_normal_exit_preserves_code_and_restores_signal_handlers) ... ok
+test_original_baseline_checks_fixed_port_even_with_override (test_process_runner.ProcessRunnerTests.test_original_baseline_checks_fixed_port_even_with_override) ... ok
+test_parent_deadline_limits_child_budget_without_starting_expired_work (test_process_runner.ProcessRunnerTests.test_parent_deadline_limits_child_budget_without_starting_expired_work) ... ok
+test_port_conflict_never_starts_child_or_kills_owner (test_process_runner.ProcessRunnerTests.test_port_conflict_never_starts_child_or_kills_owner) ... ok
+test_rental_real_timeout_continues_but_environment_timeout_stops (test_process_runner.ProcessRunnerTests.test_rental_real_timeout_continues_but_environment_timeout_stops) ... ok
+test_sigterm_of_supervisor_cleans_workers_before_interrupt_exit (test_process_runner.ProcessRunnerTests.test_sigterm_of_supervisor_cleans_workers_before_interrupt_exit) ... ok
+test_term_ignoring_descendant_in_separate_session_is_killed_and_port_released (test_process_runner.ProcessRunnerTests.test_term_ignoring_descendant_in_separate_session_is_killed_and_port_released) ... ok
+test_time_wait_is_not_mistaken_for_a_live_listener (test_process_runner.ProcessRunnerTests.test_time_wait_is_not_mistaken_for_a_live_listener) ... ok
+test_timeout_kills_child_and_records_log (test_process_runner.ProcessRunnerTests.test_timeout_kills_child_and_records_log) ... ok
+test_worker_timeout_continues_and_sample_failure_skips_dependents (test_process_runner.ProcessRunnerTests.test_worker_timeout_continues_and_sample_failure_skips_dependents) ... ok
+test_configuration_is_validated_without_torch (test_process_runner.RendezvousTests.test_configuration_is_validated_without_torch) ... ok
+test_timeout_budgets_cover_tasks_and_are_three_times_estimates (test_process_runner.RendezvousTests.test_timeout_budgets_cover_tasks_and_are_three_times_estimates) ... ok
 test_order_persistent_outputs_and_both_demo_learning_rates (test_rental_plan.RentalPlanTest.test_order_persistent_outputs_and_both_demo_learning_rates) ... ok
 test_partial_assets_and_leaked_splits_fail_before_gpu (test_rental_plan.RentalPlanTest.test_partial_assets_and_leaked_splits_fail_before_gpu) ... ok
 test_wheel_abi_hash_and_no_download_asset_plan (test_rental_plan.RentalPlanTest.test_wheel_abi_hash_and_no_download_asset_plan) ... ok
@@ -64,12 +82,12 @@ test_preemption_replays_context_without_rewriting_old_scores (test_rollout.Rollo
 test_prefix_hit_and_logical_invalidation (test_rollout.RolloutTest.test_prefix_hit_and_logical_invalidation) ... ok
 test_sampler_is_fp32_correct_and_does_not_modify_inputs (test_rollout.RolloutTest.test_sampler_is_fp32_correct_and_does_not_modify_inputs) ... ok
 test_cpu_hf_qwen_checkpointing_and_two_updates (test_tiny_qwen.TinyQwenTest.test_cpu_hf_qwen_checkpointing_and_two_updates) ... ok
-test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1608.25it/s]
-Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 21500.77it/s]
+test_fp32_reference_uses_promoted_bf16_effective_weights (test_tiny_qwen.TinyQwenTest.test_fp32_reference_uses_promoted_bf16_effective_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 1829.18it/s]
+Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 13863.71it/s]
 ok
-test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2399.49it/s]
+test_real_hf_keys_match_nano_packed_and_tied_weights (test_tiny_qwen.TinyQwenTest.test_real_hf_keys_match_nano_packed_and_tied_weights) ... Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 2022.33it/s]
 ok
-test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 47249.53it/s]
+test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged (test_tiny_qwen.TinyQwenTest.test_saved_actor_checkpoint_is_rounded_tied_and_keeps_master_unchanged) ... Loading weights:   0%|          | 0/13 [00:00<?, ?it/s]Loading weights: 100%|██████████| 13/13 [00:00<00:00, 21365.97it/s]
 ok
 test_teacher_forcing_matches_full_logits_at_response_positions (test_tiny_qwen.TinyQwenTest.test_teacher_forcing_matches_full_logits_at_response_positions) ... ok
 test_active_request_and_live_cache_prevent_update (test_weight_update.WeightUpdateTest.test_active_request_and_live_cache_prevent_update) ... ok
@@ -82,6 +100,6 @@ test_real_upstream_packed_loaders_and_tied_storage (test_weight_update.WeightUpd
 test_success_commits_version_and_invalidates_logical_cache (test_weight_update.WeightUpdateTest.test_success_commits_version_and_invalidates_logical_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 78 tests in 138.100s
+Ran 96 tests in 160.333s
 
 OK

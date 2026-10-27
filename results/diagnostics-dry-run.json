@@ -48,7 +48,11 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "single"
+      "batching": "single",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": []
     },
     {
       "name": "eager",
@@ -99,7 +103,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "single"
+      "batching": "single",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "repeat",
@@ -150,7 +160,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "single"
+      "batching": "single",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "prefix",
@@ -201,7 +217,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "prefix"
+      "batching": "prefix",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "chunked",
@@ -252,7 +274,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "chunked"
+      "batching": "chunked",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "graph",
@@ -303,7 +331,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "graph"
+      "batching": "graph",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "graph_padding",
@@ -354,7 +388,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "graph_padding"
+      "batching": "graph_padding",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "batch",
@@ -405,7 +445,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "batch"
+      "batching": "batch",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "preemption_cached",
@@ -456,7 +502,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "preemption_cached"
+      "batching": "preemption_cached",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "preemption_recompute",
@@ -507,7 +559,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "preemption_recompute"
+      "batching": "preemption_recompute",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "fp32_head",
@@ -558,7 +616,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "single"
+      "batching": "single",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "fp32_head_cached",
@@ -609,7 +673,13 @@
         "traj-30",
         "traj-31"
       ],
-      "batching": "single"
+      "batching": "single",
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ]
     },
     {
       "name": "hf-bfloat16",
@@ -661,6 +731,12 @@
         "sdpa",
         "--output",
         "results/diagnostics/hf-bfloat16.json"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -713,6 +789,12 @@
         "sdpa",
         "--output",
         "results/diagnostics/hf-float32.json"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     }
   ],

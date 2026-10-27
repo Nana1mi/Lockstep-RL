@@ -214,3 +214,28 @@ status above supersedes their intermediate remaining-work notes.
 - Measured memory configuration and decision on checkpointing/offload.
 - At least three repeats for any reported performance comparison, with warmup,
   initialization, and steady execution recorded separately.
+
+
+## 2026-10-27 最后租卡前修订：任务时限和进程/端口生命周期
+
+- 新增标准库process_runner：Popen独立session、继承外层deadline、Linux subreaper接管孤儿，
+  TERM宽限后KILL，正常/异常/中断都清理。PID/PGID/port/timeout/cleanup写入manifest及日志。
+- rental、diagnostic、sync、benchmark和plot/archive统一有预算；只保留environment/attention硬关口。
+  独立worker失败后继续，sample失败跳过依赖；清理失败/硬件变化仍作为基础设施停止。
+- configs/task-timeouts.json集中记录预计秒数与3倍上限；dry-run可审阅，实际时间尚未测量。
+- NCCL当前源码支持环境变量端口和默认120秒init等待；每worker预检空闲端口，上游2333单独检查。
+  不改固定上游归档、不杀其他端口占用者、不承诺预检能消除bind竞态。
+- CPU标准库模拟已执行，覆盖嵌套session/孤儿/忽略TERM/超时后继续/硬关口/端口所有者。
+  精确当前测试数量、时长、完整输出见results，本轮全量验证后更新源码指纹和审阅ZIP。
+- 文档给出首次--stages environment baseline与全新run-id全量安排。没有租卡、下载模型/数据，
+  没有启动CUDA/真实训练/benchmark；真实运行时间与GPU验收仍GPU_PENDING。
+
+本轮CPU查出并修复一项预检误报：最初仅bind会把TCP TIME_WAIT当作活跃占用。
+先用真实loopback连接稳定复现（results/cpu-timewait-before-fix.txt），再改SO_REUSEADDR+listen；
+修复后18项标准库测试通过，含TIME_WAIT、真正端口占用与IPv6 localhost检查。此失败日志
+是有意保留的修复前证据，不是当前验收状态。
+
+最终实跑：torch2.11 CPU全套96项/161.707秒，torch2.8 CPU全套96项/160.333秒，
+目标版本定向43项/7.640秒，禁用site-packages的标准库模拟18项/4.182秒，全部通过。
+文档/配置/干跑、ruff与37个库源码wheel内容校验通过；精确当前文件指纹见validation-manifest。
+命令均限定CUDA_VISIBLE_DEVICES为空；没有执行真实GPU任务。审阅包增量基准为c279ed4。

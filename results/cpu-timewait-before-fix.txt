@@ -1,0 +1,17 @@
+test_time_wait_is_not_mistaken_for_a_live_listener (tests.test_process_runner.ProcessRunnerTests.test_time_wait_is_not_mistaken_for_a_live_listener) ... ERROR
+
+======================================================================
+ERROR: test_time_wait_is_not_mistaken_for_a_live_listener (tests.test_process_runner.ProcessRunnerTests.test_time_wait_is_not_mistaken_for_a_live_listener)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/Lockstep-RL/tests/test_process_runner.py", line 144, in test_time_wait_is_not_mistaken_for_a_live_listener
+    self.assertEqual(check_port(port), port)
+                     ^^^^^^^^^^^^^^^^
+  File "/mnt/e/Lockstep-RL/lockstep_rl/rendezvous.py", line 20, in check_port
+    listener.bind(("127.0.0.1", port))
+OSError: [Errno 98] Address already in use
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+FAILED (errors=1)

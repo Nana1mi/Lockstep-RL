@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 from types import SimpleNamespace
+from lockstep_rl.process_runner import TaskResult
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -150,8 +151,8 @@ class PrerentalReviewTest(unittest.TestCase):
                     if "scripts/diagnose.py" in command and failed_name == "diagnostics":
                         raise OSError("synthetic child startup failure")
                     script = "scripts/environment_probe.py" if failed_name == "environment" else "scripts/attention_smoke.py"
-                    return SimpleNamespace(returncode=7 if failed_name != "diagnostics" and script in command else 0)
-                with patch("scripts.run_rental.subprocess.run", side_effect=run) as process:
+                    return TaskResult(returncode=7 if failed_name != "diagnostics" and script in command else 0)
+                with patch("scripts.run_rental.run_task", side_effect=run) as process:
                     report = execute_jobs(plan, inventory, {}, "0", validate_inputs=False, inventory_reader=lambda _: inventory)
                 self.assertEqual(report["failed_jobs"], [failed_name])
                 if failed_name == "diagnostics":

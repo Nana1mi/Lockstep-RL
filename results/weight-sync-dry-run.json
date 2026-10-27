@@ -13,7 +13,11 @@
         "sample",
         "--output-dir",
         "results/weight-sync/sample"
-      ]
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": []
     },
     {
       "name": "eager-fresh-gpu-fp32-0",
@@ -39,6 +43,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/eager-fresh-gpu-fp32-0"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -65,6 +75,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/eager-fresh-gpu-fp32-1"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -91,6 +107,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/eager-fresh-gpu-fp32-2"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -117,6 +139,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/eager-hot-gpu-fp32-0"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -143,6 +171,12 @@
         "cpu-bf16",
         "--output-dir",
         "results/weight-sync/eager-hot-cpu-bf16-0"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -169,6 +203,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/eager-hot-gpu-fp32-1"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -195,6 +235,12 @@
         "cpu-bf16",
         "--output-dir",
         "results/weight-sync/eager-hot-cpu-bf16-1"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -221,6 +267,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/eager-hot-gpu-fp32-2"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -247,6 +299,12 @@
         "cpu-bf16",
         "--output-dir",
         "results/weight-sync/eager-hot-cpu-bf16-2"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -274,6 +332,12 @@
         "--output-dir",
         "results/weight-sync/eager-negative-gpu-fp32-0",
         "--skip-invalidate"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -301,6 +365,12 @@
         "--output-dir",
         "results/weight-sync/eager-negative-gpu-fp32-1",
         "--skip-invalidate"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -328,6 +398,12 @@
         "--output-dir",
         "results/weight-sync/eager-negative-gpu-fp32-2",
         "--skip-invalidate"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -354,6 +430,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/graph-fresh-gpu-fp32-0"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -380,6 +462,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/graph-fresh-gpu-fp32-1"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -406,6 +494,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/graph-fresh-gpu-fp32-2"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -432,6 +526,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/graph-hot-gpu-fp32-0"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -458,6 +558,12 @@
         "cpu-bf16",
         "--output-dir",
         "results/weight-sync/graph-hot-cpu-bf16-0"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -484,6 +590,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/graph-hot-gpu-fp32-1"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -510,6 +622,12 @@
         "cpu-bf16",
         "--output-dir",
         "results/weight-sync/graph-hot-cpu-bf16-1"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -536,6 +654,12 @@
         "gpu-fp32",
         "--output-dir",
         "results/weight-sync/graph-hot-gpu-fp32-2"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -562,6 +686,12 @@
         "cpu-bf16",
         "--output-dir",
         "results/weight-sync/graph-hot-cpu-bf16-2"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -589,6 +719,12 @@
         "--output-dir",
         "results/weight-sync/graph-negative-gpu-fp32-0",
         "--skip-invalidate"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -616,6 +752,12 @@
         "--output-dir",
         "results/weight-sync/graph-negative-gpu-fp32-1",
         "--skip-invalidate"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     },
     {
@@ -643,6 +785,12 @@
         "--output-dir",
         "results/weight-sync/graph-negative-gpu-fp32-2",
         "--skip-invalidate"
+      ],
+      "expected_seconds": 120,
+      "timeout_seconds": 360,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
       ]
     }
   ],

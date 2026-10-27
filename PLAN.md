@@ -424,3 +424,13 @@ r_{i,t}(\theta)=\exp\left(\ell^{\theta}_{i,t}-\ell^{\mathrm{anchor}}_{i,t}\right
    few-shot 例题池按 seed 打乱并逐轨迹轮换，保留次序 provenance。
 
 本轮仍只做 CPU 验证，所有真实 GPU 数值、性能、学习与运行时间保持 GPU_PENDING。
+
+## 同日任务超时补充（租卡前最后一轮）
+
+- 每个任务按未实测预计墙钟时间的3倍限时，配置与dry-run公开预算；外层截止时间约束嵌套worker。
+- 所有长期子任务独立session，超时/正常退出/中断均清理整棵子孙进程树；TERM后KILL，Linux
+  subreaper接管孤儿。超时失败保存后继续独立任务，依赖失败明确跳过；清理失败属于基础设施停止。
+- NCCL当前源码支持LOCKSTEP_NCCL_PORT和有限初始化等待；每个任务启动前检查端口，默认每worker
+  选空闲端口。固定上游仍用2333并单独检查，不修改对照源码，不杀无关占用者。
+- 首次人工开机仅--stages environment baseline，约半小时为规划值；审阅后以新run-id跑全量。
+  该执行安排不等于已租卡；所有真实GPU验收仍GPU_PENDING。

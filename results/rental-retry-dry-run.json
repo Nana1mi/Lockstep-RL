@@ -7,6 +7,9 @@
       "name": "environment",
       "hard_gate": true,
       "asset_splits": [],
+      "expected_seconds": 180,
+      "timeout_seconds": 540,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/environment_probe.py",
@@ -20,6 +23,9 @@
       "name": "attention",
       "hard_gate": true,
       "asset_splits": [],
+      "expected_seconds": 180,
+      "timeout_seconds": 540,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/attention_smoke.py",
@@ -36,6 +42,9 @@
         "diagnostic",
         "fewshot"
       ],
+      "expected_seconds": 1800,
+      "timeout_seconds": 5400,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/diagnose.py",
@@ -54,6 +63,9 @@
         "diagnostic",
         "fewshot"
       ],
+      "expected_seconds": 1200,
+      "timeout_seconds": 3600,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/weight_sync_experiment.py",
@@ -398,7 +410,7 @@
     "diagnostics",
     "weight_sync"
   ],
-  "failure_policy": "only environment/attention hard-gate; other job failures are recorded and execution continues",
+  "failure_policy": "only environment/attention hard-gate; other job failures/timeouts continue after process-tree cleanup; cleanup/inventory failures stop as infrastructure failures",
   "hardware": "NVIDIA A100-SXM4-80GB",
   "estimate": {
     "base_gpu_hours": [

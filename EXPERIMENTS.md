@@ -110,3 +110,24 @@ Demo microbatch16/accumulation8 with no checkpointing is a speed candidate with
 CPU-tested global-token objective equivalence, not a measured speedup. Few-shot
 contexts use seed-shuffle plus per-trajectory rotation. Managed Python and venv
 must share a fixed persistent mount path; arbitrary relocation is unsupported.
+
+## 2026-10-27 任务超时与端口 CPU 实验
+
+`CUDA_VISIBLE_DEVICES= .envs/nano_rl/bin/python -S -m unittest tests.test_process_runner -v`
+实跑标准库子进程：挂起、TERM忽略、独立session孙进程、父进程立即退出、嵌套编排中断、端口占用、
+清理后重新bind；也实跑总脚本的软超时继续与环境超时硬关口。未加载torch/FA2/Triton或初始化CUDA。
+原始输出 `results/cpu-process-tests.txt`；集成/全套回归分别见 cpu-timeout-integration 与 cpu-tests 日志。
+
+期限配置为预计墙钟秒×3，worker继承外层绝对期限；returncode124/timed_out以及进程组清理写入结果。
+独立worker失败后继续，采样失败跳过依赖；不为不完整suite制造成功汇总。图/归档及元数据命令也有限时。
+当前NCCL端口可覆盖/自动选空闲，原版基线2333不改；bind预检与实际启动间的竞态仍由有限任务时限兜底。
+双层超时、首次约半小时与全量小时数均为未实测预算。真实A100行为、驱动卡死后的清理、FA2与graph
+仍需人工上卡验证（GPU_PENDING）；若进程无法KILL，停止编排并保留现场，不自动关停租卡实例。
+
+修复前证据：cpu-timewait-before-fix.txt记录一个真实连接进入TIME_WAIT后，普通bind预检
+报EADDRINUSE。修复使用SO_REUSEADDR并实际listen检查；cpu-process-tests.txt的对应回归
+与活跃IPv4/IPv6占用测试通过。没有把真实占用当成空闲，也没有修改/终止占用者。
+
+最终结果：完整CPU2.11为96项/161.707秒，CPU2.8为96项/160.333秒；定向CPU2.8为43项/7.640秒，
+无torch标准库为18项/4.182秒，全部OK。当前源码通过ruff和37库文件wheel字节一致性检查。
+文档命令、11个JSON dry-run及源码指纹另存results；CPU日志不是GPU耗时/精度/学习数据。

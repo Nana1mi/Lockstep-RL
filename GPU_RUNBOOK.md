@@ -84,6 +84,18 @@ torch 自带 CUDA runtime，不安装编译器或升级系统驱动。若 wheel 
 ```bash
 PERSIST=/persistent/lockstep
 GPU_PY="$PERSIST/envs/nano_rl/bin/python"
+# 第一次开机只跑环境、attention、短基线；约半小时是规划值，不是实测承诺。
+"$GPU_PY" scripts/run_rental.py --persistent-root "$PERSIST" --run-id preflight-01 \
+  --stages environment baseline --python "$GPU_PY" \
+  --power-mode "记录真实租卡功耗/性能模式" --gpu-id 0 --allow-gpu
+```
+
+先停止在这里，人工审阅preflight-01的环境、attention和baseline原始结果，确认FA2、eager/graph
+与对照可用后再执行下面的全量命令；不要把两段一次性串联。使用全新的run-id：
+
+```bash
+PERSIST=/persistent/lockstep
+GPU_PY="$PERSIST/envs/nano_rl/bin/python"
 "$GPU_PY" scripts/run_rental.py --persistent-root "$PERSIST" --run-id review-01 \
   --python "$GPU_PY" --power-mode "记录真实租卡功耗/性能模式" --gpu-id 0 --allow-gpu
 ```
@@ -94,6 +106,38 @@ GPU_PY="$PERSIST/envs/nano_rl/bin/python"
 后继续下一独立任务，最终有失败则以非零退出码结束。GPU 身份变化/用户中断等基础设施问题仍停止。
 每步重新核对同一 GPU UUID/驱动。用新 run-id 重试，
 不覆盖旧失败或不利结果。结束状态 executed_review_raw_results 仅表示命令执行完，仍需审阅数据。
+
+任务预算固定在 `configs/task-timeouts.json`：每项 expected_seconds × 3，包含初始化/编译，
+dry-run 的每个 job 都显示预算。当前总任务上限：environment/attention 各9分钟、baseline30分钟、
+diagnostics90分钟、weight-sync60分钟、两档demo各270分钟、performance90分钟；其余见配置。
+诊断/同步 worker 各6分钟、benchmark worker4.5分钟、绘图/归档各90秒。都是未实测估计，
+应根据原始日志调整配置后用新 run-id 重跑。外层预算约束整项工作（含CPU准备），嵌套 worker
+继承绝对截止时间，不能逐层叠加预算。检查 GPU inventory 的 nvidia-smi 与元数据命令另有30秒上限。
+
+每个任务 Popen(start_new_session=True)，超时记 returncode124/timed_out=true；先对整棵子孙
+进程树发TERM，最多等5秒，再KILL并最多等5秒。Linux subreaper 接管父进程退出后遗留的孤儿，
+包括另开session的worker；正常退出和用户中断也清理，恢复原信号处理器。
+参照 [Python subprocess](https://docs.python.org/3.11/library/subprocess.html#subprocess.Popen)
+与 [Linux subreaper 语义](https://man7.org/linux/man-pages/man2/PR_SET_CHILD_SUBREAPER.2const.html)。
+仅支持Linux/WSL2主线程中的串行编排。超时与失败都保存PID/PGID、实际时限、清理结果和原始日志，
+之后继续下一独立任务；采样失败会把依赖worker标记 skipped_dependency，其余独立worker继续。
+有失败的suite不生成“完整通过”汇总，已有原始结果保留。若SIGKILL后仍有存活进程，作为基础设施
+故障停止，不能把下一GPU任务叠在未清理的进程上；应由操作者检查系统/驱动，Agent不自动关机。
+
+当前源码的NCCL默认直启端口仍为2333；用 `LOCKSTEP_NCCL_PORT=29501` 可明确覆盖，
+`LOCKSTEP_NCCL_INIT_TIMEOUT_SECONDS` 默认120秒。总脚本/各suite会在每个任务启动前bind检查：
+默认给当前源码的每个worker重新挑空闲loopback端口，同一worker的各rank共享它；显式设置端口时
+严格检查该端口。检查不占用/保留端口，存在竞态时由有限NCCL初始化时限和任务时限兜底。
+固定上游的归档代码保持原样，baseline worker始终检查其写死的2333，不宣称环境变量能改原版。
+端口被其他进程占用时只记录失败，绝不杀占用者；预检使用SO_REUSEADDR+listen，允许可复用
+连接的TIME_WAIT而拒绝活跃监听，基线还检查localhost的IPv6。其他不可复用占用仍保留错误，
+以新run-id重试。不要同时在同一张卡上跑多套编排。
+
+无需torch即可在Linux/WSL2复核本轮CPU进程模拟（`-S`禁用site-packages）：
+
+```bash
+CUDA_VISIBLE_DEVICES= python3 -S -m unittest tests.test_process_runner -v
+```
 
 例如只重跑诊断与同步；总脚本仍自动先跑环境和 attention，其他阶段不执行：
 

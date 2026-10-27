@@ -4,7 +4,6 @@ import argparse
 import csv
 import json
 import math
-import subprocess
 import sys
 from pathlib import Path
 
@@ -12,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from lockstep_rl.diagnostics import compare_trajectories, distribution, eos_boundary
 from lockstep_rl.experiment_io import provenance, save_json
+from lockstep_rl.process_runner import execute_worker_jobs, run_checked, task_budget
 
 
 def build_plan(config, output, repeats, *, sources=("gpu-fp32", "cpu-bf16")):
@@ -31,6 +31,9 @@ def build_plan(config, output, repeats, *, sources=("gpu-fp32", "cpu-bf16")):
                     command.append("--skip-invalidate")
                 jobs.append({"name": name, "backend": backend, "mode": mode, "source": source, "repeat": repeat,
                     "command": command})
+    for job in jobs:
+        job.update(task_budget("sync-worker"))
+        job["depends_on"] = [] if job["name"] == "sample" else ["sample"]
     return jobs
 
 
@@ -92,13 +95,8 @@ def main():
         del model_b
         reports = {}
         references = {}
+        execute_worker_jobs(jobs, args.output_dir, manifest)
         for job in jobs:
-            with (args.output_dir / f"{job['name']}.log").open("w", encoding="utf-8") as stream:
-                result = subprocess.run(job["command"], stdout=stream, stderr=subprocess.STDOUT, check=False)
-            manifest["jobs"].append({**job, "returncode": result.returncode})
-            save_json(args.output_dir / "manifest.json", manifest)
-            if result.returncode:
-                raise RuntimeError(f"{job['name']} failed; inspect its saved log")
             if job["name"] == "sample":
                 continue
             folder = args.output_dir / job["name"]
@@ -146,8 +144,8 @@ def main():
         manifest["status"] = "completed"
         manifest["metric_label"] = "Seconds to verified generation"
         save_json(args.output_dir / "manifest.json", manifest)
-        subprocess.run([sys.executable, "scripts/plot_results.py", "--kind", "benchmark", "--input",
-                        str(args.output_dir / "manifest.json"), "--output", str(args.output_dir / "recovery.png")], check=True)
+        run_checked([sys.executable, "scripts/plot_results.py", "--kind", "benchmark", "--input",
+                        str(args.output_dir / "manifest.json"), "--output", str(args.output_dir / "recovery.png")])
     except Exception as exc:
         manifest.update(status="failed", error=f"{type(exc).__name__}: {exc}")
         raise

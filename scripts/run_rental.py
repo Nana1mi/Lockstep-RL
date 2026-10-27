@@ -13,6 +13,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lockstep_rl.experiment_io import save_json
+from lockstep_rl.process_runner import run_task, task_budget
 from lockstep_rl.data import load_tasks, validate_splits
 
 STAGES = ("environment", "baseline", "diagnostics", "weight_sync", "grpo", "performance")
@@ -77,7 +78,7 @@ def build_plan(persistent, run_id, python, power_mode, stages=None):
         if stage in selected:
             splits = ["diagnostic", "fewshot"] if stage in ("diagnostics", "weight_sync") else ["train", "validation"] if name == "gsm8k-smoke" else []
             jobs.append({"stage": stage, "name": name, "hard_gate": name in ("environment", "attention"),
-                         "asset_splits": splits,
+                         "asset_splits": splits, **task_budget(name),
                          "command": [python, "scripts/" + script, "--allow-gpu", *map(str, arguments)]})
     def config(name):
         return output / "configs" / f"{name}.json"
@@ -101,7 +102,7 @@ def build_plan(persistent, run_id, python, power_mode, stages=None):
     low = sum(estimates[stage][0] for stage in selected)
     high = sum(estimates[stage][1] for stage in selected)
     return {"status": "GPU_PENDING", "output": str(output), "jobs": jobs, "configs": configs,
-            "selected_stages": selected, "failure_policy": "only environment/attention hard-gate; other job failures are recorded and execution continues",
+            "selected_stages": selected, "failure_policy": "only environment/attention hard-gate; other job failures/timeouts continue after process-tree cleanup; cleanup/inventory failures stop as infrastructure failures",
             "hardware": rental["gpu_name"], "estimate": {"base_gpu_hours": [low, high],
             "with_30_percent_contingency": [round(low * 1.3, 2), round(high * 1.3, 2)],
             "scope": "Unmeasured planning range; no installation/download time; wall-clock rental time includes CPU overhead"}}
@@ -110,7 +111,7 @@ def build_plan(persistent, run_id, python, power_mode, stages=None):
 def gpu_inventory(gpu_id):
     result = subprocess.run(["nvidia-smi", "--id=" + gpu_id,
         "--query-gpu=name,uuid,driver_version,memory.total", "--format=csv,noheader"],
-        capture_output=True, text=True, check=True)
+        capture_output=True, text=True, check=True, timeout=30)
     rows = [line for line in result.stdout.splitlines() if line.strip()]
     if len(rows) != 1:
         raise ValueError("select exactly one physical rental GPU")
@@ -131,18 +132,22 @@ def execute_jobs(plan, inventory, env, gpu_id, *, validate_inputs=True, inventor
                 raise RuntimeError("GPU identity/driver changed; measurements cannot be mixed")
             before = time.perf_counter()
             error = None
+            task_record = {}
             log_path = output / (job["name"] + ".console.log")
             with log_path.open("w", encoding="utf-8") as log:
                 try:
                     if validate_inputs and not job["hard_gate"]:
                         validate_assets(output.parent.parent, job["asset_splits"])
-                    result = subprocess.run(job["command"], cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
+                    result = run_task(job["command"], timeout_seconds=job["timeout_seconds"],
+                                      cwd=ROOT, env=env, stdout=log, nccl=True)
+                    task_record = result.record()
+                    error = result.error
                     code = result.returncode
                 except Exception as exc:
                     code = 1
                     error = f"{type(exc).__name__}: {exc}"
                     log.write(error + "\n")
-            manifest["completed_jobs"].append({**job, "returncode": code, "error": error,
+            manifest["completed_jobs"].append({**job, **task_record, "returncode": code, "error": error,
                                                "wall_seconds": time.perf_counter() - before})
             if code:
                 manifest["failed_jobs"].append(job["name"])

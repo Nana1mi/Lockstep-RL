@@ -7,6 +7,9 @@
       "name": "environment",
       "hard_gate": true,
       "asset_splits": [],
+      "expected_seconds": 180,
+      "timeout_seconds": 540,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/environment_probe.py",
@@ -20,6 +23,9 @@
       "name": "attention",
       "hard_gate": true,
       "asset_splits": [],
+      "expected_seconds": 180,
+      "timeout_seconds": 540,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/attention_smoke.py",
@@ -33,6 +39,9 @@
       "name": "baseline",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 600,
+      "timeout_seconds": 1800,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/benchmark_suite.py",
@@ -51,6 +60,9 @@
         "diagnostic",
         "fewshot"
       ],
+      "expected_seconds": 1800,
+      "timeout_seconds": 5400,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/diagnose.py",
@@ -69,6 +81,9 @@
         "diagnostic",
         "fewshot"
       ],
+      "expected_seconds": 1200,
+      "timeout_seconds": 3600,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/weight_sync_experiment.py",
@@ -84,6 +99,9 @@
       "name": "two-updates",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 300,
+      "timeout_seconds": 900,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -101,6 +119,9 @@
       "name": "smoke-rollout",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 300,
+      "timeout_seconds": 900,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -118,6 +139,9 @@
       "name": "smoke-recomputed",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 300,
+      "timeout_seconds": 900,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -135,6 +159,9 @@
       "name": "train-demo-simple",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 5400,
+      "timeout_seconds": 16200,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -150,6 +177,9 @@
       "name": "train-demo-simple-lr5e-6",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 5400,
+      "timeout_seconds": 16200,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -168,6 +198,9 @@
         "train",
         "validation"
       ],
+      "expected_seconds": 900,
+      "timeout_seconds": 2700,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -187,6 +220,9 @@
       "name": "performance",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 1800,
+      "timeout_seconds": 5400,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/benchmark_suite.py",
@@ -202,6 +238,9 @@
       "name": "sampler",
       "hard_gate": false,
       "asset_splits": [],
+      "expected_seconds": 300,
+      "timeout_seconds": 900,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/sampler_benchmark.py",
@@ -549,7 +588,7 @@
     "grpo",
     "performance"
   ],
-  "failure_policy": "only environment/attention hard-gate; other job failures are recorded and execution continues",
+  "failure_policy": "only environment/attention hard-gate; other job failures/timeouts continue after process-tree cleanup; cleanup/inventory failures stop as infrastructure failures",
   "hardware": "NVIDIA A100-SXM4-80GB",
   "estimate": {
     "base_gpu_hours": [

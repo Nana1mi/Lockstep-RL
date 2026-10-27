@@ -14,10 +14,10 @@ attempts in PROGRESS are not current validation evidence.
 | P1.5 | Smoke/demo presets, expanded arithmetic pool, actor-change/probe metrics | 512/128 disjoint pool; BF16 rounding counts; full CPU actor loop + fixed-probe changes | Both 120-iteration learning rates GPU_PENDING |
 | P2.7 | Local generation config EOS lists | Either EOS terminates; fallback/malformed list and metadata tests | Actual Qwen generation GPU_PENDING |
 | P2.8 | Response-only vocabulary projection | Dense value/gradient equivalence and actual projected-token count | Real resource/performance impact GPU_PENDING |
-| Rental | A100-SXM4-80GB; persistent managed Python; soft failure continuation and --stages | Mocked hard/soft failures and startup errors, selected plans, interpreter path/host-fallback checks | Rental execution GPU_PENDING |
+| Rental | A100-SXM4-80GB; persistent Python; per-task budgets, whole-tree cleanup, free-port checks, --stages | Real CPU hangs/nested sessions/orphans/SIGTERM/SIGKILL; port owner preserved; dependency skips and hard/soft continuation | Rental execution/runtime estimates GPU_PENDING |
 
-Full regression: **78 passed in142.601s on torch2.11.0+cpu**, **78 passed
-in138.100s on torch2.8.0+cpu**. Earlier69/77-test runs are historical.
+Full regression: **96 passed in161.707s on torch2.11.0+cpu**, **96 passed
+in160.333s on torch2.8.0+cpu**. Earlier78/94-test runs are historical.
 Raw logs and exact normalized source fingerprints are in `results/cpu-tests*.txt`
 and `results/validation-manifest.json`. CPU2.11 and the separate CPU2.8 candidate
 environment remain distinct; neither is evidence of CUDA compatibility.
@@ -36,3 +36,14 @@ budget is configurable, without a new offload implementation or memory milestone
 The matrix deliberately fails when a requested path did not trigger. A negative
 control is successful only when stale reuse is observed and its output comparison
 fails. Code/tests do not substitute for these real GPU observations.
+
+Timeout revision: standard-library-only tests run with `python -S` in WSL, so no
+PyTorch installation is needed to independently reproduce process/port checks.
+See `results/cpu-process-tests.txt`. No CUDA kernels or paid instance were started.
+Task caps are planning estimates, not performance measurements. Original upstream
+port2333 and source remain unchanged; current workers support an override and
+finite NCCL initialization. First paid pass is environment+baseline only.
+
+Final targeted torch2.8 CPU regression:43 passed in7.640s. Dependency-free
+process/port acceptance:18 passed in4.182s. Final docs/dry-run and package counts
+are recorded in cpu-artifact-checks.json/package-check.json (37 library sources).

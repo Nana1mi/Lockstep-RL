@@ -36,6 +36,7 @@ def main():
         "evaluation-dry-run.json": ["scripts/evaluate.py", "--model", "nonexistent-local-model", "--dry-run"],
         "hf-score-dry-run.json": ["scripts/score_hf.py", "--model", "nonexistent-local-model", "--trajectory", "unused.json", "--output", "unused.json", "--dry-run"],
         "rental-dry-run.json": ["scripts/run_rental.py", "--persistent-root", "/persistent/lockstep", "--dry-run"],
+        "rental-first-pass-dry-run.json": ["scripts/run_rental.py", "--persistent-root", "/persistent/lockstep", "--stages", "environment", "baseline", "--dry-run"],
         "rental-retry-dry-run.json": ["scripts/run_rental.py", "--persistent-root", "/persistent/lockstep", "--stages", "diagnostics", "sync", "--dry-run"],
         "demo-lr1-dry-run.json": ["scripts/train_grpo.py", "--config", "configs/train-demo-simple.json", "--dry-run"],
         "demo-lr5-dry-run.json": ["scripts/train_grpo.py", "--config", "configs/train-demo-simple-lr5e-6.json", "--dry-run"],

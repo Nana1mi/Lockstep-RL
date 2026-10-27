@@ -95,3 +95,15 @@ few-shot rotation. Source/runtime evidence is still CPU-only. Performance plans
 have96 workers; their live-minus-cached difference includes memory residency
 effects and is not labeled pure FP32 GEMM cost. Public synchronization time omits
 actor-change measurement. Repeatability0 is explicitly non-discriminative.
+
+The final rental preparation adds explicit task caps, inherited deadlines, Linux
+session/subreaper cleanup with bounded TERM/KILL, dependency-aware worker skips
+and continuation, and NCCL override/free-port checks. Real CPU processes exercise
+timeouts, fast parent exit, nested sessions, ignored TERM, supervisor SIGTERM,
+restored handlers, occupied IPv4/IPv6 listeners and TIME_WAIT. A failing before-fix
+TIME_WAIT reproduction is retained separately from current passing evidence.
+The process tests run under python -S without PyTorch. Exact current counts are
+in results; first-pass rental dry-run selects only environment/attention/baseline.
+An unkillable descendant is an infrastructure stop, and occupied ports never
+authorize killing other processes. Deadlines are estimates, not a demonstrated
+GPU runtime or automatic rental shutdown. All real GPU gates remain pending.

@@ -18,7 +18,7 @@ def save_json(path, payload):
 
 def provenance(model_path=None):
     def git(*args):
-        result = subprocess.run(["git", *args], capture_output=True, text=True, check=False)
+        result = subprocess.run(["git", *args], capture_output=True, text=True, check=False, timeout=30)
         return {"returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
     diff = git("diff", "HEAD")
     result = {"timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -28,7 +28,7 @@ def provenance(model_path=None):
               "diff": diff, "packages": {}}
     try:
         gpu = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv"],
-                             capture_output=True, text=True, check=False)
+                             capture_output=True, text=True, check=False, timeout=30)
         result["gpu_inventory"] = {"returncode": gpu.returncode, "stdout": gpu.stdout, "stderr": gpu.stderr}
     except FileNotFoundError:
         result["gpu_inventory"] = {"available": False}

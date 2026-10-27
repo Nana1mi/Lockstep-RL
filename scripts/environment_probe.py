@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 def command(*args):
-    result = subprocess.run(args, text=True, capture_output=True, check=False)
+    result = subprocess.run(args, text=True, capture_output=True, check=False, timeout=30)
     return {"returncode": result.returncode, "stdout": result.stdout.strip(),
             "stderr": result.stderr.strip()}
 

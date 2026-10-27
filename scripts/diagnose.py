@@ -3,7 +3,6 @@
 import argparse
 import csv
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -11,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from lockstep_rl.diagnostics import compare_trajectories
 from lockstep_rl.experiment_io import provenance, save_json
+from lockstep_rl.process_runner import execute_worker_jobs, run_checked, task_budget
 from scripts.nano_path_worker import CASES
 
 
@@ -33,6 +33,9 @@ def build_plan(config_path, output_dir, settings):
                      "--attention-backend", settings["attention_backend"], "--output", str(root / f"hf-{dtype}.json")]})
         if not settings.get("torch_compile", True):
             jobs[-1]["command"].append("--disable-torch-compile")
+    for job in jobs:
+        job.update(task_budget("diagnostic-worker"))
+        job["depends_on"] = [] if job["name"] == "sample" else ["sample"]
     return jobs
 
 
@@ -84,14 +87,7 @@ def main():
     manifest = {"status": "running", "config": settings, "provenance": provenance(settings["model"]), "jobs": []}
     save_json(args.output_dir / "manifest.json", manifest)
     try:
-        for job in jobs:
-            log_path = args.output_dir / f"{job['name']}.log"
-            with log_path.open("w", encoding="utf-8") as log:
-                result = subprocess.run(job["command"], stdout=log, stderr=subprocess.STDOUT, check=False)
-            manifest["jobs"].append({**job, "returncode": result.returncode, "log": str(log_path)})
-            save_json(args.output_dir / "manifest.json", manifest)
-            if result.returncode:
-                raise RuntimeError(f"{job['name']} failed; inspect {log_path}")
+        execute_worker_jobs(jobs, args.output_dir, manifest)
         def read(path):
             return json.loads(Path(path).read_text(encoding="utf-8"))
         base = read(args.output_dir / "eager" / "rollouts.json")
@@ -130,8 +126,8 @@ def main():
             with (args.output_dir / f"{name}-post-eos.csv").open("w", newline="", encoding="utf-8") as stream:
                 writer = csv.DictWriter(stream, fieldnames=list(statistics["rows"][0]))
                 writer.writeheader(); writer.writerows(statistics["post_eos"]["rows"])
-            subprocess.run([sys.executable, "scripts/plot_results.py", "--kind", "consistency",
-                            "--input", str(args.output_dir / f"{name}.json"), "--output", str(args.output_dir / f"{name}.png")], check=True)
+            run_checked([sys.executable, "scripts/plot_results.py", "--kind", "consistency",
+                            "--input", str(args.output_dir / f"{name}.json"), "--output", str(args.output_dir / f"{name}.png")])
         manifest["status"] = "completed"
     except Exception as exc:
         manifest.update(status="failed", error=f"{type(exc).__name__}: {exc}")

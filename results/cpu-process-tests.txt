@@ -1,0 +1,23 @@
+test_auto_port_and_explicit_override_reach_child (tests.test_process_runner.ProcessRunnerTests.test_auto_port_and_explicit_override_reach_child) ... ok
+test_baseline_localhost_preflight_detects_ipv6_listener (tests.test_process_runner.ProcessRunnerTests.test_baseline_localhost_preflight_detects_ipv6_listener) ... ok
+test_fast_parent_exit_does_not_leave_detached_orphan (tests.test_process_runner.ProcessRunnerTests.test_fast_parent_exit_does_not_leave_detached_orphan) ... ok
+test_inherited_automatic_port_selects_fresh_free_port (tests.test_process_runner.ProcessRunnerTests.test_inherited_automatic_port_selects_fresh_free_port) ... ok
+test_invalid_limits_and_launch_failure (tests.test_process_runner.ProcessRunnerTests.test_invalid_limits_and_launch_failure) ... ok
+test_nested_runner_interruption_cleans_its_own_new_session (tests.test_process_runner.ProcessRunnerTests.test_nested_runner_interruption_cleans_its_own_new_session) ... ok
+test_normal_exit_preserves_code_and_restores_signal_handlers (tests.test_process_runner.ProcessRunnerTests.test_normal_exit_preserves_code_and_restores_signal_handlers) ... ok
+test_original_baseline_checks_fixed_port_even_with_override (tests.test_process_runner.ProcessRunnerTests.test_original_baseline_checks_fixed_port_even_with_override) ... ok
+test_parent_deadline_limits_child_budget_without_starting_expired_work (tests.test_process_runner.ProcessRunnerTests.test_parent_deadline_limits_child_budget_without_starting_expired_work) ... ok
+test_port_conflict_never_starts_child_or_kills_owner (tests.test_process_runner.ProcessRunnerTests.test_port_conflict_never_starts_child_or_kills_owner) ... ok
+test_rental_real_timeout_continues_but_environment_timeout_stops (tests.test_process_runner.ProcessRunnerTests.test_rental_real_timeout_continues_but_environment_timeout_stops) ... ok
+test_sigterm_of_supervisor_cleans_workers_before_interrupt_exit (tests.test_process_runner.ProcessRunnerTests.test_sigterm_of_supervisor_cleans_workers_before_interrupt_exit) ... ok
+test_term_ignoring_descendant_in_separate_session_is_killed_and_port_released (tests.test_process_runner.ProcessRunnerTests.test_term_ignoring_descendant_in_separate_session_is_killed_and_port_released) ... ok
+test_time_wait_is_not_mistaken_for_a_live_listener (tests.test_process_runner.ProcessRunnerTests.test_time_wait_is_not_mistaken_for_a_live_listener) ... ok
+test_timeout_kills_child_and_records_log (tests.test_process_runner.ProcessRunnerTests.test_timeout_kills_child_and_records_log) ... ok
+test_worker_timeout_continues_and_sample_failure_skips_dependents (tests.test_process_runner.ProcessRunnerTests.test_worker_timeout_continues_and_sample_failure_skips_dependents) ... ok
+test_configuration_is_validated_without_torch (tests.test_process_runner.RendezvousTests.test_configuration_is_validated_without_torch) ... ok
+test_timeout_budgets_cover_tasks_and_are_three_times_estimates (tests.test_process_runner.RendezvousTests.test_timeout_budgets_cover_tasks_and_are_three_times_estimates) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 4.182s
+
+OK

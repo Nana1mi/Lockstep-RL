@@ -4,7 +4,6 @@ import argparse
 import csv
 import json
 from pathlib import Path
-import subprocess
 import sys
 import tarfile
 import tempfile
@@ -13,6 +12,7 @@ PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT))
 from lockstep_rl.diagnostics import distribution
 from lockstep_rl.experiment_io import provenance, save_json
+from lockstep_rl.process_runner import execute_worker_jobs, run_checked, task_budget
 
 BASELINE = "bb823b3e06983d71485a8e1f23715ebd87d98ef8"
 
@@ -23,7 +23,7 @@ def materialize_baseline(destination):
         raise ValueError("baseline destination must be empty")
     destination.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryFile() as stream:
-        subprocess.run(["git", "archive", "--format=tar", BASELINE], cwd=PROJECT, stdout=stream, check=True)
+        run_checked(["git", "archive", "--format=tar", BASELINE], kind="archive", cwd=PROJECT, stdout=stream)
         stream.seek(0)
         with tarfile.open(fileobj=stream) as archive:
             for member in archive.getmembers():
@@ -54,6 +54,8 @@ def build_plan(config, output, settings):
                         jobs[-1]["command"].append("--fp32-lm-head")
                     if cached:
                         jobs[-1]["command"].append("--cache-fp32-lm-head")
+    for job in jobs:
+        job.update(task_budget("benchmark-worker"))
     return jobs
 
 
@@ -85,13 +87,8 @@ def main():
     try:
         materialize_baseline(args.output_dir / "upstream-source")
         flat = []
+        execute_worker_jobs(jobs, args.output_dir, manifest)
         for job in jobs:
-            with (args.output_dir / f"{job['name']}.log").open("w", encoding="utf-8") as stream:
-                result = subprocess.run(job["command"], stdout=stream, stderr=subprocess.STDOUT, check=False)
-            manifest["jobs"].append({**job, "returncode": result.returncode})
-            save_json(args.output_dir / "manifest.json", manifest)
-            if result.returncode:
-                raise RuntimeError(f"{job['name']} failed; inspect its log")
             record = json.loads((args.output_dir / f"{job['name']}.json").read_text())
             for measurement in record["measurements"]:
                 flat.append({"source": job["source"], "source_variant": job["source_variant"],
@@ -121,8 +118,8 @@ def main():
         manifest["metric_label"] = "Output tokens per second"
         manifest["status"] = "completed"
         save_json(args.output_dir / "manifest.json", manifest)
-        subprocess.run([sys.executable, "scripts/plot_results.py", "--kind", "benchmark", "--input",
-                        str(args.output_dir / "manifest.json"), "--output", str(args.output_dir / "throughput.png")], check=True)
+        run_checked([sys.executable, "scripts/plot_results.py", "--kind", "benchmark", "--input",
+                        str(args.output_dir / "manifest.json"), "--output", str(args.output_dir / "throughput.png")])
     except Exception as exc:
         manifest.update(status="failed", error=f"{type(exc).__name__}: {exc}")
         raise

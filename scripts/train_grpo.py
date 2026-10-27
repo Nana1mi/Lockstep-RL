@@ -8,13 +8,13 @@ import hashlib
 import json
 import math
 import random
-import subprocess
 import traceback
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from lockstep_rl.process_runner import run_checked
 from lockstep_rl.data import chat_prompts, load_tasks, validate_splits
 from lockstep_rl.grpo import GRPOConfig
 from lockstep_rl.rewards import reward_details, simple_tasks
@@ -184,8 +184,8 @@ def main():
     finally:
         atexit.unregister(engine.exit)
         engine.exit()
-    subprocess.run([sys.executable, "scripts/plot_results.py", "--kind", "training", "--input",
-                    str(args.output_dir / "metrics.jsonl"), "--output", str(args.output_dir / "training.png")], check=True)
+    run_checked([sys.executable, "scripts/plot_results.py", "--kind", "training", "--input",
+                    str(args.output_dir / "metrics.jsonl"), "--output", str(args.output_dir / "training.png")])
 
 
 if __name__ == "__main__":
