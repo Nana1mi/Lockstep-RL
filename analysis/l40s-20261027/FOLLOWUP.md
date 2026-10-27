@@ -1,6 +1,8 @@
-# 后续实验准备（GPU_PENDING）
+# 后续实验计划与执行记录
 
-此处仅准备配置、验收口径与 CPU dry-run。不租卡、不下载、不启动 GPU。
+以下为执行前的配置与验收计划。操作者随后明确授权上卡，九项实验已完成；
+因分配到新 GPU UUID，实际增加一次 seed 0 复现，三 seed 全在同一张新卡上运行。
+见 [完成记录](../../results/followup-l40s-20261027/README.md)。原计划的 GPU_PENDING 描述仅为历史状态。
 配置生成器为 `analysis/prepare_followups.py`，以原 lr=1e-6 演示配置为基底。
 
 ## 第一组：单次更新的 seed 复现

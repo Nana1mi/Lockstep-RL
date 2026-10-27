@@ -219,3 +219,50 @@ README删除过时待租卡说法，区分历史过程记录与当前结果。�
 后续2个seed复现配置及6个匹配anchor/update_steps2配置仅生成并做CPU检查，GPU_PENDING。
 未连接服务器、重新租卡、下载资产或启动GPU。新分析测试独立于此前两环境各109项核心回归。
 本次新增分析测试在CPU2.11与CPU2.8各8项通过；8份后续配置dry-run、17组原统计与45项输入哈希核对、16个文档代码块语法检查均通过。检查清单见analysis/l40s-20261027/checks.json。
+
+## 2026-10-27 后续多 seed / anchor 实验已授权启动
+
+操作者重启原L40S实例后明确要求开跑。持久盘、固定ce9e354源码及环境保留；
+驱动580.126.09不变，GPU UUID变更，因此本轮重新执行seed0/1/2，不将旧卡seed0并入新seed统计。
+模型权重/config/generation config哈希与原清单相同，torch2.8.0+cu128、
+Transformers5.5.4、FA2 2.8.3.post2、Triton3.4.0已核对。新环境/attention检查均通过。
+本轮9个120轮配置：3个seed的recomputed/update_steps1复现，及3seed×2anchor的update_steps2对照。
+lr1e-6、16prompt×G8、microbatch16/acc8、推理fraction0.4、同512/128乘法任务保持一致；
+所有run从原始权重开始。真实启动器在源码目录外，manifest记录源码及配置准备提交d333ff5。
+源目录保持干净，每任务验证UUID/驱动/挂载/源码/配置哈希，1200/1800秒超时，失败记录后继续；
+环境或基础设施异常停止，保留进程树清理。没有总租卡截止，不自动续费或关机。
+启动状态：running，首个seed0已写入训练、实际BF16变化及固定探针指标；后续实验尚无完成结论。
+结果目录为持久盘results/followup-ce9e354-01，tmux会话lockstep-followup。
+本机30分钟巡检已建立（id lockstep-rl），只依赖当前认证的SSH内存会话。
+持久authorized_keys修改被自动审批拒绝且未执行；未保存密码、私钥或修改SSH访问权限。
+
+## 2026-10-27 后续九项实验完成并备份
+
+固定ce9e354源码干净、同一新L40S UUID/驱动/区域完成9/9，均120轮、exit0、无超时。
+22:20:03至23:08:40（香港/北京时间），2916.87秒。单次更新复现seed0/1/2最终验证
+95.31%/94.53%/95.31%；两次更新rollout为94.53%/95.31%/92.97%，
+recomputed为92.97%/96.88%/93.75%。每个seed的两个anchor采用相同计划设置。
+全部6个两次更新实验均激活clipping：按所有逐更新记录计，rollout318/446次、
+recomputed219/476次存在有效裁剪；这是更新次数，不是token裁剪率。
+验证采用默认temperature1.0采样，跨seed标准差同时包含训练与验证采样随机性。
+n=3且任务简单，不据0.26百分点均值差宣称anchor优劣。小型完成记录见
+results/followup-l40s-20261027/README.md与summary.json。
+结果ZIP21,221,376字节已备份本机，SHA256为
+8971ca9cb1ba66358dcc94228bd4290380f0f013abde693214b90f7c22e0b6de；
+ZIP CRC及内部1201项大小/哈希核对通过。模型、checkpoint、环境、独立任务数据文件不入包。
+初始SFTP下载helper120秒等待超时，底层传输随后成功；只读SSH流回退也完成并验证同一哈希，
+失败/重试记录保留，不修改实验。两条临时认证连接均在备份后关闭，无持久SSH权限变更。
+GPU空闲；巡检lockstep-rl已删除；没有替操作者关闭平台或停止计费。
+
+## 2026-10-27 后续实验公开归档
+
+后续九项结果发布至 https://github.com/Nana1mi/Lockstep-RL，
+独立Release为l40s-followup-20261027，首次Release保持不变。
+仓库保留64份原始字节不变的配置/CSV/报告/图/运行脚本，另提供9份逐更新steps.csv，
+共1166次更新记录及三seed均值/样本标准差曲线。CPU两环境复算一致，
+45项分析输入哈希与原始逐更新汇总交叉核对通过；图形已检查。
+原始ZIP21,221,376字节直接作为Release附件，SHA256保持
+8971ca9cb1ba66358dcc94228bd4290380f0f013abde693214b90f7c22e0b6de，
+内部1201项哈希及ZIP CRC通过，私钥/令牌/活动SSH端点扫描无发现。
+不发布模型权重、checkpoint、环境或独立任务数据文件。源码仍为ce9e354，
+此次只发布证据和CPU分析/文档，不启动GPU或下载大模型。

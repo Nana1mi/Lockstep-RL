@@ -1,0 +1,427 @@
+{
+  "status": "completed",
+  "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "plan": {
+    "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+    "config_preparation_commit": "d333ff53d610f7401d1fa2e87d9bc0c6a70d2435",
+    "jobs": [
+      {
+        "name": "replication-seed0",
+        "config_sha256": "d0185bb2bfa34961753372ba797fae3ab81cbff621c47e779b822f78b176f5e4",
+        "seed": 0,
+        "anchor": "recomputed",
+        "update_steps": 1,
+        "iterations": 120,
+        "estimated_seconds": 400,
+        "timeout_seconds": 1200
+      },
+      {
+        "name": "replication-seed1",
+        "config_sha256": "828bc5ac617cc5a453a3923720c40bab934a1047e12b1538b59f7e91b35b9c07",
+        "seed": 1,
+        "anchor": "recomputed",
+        "update_steps": 1,
+        "iterations": 120,
+        "estimated_seconds": 400,
+        "timeout_seconds": 1200
+      },
+      {
+        "name": "replication-seed2",
+        "config_sha256": "80082d499605d94850bbe948fd55653a95c0531f6df95dd83d2e6ba18f458749",
+        "seed": 2,
+        "anchor": "recomputed",
+        "update_steps": 1,
+        "iterations": 120,
+        "estimated_seconds": 400,
+        "timeout_seconds": 1200
+      },
+      {
+        "name": "anchor-rollout-seed0",
+        "config_sha256": "a6e302ff9125be55db0bcf07419f10f9446c96f1ab5920ce55f634e0dc78235d",
+        "seed": 0,
+        "anchor": "rollout",
+        "update_steps": 2,
+        "iterations": 120,
+        "estimated_seconds": 600,
+        "timeout_seconds": 1800
+      },
+      {
+        "name": "anchor-recomputed-seed0",
+        "config_sha256": "16da1ad2d378699c48bfdca952dba0b643582c341133238ab2b601d350231be6",
+        "seed": 0,
+        "anchor": "recomputed",
+        "update_steps": 2,
+        "iterations": 120,
+        "estimated_seconds": 600,
+        "timeout_seconds": 1800
+      },
+      {
+        "name": "anchor-rollout-seed1",
+        "config_sha256": "5ed81ca952c8f2ba6388283b608c410714a74ad669fc5c952173d3996b319fae",
+        "seed": 1,
+        "anchor": "rollout",
+        "update_steps": 2,
+        "iterations": 120,
+        "estimated_seconds": 600,
+        "timeout_seconds": 1800
+      },
+      {
+        "name": "anchor-recomputed-seed1",
+        "config_sha256": "a9d95fa68f5aa481a02c886f84122625561899c78f19dd71eb2453d88a4dadc4",
+        "seed": 1,
+        "anchor": "recomputed",
+        "update_steps": 2,
+        "iterations": 120,
+        "estimated_seconds": 600,
+        "timeout_seconds": 1800
+      },
+      {
+        "name": "anchor-rollout-seed2",
+        "config_sha256": "2325392860be8b866d7b3542c10bd2b809e98812de194f35e1945236252502df",
+        "seed": 2,
+        "anchor": "rollout",
+        "update_steps": 2,
+        "iterations": 120,
+        "estimated_seconds": 600,
+        "timeout_seconds": 1800
+      },
+      {
+        "name": "anchor-recomputed-seed2",
+        "config_sha256": "0e9baa022c5b093a56872473ba38c98b566fb1327fc4d5f202e572be4b2e9ef6",
+        "seed": 2,
+        "anchor": "recomputed",
+        "update_steps": 2,
+        "iterations": 120,
+        "estimated_seconds": 600,
+        "timeout_seconds": 1800
+      }
+    ],
+    "seed0_policy": "All three replication seeds are fresh on new GPU UUID; prior seed0 not pooled.",
+    "timeout_basis": "Prior single-update 120-round run measured283.86s. Estimate400s single/600s double including shape/cold-start allowance; caps3x, unmeasured for new seeds. No campaign time-of-day cutoff.",
+    "scope": "Prepared follow-up only; same task, lr1e-6, no reference model, no stress-tuned runs."
+  },
+  "started_unix": 1793110803.4228468,
+  "completed_jobs": [
+    {
+      "name": "replication-seed0",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/replication-seed0.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/replication-seed0",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1199.9999980926514,
+      "wall_seconds": 301.689870710019,
+      "pid": 2105,
+      "process_group": 2105,
+      "nccl_port": 32991,
+      "cleanup": {
+        "process_groups": [
+          2105
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "replication-seed1",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/replication-seed1.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/replication-seed1",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1199.999997138977,
+      "wall_seconds": 282.7924287560163,
+      "pid": 5604,
+      "process_group": 5604,
+      "nccl_port": 37857,
+      "cleanup": {
+        "process_groups": [
+          5604
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "replication-seed2",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/replication-seed2.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/replication-seed2",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1199.9999976158142,
+      "wall_seconds": 291.9572512190789,
+      "pid": 8490,
+      "process_group": 8490,
+      "nccl_port": 42295,
+      "cleanup": {
+        "process_groups": [
+          8490
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "anchor-rollout-seed0",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/anchor-rollout-seed0.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/anchor-rollout-seed0",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1799.9999980926514,
+      "wall_seconds": 333.9603381010238,
+      "pid": 9374,
+      "process_group": 9374,
+      "nccl_port": 40835,
+      "cleanup": {
+        "process_groups": [
+          9374
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "anchor-recomputed-seed0",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/anchor-recomputed-seed0.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/anchor-recomputed-seed0",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1799.9999980926514,
+      "wall_seconds": 328.82376098108944,
+      "pid": 10251,
+      "process_group": 10251,
+      "nccl_port": 38411,
+      "cleanup": {
+        "process_groups": [
+          10251
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "anchor-rollout-seed1",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/anchor-rollout-seed1.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/anchor-rollout-seed1",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1799.9999976158142,
+      "wall_seconds": 333.705107036978,
+      "pid": 11128,
+      "process_group": 11128,
+      "nccl_port": 40113,
+      "cleanup": {
+        "process_groups": [
+          11128
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "anchor-recomputed-seed1",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/anchor-recomputed-seed1.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/anchor-recomputed-seed1",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1799.9999978542328,
+      "wall_seconds": 344.9934799759649,
+      "pid": 12005,
+      "process_group": 12005,
+      "nccl_port": 34113,
+      "cleanup": {
+        "process_groups": [
+          12005
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "anchor-rollout-seed2",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/anchor-rollout-seed2.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/anchor-rollout-seed2",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1799.9999978542328,
+      "wall_seconds": 338.3233016249724,
+      "pid": 12889,
+      "process_group": 12889,
+      "nccl_port": 33919,
+      "cleanup": {
+        "process_groups": [
+          12889
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "name": "anchor-recomputed-seed2",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/train_grpo.py",
+        "--config",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/configs/anchor-recomputed-seed2.json",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/followup-ce9e354-01/anchor-recomputed-seed2",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 1799.9999976158142,
+      "wall_seconds": 359.41668514802586,
+      "pid": 15198,
+      "process_group": 15198,
+      "nccl_port": 34105,
+      "cleanup": {
+        "process_groups": [
+          15198
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    }
+  ],
+  "failed_jobs": [],
+  "active_job": null,
+  "preflight": {
+    "status": "confirmed",
+    "confirmed_at": "2026-10-27T14:14:19.139947+00:00",
+    "expected_gpu_name": "NVIDIA L40S",
+    "gpu": {
+      "name": "NVIDIA L40S",
+      "uuid": "GPU-24901a72-aa89-eefe-4f8a-b9f0468b05f8",
+      "driver": "580.126.09",
+      "memory": "46068 MiB"
+    },
+    "mount": {
+      "persistent_root": "/root/gpufree-data/lockstep",
+      "data": {
+        "target": "/root/gpufree-data",
+        "source": "/dev/mapper/lvmdata-pvc--33933081--e356--49bb--9f24--2791b0e8e8af",
+        "fstype": "ext4",
+        "maj:min": "253:22"
+      },
+      "system": {
+        "target": "/",
+        "source": "overlay",
+        "fstype": "overlay",
+        "maj:min": "0:310"
+      }
+    },
+    "region": "\u5b89\u5fbd\u533a",
+    "platform": {
+      "region": "\u5b89\u5fbd\u533a",
+      "billing": "\u6309\u91cf\u8ba1\u8d39",
+      "vcpu": 24,
+      "ram_gb": 120,
+      "system_disk_gb": 30,
+      "data_disk_gb": 50,
+      "data_disk_expand_cny_per_gb_day": 0.01,
+      "image": "\u5f00\u53d1/CUDA 12.8.0 / Python 3.10 / Ubuntu 22.04 (cuda_only, conda)"
+    },
+    "network": {
+      "pypi.org": null,
+      "download.pytorch.org": null,
+      "github.com": null,
+      "huggingface.co": null
+    },
+    "gpu_validation": "GPU_PENDING",
+    "scope": "read-only metadata; network failures require explicit fallback selection"
+  },
+  "rental_deadline": null,
+  "input_precheck": {
+    "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+    "config_preparation_commit": "d333ff53d610f7401d1fa2e87d9bc0c6a70d2435",
+    "model_hashes": {
+      "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+      "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+      "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+    },
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.5.4",
+      "flash-attn": "2.8.3.post2",
+      "triton": "3.4.0"
+    },
+    "python": "3.11.18 (main, Oct 26 2026, 18:19:35) [GCC 14.3.0]",
+    "verified_unix": 1793110459.059594,
+    "reason_for_fresh_seed0": "GPU UUID changed after restart; new campaign compares all seeds on the same UUID."
+  },
+  "launcher_sha256": "133a49529588e6c27e983203a1e37cc87876608c1c0338aa76c770156d3eaf5a",
+  "updated_unix": 1793113720.293713,
+  "finished_unix": 1793113720.293711
+}

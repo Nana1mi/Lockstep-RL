@@ -1,0 +1,60 @@
+{
+  "timestamp_utc": "2026-10-27T14:14:19.278096+00:00",
+  "platform": "Linux-5.15.0-198-generic-x86_64-with-glibc2.35",
+  "python": "3.11.18 (main, Oct 26 2026, 18:19:35) [GCC 14.3.0]",
+  "executable": "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+  "git": {
+    "returncode": 0,
+    "stdout": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+    "stderr": ""
+  },
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "triton": "3.4.0",
+    "transformers": "5.5.4",
+    "flash-attn": "2.8.3.post2",
+    "flash-attn-4": null,
+    "safetensors": "0.8.0",
+    "xxhash": "4.0.2",
+    "numpy": "2.4.6"
+  },
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "name, memory.total [MiB], driver_version\nNVIDIA L40S, 46068 MiB, 580.126.09",
+    "stderr": ""
+  },
+  "torch_cuda": {
+    "version": "12.8",
+    "status": "GPU_PENDING",
+    "available": true,
+    "arch_list": [
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ],
+    "name": "NVIDIA L40S",
+    "capability": [
+      8,
+      9
+    ],
+    "bf16_matmul_finite": true
+  },
+  "triton": {
+    "file": "/root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages/triton/__init__.py"
+  },
+  "transformers": {
+    "file": "/root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages/transformers/__init__.py"
+  },
+  "flash_attn": {
+    "file": "/root/gpufree-data/lockstep/envs/nano_rl/lib/python3.11/site-packages/flash_attn/__init__.py",
+    "upstream_entrypoints": {
+      "flash_attn_varlen_func": true,
+      "flash_attn_with_kvcache": true
+    }
+  },
+  "status": "torch_cuda_and_imports_passed_attention_pending"
+}

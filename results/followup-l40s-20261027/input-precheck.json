@@ -1,0 +1,18 @@
+{
+  "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "config_preparation_commit": "d333ff53d610f7401d1fa2e87d9bc0c6a70d2435",
+  "model_hashes": {
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+  },
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "transformers": "5.5.4",
+    "flash-attn": "2.8.3.post2",
+    "triton": "3.4.0"
+  },
+  "python": "3.11.18 (main, Oct 26 2026, 18:19:35) [GCC 14.3.0]",
+  "verified_unix": 1793110459.059594,
+  "reason_for_fresh_seed0": "GPU UUID changed after restart; new campaign compares all seeds on the same UUID."
+}

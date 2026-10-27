@@ -1,0 +1,99 @@
+{
+  "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "config_preparation_commit": "d333ff53d610f7401d1fa2e87d9bc0c6a70d2435",
+  "jobs": [
+    {
+      "name": "replication-seed0",
+      "config_sha256": "d0185bb2bfa34961753372ba797fae3ab81cbff621c47e779b822f78b176f5e4",
+      "seed": 0,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "iterations": 120,
+      "estimated_seconds": 400,
+      "timeout_seconds": 1200
+    },
+    {
+      "name": "replication-seed1",
+      "config_sha256": "828bc5ac617cc5a453a3923720c40bab934a1047e12b1538b59f7e91b35b9c07",
+      "seed": 1,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "iterations": 120,
+      "estimated_seconds": 400,
+      "timeout_seconds": 1200
+    },
+    {
+      "name": "replication-seed2",
+      "config_sha256": "80082d499605d94850bbe948fd55653a95c0531f6df95dd83d2e6ba18f458749",
+      "seed": 2,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "iterations": 120,
+      "estimated_seconds": 400,
+      "timeout_seconds": 1200
+    },
+    {
+      "name": "anchor-rollout-seed0",
+      "config_sha256": "a6e302ff9125be55db0bcf07419f10f9446c96f1ab5920ce55f634e0dc78235d",
+      "seed": 0,
+      "anchor": "rollout",
+      "update_steps": 2,
+      "iterations": 120,
+      "estimated_seconds": 600,
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "anchor-recomputed-seed0",
+      "config_sha256": "16da1ad2d378699c48bfdca952dba0b643582c341133238ab2b601d350231be6",
+      "seed": 0,
+      "anchor": "recomputed",
+      "update_steps": 2,
+      "iterations": 120,
+      "estimated_seconds": 600,
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "anchor-rollout-seed1",
+      "config_sha256": "5ed81ca952c8f2ba6388283b608c410714a74ad669fc5c952173d3996b319fae",
+      "seed": 1,
+      "anchor": "rollout",
+      "update_steps": 2,
+      "iterations": 120,
+      "estimated_seconds": 600,
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "anchor-recomputed-seed1",
+      "config_sha256": "a9d95fa68f5aa481a02c886f84122625561899c78f19dd71eb2453d88a4dadc4",
+      "seed": 1,
+      "anchor": "recomputed",
+      "update_steps": 2,
+      "iterations": 120,
+      "estimated_seconds": 600,
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "anchor-rollout-seed2",
+      "config_sha256": "2325392860be8b866d7b3542c10bd2b809e98812de194f35e1945236252502df",
+      "seed": 2,
+      "anchor": "rollout",
+      "update_steps": 2,
+      "iterations": 120,
+      "estimated_seconds": 600,
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "anchor-recomputed-seed2",
+      "config_sha256": "0e9baa022c5b093a56872473ba38c98b566fb1327fc4d5f202e572be4b2e9ef6",
+      "seed": 2,
+      "anchor": "recomputed",
+      "update_steps": 2,
+      "iterations": 120,
+      "estimated_seconds": 600,
+      "timeout_seconds": 1800
+    }
+  ],
+  "seed0_policy": "All three replication seeds are fresh on new GPU UUID; prior seed0 not pooled.",
+  "timeout_basis": "Prior single-update 120-round run measured283.86s. Estimate400s single/600s double including shape/cold-start allowance; caps3x, unmeasured for new seeds. No campaign time-of-day cutoff.",
+  "scope": "Prepared follow-up only; same task, lr1e-6, no reference model, no stress-tuned runs."
+}

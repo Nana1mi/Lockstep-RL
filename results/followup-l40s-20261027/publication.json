@@ -1,0 +1,348 @@
+{
+  "experimental_source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "configuration_preparation_commit": "d333ff53d610f7401d1fa2e87d9bc0c6a70d2435",
+  "fixed_upstream": "bb823b3e06983d71485a8e1f23715ebd87d98ef8",
+  "release": "https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-followup-20261027",
+  "public_archive": {
+    "name": "followup-ce9e354-01-results.zip",
+    "bytes": 21221376,
+    "sha256": "8971ca9cb1ba66358dcc94228bd4290380f0f013abde693214b90f7c22e0b6de",
+    "release": "https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-followup-20261027"
+  },
+  "original_server_archive_unchanged": true,
+  "redactions": [],
+  "policy": "Exact original numerical files copied with source hashes. steps.csv is a derived per-update view of metrics.jsonl, never only the final update. Initial-validation summaries omit raw rows/rollouts, retained in the Release. No models/checkpoints/environments/standalone task datasets.",
+  "copied_files": {
+    "manifest.json": {
+      "source_entry": "results/followup-ce9e354-01/manifest.json",
+      "bytes": 13578,
+      "sha256": "7cee2c4f9058189f3af39196d5a8657e7e06456413b5dec7585896267d440bf1"
+    },
+    "plan.json": {
+      "source_entry": "results/followup-ce9e354-01/plan.json",
+      "bytes": 3266,
+      "sha256": "195ab995e495ed2b044088309fc79f9ca25dcd2435b7dc1d63a7dd68f2e045e2"
+    },
+    "input-precheck.json": {
+      "source_entry": "results/followup-ce9e354-01/input-precheck.json",
+      "bytes": 793,
+      "sha256": "484c8e131388429a3f27b70f9a7aa62bce9e8dc9ed352876ae5ca4022543e443"
+    },
+    "cpu-checks.json": {
+      "source_entry": "results/followup-ce9e354-01/cpu-checks.json",
+      "bytes": 127,
+      "sha256": "7d2731e59a94884de60de1222f192c6cb8ce79979816a825abf8adb23f54198a"
+    },
+    "preflight/rental-preflight.json": {
+      "source_entry": "results/followup-ce9e354-01/preflight.json",
+      "bytes": 1262,
+      "sha256": "244bccdb268d12594e6adf4d1e3afe44f27913e4b9825bca93ebd2cc1df063f0"
+    },
+    "preflight/manifest.json": {
+      "source_entry": "results/preflight-followup-ce9e354-01/manifest.json",
+      "bytes": 15941,
+      "sha256": "501d327def1ee16e094556bebd19bad3995536581d737005fe8acd9355b8c29a"
+    },
+    "preflight/environment.json": {
+      "source_entry": "results/preflight-followup-ce9e354-01/environment.json",
+      "bytes": 1652,
+      "sha256": "df5ba58416cb6f95d24234efceca9147affd7f7206be541af7ce9adc3564d477"
+    },
+    "preflight/attention.json": {
+      "source_entry": "results/preflight-followup-ce9e354-01/attention.json",
+      "bytes": 961,
+      "sha256": "256226e40202845fa4c454c2676a1f0fdd9ed355943e7db7cf19163d3e2a4697"
+    },
+    "runtime/followup_campaign.py": {
+      "source_entry": "ops/followup_campaign.py",
+      "bytes": 7735,
+      "sha256": "133a49529588e6c27e983203a1e37cc87876608c1c0338aa76c770156d3eaf5a"
+    },
+    "runtime/followup_monitor.py": {
+      "source_entry": "ops/followup_monitor.py",
+      "bytes": 2736,
+      "sha256": "c664c202f55821e5c7bba20d702024168404699a78803c0deb96b788dc70fdb2"
+    },
+    "training/replication-seed0/config.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed0/config.json",
+      "bytes": 1156,
+      "sha256": "d0185bb2bfa34961753372ba797fae3ab81cbff621c47e779b822f78b176f5e4"
+    },
+    "training/replication-seed0/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed0/metrics.csv",
+      "bytes": 32183,
+      "sha256": "50761d4463f5eadcdd56cc913f87ae386c8632fe02393123da4219f5d2e137b5"
+    },
+    "training/replication-seed0/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed0/summary.json",
+      "bytes": 237,
+      "sha256": "0d2816be5e295609f99cb03c8900cda1a7ad8ebeac92a17ea04519a53f62a20b"
+    },
+    "training/replication-seed0/training.png": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed0/training.png",
+      "bytes": 206853,
+      "sha256": "fad23314c9d58f4d791040a0f3de5b6944bb8ced7a65973d138b37de6832e2c1"
+    },
+    "training/replication-seed0/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed0/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/replication-seed0/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed0/provenance.json",
+      "bytes": 2297,
+      "sha256": "60debb34b1e4e5cf6e1d287a64440b1ae36296326f61a864e7b0005164fc310b"
+    },
+    "training/replication-seed1/config.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed1/config.json",
+      "bytes": 1138,
+      "sha256": "828bc5ac617cc5a453a3923720c40bab934a1047e12b1538b59f7e91b35b9c07"
+    },
+    "training/replication-seed1/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed1/metrics.csv",
+      "bytes": 31914,
+      "sha256": "d6f9065159dcad44bbaacba7e532aa6aeb6875059f189a2b09a96652c4f055aa"
+    },
+    "training/replication-seed1/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed1/summary.json",
+      "bytes": 237,
+      "sha256": "f29ddf97fd84f0d5d2fd7dc56c2942694dfa69a7ada8c953ae7a4643c24b8374"
+    },
+    "training/replication-seed1/training.png": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed1/training.png",
+      "bytes": 209731,
+      "sha256": "1420f1a47b9a59f8fe4d4382666dfc166239359f0ae0c69a06bf01f39f7cd3cd"
+    },
+    "training/replication-seed1/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed1/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/replication-seed1/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed1/provenance.json",
+      "bytes": 2297,
+      "sha256": "55a89433fb0e07a88f4023cc8792e93ce7a2478b5e1ffd27925bdebcc874a9d6"
+    },
+    "training/replication-seed2/config.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed2/config.json",
+      "bytes": 1138,
+      "sha256": "80082d499605d94850bbe948fd55653a95c0531f6df95dd83d2e6ba18f458749"
+    },
+    "training/replication-seed2/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed2/metrics.csv",
+      "bytes": 32905,
+      "sha256": "7d6be54c47ea96bf3b18ff3784c748cbf7b2a738e9c28bec016d899560c92279"
+    },
+    "training/replication-seed2/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed2/summary.json",
+      "bytes": 237,
+      "sha256": "0b81648979a00e6c9411cf075ce1215fec9b2992c5860a97b18c400421c522a9"
+    },
+    "training/replication-seed2/training.png": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed2/training.png",
+      "bytes": 193967,
+      "sha256": "58bbc9dba41795390363da021ed35c9b4a6c070fb747965204ad706c9eaf645a"
+    },
+    "training/replication-seed2/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed2/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/replication-seed2/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/replication-seed2/provenance.json",
+      "bytes": 2297,
+      "sha256": "8d9d2716cb747fe878ca91b7c2513be565187e116b564f8d12c5e615145c9fd0"
+    },
+    "training/anchor-rollout-seed0/config.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed0/config.json",
+      "bytes": 1186,
+      "sha256": "a6e302ff9125be55db0bcf07419f10f9446c96f1ab5920ce55f634e0dc78235d"
+    },
+    "training/anchor-rollout-seed0/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed0/metrics.csv",
+      "bytes": 37503,
+      "sha256": "605d50c5491faf4515314beb2c9b2066e94b815b2a507d1ad01289a10cbde211"
+    },
+    "training/anchor-rollout-seed0/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed0/summary.json",
+      "bytes": 238,
+      "sha256": "fd2a2e7ba3fe032824641f5f3c48d6c880873dd431950b7037a63bab4e865928"
+    },
+    "training/anchor-rollout-seed0/training.png": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed0/training.png",
+      "bytes": 275554,
+      "sha256": "e2d7baad91827043e7b6b4a98127edb5b3d1241ea023e237a72c92aea63cc165"
+    },
+    "training/anchor-rollout-seed0/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed0/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/anchor-rollout-seed0/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed0/provenance.json",
+      "bytes": 2297,
+      "sha256": "d13eda7d18236a1d2ee3e9b6f3af5a92c3baa7c2d6e1732c75b1bd8a47ad1e6f"
+    },
+    "training/anchor-recomputed-seed0/config.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed0/config.json",
+      "bytes": 1189,
+      "sha256": "16da1ad2d378699c48bfdca952dba0b643582c341133238ab2b601d350231be6"
+    },
+    "training/anchor-recomputed-seed0/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed0/metrics.csv",
+      "bytes": 37829,
+      "sha256": "a49540b77f3d17f139d7dfdb64b188c31d8b63c28a3bb6f7b002bf417d645361"
+    },
+    "training/anchor-recomputed-seed0/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed0/summary.json",
+      "bytes": 238,
+      "sha256": "a8994fc067a61fe645905ed71b231a08f36d76bea2eaa685e11189886d745227"
+    },
+    "training/anchor-recomputed-seed0/training.png": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed0/training.png",
+      "bytes": 262666,
+      "sha256": "d2f166928c808b74a059ca2baaaa3232158afcfaad153e9523ba6314208c9dfb"
+    },
+    "training/anchor-recomputed-seed0/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed0/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/anchor-recomputed-seed0/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed0/provenance.json",
+      "bytes": 2297,
+      "sha256": "a909922917666adac155d4df42cea03b72f983c29426a8c9450b1e5318a4f67a"
+    },
+    "training/anchor-rollout-seed1/config.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed1/config.json",
+      "bytes": 1186,
+      "sha256": "5ed81ca952c8f2ba6388283b608c410714a74ad669fc5c952173d3996b319fae"
+    },
+    "training/anchor-rollout-seed1/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed1/metrics.csv",
+      "bytes": 37465,
+      "sha256": "8ce30651f11229f49d051f85b079e5bcc260d9f9407b7215e903b4c4709b94ad"
+    },
+    "training/anchor-rollout-seed1/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed1/summary.json",
+      "bytes": 238,
+      "sha256": "c7a4f75f45aea16cf0f7e7b5b366690cf4813b9fa622830a5c5ed1018e6b813e"
+    },
+    "training/anchor-rollout-seed1/training.png": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed1/training.png",
+      "bytes": 269593,
+      "sha256": "09f08c5b2a0e10bd6bcfd6be7334ce47520709231aa5963fa8c673abb1e8411c"
+    },
+    "training/anchor-rollout-seed1/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed1/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/anchor-rollout-seed1/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed1/provenance.json",
+      "bytes": 2297,
+      "sha256": "0d09ea29045fc3e2854dffabddad2759b8252d354d6743e3a1c85fb417ff52ad"
+    },
+    "training/anchor-recomputed-seed1/config.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed1/config.json",
+      "bytes": 1189,
+      "sha256": "a9d95fa68f5aa481a02c886f84122625561899c78f19dd71eb2453d88a4dadc4"
+    },
+    "training/anchor-recomputed-seed1/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed1/metrics.csv",
+      "bytes": 38514,
+      "sha256": "5eef6307cf2aa582859ca30a4e089eaf63cd8230ac19825bcbed42c7364e4f55"
+    },
+    "training/anchor-recomputed-seed1/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed1/summary.json",
+      "bytes": 238,
+      "sha256": "191967906fc413cab1e41cc022337fca8ff2345726561c91af86c5263e16d721"
+    },
+    "training/anchor-recomputed-seed1/training.png": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed1/training.png",
+      "bytes": 252198,
+      "sha256": "5de6b51b110b909221618e5cf97057cf6a897a6ab780c405c3ec7b8d3d99aa9a"
+    },
+    "training/anchor-recomputed-seed1/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed1/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/anchor-recomputed-seed1/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed1/provenance.json",
+      "bytes": 2297,
+      "sha256": "bdeefd73367a4c111fa65d05129a8a6982095bf4214153c4028cb184cc047ede"
+    },
+    "training/anchor-rollout-seed2/config.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed2/config.json",
+      "bytes": 1186,
+      "sha256": "2325392860be8b866d7b3542c10bd2b809e98812de194f35e1945236252502df"
+    },
+    "training/anchor-rollout-seed2/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed2/metrics.csv",
+      "bytes": 37771,
+      "sha256": "b060c6f9f9e30d95737cd7ec3c56ecf971c6db1c469ed94991cbc9a24f0c18df"
+    },
+    "training/anchor-rollout-seed2/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed2/summary.json",
+      "bytes": 238,
+      "sha256": "88b5c05e05affe1d52f8830d38feb5d82f70a240d6c22b9339c05a92afc422d6"
+    },
+    "training/anchor-rollout-seed2/training.png": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed2/training.png",
+      "bytes": 270418,
+      "sha256": "f5f32043c86cbb6e44a71d5f493c84e357c798d77bb4ef19801752888607a3f9"
+    },
+    "training/anchor-rollout-seed2/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed2/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/anchor-rollout-seed2/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-rollout-seed2/provenance.json",
+      "bytes": 2297,
+      "sha256": "5ed6390e7fce02289782dd46494db5111bfc95cc02a56c247d9679175c715e9c"
+    },
+    "training/anchor-recomputed-seed2/config.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed2/config.json",
+      "bytes": 1189,
+      "sha256": "0e9baa022c5b093a56872473ba38c98b566fb1327fc4d5f202e572be4b2e9ef6"
+    },
+    "training/anchor-recomputed-seed2/metrics.csv": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed2/metrics.csv",
+      "bytes": 39110,
+      "sha256": "ca62bb73abc103d3d8395680d778dc0aef58828c377021c135e52fffa4b856a6"
+    },
+    "training/anchor-recomputed-seed2/summary.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed2/summary.json",
+      "bytes": 238,
+      "sha256": "44674a0a566fb3a49a5d0215f1babef7eb702c596aab21185839ef36ac38a393"
+    },
+    "training/anchor-recomputed-seed2/training.png": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed2/training.png",
+      "bytes": 255416,
+      "sha256": "0488f18bfb0dbeb7b20f7f574c2559cc1dc62667554c09261c544bb648a1158c"
+    },
+    "training/anchor-recomputed-seed2/numerical-settings.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed2/numerical-settings.json",
+      "bytes": 220,
+      "sha256": "54bd69eaa28136f258d9f2742ad83b3445d4e05d799776e2aba39552ae175a30"
+    },
+    "training/anchor-recomputed-seed2/provenance.json": {
+      "source_entry": "results/followup-ce9e354-01/anchor-recomputed-seed2/provenance.json",
+      "bytes": 2297,
+      "sha256": "e616a6c7995a03bf8c1aacf507cf1e5c64165858dfe91acfcb84271291ba7979"
+    }
+  },
+  "derived_step_rows": {
+    "replication-seed0": 81,
+    "replication-seed1": 76,
+    "replication-seed2": 87,
+    "anchor-rollout-seed0": 148,
+    "anchor-recomputed-seed0": 150,
+    "anchor-rollout-seed1": 148,
+    "anchor-recomputed-seed1": 158,
+    "anchor-rollout-seed2": 150,
+    "anchor-recomputed-seed2": 168
+  }
+}

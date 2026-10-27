@@ -22,7 +22,8 @@ FA2 2.8.3.post2. Experimental source was the clean commit
 | BF16 rollout extension vs upstream throughput | −2.96% to +0.74% | Eight backend/workload combinations; three processes each |
 | Cached FP32 head throughput cost | 12.2–14.9% graph; 3.1–9.6% eager | Relative to current BF16 implementation |
 | CUDA graph / eager throughput | 3.90–4.53× | Four tested workloads |
-| Simple-task validation, lr=1e-6 | 109/128 → 122/128 (85.2% → 95.3%) | One seed, 120 rounds; recomputed anchor, one update per batch |
+| Simple-task validation, lr=1e-6 | 95.05% final mean; sample SD 0.45 percentage points | Three fresh seeds, 120 rounds; recomputed anchor, one update per batch |
+| Matched two-update anchors | Rollout 94.27% / recomputed 94.53% final mean | Three seeds each; all six runs activated clipping; no winner established |
 
 ![Logprob distributions and weight-update lifecycle](analysis/l40s-20261027/diagnostics-sync.png)
 
@@ -30,19 +31,33 @@ The error distribution pools tokens. Timing bars explicitly separate synchroniza
 phases from end-to-end recovery; comparing 48 ms with a 45–48 s reload gives
 different timing scopes. The matched end-to-end speedups are shown in the table.
 
-![Single-seed validation and measured throughput](analysis/l40s-20261027/training-performance.png)
+![Three-seed validation and matched anchor comparison](results/followup-l40s-20261027/validation-curves.png)
 
-Learning curves have no seed uncertainty band because only seed 0 was run.
-Throughput bars use three independent process means; error bars show process SD,
-not confidence intervals, and do not propagate uncertainty in the upstream
-normalization. S1/S4: 32 prompt / 32 output tokens, one/four requests;
-L1/L4: 1,024 prompt / 64 output tokens, one/four requests.
+The follow-up ran three fresh seeds on one newly assigned L40S UUID, with the same
+driver and pinned stack. Shading shows sample SD across three runs, not a confidence
+interval; it includes validation sampling randomness (temperature 1.0).
+Final accuracies for one-update recomputed were 95.31%, 94.53%, 95.31%.
+Two-update rollout scored 94.53%, 95.31%, 92.97%; two-update recomputed scored
+92.97%, 96.88%, 93.75%. A 0.26 percentage-point mean difference does not establish
+anchor superiority on this small, easy task.
 
-All **13 orchestration jobs exited successfully**, including 24 baseline,
+The [initial single-seed/performance figure](analysis/l40s-20261027/training-performance.png)
+remains historical evidence. Its throughput error bars show SD of three independent
+process means, not confidence intervals, and omit uncertainty in the upstream
+normalization. S1/S4 are 32 prompt / 32 output tokens and one/four requests;
+L1/L4 are 1,024 prompt / 64 output tokens and one/four requests.
+
+The initial campaign had **13 orchestration jobs exit successfully**, including 24 baseline,
 14 diagnostic, 25 weight-sync and 96 performance workers. The full run took
 2 h 41 min; clean-commit preflight plus full run took 3 h 01 min. These replace
 the earlier unmeasured rental estimates. Successful execution does not mean all
 logprob discrepancies meet a chosen tolerance.
+
+The follow-up completed **9/9 training jobs, each 120 rounds**, in 48 min 37 s,
+with no failures or timeouts. See [follow-up evidence](results/followup-l40s-20261027/README.md)
+and its [raw-result Release](https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-followup-20261027).
+Both campaigns used the same clean experimental source commit; publication
+commits did not run the GPU experiments.
 
 Read the [analysis and limitations](analysis/l40s-20261027/REPORT.md),
 [recomputed statistics with input hashes](analysis/l40s-20261027/recomputed.json),
@@ -66,10 +81,13 @@ Read the [analysis and limitations](analysis/l40s-20261027/REPORT.md),
 - Both 120-round demonstrations used `anchor=recomputed`, `update_steps=1`:
   their ratios were 1 and clipping was inactive. The small `two-updates` positive
   control reached 2.22% active clipping; the rollout-anchor smoke had 2.22% ratio
-  exceedance but zero active clipping. This is not a substantive anchor comparison.
+  exceedance but zero active clipping. In the later matched follow-up, all six
+  two-update runs activated clipping: 318/446 recorded updates for rollout and
+  219/476 for recomputed had nonzero active clipping. These are update counts,
+  not token clipping rates. Per-update CSVs retain both updates.
 - The higher learning rate, 5e-6, was unstable: validation reached 46.9% at round
-  20 and finished at 86.7%. The 1e-6 improvement is a single-seed result on easy
-  synthetic multiplication, not evidence of improved GSM8K learning.
+  20 and finished at 86.7%. The follow-up replicated lr=1e-6 with three seeds
+  on synthetic multiplication; it provides no evidence of improved GSM8K learning.
 - Throughput overhead is small in this matrix, but cannot all be called noise:
   graph long-multi dropped 1.65%, larger than its observed process variation.
 
@@ -123,9 +141,11 @@ CUDA_VISIBLE_DEVICES= .envs/nano_rl/bin/python -m unittest discover -s tests -v
 .envs/nano_rl/bin/python scripts/run_rental.py --persistent-root /persistent/lockstep --dry-run
 ```
 
-The [follow-up plan](analysis/l40s-20261027/FOLLOWUP.md) prepares seed replication
-and a matched two-update anchor comparison. Config generation and dry runs do not
-execute training. Follow-up GPU work remains **GPU_PENDING**.
+The [follow-up plan and execution record](analysis/l40s-20261027/FOLLOWUP.md)
+cover the completed seed replication and matched two-update anchor comparison.
+Recompute the published follow-up curves/statistics on CPU with
+`python analysis/analyze_followup.py` (add `--no-plots` without Matplotlib).
+Further GPU work requires explicit authorization; config generation/dry runs do not execute it.
 
 [GPU_RUNBOOK.md](GPU_RUNBOOK.md) documents opt-in setup, `--allow-download`,
 `--allow-gpu`, preflight, task timeouts/process cleanup and retry stages under fresh

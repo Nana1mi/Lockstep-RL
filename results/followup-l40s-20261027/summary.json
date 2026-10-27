@@ -1,0 +1,210 @@
+{
+  "status": "completed",
+  "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "gpu": {
+    "name": "NVIDIA L40S",
+    "uuid": "GPU-24901a72-aa89-eefe-4f8a-b9f0468b05f8",
+    "driver": "580.126.09",
+    "memory": "46068 MiB"
+  },
+  "region": "\u5b89\u5fbd\u533a",
+  "started_utc": "2026-10-27T14:20:03.422847+00:00",
+  "finished_utc": "2026-10-27T15:08:40.293711+00:00",
+  "wall_seconds": 2916.8708641529083,
+  "jobs": [
+    {
+      "name": "replication-seed0",
+      "seed": 0,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "initial_accuracy": 0.8515625,
+      "final_accuracy": 0.953125,
+      "iterations": 120,
+      "optimizer_steps": 81,
+      "skipped_batches": 39,
+      "steps_with_active_clipping": 0,
+      "recorded_steps": 81,
+      "max_clip_active_fraction": 0.0,
+      "max_ratio": 1.0,
+      "min_ratio": 1.0,
+      "wall_seconds": 301.689870710019
+    },
+    {
+      "name": "replication-seed1",
+      "seed": 1,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "initial_accuracy": 0.8359375,
+      "final_accuracy": 0.9453125,
+      "iterations": 120,
+      "optimizer_steps": 76,
+      "skipped_batches": 44,
+      "steps_with_active_clipping": 0,
+      "recorded_steps": 76,
+      "max_clip_active_fraction": 0.0,
+      "max_ratio": 1.0,
+      "min_ratio": 1.0,
+      "wall_seconds": 282.7924287560163
+    },
+    {
+      "name": "replication-seed2",
+      "seed": 2,
+      "anchor": "recomputed",
+      "update_steps": 1,
+      "initial_accuracy": 0.8359375,
+      "final_accuracy": 0.953125,
+      "iterations": 120,
+      "optimizer_steps": 87,
+      "skipped_batches": 33,
+      "steps_with_active_clipping": 0,
+      "recorded_steps": 87,
+      "max_clip_active_fraction": 0.0,
+      "max_ratio": 1.0,
+      "min_ratio": 1.0,
+      "wall_seconds": 291.9572512190789
+    },
+    {
+      "name": "anchor-rollout-seed0",
+      "seed": 0,
+      "anchor": "rollout",
+      "update_steps": 2,
+      "initial_accuracy": 0.8515625,
+      "final_accuracy": 0.9453125,
+      "iterations": 120,
+      "optimizer_steps": 148,
+      "skipped_batches": 46,
+      "steps_with_active_clipping": 95,
+      "recorded_steps": 148,
+      "max_clip_active_fraction": 0.02005730659025788,
+      "max_ratio": 7.615486145019531,
+      "min_ratio": 0.06195793300867081,
+      "wall_seconds": 333.9603381010238
+    },
+    {
+      "name": "anchor-recomputed-seed0",
+      "seed": 0,
+      "anchor": "recomputed",
+      "update_steps": 2,
+      "initial_accuracy": 0.8515625,
+      "final_accuracy": 0.9296875,
+      "iterations": 120,
+      "optimizer_steps": 150,
+      "skipped_batches": 45,
+      "steps_with_active_clipping": 69,
+      "recorded_steps": 150,
+      "max_clip_active_fraction": 0.015475313190862197,
+      "max_ratio": 4.824069976806641,
+      "min_ratio": 0.009219172410666943,
+      "wall_seconds": 328.82376098108944
+    },
+    {
+      "name": "anchor-rollout-seed1",
+      "seed": 1,
+      "anchor": "rollout",
+      "update_steps": 2,
+      "initial_accuracy": 0.8359375,
+      "final_accuracy": 0.953125,
+      "iterations": 120,
+      "optimizer_steps": 148,
+      "skipped_batches": 46,
+      "steps_with_active_clipping": 114,
+      "recorded_steps": 148,
+      "max_clip_active_fraction": 0.022415039768618944,
+      "max_ratio": 11.505523681640625,
+      "min_ratio": 0.029740730300545692,
+      "wall_seconds": 333.705107036978
+    },
+    {
+      "name": "anchor-recomputed-seed1",
+      "seed": 1,
+      "anchor": "recomputed",
+      "update_steps": 2,
+      "initial_accuracy": 0.8359375,
+      "final_accuracy": 0.96875,
+      "iterations": 120,
+      "optimizer_steps": 158,
+      "skipped_batches": 41,
+      "steps_with_active_clipping": 76,
+      "recorded_steps": 158,
+      "max_clip_active_fraction": 0.012048192771084338,
+      "max_ratio": 8.573498725891113,
+      "min_ratio": 0.02460768073797226,
+      "wall_seconds": 344.9934799759649
+    },
+    {
+      "name": "anchor-rollout-seed2",
+      "seed": 2,
+      "anchor": "rollout",
+      "update_steps": 2,
+      "initial_accuracy": 0.8359375,
+      "final_accuracy": 0.9296875,
+      "iterations": 120,
+      "optimizer_steps": 150,
+      "skipped_batches": 45,
+      "steps_with_active_clipping": 109,
+      "recorded_steps": 150,
+      "max_clip_active_fraction": 0.018964259664478483,
+      "max_ratio": 5.817840576171875,
+      "min_ratio": 0.006384910549968481,
+      "wall_seconds": 338.3233016249724
+    },
+    {
+      "name": "anchor-recomputed-seed2",
+      "seed": 2,
+      "anchor": "recomputed",
+      "update_steps": 2,
+      "initial_accuracy": 0.8359375,
+      "final_accuracy": 0.9375,
+      "iterations": 120,
+      "optimizer_steps": 168,
+      "skipped_batches": 36,
+      "steps_with_active_clipping": 74,
+      "recorded_steps": 168,
+      "max_clip_active_fraction": 0.01823486506199854,
+      "max_ratio": 3.649179220199585,
+      "min_ratio": 0.056063227355480194,
+      "wall_seconds": 359.41668514802586
+    }
+  ],
+  "archive": {
+    "name": "followup-ce9e354-01-results.zip",
+    "bytes": 21221376,
+    "sha256": "8971ca9cb1ba66358dcc94228bd4290380f0f013abde693214b90f7c22e0b6de",
+    "release": "https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-followup-20261027"
+  },
+  "verified_archived_entries": 1201,
+  "scope": "Three training seeds on one L40S and fixed structured validation set; descriptive results only. Active clipping counts use all recorded update steps, not only final-step CSV.",
+  "groups": {
+    "replication": {
+      "final_accuracy_by_seed": [
+        0.953125,
+        0.9453125,
+        0.953125
+      ],
+      "mean_final_accuracy": 0.9505208333333334,
+      "sample_seed_sd": 0.004510548978043951,
+      "steps_with_active_clipping": 0
+    },
+    "anchor-rollout": {
+      "final_accuracy_by_seed": [
+        0.9453125,
+        0.953125,
+        0.9296875
+      ],
+      "mean_final_accuracy": 0.9427083333333334,
+      "sample_seed_sd": 0.011933790872280834,
+      "steps_with_active_clipping": 318
+    },
+    "anchor-recomputed": {
+      "final_accuracy_by_seed": [
+        0.9296875,
+        0.96875,
+        0.9375
+      ],
+      "mean_final_accuracy": 0.9453125,
+      "sample_seed_sd": 0.020669932117692115,
+      "steps_with_active_clipping": 219
+    }
+  },
+  "evaluation_note": "Validation samples with default temperature1.0; reported across-seed SD includes training and evaluation sampling variability, not isolated training-seed uncertainty."
+}

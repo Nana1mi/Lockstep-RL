@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "scope": "CPU-only publication/statistical consistency checks, not a GPU rerun",
+  "exact_files_verified": 64,
+  "input_hashes": 45,
+  "per_update_rows": 1166,
+  "summary_groups": 3,
+  "cpu_environment_recomputations": "nano_rl and nano_rl_torch28 identical",
+  "figure": "PNG visually inspected",
+  "archive_sha256": "8971ca9cb1ba66358dcc94228bd4290380f0f013abde693214b90f7c22e0b6de",
+  "fixed_source": "core implementation unchanged from ce9e354",
+  "sensitive_scan": "no private keys/GitHub tokens/live SSH endpoint; archive verified"
+}
