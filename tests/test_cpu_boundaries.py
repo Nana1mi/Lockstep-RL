@@ -25,6 +25,7 @@ assert not torch.cuda.is_initialized()
 
     def test_gpu_and_download_entries_require_explicit_manual_opt_in(self):
         entries = [(["scripts/attention_smoke.py", "--output", "unused.json"], "--allow-gpu"),
+                   (["scripts/setup_managed_python.py", "--persistent-root", "/unused"], "--allow-install"),
                    (["scripts/run_rental.py", "--persistent-root", "/unused"], "--allow-gpu"),
                    (["scripts/prepare_rental_assets.py", "--persistent-root", "/unused"], "--allow-download"),
                    (["scripts/training_memory_probe.py", "--model", "nonexistent", "--output", "unused.json"], "--allow-gpu"),

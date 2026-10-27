@@ -407,3 +407,20 @@ r_{i,t}(\theta)=\exp\left(\ell^{\theta}_{i,t}-\ell^{\mathrm{anchor}}_{i,t}\right
 
 源码和 CPU 验收通过状态以 IMPLEMENTATION_STATUS.md、results/cpu-tests.txt 及指纹清单为准。
 旧实测类复选框继续保持未勾选；没有 GPU 数据时不声称完成数值、性能或学习效果验收。
+
+## 同日开机前复核补充（优先于上一版实现细节）
+
+1. 记录每条固定工作量轨迹的首 EOS；主统计仅用 EOS 前（含 EOS），尾段单独 JSON/CSV。
+   不删除尾段路径证据，也不让它影响主分位数、轨迹阈值或 A/B 容差判断。
+2. FP32 head 同时保留 live 转换与 cached 推理变体。缓存作为非持久 buffer，在初始完整加载和
+   成功 commit 后刷新；tied embedding-only 更新也必须覆盖，刷新失败保持 broken。诊断14进程、
+   性能96workers，两种成本/额外显存/初始化与同步维护分开报告，禁止把 live 转换成本冒充纯 FP32 计算成本。
+3. 总脚本仅 environment/attention 是硬关口，普通子任务失败保存后继续，汇总返回非零；
+   --stages 允许新 run-id 选阶段重试并自动复跑环境关口。硬件身份变化/用户中断仍停止。
+4. A100 演示改 microbatch16、accumulation8、关闭 checkpointing，目标与 full batch 的
+   全局 token 归一做 CPU 对照；不宣称尚未实测的提速。用 uv-managed Python 放入持久盘，
+   固定挂载路径/平台，移动时重建 venv。同步对外用三阶段和 sync_seconds，统计耗时另列。
+5. eager/repeat 若为0，只说明可重复且无区分度；HF BF16/FP32 是精度参照而非错误判据。
+   few-shot 例题池按 seed 打乱并逐轨迹轮换，保留次序 provenance。
+
+本轮仍只做 CPU 验证，所有真实 GPU 数值、性能、学习与运行时间保持 GPU_PENDING。

@@ -10,11 +10,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from lockstep_rl.diagnostics import path_evidence, require_path
+from lockstep_rl.diagnostics import eos_boundary, path_evidence, require_path
 from lockstep_rl.experiment_io import configure_numerics, provenance, save_json
 
 CASES = ("sample", "eager", "repeat", "prefix", "chunked", "graph", "graph_padding", "batch",
-         "preemption_cached", "preemption_recompute", "fp32_head")
+         "preemption_cached", "preemption_recompute", "fp32_head", "fp32_head_cached")
 
 
 def replay_groups(rows, case, batch_size):
@@ -63,7 +63,7 @@ def main():
             from lockstep_rl.diagnostic_prompts import gsm8k_prompts
             rows = gsm8k_prompts(tokenizer, question_file=settings["question_file"],
                                  fewshot_file=settings["fewshot_file"], count=settings.get("num_trajectories", 1),
-                                 prompt_tokens=settings["prompt_tokens"])
+                                 prompt_tokens=settings["prompt_tokens"], seed=settings["seed"])
             save_json(args.output_dir / "prompt-provenance.json", rows)
         else:
             rows = json.loads(args.trajectory.read_text(encoding="utf-8"))
@@ -73,7 +73,8 @@ def main():
             raise ValueError("trajectory IDs must be the unique canonical traj-k set")
         engine_config = {**settings["engine"], "record_trace": True,
                          "enable_prefix_caching": args.case in ("prefix", "preemption_cached"),
-                         "fp32_lm_head": args.case == "fp32_head",
+                         "fp32_lm_head": args.case in ("fp32_head", "fp32_head_cached"),
+                         "cache_fp32_lm_head": args.case == "fp32_head_cached",
                          "enforce_eager": args.case not in ("graph", "graph_padding")}
         if args.case == "chunked":
             engine_config["max_num_batched_tokens"] = settings["chunk_budget"]
@@ -98,6 +99,10 @@ def main():
             output = engine.generate(prompts, SamplingParams(max_tokens=settings["response_tokens"], ignore_eos=True),
                                      request_ids=ids, group_ids=[r["request_id"] for r in group],
                                      forced_response_ids=forced, sampling_config=metadata, use_tqdm=False)
+            # Keep fixed-workload tails for path triggering, but never mix them
+            # into the real-RL (through-first-EOS) accuracy population.
+            for record in output:
+                record.update(eos_boundary(record))
             mapping = dict(zip(ids, [row["request_id"] for row in group]))
             trace = engine.scheduler.trace
             for event in trace:

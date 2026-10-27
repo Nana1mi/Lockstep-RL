@@ -221,7 +221,9 @@ def run_iteration(engine, trainer, prompts, reward_fn, *, iteration, max_tokens=
                    pre_update_weight_cast_error=cast_error,
                    timings={"rollout": after_rollout - start, "reward": after_reward - after_rollout,
                             "weight_cast_diagnostics": after_cast_diagnostics - after_reward,
-                            "training": after_training - after_cast_diagnostics, "sync": after_sync - before_sync,
+                            "training": after_training - after_cast_diagnostics,
+                            "sync": sync_result["timings"]["sync_seconds"] if sync_result else 0.,
+                            "sync_wall_including_measurement": after_sync - before_sync,
                             "sync_probe": before_sync - after_training + after_probe_time - after_sync,
                             "total": after_probe_time - start})
     return records, metrics

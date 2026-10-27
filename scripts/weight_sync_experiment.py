@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from lockstep_rl.diagnostics import compare_trajectories, distribution
+from lockstep_rl.diagnostics import compare_trajectories, distribution, eos_boundary
 from lockstep_rl.experiment_io import provenance, save_json
 
 
@@ -39,7 +39,8 @@ def assert_outputs_close(left, right, *, atol, rtol):
     reference_by_id = {row["request_id"]: row for row in right}
     for a in left:
         b = reference_by_id[a["request_id"]]
-        for x, y in zip(a["response_logprobs"], b["response_logprobs"]):
+        end = eos_boundary(a)["primary_response_tokens"]
+        for x, y in zip(a["response_logprobs"][:end], b["response_logprobs"][:end]):
             if abs(x - y) > atol + rtol * abs(y):
                 raise RuntimeError("fixed-trajectory scores exceed the predeclared tolerance")
     return statistics
@@ -127,7 +128,8 @@ def main():
             timings.append({"name": name, "mode": "negative" if report["negative_control"] else report["mode"],
                             "backend": report["backend"], "source": report["source"],
                             **{key: report.get("weight_update", {}).get("timings", {}).get(key)
-                               for key in ("preflight_seconds", "commit_seconds", "invalidate_seconds")},
+                               for key in ("preflight_seconds", "commit_seconds", "invalidate_seconds", "sync_seconds",
+                                           "change_measurement_seconds", "total_seconds")},
                             **{key: report[key] for key in ("recovery_to_ready_seconds", "warmup_generation_seconds",
                                "recovery_including_verified_rollout_seconds", "peak_allocated_bytes", "peak_reserved_bytes")}})
         with (args.output_dir / "timings.csv").open("w", newline="", encoding="utf-8") as stream:
@@ -137,6 +139,10 @@ def main():
             if row["backend"] == backend and row["mode"] == mode and row["source"] == source])
             for backend in ("eager", "graph") for mode in ("fresh", "hot", "negative")
             for source in (("gpu-fp32", "cpu-bf16") if mode == "hot" else ("gpu-fp32",))}
+        manifest["sync_time_groups"] = {f"{backend}-{source}": distribution([
+            row["sync_seconds"] for row in timings if row["backend"] == backend and row["mode"] == "hot" and row["source"] == source])
+            for backend in ("eager", "graph") for source in ("gpu-fp32", "cpu-bf16")}
+        manifest["sync_time_definition"] = "preflight + commit (including cached-head refresh if enabled) + invalidate; excludes change measurement"
         manifest["status"] = "completed"
         manifest["metric_label"] = "Seconds to verified generation"
         save_json(args.output_dir / "manifest.json", manifest)

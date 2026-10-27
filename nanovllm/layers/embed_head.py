@@ -50,10 +50,27 @@ class ParallelLMHead(VocabParallelEmbedding):
         embedding_dim: int,
         bias: bool = False,
         fp32_lm_head: bool = False,
+        cache_fp32_lm_head: bool = False,
     ):
         assert not bias
         super().__init__(num_embeddings, embedding_dim)
         self.fp32_lm_head = fp32_lm_head
+        self.cache_fp32_lm_head = cache_fp32_lm_head
+        self.register_buffer("_fp32_weight", None, persistent=False)
+
+    @torch.no_grad()
+    def refresh_fp32_weight(self):
+        """Initial full load / successful commit only; never a forward side effect."""
+        if not self.cache_fp32_lm_head:
+            return
+        if not self.fp32_lm_head:
+            raise ValueError("cached FP32 head requires fp32_lm_head")
+        if self._fp32_weight is None:
+            self._fp32_weight = self.weight.detach().to(dtype=torch.float32, copy=True)
+        else:
+            if self._fp32_weight.dtype != torch.float32 or self._fp32_weight.device != self.weight.device:
+                raise RuntimeError("cached head dtype/device changed; reinitialize the engine")
+            self._fp32_weight.copy_(self.weight.detach())
 
     def forward(self, x: torch.Tensor):
         context = get_context()
@@ -61,10 +78,14 @@ class ParallelLMHead(VocabParallelEmbedding):
             last_indices = context.cu_seqlens_q[1:] - 1
             x = x[last_indices].contiguous()
         if self.fp32_lm_head:
-            # Convert the live parameter on every call, also after decoder graph replay.
-            # Never keep a detached FP32 shadow that can survive a weight commit.
             with torch.autocast(device_type=x.device.type, enabled=False):
-                logits = F.linear(x.float(), self.weight.float())
+                if self.cache_fp32_lm_head:
+                    if self._fp32_weight is None:
+                        raise RuntimeError("cached FP32 head was not initialized by a full load/commit")
+                    weight = self._fp32_weight
+                else:
+                    weight = self.weight.float()
+                logits = F.linear(x.float(), weight)
         else:
             logits = F.linear(x, self.weight)
         if self.tp_size > 1:

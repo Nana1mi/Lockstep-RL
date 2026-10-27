@@ -10,7 +10,7 @@
     "max_tokens": 128,
     "learning_rate": 1e-06,
     "optimizer": "adamw",
-    "gradient_checkpointing": true,
+    "gradient_checkpointing": false,
     "task": "simple",
     "simple_operation": "multiply",
     "save_final_checkpoint": true,
@@ -34,14 +34,14 @@
       "advantage_epsilon": 1e-06,
       "anchor": "recomputed",
       "update_steps": 1,
-      "microbatch_size": 1,
-      "gradient_accumulation_steps": 128,
+      "microbatch_size": 16,
+      "gradient_accumulation_steps": 8,
       "logprob_chunk_size": 32,
       "max_grad_norm": 1.0,
       "autocast_bf16": true,
       "fp32_lm_head": false
     },
-    "validation_status": "GPU_PENDING; A100-SXM4-80GB rental candidate; no learning claim"
+    "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
   },
   "grpo": {
     "group_size": 8,
@@ -49,8 +49,8 @@
     "advantage_epsilon": 1e-06,
     "anchor": "recomputed",
     "update_steps": 1,
-    "microbatch_size": 1,
-    "gradient_accumulation_steps": 128,
+    "microbatch_size": 16,
+    "gradient_accumulation_steps": 8,
     "logprob_chunk_size": 32,
     "max_grad_norm": 1.0,
     "autocast_bf16": true,

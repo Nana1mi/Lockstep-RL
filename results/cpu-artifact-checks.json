@@ -22,6 +22,16 @@
       "language": "bash"
     },
     {
+      "document": "GPU_RUNBOOK.md",
+      "block": 3,
+      "language": "bash"
+    },
+    {
+      "document": "GPU_RUNBOOK.md",
+      "block": 4,
+      "language": "bash"
+    },
+    {
       "document": "docs/upstream-readme.md",
       "block": 0,
       "language": "bash"
@@ -74,6 +84,15 @@
       "scripts/run_rental.py",
       "--persistent-root",
       "/persistent/lockstep",
+      "--dry-run"
+    ],
+    "rental-retry-dry-run.json": [
+      "scripts/run_rental.py",
+      "--persistent-root",
+      "/persistent/lockstep",
+      "--stages",
+      "diagnostics",
+      "sync",
       "--dry-run"
     ],
     "demo-lr1-dry-run.json": [

@@ -114,13 +114,14 @@ class ExperimentTest(unittest.TestCase):
     def test_original_vs_current_workloads_and_nested_repeats_match(self):
         settings = json.loads((ROOT / "configs/inference-benchmark.json").read_text())
         jobs = benchmark_plan("config.json", "unused-output", settings)
-        self.assertEqual(len(jobs), 72)
+        self.assertEqual(len(jobs), 96)
         for source in ("baseline", "current"):
             selected = [job for job in jobs if job["source"] == source]
-            self.assertEqual(len(selected), 24 if source == "baseline" else 48)
+            self.assertEqual(len(selected), 24 if source == "baseline" else 72)
             self.assertEqual({job["process_repeat"] for job in selected}, {0, 1, 2})
             self.assertEqual({job["case"] for job in selected}, set(settings["cases"]))
-        self.assertEqual(sum(job["fp32_lm_head"] for job in jobs), 24)
+        self.assertEqual(sum(job["fp32_lm_head"] for job in jobs), 48)
+        self.assertEqual(sum(job["cache_fp32_lm_head"] for job in jobs), 24)
         self.assertFalse(torch.cuda.is_initialized())
 
     def test_sync_plan_locks_repeated_fresh_references_before_hot(self):
@@ -142,8 +143,8 @@ class ExperimentTest(unittest.TestCase):
         settings = json.loads(path.read_text())
         validate_settings(settings)
         jobs = build_plan(path, Path("unused-output"), settings)
-        self.assertEqual(len(jobs), 13)
-        self.assertEqual(sum(len(job.get("trajectory_ids", [])) for job in jobs), 32 * 13)
+        self.assertEqual(len(jobs), 14)
+        self.assertEqual(sum(len(job.get("trajectory_ids", [])) for job in jobs), 32 * 14)
         self.assertEqual({job["name"] for job in jobs[:-2]}, {"sample", *settings["cases"]})
         self.assertEqual(jobs[0]["name"], "sample")
         self.assertEqual(jobs[-2]["name"], "hf-bfloat16")

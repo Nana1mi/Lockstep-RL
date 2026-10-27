@@ -22,11 +22,14 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--allow-gpu", action="store_true")
     parser.add_argument("--fp32-lm-head", action="store_true")
+    parser.add_argument("--cache-fp32-lm-head", action="store_true")
     args = parser.parse_args()
     if not args.allow_gpu:
         parser.error("GPU benchmarks require manual --allow-gpu")
     if args.fp32_lm_head and args.source != "current":
         parser.error("fp32 head is only available in current source")
+    if args.cache_fp32_lm_head and not args.fp32_lm_head:
+        parser.error("cached FP32 head requires --fp32-lm-head")
     source = args.source_path.resolve()
     settings = json.loads(args.config.read_text(encoding="utf-8"))
     case = settings["cases"][args.case]
@@ -43,6 +46,7 @@ def main():
     random.seed(settings["seed"])
     report = {"source": args.source, "module_path": nanovllm.__file__, "backend": args.backend,
               "fp32_lm_head": args.fp32_lm_head,
+              "cache_fp32_lm_head": args.cache_fp32_lm_head,
               "module_import_seconds": import_seconds,
               "case": args.case, "config": settings, "numerical_settings": numeric,
               "provenance": provenance(settings["model"]), "status": "running"}
@@ -51,11 +55,14 @@ def main():
         engine_options = dict(settings["engine"])
         if args.source == "current":
             engine_options["fp32_lm_head"] = args.fp32_lm_head
+            engine_options["cache_fp32_lm_head"] = args.cache_fp32_lm_head
         engine = LLM(str(Path(settings["model"]).resolve()), enforce_eager=args.backend == "eager", **engine_options)
         torch.cuda.synchronize()
         report["initialization_seconds"] = time.perf_counter() - start
         report["cold_scope"] = "new process; disk/compiler caches may be warm; constructor and module imports recorded separately"
         report["kv_blocks"] = engine.model_runner.config.num_kvcache_blocks
+        cache = getattr(engine.model_runner.model.lm_head, "_fp32_weight", None)
+        report["fp32_head_cache_bytes"] = cache.numel() * cache.element_size() if cache is not None else 0
         prompts = [[random.randint(100, min(10000, engine.model_runner.config.hf_config.vocab_size - 1))
                     for _ in range(case["input_tokens"])] for _ in range(case["requests"])]
         sampling = SamplingParams(temperature=1, max_tokens=case["output_tokens"], ignore_eos=True)

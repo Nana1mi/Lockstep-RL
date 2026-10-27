@@ -8,13 +8,13 @@ rented NVIDIA A100-SXM4-80GB and one pinned stack/UUID. See GPU_RUNBOOK.md.
 |---|---|
 | Environment | metadata, actual GPU/driver/ABI, BF16, FA2 varlen/paged KV, Triton, graph smoke |
 | Baseline | exact fixed upstream git archive vs current; no patch to original source |
-| Diagnostics | sample + eager/repeat/prefix/chunked/graph/padding/batch/cached-preemption/recompute-preemption/fp32-head + HF BF16/FP32: 13 processes, 32 canonical trajectories each |
+| Diagnostics | sample + eager/repeat/prefix/chunked/graph/padding/batch/cached-preemption/recompute-preemption/live/cached-fp32-head + HF BF16/FP32: 14 processes, 32 canonical trajectories each |
 | Noise floor | independent same-config eager and repeat scores; retain pooled/per-trajectory maxima and exceedance counts |
 | FP32 head | nano live FP32 head vs HF FP32, alongside BF16-head results; per-token scores and throughput variant |
 | Weight sync | sample + per backend 3 fresh references, 3 GPU-FP32 hot, 3 CPU-BF16 hot, 3 GPU-FP32 negative controls: 25 workers |
 | GRPO smoke | original short configs, both anchors and two-update smoke; integration only |
 | GRPO demo | 16 prompts×G8, 120 iterations, 512/128 disjoint tasks, evaluation every10, lr1e-6/5e-6 separately |
-| Performance | upstream/current/current-FP32-head × 2 backends × 4 shapes × 3 independent processes =72 workers, each3 nested steady repeats |
+| Performance | upstream/current/current-FP32-live/current-FP32-cached × 2 backends × 4 shapes × 3 independent processes =96 workers, each3 nested steady repeats |
 | Sampler compute | original sampler math vs token-logprob compute; synthetic logits, labeled microbenchmark |
 
 ## Statistical and path definitions
@@ -35,7 +35,9 @@ delta_logp = right/reference score - left/rollout score, and ratio=exp(delta_log
 Pooled quantiles weight tokens; per_trajectory lists each request's maximum error;
 trajectories_above_threshold counts requests with any token crossing threshold.
 The noise-floor distribution is attached to every path comparison; differences
-are not blindly subtracted. HF FP32 promotes identical BF16 effective values.
+are not blindly subtracted. A zero repeat floor is marked non-discriminative;
+measured HF-BF16/FP32 errors are a precision reference, not an automatic verdict
+or tolerance. HF FP32 promotes identical BF16 effective values.
 CSV retains raw logprobs, token, position and request ID; traces/config/rollouts
 provide execution batches and paths. Finite maxima are not global error bounds.
 
@@ -78,3 +80,33 @@ ranges are in configs/rental.json, about3–11 GPU hours with30% contingency; th
 are assumptions until measured wall time is available. Asset download and wheel
 preparation occur before paid GPU use. Optional old memory probes remain source
 utilities, outside the revised mandatory sequence.
+
+## Pre-rental review corrections
+
+Primary statistics and A/B score tolerances include only the first-EOS-inclusive
+response. Every raw record stores first_eos_index and primary/tail counts; no-EOS
+responses use their whole length. Post-EOS data stay in JSON.post_eos and separate
+*-post-eos.csv files, with zero-count/null distributions when empty. Raw complete
+tokens remain available for fixed-length path triggering. Pooled quantiles and
+trajectory thresholds cannot be influenced by that tail.
+
+FP32 head has live-conversion and cached-inference variants. The nonpersistent
+cache is built after full loading and refreshed only after every copy in a hot
+commit, including tied-only sources; failure closes the engine. Both precision
+and throughput comparisons are separate. Record cache bytes, KV blocks, init,
+commit refresh and steady cost; live-minus-cached time includes memory effects,
+so it is not a pure GEMM latency. Training keeps differentiable live weights.
+
+Report synchronization as sync_seconds=preflight+commit+invalidate. total_seconds
+and the training sync_wall_including_measurement also include actor-change
+measurement, and cannot be quoted as pure synchronization time.
+
+Only environment and attention are hard gates. Other failures remain in logs and
+manifest and independent jobs continue, including within GRPO; any failure gives
+a nonzero final exit. --stages selects retries under a fresh run-id and always
+includes environment/attention. GPU identity changes and interruptions remain
+infrastructure stops. Only required local asset subsets are validated per job.
+Demo microbatch16/accumulation8 with no checkpointing is a speed candidate with
+CPU-tested global-token objective equivalence, not a measured speedup. Few-shot
+contexts use seed-shuffle plus per-trajectory rotation. Managed Python and venv
+must share a fixed persistent mount path; arbitrary relocation is unsupported.

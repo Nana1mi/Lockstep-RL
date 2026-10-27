@@ -57,8 +57,12 @@ check scores, gradients, and saved activation shapes against full log_softmax.
 The revised scorer first gathers response-mask hidden positions before any head
 projection, then scatters scores into the original dense/masked API. Prompt and
 padding positions never enter the vocabulary GEMM. Optional FP32 head disables
-autocast locally and converts live hidden/weights on each call; no FP32 shadow
-survives a hot update. The decoder hidden-state computation is graph-captured;
+autocast locally. Live mode converts weights on every call; cached inference mode
+uses a nonpersistent FP32 buffer built after complete loading. A typed copy plan
+retains all cached head modules, so commit refreshes them once after all shard/
+alias copies, even when only the tied embedding was supplied. Forward never
+refreshes. Refresh failure propagates through the engine's broken-state gate.
+The decoder hidden-state computation is graph-captured;
 the head executes after graph replay, so live conversion also occurs in graph
 mode. CPU tests compare full FP32 projections and hot weights; actual graph
 behavior remains GPU_PENDING.

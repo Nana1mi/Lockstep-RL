@@ -25,7 +25,7 @@ def build_plan(config_path, output_dir, settings):
             command += ["--trajectory", str(base)]
         jobs.append({"name": case, "command": command,
                      "trajectory_ids": [f"traj-{k}" for k in range(settings["num_trajectories"])],
-                     "batching": "single" if case in ("sample", "eager", "repeat", "fp32_head") else case})
+                     "batching": "single" if case in ("sample", "eager", "repeat", "fp32_head", "fp32_head_cached") else case})
     for dtype in ("bfloat16", "float32"):
         jobs.append({"name": f"hf-{dtype}", "trajectory_ids": [f"traj-{k}" for k in range(settings["num_trajectories"])],
                      "command": [sys.executable, "scripts/score_hf.py", "--allow-gpu",
@@ -100,23 +100,36 @@ def main():
         bf16, fp32 = read(args.output_dir / "hf-bfloat16.json"), read(args.output_dir / "hf-float32.json")
         comparisons.update({"nano-vs-hf-bf16": (base, bf16), "nano-vs-hf-fp32": (base, fp32),
                             "nano-fp32-head-vs-hf-fp32": (read(args.output_dir / "fp32_head/rollouts.json"), fp32),
+                            "nano-cached-fp32-head-vs-hf-fp32": (read(args.output_dir / "fp32_head_cached/rollouts.json"), fp32),
+                            "fp32-head-live-vs-cached": (read(args.output_dir / "fp32_head/rollouts.json"), read(args.output_dir / "fp32_head_cached/rollouts.json")),
                             "hf-bf16-vs-hf-fp32": (bf16, fp32)})
         noise = compare_trajectories(base, read(args.output_dir / "repeat/rollouts.json"), threshold=settings["threshold"])
         save_json(args.output_dir / "noise-floor.json", noise)
+        precision = compare_trajectories(bf16, fp32, threshold=settings["threshold"])
+        precision_by_id = {row["request_id"]: row["max_absolute_logprob_error"] for row in precision["per_trajectory"]}
         for name, (left, right) in comparisons.items():
             statistics = compare_trajectories(left, right, threshold=settings["threshold"])
             statistics["noise_floor"] = {"comparison": "eager vs repeat",
                 "absolute_logprob_error": noise["absolute_logprob_error"],
                 "trajectories_above_threshold": noise["trajectories_above_threshold"],
                 "per_trajectory": noise["per_trajectory"]}
+            statistics["precision_reference"] = {"comparison": "hf-bf16-vs-hf-fp32",
+                "absolute_logprob_error": precision["absolute_logprob_error"], "per_trajectory": precision["per_trajectory"],
+                "interpretation": "measured BF16/FP32 accuracy scale, not an automatic error verdict/tolerance"}
+            statistics["noise_floor"]["discriminative"] = noise["absolute_logprob_error"]["max"] > 0
             noise_by_id = {row["request_id"]: row["max_absolute_logprob_error"] for row in noise["per_trajectory"]}
             for row in statistics["per_trajectory"]:
                 row["observed_repeat_max_error"] = noise_by_id[row["request_id"]]
-                row["exceeds_observed_repeat_max"] = row["max_absolute_logprob_error"] > row["observed_repeat_max_error"]
+                row["exceeds_observed_repeat_max"] = (row["max_absolute_logprob_error"] > row["observed_repeat_max_error"]
+                                                      if row["observed_repeat_max_error"] > 0 else None)
+                row["measured_hf_bf16_fp32_max_error"] = precision_by_id[row["request_id"]]
             save_json(args.output_dir / f"{name}.json", statistics)
             with (args.output_dir / f"{name}.csv").open("w", newline="", encoding="utf-8") as stream:
                 writer = csv.DictWriter(stream, fieldnames=list(statistics["rows"][0]))
                 writer.writeheader(); writer.writerows(statistics["rows"])
+            with (args.output_dir / f"{name}-post-eos.csv").open("w", newline="", encoding="utf-8") as stream:
+                writer = csv.DictWriter(stream, fieldnames=list(statistics["rows"][0]))
+                writer.writeheader(); writer.writerows(statistics["post_eos"]["rows"])
             subprocess.run([sys.executable, "scripts/plot_results.py", "--kind", "consistency",
                             "--input", str(args.output_dir / f"{name}.json"), "--output", str(args.output_dir / f"{name}.png")], check=True)
         manifest["status"] = "completed"

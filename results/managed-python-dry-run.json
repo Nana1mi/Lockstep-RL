@@ -1,0 +1,25 @@
+{
+  "status": "INSTALL_PENDING",
+  "persistent_root": "/persistent/lockstep",
+  "environment": {
+    "UV_PYTHON_INSTALL_DIR": "/persistent/lockstep/python",
+    "UV_CACHE_DIR": "/persistent/lockstep/uv-cache"
+  },
+  "commands": [
+    [
+      "uv",
+      "python",
+      "install",
+      "--no-bin",
+      "3.11"
+    ],
+    [
+      "uv",
+      "python",
+      "find",
+      "--managed-python",
+      "3.11"
+    ]
+  ],
+  "note": "Preserve the same absolute mount path/OS/architecture. Recreate venv if those change."
+}

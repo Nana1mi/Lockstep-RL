@@ -37,20 +37,23 @@ def materialize_baseline(destination):
 def build_plan(config, output, settings):
     root = Path(output)
     jobs = []
-    for source, fp32_head in (("baseline", False), ("current", False), ("current", True)):
+    for source, fp32_head, cached in (("baseline", False, False), ("current", False, False),
+                                      ("current", True, False), ("current", True, True)):
         path = root / "upstream-source" if source == "baseline" else PROJECT
         for backend in ("eager", "graph"):
             for case in settings["cases"]:
                 for repeat in range(settings["process_repeats"]):
-                    variant = "current-fp32-head" if fp32_head else source
+                    variant = ("current-fp32-head-cached" if cached else "current-fp32-head-live") if fp32_head else source
                     name = f"{variant}-{backend}-{case}-{repeat}"
                     jobs.append({"name": name, "source": source, "backend": backend, "case": case,
-                        "source_variant": variant, "fp32_lm_head": fp32_head,
+                        "source_variant": variant, "fp32_lm_head": fp32_head, "cache_fp32_lm_head": cached,
                         "process_repeat": repeat, "command": [sys.executable, "scripts/inference_benchmark_worker.py", "--allow-gpu",
                         "--config", str(config), "--case", case, "--source", source, "--source-path", str(path),
                         "--backend", backend, "--output", str(root / f"{name}.json")]})
                     if fp32_head:
                         jobs[-1]["command"].append("--fp32-lm-head")
+                    if cached:
+                        jobs[-1]["command"].append("--cache-fp32-lm-head")
     return jobs
 
 
@@ -95,16 +98,25 @@ def main():
                     "fp32_lm_head": job["fp32_lm_head"], "backend": job["backend"], "case": job["case"],
                     "process_repeat": job["process_repeat"], "steady_repeat": measurement["repeat"],
                     "initialization_seconds": record["initialization_seconds"], "warmup_seconds": record["warmup_seconds"],
+                    "fp32_head_cache_bytes": record["fp32_head_cache_bytes"], "kv_blocks": record["kv_blocks"],
                     **{key: measurement[key] for key in ("seconds", "output_tokens_per_second", "peak_allocated_bytes", "peak_reserved_bytes")}})
         with (args.output_dir / "measurements.csv").open("w", newline="", encoding="utf-8") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(flat[0])); writer.writeheader(); writer.writerows(flat)
         manifest["groups"] = {f"{variant}-{backend}-{case}": distribution([
             row["output_tokens_per_second"] for row in flat if row["source_variant"] == variant and row["backend"] == backend and row["case"] == case])
-            for variant in ("baseline", "current", "current-fp32-head") for backend in ("eager", "graph") for case in settings["cases"]}
-        manifest["fp32_head_throughput_change_percent"] = {
-            f"{backend}-{case}": 100 * (manifest["groups"][f"current-fp32-head-{backend}-{case}"]["mean"] /
-                manifest["groups"][f"current-{backend}-{case}"]["mean"] - 1)
+            for variant in ("baseline", "current", "current-fp32-head-live", "current-fp32-head-cached")
             for backend in ("eager", "graph") for case in settings["cases"]}
+        manifest["fp32_head_throughput_change_percent"] = {
+            f"{mode}-{backend}-{case}": 100 * (manifest["groups"][f"current-fp32-head-{mode}-{backend}-{case}"]["mean"] /
+                manifest["groups"][f"current-{backend}-{case}"]["mean"] - 1)
+            for mode in ("live", "cached") for backend in ("eager", "graph") for case in settings["cases"]}
+        manifest["live_conversion_variant_extra_seconds"] = {
+            f"{backend}-{case}": sum(row["seconds"] for row in flat if row["source_variant"] == "current-fp32-head-live"
+                and row["backend"] == backend and row["case"] == case) / (settings["process_repeats"] * settings["steady_repeats"])
+                - sum(row["seconds"] for row in flat if row["source_variant"] == "current-fp32-head-cached"
+                and row["backend"] == backend and row["case"] == case) / (settings["process_repeats"] * settings["steady_repeats"])
+            for backend in ("eager", "graph") for case in settings["cases"]}
+        manifest["head_comparison_scope"] = "live vs cached separates per-forward weight conversion from cached FP32 compute; memory/KV effects remain recorded; not pure GEMM timing"
         manifest["scope"] = "full rollout-data-contract overhead vs original; steady repeats nested within independent process repeats"
         manifest["metric_label"] = "Output tokens per second"
         manifest["status"] = "completed"

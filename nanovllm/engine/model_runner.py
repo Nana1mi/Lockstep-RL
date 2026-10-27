@@ -36,6 +36,8 @@ class ModelRunner:
                 self.model = Qwen3ForCausalLM(hf_config)
                 if getattr(config, "fp32_lm_head", False):
                     self.model.lm_head.fp32_lm_head = True
+                if getattr(config, "cache_fp32_lm_head", False):
+                    self.model.lm_head.cache_fp32_lm_head = True
                 load_model(self.model, config.model)
                 self.sampler = Sampler()
                 self.warmup_model()

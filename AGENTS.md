@@ -36,3 +36,10 @@
 - Rental target is one NVIDIA A100-SXM4-80GB on Linux. Old RTX5080/SM120 build
   instructions are historical. Pin official FA2 wheel/torch/Python/CUDA/ABI/hash;
   do not silently fall back to source compilation or mix GPU models in contrasts.
+
+- The later pre-rental review authorizes an additional commit-refreshed cached
+  FP32 head alongside live conversion. Primary diagnostics include only through
+  first EOS inclusive; retain post-EOS data separately. Only environment and
+  attention failures hard-gate independent jobs; support --stages retry under a
+  fresh run-id. Report sync_seconds as the three update phases, excluding change
+  measurement. No real GPU execution/download/rental is authorized by this review.

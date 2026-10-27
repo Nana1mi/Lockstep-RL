@@ -561,6 +561,57 @@
       "batching": "single"
     },
     {
+      "name": "fp32_head_cached",
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "configs/diagnostics.json",
+        "--case",
+        "fp32_head_cached",
+        "--output-dir",
+        "results/diagnostics/fp32_head_cached",
+        "--trajectory",
+        "results/diagnostics/sample/rollouts.json"
+      ],
+      "trajectory_ids": [
+        "traj-0",
+        "traj-1",
+        "traj-2",
+        "traj-3",
+        "traj-4",
+        "traj-5",
+        "traj-6",
+        "traj-7",
+        "traj-8",
+        "traj-9",
+        "traj-10",
+        "traj-11",
+        "traj-12",
+        "traj-13",
+        "traj-14",
+        "traj-15",
+        "traj-16",
+        "traj-17",
+        "traj-18",
+        "traj-19",
+        "traj-20",
+        "traj-21",
+        "traj-22",
+        "traj-23",
+        "traj-24",
+        "traj-25",
+        "traj-26",
+        "traj-27",
+        "traj-28",
+        "traj-29",
+        "traj-30",
+        "traj-31"
+      ],
+      "batching": "single"
+    },
+    {
       "name": "hf-bfloat16",
       "trajectory_ids": [
         "traj-0",
@@ -2072,6 +2123,134 @@
     },
     {
       "case": "fp32_head",
+      "request_id": "traj-31"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-0"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-1"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-2"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-3"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-4"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-5"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-6"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-7"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-8"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-9"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-10"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-11"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-12"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-13"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-14"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-15"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-16"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-17"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-18"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-19"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-20"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-21"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-22"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-23"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-24"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-25"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-26"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-27"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-28"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-29"
+    },
+    {
+      "case": "fp32_head_cached",
+      "request_id": "traj-30"
+    },
+    {
+      "case": "fp32_head_cached",
       "request_id": "traj-31"
     },
     {

@@ -2,4 +2,4 @@ GPU_PENDING rental: A100-SXM4-80GB; Python 3.11; torch 2.8.0 cu128; Transformers
 bash scripts/setup_gpu_env.sh --allow-install --env /persistent/envs/nano_rl --wheel /persistent/wheels/flash_attn-...whl --python python3.11
 GPU_PENDING: synthetic BF16 logits; original sampling vs added FP32 selected-token scoring
 No broken requirements found.
-Validated 7 documentation blocks and 9 JSON dry runs
+Validated 9 documentation blocks and 10 JSON dry runs

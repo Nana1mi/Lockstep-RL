@@ -17,6 +17,21 @@ class WeightCopy:
     shard: object = None
 
 
+class WeightUpdatePlan(list):
+    def __init__(self, copies, refresh_modules):
+        super().__init__(copies)
+        self.refresh_modules = refresh_modules
+
+
+def cached_fp32_heads(model):
+    return [module for module in model.modules() if getattr(module, "cache_fp32_lm_head", False)]
+
+
+def refresh_fp32_lm_heads(model):
+    for module in cached_fp32_heads(model):
+        module.refresh_fp32_weight()
+
+
 def _storage_key(parameter):
     return (parameter.untyped_storage().data_ptr(), parameter.storage_offset(),
             tuple(parameter.shape), tuple(parameter.stride()), parameter.dtype, parameter.device)
@@ -139,7 +154,7 @@ def prepare_weight_update(model, state_dict):
                 else:
                     checks.append((message, equal))
     _check_device_flags(checks)
-    return copies
+    return WeightUpdatePlan(copies, cached_fp32_heads(model))
 
 
 @torch.no_grad()
@@ -152,6 +167,10 @@ def commit_weight_update(copies):
             item.loader(item.parameter, item.source)
         else:
             item.loader(item.parameter, item.source, item.shard)
+    # Tied embedding-only input must refresh the head too. Do this once after
+    # every shard/alias copy, inside the fail-closed commit transaction.
+    for module in getattr(copies, "refresh_modules", ()):
+        module.refresh_fp32_weight()
 
 
 @torch.no_grad()

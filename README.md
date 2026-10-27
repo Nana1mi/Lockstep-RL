@@ -5,8 +5,8 @@ fixed at `bb823b3e06983d71485a8e1f23715ebd87d98ef8`. MIT/upstream attribution is
 preserved; [historical upstream results](docs/upstream-readme.md) are not our measurements.
 
 The current revision implements the CPU-verifiable P0/P1/P2 changes before GPU rental.
-All **69 tests pass on both torch2.11.0+cpu and torch2.8.0+cpu**, with27 focused
-compatibility checks repeated after the final preflight/diagnostic adjustments.
+CPU regression runs cover both torch2.11.0+cpu and torch2.8.0+cpu; exact current
+counts and timings are in `results/cpu-tests*.txt` and the validation manifest.
 Real CUDA accuracy, cache/graph behavior, learning effects and performance remain
 **GPU_PENDING**. Current verification is recorded in [status](IMPLEMENTATION_STATUS.md),
 [progress](PROGRESS.md) and `results/`. No real GPU result or training curve is supplied.
@@ -30,18 +30,27 @@ CUDA_VISIBLE_DEVICES= .envs/nano_rl/bin/python -m unittest discover -s tests -v
   `preemption_cached` and `preemption_recompute` experiments require actual
   preemption/re-prefill and positive/zero reused tokens respectively. The CPU
   6-block, two 512-token prompts, 300-token responses simulation verifies both.
-- The default matrix samples **32 real local GSM8K questions × 128 response tokens**.
+- The default matrix samples **32 real local GSM8K questions × 128 recorded tokens**.
   Exact block-sized prompts use real solved few-shot text; only that context may
   be token-cropped, with the whole target question/chat wrapper retained. Provenance
-  records source IDs/cropping. Eager is batch=1; batch companions are real trajectories.
+  records source IDs/cropping. Example order is seed-shuffled then rotated per trajectory.
+  Eager is batch=1; batch companions are real trajectories.
   Every trajectory is the actual victim in its preemption replay.
-- Independent eager/repeat processes define a noise floor. Reports retain pooled
+- Primary accuracy includes tokens through the first EOS, inclusive. Fixed-workload
+  post-EOS continuation is retained as a separate population/CSV, never mixed into
+  primary quantiles or threshold counts. Every rollout records the first EOS index.
+- Independent eager/repeat processes check repeatability. A zero floor is marked
+  non-discriminative; HF BF16-vs-FP32 supplies a measured precision reference.
+  Neither reference is an automatic bug verdict. Reports retain pooled
   distributions, each trajectory's maximum error, threshold-exceeding trajectory
   count, raw scores/IDs/positions and trace. Pooled quantiles are token-weighted.
 - `fp32_lm_head=True` converts live hidden/weight tensors every forward with
-  autocast disabled. There is no stale FP32 weight shadow. HF scoring/training has
-  the same option. A separate comparison and current-source throughput variant
-  quantify its benefit/cost when run manually.
+  autocast disabled. `cache_fp32_lm_head=True` adds an inference-only nonpersistent
+  FP32 buffer, initialized after full loading and refreshed after all copies in
+  each successful commit, including tied-embedding-only updates. HF scoring/training
+  retains live differentiable head scoring. Diagnostics/throughput compare both
+  live-conversion and cached-compute variants, including persistent memory,
+  initialization and synchronization maintenance costs.
 
 ## Updates and training
 
@@ -53,8 +62,10 @@ existing packed loaders; logical KV/prefix state is invalidated, physical KV and
 compatible graphs remain. Rejected preflight leaves the old version usable;
 exceptions after copying starts make the engine `broken` and prevent generation.
 
-Timers separate preflight, commit and invalidation; optional actor-change counting
-has its own timer. The worker measures GPU-FP32 and CPU-BF16 sources separately.
+Timers separate preflight, commit and invalidation; their sum is `sync_seconds`.
+`total_seconds` also includes optional actor-change counting, which has its own
+timer and must not be quoted as synchronization time. The worker measures
+GPU-FP32 and CPU-BF16 sources separately.
 Its **test-only** `--skip-invalidate` negative control must reuse stale KV and fail
 the fresh-B score comparison. The production engine has no bypass flag.
 
@@ -70,6 +81,8 @@ not treated as evidence of a numerical change.
 `train-demo-simple*.json` presets use 16 prompts × G=8, 120 iterations,
 512/128 disjoint arithmetic questions, evaluation every 10 iterations, and
 learning rates 1e-6 / 5e-6. They are candidates, not evidence of learning.
+The A100 demo uses microbatch16, accumulation8 and no gradient checkpointing;
+the 128-sequence objective is CPU-tested against a full batch. Speedup is unmeasured.
 `strict` reward parsing preserves old behavior; `lenient` also accepts currency,
 trailing sentence periods, `{,}` and text units. Each sample has parse_status
 (ok/no_answer/unparseable); JSONL/CSV record failure rates and optimization metrics.
@@ -85,11 +98,19 @@ was checked against the [official release assets](https://github.com/Dao-AILab/f
 runtime correctness is still pending. This also explains the supported torch floor
 of 2.8; CPU regression is checked separately from CUDA.
 
+Prepare a uv-managed Python3.11 on persistent storage with guarded
+`setup_managed_python.py`, then create the GPU venv from its recorded absolute path.
+Keep the same mount path/OS/architecture; moving the disk still requires rebuilding
+venv entry points. See [uv configuration](https://docs.astral.sh/uv/reference/environment/#uv_python_install_dir).
 Prepare model/data/wheel on persistent storage **before paying for GPU time** via
 `prepare_rental_assets.py --allow-download`. No large download is performed by default.
 Follow [GPU_RUNBOOK.md](GPU_RUNBOOK.md); `run_rental.py --allow-gpu` runs environment,
-baseline, diagnostics, synchronization, GRPO and performance in order, stops on
-failure, saves all raw output/configs/logs on persistent storage and records wall
+baseline, diagnostics, synchronization, GRPO and performance in order. Only the
+environment/attention checks are hard gates; other job failures are saved and
+independent jobs continue, with a nonzero final exit if anything failed.
+`--stages diagnostics sync` retries a subset under a new run-id, always repeating
+environment/attention. Hardware changes/user interruption still stop the run.
+The runner saves all raw output/configs/logs on persistent storage and records wall
 time. The planning estimate is about **3–11 GPU hours including 30% contingency**,
 not a measured runtime or cost quote. No card has been rented or started.
 

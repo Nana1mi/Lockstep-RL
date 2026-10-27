@@ -6,9 +6,10 @@ few-shot text may be cropped at a token boundary to reach an exact KV block size
 """
 
 from lockstep_rl.data import load_tasks, validate_splits
+import random
 
 
-def gsm8k_prompts(tokenizer, *, question_file, fewshot_file, count, prompt_tokens):
+def gsm8k_prompts(tokenizer, *, question_file, fewshot_file, count, prompt_tokens, seed=0):
     questions, examples = load_tasks(question_file), load_tasks(fewshot_file)
     validate_splits(examples, questions)
     if count < 1 or count > len(questions):
@@ -24,10 +25,15 @@ def gsm8k_prompts(tokenizer, *, question_file, fewshot_file, count, prompt_token
     before, after = wrapper.split(marker)
     encode = lambda text: tokenizer.encode(text, add_special_tokens=False)
     prefix, suffix = encode(before), encode(after)
-    context = "\n\n".join(f"Question: {row['prompt']}\nSolution: {row['solution']}" for row in examples)
-    context_ids = encode(context + "\n\n")
+    # Shuffle once per seed, then rotate through all pool endings before reuse.
+    order = list(examples)
+    random.Random(seed).shuffle(order)
     result = []
     for k, row in enumerate(questions[:count]):
+        shift = k % len(order)
+        ordered = order[shift:] + order[:shift]
+        context = "\n\n".join(f"Question: {example['prompt']}\nSolution: {example['solution']}" for example in ordered)
+        context_ids = encode(context + "\n\n")
         target_ids = encode("\n\nNow solve this problem:\n" + row["prompt"])
         needed = prompt_tokens - len(prefix) - len(suffix) - len(target_ids)
         if needed < 0:
@@ -41,6 +47,7 @@ def gsm8k_prompts(tokenizer, *, question_file, fewshot_file, count, prompt_token
         assert len(ids) == prompt_tokens
         result.append({"request_id": f"traj-{k}", "prompt_ids": ids, "task_id": row["id"],
                        "question": row["prompt"], "fewshot_tokens": needed,
-                       "fewshot_ids": [example["id"] for example in examples],
+                       "fewshot_ids": [example["id"] for example in ordered], "fewshot_seed": seed,
+                       "fewshot_rotation": shift,
                        "fewshot_crop": "left token crop; target and chat wrapper intact"})
     return result

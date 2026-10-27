@@ -69,7 +69,7 @@ replacement is part of this delivery.
 ## Revised priority acceptance
 
 P0 is covered by the exact6-block512/300 scheduler simulation with cache on/off,
-32×13 diagnostic dry coverage, real-question/template/companion fixture tests,
+32×14 diagnostic dry coverage, real-question/template/companion fixture tests,
 token-vs-trajectory weighting, FP32-head/autocast/gradient/hot-weight checks.
 
 P1 includes one reduction per unique source tensor and one batched flag read,
@@ -86,3 +86,12 @@ ordered stages, persistent paths, both learning rates, opt-in guards, pinned whe
 ABI/hash, and pre-GPU rejection of incomplete/leaked inputs. The official wheel
 candidate is a torch2.8 binary; the old5080/SM120 workflow is no longer applicable.
 No new memory/offload task is inserted into the revised mandatory sequence.
+
+The later pre-rental review adds EOS-inclusive primary vs separate tail populations,
+both live/cached FP32 heads with initial-load/tied-commit/failure tests, hard/soft
+child failure policy and selective retries, microbatch16/full128 objective
+equivalence, persistent managed interpreter path/host-fallback checks, and seeded
+few-shot rotation. Source/runtime evidence is still CPU-only. Performance plans
+have96 workers; their live-minus-cached difference includes memory residency
+effects and is not labeled pure FP32 GEMM cost. Public synchronization time omits
+actor-change measurement. Repeatability0 is explicitly non-discriminative.

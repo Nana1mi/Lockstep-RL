@@ -1,5 +1,39 @@
 # Lockstep-RL progress
 
+## Latest pre-rental review (current; supersedes commit4b3a47c)
+
+- Primary diagnostic populations stop at first EOS inclusive; raw fixed-workload
+  tails remain separately available in JSON/CSV and cannot affect primary
+  quantiles, trajectory counts or A/B tolerances. No-EOS and EOS-at-zero tested.
+- Added cached FP32 inference head alongside live conversion. Complete load and
+  successful commit refresh a nonpersistent buffer after all copies, including
+  tied-embedding-only input. Forward never refreshes, cache storage is reused,
+  and refresh failure breaks the engine. Diagnostics now14 processes, benchmark
+  variants96 workers; extra cache bytes/KV blocks and conversion/compute variant
+  differences are labeled separately from pure GEMM cost.
+- Only environment/attention hard-gate the suite. Other child failures/startup
+  errors are recorded while independent jobs continue; final failure is nonzero.
+  --stages selects retries under a fresh run-id, always retaining environment
+  checks. Required data subsets validate per job, so an unrelated missing split
+  cannot block independent work. Hardware identity changes/interruption still stop.
+- Demo microbatch16/accumulation8 with no checkpointing is tested against the
+  complete128-response objective. No speedup is claimed before measurement.
+  Added guarded uv-managed Python setup on persistent disk, refusing host fallback;
+  same mount/OS/architecture is still required or venv must be recreated.
+- Public sync_seconds is preflight+commit+invalidate; total and measurement-inclusive
+  wall times stay separate. Per-trajectory example rotation is seed-reproducible.
+  Repeat0 is non-discriminative; measured HF-BF16/FP32 is a precision reference,
+  never an automatic bug verdict or a tolerance chosen after seeing results.
+- Final full CPU suites:77 tests passed in136.612s on torch2.11 and133.314s on
+  torch2.8. Ten GPU dry plans plus asset/managed-Python dry runs, nine document
+  blocks, static/dependency checks and all35 wheel source-byte checks passed.
+- Full CPU logs and normalized source fingerprints are refreshed for this review.
+  No CUDA work, rental, model/data or
+  managed interpreter download has been performed by the agent.
+
+The older revision below is retained as history, including its69-test counts and
+previous live-only/stop-on-failure implementation details.
+
 ## 2026-10-27 priority revision (current delivery)
 
 - Implemented P0.1–3, P1.4/6/5, P2.7–8 entirely with CPU development and tests.

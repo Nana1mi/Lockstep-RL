@@ -106,6 +106,7 @@ class LLMEngine:
                     "eos_token_id": self.config.eos, "eos_token_ids": eos_ids, "eos_rule": "any_configured_eos",
                     "enable_prefix_caching": getattr(self.config, "enable_prefix_caching", True),
                     "fp32_lm_head": getattr(self.config, "fp32_lm_head", False),
+                    "cache_fp32_lm_head": getattr(self.config, "cache_fp32_lm_head", False),
                     "temperature": 1, "enable_thinking": False, "top_k": None, "top_p": 1.0}
         if any(key in (sampling_config or {}) and sampling_config[key] != value for key, value in reserved.items()):
             raise ValueError("sampling metadata conflicts with the first-version distribution/configuration")
@@ -166,6 +167,7 @@ class LLMEngine:
         timings = {"preflight_seconds": preflight_done - start, "commit_seconds": commit_done - measurement_done,
                    "invalidate_seconds": invalidate_done - commit_done, "total_seconds": invalidate_done - start,
                    "change_measurement_seconds": measurement_done - preflight_done}
+        timings["sync_seconds"] = sum(timings[key] for key in ("preflight_seconds", "commit_seconds", "invalidate_seconds"))
         self.scheduler._record("weight_commit", policy_version=version,
                                old_cache_entries=len(self.scheduler.block_manager.hash_to_block_id), **timings)
         return {"policy_version": version, "timings": timings, "weight_changes": changes}

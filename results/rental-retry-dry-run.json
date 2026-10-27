@@ -1,0 +1,414 @@
+{
+  "status": "GPU_PENDING",
+  "output": "/persistent/lockstep/results/review-01",
+  "jobs": [
+    {
+      "stage": "environment",
+      "name": "environment",
+      "hard_gate": true,
+      "asset_splits": [],
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/environment_probe.py",
+        "--allow-gpu",
+        "--output",
+        "/persistent/lockstep/results/review-01/environment.json"
+      ]
+    },
+    {
+      "stage": "environment",
+      "name": "attention",
+      "hard_gate": true,
+      "asset_splits": [],
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/attention_smoke.py",
+        "--allow-gpu",
+        "--output",
+        "/persistent/lockstep/results/review-01/attention.json"
+      ]
+    },
+    {
+      "stage": "diagnostics",
+      "name": "diagnostics",
+      "hard_gate": false,
+      "asset_splits": [
+        "diagnostic",
+        "fewshot"
+      ],
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/diagnose.py",
+        "--allow-gpu",
+        "--config",
+        "/persistent/lockstep/results/review-01/configs/diagnostics.json",
+        "--output-dir",
+        "/persistent/lockstep/results/review-01/diagnostics"
+      ]
+    },
+    {
+      "stage": "weight_sync",
+      "name": "weight-sync",
+      "hard_gate": false,
+      "asset_splits": [
+        "diagnostic",
+        "fewshot"
+      ],
+      "command": [
+        "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
+        "scripts/weight_sync_experiment.py",
+        "--allow-gpu",
+        "--config",
+        "/persistent/lockstep/results/review-01/configs/weight-sync.json",
+        "--output-dir",
+        "/persistent/lockstep/results/review-01/weight-sync"
+      ]
+    }
+  ],
+  "configs": {
+    "diagnostics": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "torch_compile": true,
+      "prompt_tokens": 1024,
+      "num_trajectories": 32,
+      "question_file": "/persistent/lockstep/data/gsm8k/diagnostic.jsonl",
+      "fewshot_file": "/persistent/lockstep/data/gsm8k/fewshot.jsonl",
+      "response_tokens": 128,
+      "chunk_budget": 64,
+      "batch_size": 4,
+      "preemption_kv_blocks": 8,
+      "threshold": 0.1,
+      "attention_backend": "sdpa",
+      "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
+      "engine": {
+        "enforce_eager": true,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.5,
+        "max_num_batched_tokens": 2048,
+        "max_model_len": 2048,
+        "max_num_seqs": 8
+      },
+      "cases": [
+        "eager",
+        "repeat",
+        "prefix",
+        "chunked",
+        "graph",
+        "graph_padding",
+        "batch",
+        "preemption_cached",
+        "preemption_recompute",
+        "fp32_head",
+        "fp32_head_cached"
+      ],
+      "validation_status": "GPU_PENDING"
+    },
+    "weight-sync": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "num_trajectories": 1,
+      "question_file": "/persistent/lockstep/data/gsm8k/diagnostic.jsonl",
+      "fewshot_file": "/persistent/lockstep/data/gsm8k/fewshot.jsonl",
+      "torch_compile": true,
+      "prompt_tokens": 512,
+      "response_tokens": 32,
+      "repeats": 3,
+      "parameter": "model.layers.0.self_attn.q_norm.weight",
+      "perturbation": 0.0625,
+      "absolute_tolerance": 0.001,
+      "relative_tolerance": 0.001,
+      "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
+      "engine": {
+        "enforce_eager": true,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.5,
+        "max_num_batched_tokens": 1024,
+        "max_model_len": 2048,
+        "max_num_seqs": 8
+      },
+      "validation_status": "GPU_PENDING; tolerances predefined, repeatability checked before hot runs"
+    },
+    "inference-benchmark": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "torch_compile": true,
+      "process_repeats": 3,
+      "steady_repeats": 3,
+      "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
+      "engine": {
+        "gpu_memory_utilization": 0.5,
+        "max_num_batched_tokens": 2048,
+        "max_model_len": 2048,
+        "max_num_seqs": 8,
+        "tensor_parallel_size": 1
+      },
+      "cases": {
+        "short-single": {
+          "requests": 1,
+          "input_tokens": 32,
+          "output_tokens": 32
+        },
+        "short-multi": {
+          "requests": 4,
+          "input_tokens": 32,
+          "output_tokens": 32
+        },
+        "long-single": {
+          "requests": 1,
+          "input_tokens": 1024,
+          "output_tokens": 64
+        },
+        "long-multi": {
+          "requests": 4,
+          "input_tokens": 1024,
+          "output_tokens": 64
+        }
+      },
+      "validation_status": "GPU_PENDING; full rollout-data-contract overhead vs exact original source"
+    },
+    "train-smoke-simple": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "reward_parser": "strict",
+      "torch_compile": true,
+      "iterations": 4,
+      "prompts_per_iteration": 1,
+      "max_tokens": 128,
+      "learning_rate": 1e-06,
+      "optimizer": "adamw",
+      "gradient_checkpointing": true,
+      "task": "simple",
+      "simple_operation": "multiply",
+      "save_final_checkpoint": false,
+      "train_count": 16,
+      "validation_count": 8,
+      "evaluation_every": 1,
+      "engine": {
+        "enforce_eager": true,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.3,
+        "max_num_batched_tokens": 512,
+        "max_model_len": 2048,
+        "max_num_seqs": 8
+      },
+      "grpo": {
+        "group_size": 4,
+        "clip_epsilon": 0.2,
+        "advantage_epsilon": 1e-06,
+        "anchor": "rollout",
+        "update_steps": 1,
+        "microbatch_size": 1,
+        "gradient_accumulation_steps": 4,
+        "logprob_chunk_size": 32,
+        "max_grad_norm": 1.0,
+        "autocast_bf16": true
+      },
+      "validation_status": "GPU_PENDING: candidate memory configuration, not measured"
+    },
+    "train-smoke-gsm8k": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "reward_parser": "strict",
+      "torch_compile": true,
+      "iterations": 8,
+      "prompts_per_iteration": 1,
+      "max_tokens": 256,
+      "learning_rate": 1e-06,
+      "optimizer": "adamw",
+      "gradient_checkpointing": true,
+      "task": "gsm8k-local",
+      "save_final_checkpoint": false,
+      "train_count": 64,
+      "validation_count": 32,
+      "evaluation_every": 1,
+      "engine": {
+        "enforce_eager": true,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.3,
+        "max_num_batched_tokens": 512,
+        "max_model_len": 2048,
+        "max_num_seqs": 8
+      },
+      "grpo": {
+        "group_size": 4,
+        "clip_epsilon": 0.2,
+        "advantage_epsilon": 1e-06,
+        "anchor": "rollout",
+        "update_steps": 1,
+        "microbatch_size": 1,
+        "gradient_accumulation_steps": 4,
+        "logprob_chunk_size": 32,
+        "max_grad_norm": 1.0,
+        "autocast_bf16": true
+      },
+      "validation_status": "GPU_PENDING; single-seed candidate, not established memory or learning result"
+    },
+    "train-demo-simple": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "reward_parser": "lenient",
+      "torch_compile": true,
+      "iterations": 120,
+      "prompts_per_iteration": 16,
+      "max_tokens": 128,
+      "learning_rate": 1e-06,
+      "optimizer": "adamw",
+      "gradient_checkpointing": false,
+      "task": "simple",
+      "simple_operation": "multiply",
+      "save_final_checkpoint": true,
+      "train_count": 512,
+      "validation_count": 128,
+      "evaluation_every": 10,
+      "sync_probe_tokens": 16,
+      "engine": {
+        "enforce_eager": true,
+        "enable_prefix_caching": true,
+        "fp32_lm_head": false,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.6,
+        "max_num_batched_tokens": 4096,
+        "max_model_len": 2048,
+        "max_num_seqs": 32
+      },
+      "grpo": {
+        "group_size": 8,
+        "clip_epsilon": 0.2,
+        "advantage_epsilon": 1e-06,
+        "anchor": "recomputed",
+        "update_steps": 1,
+        "microbatch_size": 16,
+        "gradient_accumulation_steps": 8,
+        "logprob_chunk_size": 32,
+        "max_grad_norm": 1.0,
+        "autocast_bf16": true,
+        "fp32_lm_head": false
+      },
+      "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
+    },
+    "train-demo-simple-lr5e-6": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "reward_parser": "lenient",
+      "torch_compile": true,
+      "iterations": 120,
+      "prompts_per_iteration": 16,
+      "max_tokens": 128,
+      "learning_rate": 5e-06,
+      "optimizer": "adamw",
+      "gradient_checkpointing": false,
+      "task": "simple",
+      "simple_operation": "multiply",
+      "save_final_checkpoint": true,
+      "train_count": 512,
+      "validation_count": 128,
+      "evaluation_every": 10,
+      "sync_probe_tokens": 16,
+      "engine": {
+        "enforce_eager": true,
+        "enable_prefix_caching": true,
+        "fp32_lm_head": false,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.6,
+        "max_num_batched_tokens": 4096,
+        "max_model_len": 2048,
+        "max_num_seqs": 32
+      },
+      "grpo": {
+        "group_size": 8,
+        "clip_epsilon": 0.2,
+        "advantage_epsilon": 1e-06,
+        "anchor": "recomputed",
+        "update_steps": 1,
+        "microbatch_size": 16,
+        "gradient_accumulation_steps": 8,
+        "logprob_chunk_size": 32,
+        "max_grad_norm": 1.0,
+        "autocast_bf16": true,
+        "fp32_lm_head": false
+      },
+      "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
+    },
+    "baseline-smoke": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "torch_compile": true,
+      "process_repeats": 3,
+      "steady_repeats": 3,
+      "power_mode": "USER_MUST_RECORD_AC_AND_PERFORMANCE_MODE",
+      "engine": {
+        "gpu_memory_utilization": 0.5,
+        "max_num_batched_tokens": 2048,
+        "max_model_len": 2048,
+        "max_num_seqs": 8,
+        "tensor_parallel_size": 1
+      },
+      "cases": {
+        "short-single": {
+          "requests": 1,
+          "input_tokens": 32,
+          "output_tokens": 32
+        }
+      },
+      "validation_status": "GPU_PENDING; full rollout-data-contract overhead vs exact original source"
+    },
+    "train-two-updates": {
+      "model": "/persistent/lockstep/models/Qwen3-0.6B",
+      "seed": 0,
+      "reward_parser": "strict",
+      "torch_compile": true,
+      "iterations": 2,
+      "prompts_per_iteration": 1,
+      "max_tokens": 128,
+      "learning_rate": 1e-06,
+      "optimizer": "adamw",
+      "gradient_checkpointing": true,
+      "task": "simple",
+      "simple_operation": "multiply",
+      "save_final_checkpoint": false,
+      "train_count": 16,
+      "validation_count": 8,
+      "evaluation_every": 1,
+      "engine": {
+        "enforce_eager": true,
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.3,
+        "max_num_batched_tokens": 512,
+        "max_model_len": 2048,
+        "max_num_seqs": 8
+      },
+      "grpo": {
+        "group_size": 4,
+        "clip_epsilon": 0.2,
+        "advantage_epsilon": 1e-06,
+        "anchor": "rollout",
+        "update_steps": 2,
+        "microbatch_size": 1,
+        "gradient_accumulation_steps": 4,
+        "logprob_chunk_size": 32,
+        "max_grad_norm": 1.0,
+        "autocast_bf16": true
+      },
+      "validation_status": "GPU_PENDING: candidate memory configuration, not measured"
+    }
+  },
+  "selected_stages": [
+    "environment",
+    "diagnostics",
+    "weight_sync"
+  ],
+  "failure_policy": "only environment/attention hard-gate; other job failures are recorded and execution continues",
+  "hardware": "NVIDIA A100-SXM4-80GB",
+  "estimate": {
+    "base_gpu_hours": [
+      0.8,
+      2.75
+    ],
+    "with_30_percent_contingency": [
+      1.04,
+      3.58
+    ],
+    "scope": "Unmeasured planning range; no installation/download time; wall-clock rental time includes CPU overhead"
+  }
+}

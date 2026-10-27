@@ -21,6 +21,6 @@
     "max_model_len": 2048,
     "max_num_seqs": 8
   },
-  "cases": ["eager", "repeat", "prefix", "chunked", "graph", "graph_padding", "batch", "preemption_cached", "preemption_recompute", "fp32_head"],
+  "cases": ["eager", "repeat", "prefix", "chunked", "graph", "graph_padding", "batch", "preemption_cached", "preemption_recompute", "fp32_head", "fp32_head_cached"],
   "validation_status": "GPU_PENDING"
 }

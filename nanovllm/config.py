@@ -16,6 +16,7 @@ class Config:
     enforce_eager: bool = False
     enable_prefix_caching: bool = True
     fp32_lm_head: bool = False
+    cache_fp32_lm_head: bool = False
     hf_config: AutoConfig | None = None
     eos: int = -1
     eos_token_ids: tuple[int, ...] = ()
@@ -25,9 +26,11 @@ class Config:
     diagnostic_kv_blocks: int | None = None
 
     def __post_init__(self):
-        for name in ("enable_prefix_caching", "fp32_lm_head"):
+        for name in ("enable_prefix_caching", "fp32_lm_head", "cache_fp32_lm_head"):
             if not isinstance(getattr(self, name), bool):
                 raise ValueError(f"{name} must be bool")
+        if self.cache_fp32_lm_head and not self.fp32_lm_head:
+            raise ValueError("cache_fp32_lm_head requires fp32_lm_head")
         for name in ("max_num_batched_tokens", "max_num_seqs", "max_model_len", "tensor_parallel_size", "kvcache_block_size"):
             value = getattr(self, name)
             if not isinstance(value, int) or isinstance(value, bool):

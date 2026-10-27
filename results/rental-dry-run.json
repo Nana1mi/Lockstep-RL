@@ -5,6 +5,8 @@
     {
       "stage": "environment",
       "name": "environment",
+      "hard_gate": true,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/environment_probe.py",
@@ -16,6 +18,8 @@
     {
       "stage": "environment",
       "name": "attention",
+      "hard_gate": true,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/attention_smoke.py",
@@ -27,6 +31,8 @@
     {
       "stage": "baseline",
       "name": "baseline",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/benchmark_suite.py",
@@ -40,6 +46,11 @@
     {
       "stage": "diagnostics",
       "name": "diagnostics",
+      "hard_gate": false,
+      "asset_splits": [
+        "diagnostic",
+        "fewshot"
+      ],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/diagnose.py",
@@ -53,6 +64,11 @@
     {
       "stage": "weight_sync",
       "name": "weight-sync",
+      "hard_gate": false,
+      "asset_splits": [
+        "diagnostic",
+        "fewshot"
+      ],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/weight_sync_experiment.py",
@@ -64,8 +80,10 @@
       ]
     },
     {
-      "stage": "grpo_smoke_and_two_demos",
+      "stage": "grpo",
       "name": "two-updates",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -79,8 +97,10 @@
       ]
     },
     {
-      "stage": "grpo_smoke_and_two_demos",
+      "stage": "grpo",
       "name": "smoke-rollout",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -94,8 +114,10 @@
       ]
     },
     {
-      "stage": "grpo_smoke_and_two_demos",
+      "stage": "grpo",
       "name": "smoke-recomputed",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -109,8 +131,10 @@
       ]
     },
     {
-      "stage": "grpo_smoke_and_two_demos",
+      "stage": "grpo",
       "name": "train-demo-simple",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -122,8 +146,10 @@
       ]
     },
     {
-      "stage": "grpo_smoke_and_two_demos",
+      "stage": "grpo",
       "name": "train-demo-simple-lr5e-6",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -135,8 +161,13 @@
       ]
     },
     {
-      "stage": "grpo_smoke_and_two_demos",
+      "stage": "grpo",
       "name": "gsm8k-smoke",
+      "hard_gate": false,
+      "asset_splits": [
+        "train",
+        "validation"
+      ],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/train_grpo.py",
@@ -154,6 +185,8 @@
     {
       "stage": "performance",
       "name": "performance",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/benchmark_suite.py",
@@ -167,6 +200,8 @@
     {
       "stage": "performance",
       "name": "sampler",
+      "hard_gate": false,
+      "asset_splits": [],
       "command": [
         "/mnt/e/Lockstep-RL/.envs/nano_rl/bin/python",
         "scripts/sampler_benchmark.py",
@@ -212,7 +247,8 @@
         "batch",
         "preemption_cached",
         "preemption_recompute",
-        "fp32_head"
+        "fp32_head",
+        "fp32_head_cached"
       ],
       "validation_status": "GPU_PENDING"
     },
@@ -366,7 +402,7 @@
       "max_tokens": 128,
       "learning_rate": 1e-06,
       "optimizer": "adamw",
-      "gradient_checkpointing": true,
+      "gradient_checkpointing": false,
       "task": "simple",
       "simple_operation": "multiply",
       "save_final_checkpoint": true,
@@ -390,14 +426,14 @@
         "advantage_epsilon": 1e-06,
         "anchor": "recomputed",
         "update_steps": 1,
-        "microbatch_size": 1,
-        "gradient_accumulation_steps": 128,
+        "microbatch_size": 16,
+        "gradient_accumulation_steps": 8,
         "logprob_chunk_size": 32,
         "max_grad_norm": 1.0,
         "autocast_bf16": true,
         "fp32_lm_head": false
       },
-      "validation_status": "GPU_PENDING; A100-SXM4-80GB rental candidate; no learning claim"
+      "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
     },
     "train-demo-simple-lr5e-6": {
       "model": "/persistent/lockstep/models/Qwen3-0.6B",
@@ -409,7 +445,7 @@
       "max_tokens": 128,
       "learning_rate": 5e-06,
       "optimizer": "adamw",
-      "gradient_checkpointing": true,
+      "gradient_checkpointing": false,
       "task": "simple",
       "simple_operation": "multiply",
       "save_final_checkpoint": true,
@@ -433,14 +469,14 @@
         "advantage_epsilon": 1e-06,
         "anchor": "recomputed",
         "update_steps": 1,
-        "microbatch_size": 1,
-        "gradient_accumulation_steps": 128,
+        "microbatch_size": 16,
+        "gradient_accumulation_steps": 8,
         "logprob_chunk_size": 32,
         "max_grad_norm": 1.0,
         "autocast_bf16": true,
         "fp32_lm_head": false
       },
-      "validation_status": "GPU_PENDING; A100-SXM4-80GB rental candidate; no learning claim"
+      "validation_status": "GPU_PENDING; A100-SXM4-80GB throughput candidate, microbatch16/no checkpointing; measure before claiming speedup"
     },
     "baseline-smoke": {
       "model": "/persistent/lockstep/models/Qwen3-0.6B",
@@ -505,6 +541,15 @@
       "validation_status": "GPU_PENDING: candidate memory configuration, not measured"
     }
   },
+  "selected_stages": [
+    "environment",
+    "baseline",
+    "diagnostics",
+    "weight_sync",
+    "grpo",
+    "performance"
+  ],
+  "failure_policy": "only environment/attention hard-gate; other job failures are recorded and execution continues",
   "hardware": "NVIDIA A100-SXM4-80GB",
   "estimate": {
     "base_gpu_hours": [
