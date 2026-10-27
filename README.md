@@ -1,158 +1,137 @@
 # Lockstep-RL
 
-RL rollout extension of [nano-vllm](https://github.com/GeeeekExplorer/nano-vllm),
-fixed at `bb823b3e06983d71485a8e1f23715ebd87d98ef8`. MIT/upstream attribution is
-preserved; [historical upstream results](docs/upstream-readme.md) are not our measurements.
+Single-GPU synchronous GRPO and rollout diagnostics built on
+[nano-vllm](https://github.com/GeeeekExplorer/nano-vllm), with token-aligned
+logprobs, transactional weight updates and explicit KV-cache invalidation.
+MIT/upstream attribution is preserved. Fixed upstream:
+`bb823b3e06983d71485a8e1f23715ebd87d98ef8`.
 
-The P0/P1/P2 implementation has completed a real single-L40S experiment campaign.
-Experimental source is fixed at `ce9e3542b3f31475ffa595e3f09b80e3f9190ed0`;
-publication commits add evidence and documentation after the run.
+## Measured results
 
-All **13 orchestration jobs completed with exit0**:24 baseline workers,14 diagnostic
-workers,25 weight-sync workers, two120-iteration training demonstrations, GSM8K
-smoke,96 performance workers and the sampler benchmark. Including the clean-commit
-preflight, measured wall time was about3hours on the L40S.
+The completed campaign used **Qwen3-0.6B on one NVIDIA L40S 48GB**, Anhui,
+driver 580.126.09, Python 3.11, torch 2.8.0+cu128, Transformers 5.5.4 and official
+FA2 2.8.3.post2. Experimental source was the clean commit
+`ce9e3542b3f31475ffa595e3f09b80e3f9190ed0`; later commits publish evidence and analysis.
 
-See [run evidence and limitations](results/l40s-20261027/README.md),
-[token-level CSVs](results/l40s-20261027/full/diagnostics/),
-[training summaries](results/l40s-20261027/training-summary.json), and the
+| Measurement | Observed result | Scope |
+| --- | --- | --- |
+| nano BF16 vs HF FP32 logprob error | Mean 0.00993; P99 0.12159 | 32 GSM8K trajectories; 3,361 tokens through first EOS inclusive |
+| FP32 head vs HF FP32 | Mean 0.00785; P99 0.09717 | Mean error reduced 21.0%; live/cached head checked separately |
+| GPU-FP32 → BF16 actor synchronization | 47.9 ms eager / 47.5 ms graph | Preflight + commit + invalidation; three repeats; no cached FP32 head |
+| Hot update vs reload, including verified output | 88.0× eager / 290.1× graph | Matching lifecycle timing; includes diagnostic weight-change counting |
+| BF16 rollout extension vs upstream throughput | −2.96% to +0.74% | Eight backend/workload combinations; three processes each |
+| Cached FP32 head throughput cost | 12.2–14.9% graph; 3.1–9.6% eager | Relative to current BF16 implementation |
+| CUDA graph / eager throughput | 3.90–4.53× | Four tested workloads |
+| Simple-task validation, lr=1e-6 | 109/128 → 122/128 (85.2% → 95.3%) | One seed, 120 rounds; recomputed anchor, one update per batch |
+
+![Logprob distributions and weight-update lifecycle](analysis/l40s-20261027/diagnostics-sync.png)
+
+The error distribution pools tokens. Timing bars explicitly separate synchronization
+phases from end-to-end recovery; comparing 48 ms with a 45–48 s reload gives
+different timing scopes. The matched end-to-end speedups are shown in the table.
+
+![Single-seed validation and measured throughput](analysis/l40s-20261027/training-performance.png)
+
+Learning curves have no seed uncertainty band because only seed 0 was run.
+Throughput bars use three independent process means; error bars show process SD,
+not confidence intervals, and do not propagate uncertainty in the upstream
+normalization. S1/S4: 32 prompt / 32 output tokens, one/four requests;
+L1/L4: 1,024 prompt / 64 output tokens, one/four requests.
+
+All **13 orchestration jobs exited successfully**, including 24 baseline,
+14 diagnostic, 25 weight-sync and 96 performance workers. The full run took
+2 h 41 min; clean-commit preflight plus full run took 3 h 01 min. These replace
+the earlier unmeasured rental estimates. Successful execution does not mean all
+logprob discrepancies meet a chosen tolerance.
+
+Read the [analysis and limitations](analysis/l40s-20261027/REPORT.md),
+[recomputed statistics with input hashes](analysis/l40s-20261027/recomputed.json),
+[measurement provenance](results/l40s-20261027/README.md), and
 [complete raw-result Release](https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-20261027).
-Execution success does not establish that all numerical errors are below threshold
-or that one seed proves a robust learning improvement. Those conclusions require
-analysis of the published data. CPU regression covers109 tests on each of the
-separate torch2.11.0+cpu and torch2.8.0+cpu environments.
 
-## CPU development
+## What the evidence supports
 
-Use an independent Python 3.11 environment on Linux/WSL. Existing environments and
-drivers are not modified. Base imports do not need FA2/Triton or initialize CUDA.
+- Eager replay and batch-1 graph replay were bit-identical on the tested tokens.
+  Eager batch 4 and graph bucket 4 with three actual requests also matched each
+  other. This is evidence about these groupings, not proof that all companions
+  are irrelevant or that a particular GEMM kernel caused the differences.
+- Cached and recomputed preemption paths are separate experiments. Primary
+  diagnostics end at first EOS; all 735 post-EOS tokens remain separate.
+  Pooled, per-trajectory and threshold-exceedance data are published.
+- Low-probability tokens have substantially larger logprob error. A diagnostic
+  ratio outside [0.8, 1.2] is not itself evidence that training clipping was active.
+- All six stale-cache negative controls were detected. Hot-updated parameter
+  hashes matched directly loaded B. The 48 ms sync measurement does not include
+  maintenance of the optional cached FP32 head.
+- Both 120-round demonstrations used `anchor=recomputed`, `update_steps=1`:
+  their ratios were 1 and clipping was inactive. The small `two-updates` positive
+  control reached 2.22% active clipping; the rollout-anchor smoke had 2.22% ratio
+  exceedance but zero active clipping. This is not a substantive anchor comparison.
+- The higher learning rate, 5e-6, was unstable: validation reached 46.9% at round
+  20 and finished at 86.7%. The 1e-6 improvement is a single-seed result on easy
+  synthetic multiplication, not evidence of improved GSM8K learning.
+- Throughput overhead is small in this matrix, but cannot all be called noise:
+  graph long-multi dropped 1.65%, larger than its observed process variation.
+
+## Implementation and limits
+
+`enable_prefix_caching` controls lookup/hash registration. `fp32_lm_head` uses
+live conversion; `cache_fp32_lm_head` uses a nonpersistent inference buffer refreshed
+after successful loading/commit, including tied-weight updates. Failed commits
+close the engine to further generation. Updates require idle TP=1, preserve
+physical KV allocation/compatible graphs, and invalidate logical KV/prefix state.
+`sync_seconds` sums preflight, commit and invalidation; optional change measurement
+has its own timer. Fixed probe scores and changed BF16 parameter fractions provide
+evidence beyond version increments.
+
+GRPO uses group-normalized advantages, response-token normalization and epsilon
+0.2 clipping. **beta=0: no reference model or reference KL**. Response positions
+are gathered before head projection. Reward parsing has strict/lenient modes and
+explicit failure statuses. All configured EOS IDs stop real rollouts.
+
+The demo used 16 prompts × G=8, 512/128 disjoint train/validation tasks,
+microbatch 16, accumulation 8, inference fraction 0.4 and no backbone checkpointing.
+The memory probe and completed runs validate those tested shapes. There was no
+controlled microbatch-1 vs microbatch-16 speed ablation. No TP updates, async RL,
+LoRA sync, automatic rollback or dynamic KV offload are implemented.
+
+## Reproduce analysis on CPU
+
+The numerical analysis uses the standard library; figures additionally require
+Matplotlib. Download the small published result ZIP manually to include paired
+validation, trace and negative-control checks. No models, datasets or GPU are needed.
+
+```bash
+CUDA_VISIBLE_DEVICES= python analysis/analyze_l40s.py --raw-archive /path/to/l40s-20261027-results.zip
+CUDA_VISIBLE_DEVICES= python -m unittest discover -s analysis -p 'test_*.py' -v
+```
+
+Use `--no-plots` without Matplotlib. Without `--raw-archive`, token/performance/sync
+analysis still runs; raw-only checks are explicitly marked unavailable.
+
+## Development and future experiments
+
+Use independent Python 3.11 environments on Linux/WSL. Base imports do not require
+FA2/Triton or initialize CUDA. Existing CPU regression passed **109 tests in each**
+of the torch 2.11.0+cpu and 2.8.0+cpu environments; analysis checks are separate.
 
 ```bash
 bash scripts/setup_cpu_env.sh /path/to/python3.11
 CUDA_VISIBLE_DEVICES= .envs/nano_rl/bin/python -m unittest discover -s tests -v
-.envs/nano_rl/bin/ruff check --select E9,F lockstep_rl nanovllm scripts tests example.py bench.py
+.envs/nano_rl/bin/ruff check --select E9,F lockstep_rl nanovllm scripts tests analysis example.py bench.py
 .envs/nano_rl/bin/python scripts/validate_cpu_artifacts.py
 .envs/nano_rl/bin/python scripts/run_rental.py --persistent-root /persistent/lockstep --dry-run
 ```
 
-## Diagnostic conclusions that can be tested
+The [follow-up plan](analysis/l40s-20261027/FOLLOWUP.md) prepares seed replication
+and a matched two-update anchor comparison. Config generation and dry runs do not
+execute training. Follow-up GPU work remains **GPU_PENDING**.
 
-- `enable_prefix_caching=False` disables lookup and hash registration. Separate
-  `preemption_cached` and `preemption_recompute` experiments require actual
-  preemption/re-prefill and positive/zero reused tokens respectively. The CPU
-  6-block, two 512-token prompts, 300-token responses simulation verifies both.
-- The default matrix samples **32 real local GSM8K questions × 128 recorded tokens**.
-  Exact block-sized prompts use real solved few-shot text; only that context may
-  be token-cropped, with the whole target question/chat wrapper retained. Provenance
-  records source IDs/cropping. Example order is seed-shuffled then rotated per trajectory.
-  Eager is batch=1; batch companions are real trajectories.
-  Every trajectory is the actual victim in its preemption replay.
-- Primary accuracy includes tokens through the first EOS, inclusive. Fixed-workload
-  post-EOS continuation is retained as a separate population/CSV, never mixed into
-  primary quantiles or threshold counts. Every rollout records the first EOS index.
-- Independent eager/repeat processes check repeatability. A zero floor is marked
-  non-discriminative; HF BF16-vs-FP32 supplies a measured precision reference.
-  Neither reference is an automatic bug verdict. Reports retain pooled
-  distributions, each trajectory's maximum error, threshold-exceeding trajectory
-  count, raw scores/IDs/positions and trace. Pooled quantiles are token-weighted.
-- `fp32_lm_head=True` converts live hidden/weight tensors every forward with
-  autocast disabled. `cache_fp32_lm_head=True` adds an inference-only nonpersistent
-  FP32 buffer, initialized after full loading and refreshed after all copies in
-  each successful commit, including tied-embedding-only updates. HF scoring/training
-  retains live differentiable head scoring. Diagnostics/throughput compare both
-  live-conversion and cached-compute variants, including persistent memory,
-  initialization and synchronization maintenance costs.
-
-## Updates and training
-
-`engine.update_weights(state_dict, measure_changes=True)` requires idle TP=1 and
-returns `policy_version`, `timings` and `weight_changes`. Preflight validates the
-whole mapping and finite dtype conversions, aggregates device flags for one host
-read, and skips full equality work for identical tied source storage. Copy uses
-existing packed loaders; logical KV/prefix state is invalidated, physical KV and
-compatible graphs remain. Rejected preflight leaves the old version usable;
-exceptions after copying starts make the engine `broken` and prevent generation.
-
-Timers separate preflight, commit and invalidation; their sum is `sync_seconds`.
-`total_seconds` also includes optional actor-change counting, which has its own
-timer and must not be quoted as synchronization time. The worker measures
-GPU-FP32 and CPU-BF16 sources separately.
-Its **test-only** `--skip-invalidate` negative control must reuse stale KV and fail
-the fresh-B score comparison. The production engine has no bypass flag.
-
-GRPO uses frozen rollout/recomputed anchors, token clipping epsilon=0.2, population
-group std and a global response-token denominator. **beta=0, no reference model**;
-reference KL is not reported. Head projection gathers response hidden positions
-before vocabulary computation and checkpoints chunks through backward.
-The driver records actual actor-dtype weight changes and before/after logprobs on
-one frozen probe trajectory after every successful sync; policy version alone is
-not treated as evidence of a numerical change.
-
-`train-smoke-*.json` retain the small integration settings. The two
-`train-demo-simple*.json` presets use 16 prompts × G=8, 120 iterations,
-512/128 disjoint arithmetic questions, evaluation every 10 iterations, and
-learning rates 1e-6 / 5e-6. They are candidates, not evidence of learning.
-The L40S demo uses inference fraction0.4, microbatch16, accumulation8 and no backbone gradient checkpointing;
-output-head chunk recomputation remains to bound vocabulary activations.
-the 128-sequence objective is CPU-tested against a full batch. Speedup is unmeasured.
-`strict` reward parsing preserves old behavior; `lenient` also accepts currency,
-trailing sentence periods, `{,}` and text units. Each sample has parse_status
-(ok/no_answer/unparseable); JSONL/CSV record failure rates and optimization metrics.
-Generation stops at any local generation_config EOS ID and records the full list.
-
-## Rental handoff
-
-All contrasts target **one L40S 48GB (Ada sm_89), Anhui region, Linux x86_64**. The A100 and
-RTX 5080/SM120 setups are historical and no longer applies. To avoid compiling FA2,
-the candidate pins a published official torch-2.8 / CUDA-12 / cp311 / ABI-TRUE wheel;
-the wheel filename, ABI and SHA256 are checked before installation. Availability
-was checked against the [official release assets](https://github.com/Dao-AILab/flash-attention/releases/expanded_assets/v2.8.3.post2);
-runtime correctness is still pending. This also explains the supported torch floor
-of 2.8; CPU regression is checked separately from CUDA.
-
-Prepare a uv-managed Python3.11 on persistent storage with guarded
-`setup_managed_python.py`, then create the GPU venv from its recorded absolute path.
-Keep the same mount path/OS/architecture; moving the disk still requires rebuilding
-venv entry points. See [uv configuration](https://docs.astral.sh/uv/reference/environment/#uv_python_install_dir).
-Prepare model/data/wheel on persistent storage **before paying for GPU time** via
-`prepare_rental_assets.py --allow-download`. No large download is performed by default.
-Follow [GPU_RUNBOOK.md](GPU_RUNBOOK.md); `run_rental.py --allow-gpu` runs environment,
-baseline, diagnostics, synchronization, GRPO and performance in order. Only the
-environment/attention checks are hard gates; other job failures are saved and
-independent jobs continue, with a nonzero final exit if anything failed.
-`--stages diagnostics sync` retries a subset under a new run-id, always repeating
-environment/attention. Hardware changes/user interruption still stop the run.
-First manually run `--stages environment baseline` under `preflight-01`, review FA2
-and graph evidence, then use a fresh run-id for the full suite. Roughly half an hour
-for this first pass is an unmeasured planning estimate.
-Every task has an explicit budget (expected wall seconds × 3 in
-`configs/task-timeouts.json`). Workers inherit the parent deadline. Timeout124,
-PID/PGID, port and cleanup records are saved; independent tasks/workers continue,
-while failed sampling dependencies are skipped. Linux sessions/subreaper cleanup
-covers orphan workers and escalates TERM to KILL; a surviving process is an
-infrastructure stop. Current workers pick a fresh free NCCL port, or respect
-`LOCKSTEP_NCCL_PORT`; initialization defaults to120s. Exact upstream code still
-uses2333, which is checked before each baseline worker. Occupied ports fail without
-killing their owner. This preflight cannot reserve a port across process startup.
-The dependency-free regression command is
-`python3 -S -m unittest tests.test_process_runner -v` on Linux/WSL2.
-The runner saves all raw output/configs/logs on persistent storage and records wall
-time. The planning estimate is about **5.14–18.98 GPU hours including 30% contingency**,
-not a measured runtime or cost quote. No card has been rented or started.
-
-Limitations: no TP updates, async RL, LoRA sync, dynamic KV offload, automatic
-rollback or guarantee of learning. FA2 ABI/kernels, numerical tolerances and
-actual training budget must be verified on the rented card.
-
-The domestic rental has24vCPU/120GB RAM, a30GB system disk and50GB expandable data
-disk; image Ubuntu22.04/CUDA12.8.0/Python3.10 with conda. Keep all interpreters,
-venvs, caches, assets and results on the data disk. Exact GPU name, driver>=570,
-mount point and network reachability are unresolved placeholders in rental.json.
-Manual `rental_preflight.py` records the observed identity/data mount/network;
-`run_rental.py` checks that record before any GPU subprocess. It does not infer a
-name from the product label or accept a system-disk PERSIST.
-Optional pip indexes/wheelhouse, HF-compatible mirror endpoints with pinned
-revision and file SHA256, uploaded official wheel/Python archive, and persistent
-conda Python3.11 registration are described in the runbook. No automatic source
-switch or FA2 source build is used. Demo microbatch16 awaits the manual memory
-probe; OOM fallback8 also changes accumulation to16 under a fresh run-id.
+[GPU_RUNBOOK.md](GPU_RUNBOOK.md) documents opt-in setup, `--allow-download`,
+`--allow-gpu`, preflight, task timeouts/process cleanup and retry stages under fresh
+run IDs. Only environment/attention failures block independent jobs. Future-host
+placeholders in `configs/rental.json` deliberately remain templates; observed
+hardware, mount and network values are in the published run records. Revalidate
+them on a new host. Keep assets/environments/results on the data disk. All contrasts
+must use the same GPU model, region, driver and pinned stack. A100/RTX 5080 notes
+and the [upstream README](docs/upstream-readme.md) are historical, not these measurements.

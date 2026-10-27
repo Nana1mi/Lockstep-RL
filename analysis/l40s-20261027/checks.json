@@ -1,0 +1,78 @@
+{
+  "scope": "CPU-only post-hoc verification, no GPU execution or download",
+  "diagnostic_summaries_matched": 17,
+  "input_hashes_verified": 45,
+  "followup_dry_runs": [
+    {
+      "config": "anchor-recomputed-seed0.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "4ad4a73adf4d1a6f9f89595299df48f386d218eb8047fec82c316d223336c01f"
+    },
+    {
+      "config": "anchor-recomputed-seed1.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "e9824b3b7072c4e14cb2c52d3f66416a71efdcb7c3625caa7bbb814fa1ef58d8"
+    },
+    {
+      "config": "anchor-recomputed-seed2.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "0d5c9a905d59158216b6b770a432a711d1f3669fedfe977d72fe6a3453687202"
+    },
+    {
+      "config": "anchor-rollout-seed0.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "c1e9f8f6e22e445f89d06399b55fec34ec0f0bb1d9f4e70f4ca7a8a0725321b7"
+    },
+    {
+      "config": "anchor-rollout-seed1.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "2439f631600fe3489250307841998169fb274d8ba072fb4b5d571d39b6e6d2b5"
+    },
+    {
+      "config": "anchor-rollout-seed2.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "fd33d83e047d10268a88ea96b828471e6d42ab114897933d9eae9ea1cc5227f6"
+    },
+    {
+      "config": "replication-seed1.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "43f2cb1e3b982fd9ed059ac2331ab47a03f141c38e5e6ae1a61a3c9dc3f4b094"
+    },
+    {
+      "config": "replication-seed2.json",
+      "status": "GPU_PENDING",
+      "exit_code": 0,
+      "sha256": "e108d1f46ea76001730da2218433f41504d6149ab431a2704b23768881d52c15"
+    }
+  ],
+  "documentation_code_blocks_checked": 16,
+  "local_analysis_links": "passed",
+  "analysis_unit_suites": [
+    {
+      "environment": "nano_rl",
+      "torch": "2.11.0+cpu",
+      "tests": 8,
+      "status": "passed",
+      "wall_seconds": 0.002,
+      "scope": "new analysis unit tests only; earlier 109-test core suite not rerun"
+    },
+    {
+      "environment": "nano_rl_torch28",
+      "torch": "2.8.0+cpu",
+      "tests": 8,
+      "status": "passed",
+      "wall_seconds": 0.002,
+      "scope": "new analysis unit tests only; earlier 109-test core suite not rerun"
+    }
+  ],
+  "ruff": "passed; E9,F analysis",
+  "core_implementation": "unchanged from ce9e354; Git comparison verified",
+  "figure_review": "both PNGs visually inspected"
+}

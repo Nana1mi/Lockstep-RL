@@ -29,7 +29,8 @@ derived model/tokenizer/task-list assets. `publication.json` records original an
 public archive hashes, exclusions and redactions. No passwords, private keys,
 tokens, weights, environments or checkpoints are included.
 
-Remaining analysis: explain diagnostic outliers against repeatability and BF16
-precision references; assess validation curves beyond one seed; inspect GSM8K
-parsing/truncation (the last smoke batch had50% parse failures). Original32
-trajectories and all raw logs remain available for independent slicing.
+Post-hoc CPU analysis, figures and limitations are in [REPORT.md](../../analysis/l40s-20261027/REPORT.md).
+Original measurements remain unchanged. Multi-seed learning and a matched anchor
+comparison remain unvalidated. GSM8K parsing/truncation also needs more evidence:
+the last smoke batch had50% parse failures, which is not a dataset-wide estimate.
+Original32 trajectories and all raw logs remain available for independent slicing.
