@@ -1,0 +1,1437 @@
+{
+  "status": "completed",
+  "config": {
+    "model": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+    "seed": 0,
+    "num_trajectories": 1,
+    "question_file": "/root/gpufree-data/lockstep/data/gsm8k/diagnostic.jsonl",
+    "fewshot_file": "/root/gpufree-data/lockstep/data/gsm8k/fewshot.jsonl",
+    "torch_compile": true,
+    "prompt_tokens": 512,
+    "response_tokens": 32,
+    "repeats": 3,
+    "parameter": "model.layers.0.self_attn.q_norm.weight",
+    "perturbation": 0.0625,
+    "absolute_tolerance": 0.001,
+    "relative_tolerance": 0.001,
+    "power_mode": "L40S observed power limit350W; platform default clocks, no clock changes",
+    "engine": {
+      "enforce_eager": true,
+      "tensor_parallel_size": 1,
+      "gpu_memory_utilization": 0.5,
+      "max_num_batched_tokens": 1024,
+      "max_model_len": 2048,
+      "max_num_seqs": 8
+    },
+    "validation_status": "GPU_PENDING; tolerances predefined, repeatability checked before hot runs"
+  },
+  "provenance": {
+    "timestamp_utc": "2026-10-27T10:37:18.476044+00:00",
+    "rental_region": "\u5b89\u5fbd\u533a",
+    "platform": "Linux-5.15.0-198-generic-x86_64-with-glibc2.35",
+    "python": "3.11.18 (main, Oct 26 2026, 18:19:35) [GCC 14.3.0]",
+    "commit": {
+      "returncode": 0,
+      "stdout": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0\n",
+      "stderr": ""
+    },
+    "status": {
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diff": {
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.5.4",
+      "triton": "3.4.0",
+      "flash-attn": "2.8.3.post2",
+      "numpy": "2.4.6"
+    },
+    "gpu_inventory": {
+      "returncode": 0,
+      "stdout": "name, memory.total [MiB], driver_version\nNVIDIA L40S, 46068 MiB, 580.126.09\n",
+      "stderr": ""
+    },
+    "torch_cuda_build": null,
+    "model": {
+      "repo": "Qwen/Qwen3-0.6B",
+      "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "source": {
+        "kind": "huggingface",
+        "endpoint": "https://huggingface.co"
+      },
+      "requested_revision": "main",
+      "local_path": "/root/gpufree-data/lockstep/models/Qwen3-0.6B",
+      "status": "complete",
+      "files": {
+        "config.json": {
+          "bytes": 726,
+          "sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd"
+        },
+        "generation_config.json": {
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        },
+        "merges.txt": {
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        "model.safetensors": {
+          "bytes": 1503300328,
+          "sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+        },
+        "tokenizer.json": {
+          "bytes": 11422654,
+          "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+        },
+        "tokenizer_config.json": {
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "vocab.json": {
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      }
+    }
+  },
+  "jobs": [
+    {
+      "name": "sample",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/nano_path_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--case",
+        "sample",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999942779541,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 51.70484886993654,
+      "pid": 39749,
+      "process_group": 39749,
+      "nccl_port": 33027,
+      "cleanup": {
+        "process_groups": [
+          39749
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-fresh-gpu-fp32-0",
+      "backend": "eager",
+      "mode": "fresh",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-fresh-gpu-fp32-0"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 50.39284646103624,
+      "pid": 40168,
+      "process_group": 40168,
+      "nccl_port": 38545,
+      "cleanup": {
+        "process_groups": [
+          40168
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-fresh-gpu-fp32-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-fresh-gpu-fp32-1",
+      "backend": "eager",
+      "mode": "fresh",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-fresh-gpu-fp32-1"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999959468842,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 50.526931746979244,
+      "pid": 40501,
+      "process_group": 40501,
+      "nccl_port": 38425,
+      "cleanup": {
+        "process_groups": [
+          40501
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-fresh-gpu-fp32-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-fresh-gpu-fp32-2",
+      "backend": "eager",
+      "mode": "fresh",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-fresh-gpu-fp32-2"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 51.75691379699856,
+      "pid": 40834,
+      "process_group": 40834,
+      "nccl_port": 41569,
+      "cleanup": {
+        "process_groups": [
+          40834
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-fresh-gpu-fp32-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-hot-gpu-fp32-0",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-gpu-fp32-0"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999966621399,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 54.97372502996586,
+      "pid": 41185,
+      "process_group": 41185,
+      "nccl_port": 41687,
+      "cleanup": {
+        "process_groups": [
+          41185
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-gpu-fp32-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-hot-cpu-bf16-0",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-cpu-bf16-0"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999966621399,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 52.52355161099695,
+      "pid": 41523,
+      "process_group": 41523,
+      "nccl_port": 38695,
+      "cleanup": {
+        "process_groups": [
+          41523
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-cpu-bf16-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-hot-gpu-fp32-1",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-gpu-fp32-1"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999959468842,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 52.51248192891944,
+      "pid": 41861,
+      "process_group": 41861,
+      "nccl_port": 41567,
+      "cleanup": {
+        "process_groups": [
+          41861
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-gpu-fp32-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-hot-cpu-bf16-1",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-cpu-bf16-1"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.58087299799081,
+      "pid": 42199,
+      "process_group": 42199,
+      "nccl_port": 45679,
+      "cleanup": {
+        "process_groups": [
+          42199
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-cpu-bf16-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-hot-gpu-fp32-2",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-gpu-fp32-2"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.30414274602663,
+      "pid": 42537,
+      "process_group": 42537,
+      "nccl_port": 33823,
+      "cleanup": {
+        "process_groups": [
+          42537
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-gpu-fp32-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-hot-cpu-bf16-2",
+      "backend": "eager",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-cpu-bf16-2"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 54.39486646302976,
+      "pid": 42875,
+      "process_group": 42875,
+      "nccl_port": 44189,
+      "cleanup": {
+        "process_groups": [
+          42875
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-hot-cpu-bf16-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-negative-gpu-fp32-0",
+      "backend": "eager",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-negative-gpu-fp32-0",
+        "--skip-invalidate"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.66273318498861,
+      "pid": 43213,
+      "process_group": 43213,
+      "nccl_port": 36743,
+      "cleanup": {
+        "process_groups": [
+          43213
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-negative-gpu-fp32-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-negative-gpu-fp32-1",
+      "backend": "eager",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-negative-gpu-fp32-1",
+        "--skip-invalidate"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 52.66902127698995,
+      "pid": 43551,
+      "process_group": 43551,
+      "nccl_port": 35775,
+      "cleanup": {
+        "process_groups": [
+          43551
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-negative-gpu-fp32-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "eager-negative-gpu-fp32-2",
+      "backend": "eager",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "eager",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-negative-gpu-fp32-2",
+        "--skip-invalidate"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.16723085695412,
+      "pid": 43889,
+      "process_group": 43889,
+      "nccl_port": 33213,
+      "cleanup": {
+        "process_groups": [
+          43889
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/eager-negative-gpu-fp32-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-fresh-gpu-fp32-0",
+      "backend": "graph",
+      "mode": "fresh",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-fresh-gpu-fp32-0"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 51.81727957294788,
+      "pid": 44227,
+      "process_group": 44227,
+      "nccl_port": 42413,
+      "cleanup": {
+        "process_groups": [
+          44227
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-fresh-gpu-fp32-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-fresh-gpu-fp32-1",
+      "backend": "graph",
+      "mode": "fresh",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-fresh-gpu-fp32-1"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.89879959099926,
+      "pid": 44560,
+      "process_group": 44560,
+      "nccl_port": 46267,
+      "cleanup": {
+        "process_groups": [
+          44560
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-fresh-gpu-fp32-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-fresh-gpu-fp32-2",
+      "backend": "graph",
+      "mode": "fresh",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "fresh",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-fresh-gpu-fp32-2"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.41471962502692,
+      "pid": 44893,
+      "process_group": 44893,
+      "nccl_port": 40603,
+      "cleanup": {
+        "process_groups": [
+          44893
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-fresh-gpu-fp32-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-hot-gpu-fp32-0",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-gpu-fp32-0"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999966621399,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 54.08413397602271,
+      "pid": 45226,
+      "process_group": 45226,
+      "nccl_port": 40283,
+      "cleanup": {
+        "process_groups": [
+          45226
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-gpu-fp32-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-hot-cpu-bf16-0",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-cpu-bf16-0"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 52.461820780998096,
+      "pid": 45564,
+      "process_group": 45564,
+      "nccl_port": 43817,
+      "cleanup": {
+        "process_groups": [
+          45564
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-cpu-bf16-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-hot-gpu-fp32-1",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-gpu-fp32-1"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.14233893691562,
+      "pid": 45902,
+      "process_group": 45902,
+      "nccl_port": 36345,
+      "cleanup": {
+        "process_groups": [
+          45902
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-gpu-fp32-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-hot-cpu-bf16-1",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-cpu-bf16-1"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 52.38249306404032,
+      "pid": 46240,
+      "process_group": 46240,
+      "nccl_port": 41689,
+      "cleanup": {
+        "process_groups": [
+          46240
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-cpu-bf16-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-hot-gpu-fp32-2",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-gpu-fp32-2"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999964237213,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 52.185302352998406,
+      "pid": 46578,
+      "process_group": 46578,
+      "nccl_port": 36837,
+      "cleanup": {
+        "process_groups": [
+          46578
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-gpu-fp32-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-hot-cpu-bf16-2",
+      "backend": "graph",
+      "mode": "hot",
+      "source": "cpu-bf16",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "cpu-bf16",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-cpu-bf16-2"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999959468842,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 54.399632895947434,
+      "pid": 46916,
+      "process_group": 46916,
+      "nccl_port": 45323,
+      "cleanup": {
+        "process_groups": [
+          46916
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-hot-cpu-bf16-2.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-negative-gpu-fp32-0",
+      "backend": "graph",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 0,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-negative-gpu-fp32-0",
+        "--skip-invalidate"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.999995470047,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 55.27951539703645,
+      "pid": 47254,
+      "process_group": 47254,
+      "nccl_port": 35515,
+      "cleanup": {
+        "process_groups": [
+          47254
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-negative-gpu-fp32-0.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-negative-gpu-fp32-1",
+      "backend": "graph",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 1,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-negative-gpu-fp32-1",
+        "--skip-invalidate"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999961853027,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.413513830979355,
+      "pid": 47592,
+      "process_group": 47592,
+      "nccl_port": 43153,
+      "cleanup": {
+        "process_groups": [
+          47592
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-negative-gpu-fp32-1.log",
+      "status": "completed"
+    },
+    {
+      "name": "graph-negative-gpu-fp32-2",
+      "backend": "graph",
+      "mode": "negative",
+      "source": "gpu-fp32",
+      "repeat": 2,
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "scripts/weight_sync_worker.py",
+        "--allow-gpu",
+        "--config",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/configs/weight-sync.json",
+        "--model-b",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/model-B",
+        "--trajectory",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/sample/rollouts.json",
+        "--mode",
+        "hot",
+        "--backend",
+        "graph",
+        "--source",
+        "gpu-fp32",
+        "--output-dir",
+        "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-negative-gpu-fp32-2",
+        "--skip-invalidate"
+      ],
+      "expected_seconds": 210,
+      "timeout_seconds": 629.9999959468842,
+      "timeout_basis": "unmeasured expected wall seconds times multiplier",
+      "depends_on": [
+        "sample"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "wall_seconds": 53.09819236607291,
+      "pid": 47930,
+      "process_group": 47930,
+      "nccl_port": 40723,
+      "cleanup": {
+        "process_groups": [
+          47930
+        ],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      },
+      "log": "/root/gpufree-data/lockstep/results/full-ce9e354-01/weight-sync/graph-negative-gpu-fp32-2.log",
+      "status": "completed"
+    }
+  ],
+  "timing_groups": {
+    "eager-fresh-gpu-fp32": {
+      "count": 3,
+      "mean": 46.558653586311266,
+      "min": 46.010769636020996,
+      "std": 0.594799979074513,
+      "p95": 47.274806664290374,
+      "p99": 47.363248884857164,
+      "max": 47.385359439998865
+    },
+    "eager-hot-gpu-fp32": {
+      "count": 3,
+      "mean": 0.5290349540300667,
+      "min": 0.5197621929692104,
+      "std": 0.012149433828914893,
+      "p95": 0.5436929125688039,
+      "p99": 0.5456972281704657,
+      "max": 0.5461983070708811
+    },
+    "eager-hot-cpu-bf16": {
+      "count": 3,
+      "mean": 1.5557843289958935,
+      "min": 1.5413773839827627,
+      "std": 0.016919083266259183,
+      "p95": 1.5762232211185618,
+      "p99": 1.5788703050417825,
+      "max": 1.5795320760225877
+    },
+    "eager-negative-gpu-fp32": {
+      "count": 3,
+      "mean": 0.5291055336516971,
+      "min": 0.5222278629662469,
+      "std": 0.008450081016036178,
+      "p95": 0.5393150842050091,
+      "p99": 0.5406692272471264,
+      "max": 0.5410077630076557
+    },
+    "graph-fresh-gpu-fp32": {
+      "count": 3,
+      "mean": 49.082481223352566,
+      "min": 47.83323075203225,
+      "std": 0.9088165750601942,
+      "p95": 49.916412047029006,
+      "p99": 49.95827316463227,
+      "max": 49.96873844403308
+    },
+    "graph-hot-gpu-fp32": {
+      "count": 3,
+      "mean": 0.16919386099713543,
+      "min": 0.16862160700839013,
+      "std": 0.0007050713318573043,
+      "p95": 0.17004572002915666,
+      "p99": 0.17015886643668637,
+      "max": 0.1701871530385688
+    },
+    "graph-hot-cpu-bf16": {
+      "count": 3,
+      "mean": 1.1717524766766776,
+      "min": 1.1463593509979546,
+      "std": 0.02561362757908012,
+      "p95": 1.2023461454780773,
+      "p99": 1.205925566670485,
+      "max": 1.2068204219685867
+    },
+    "graph-negative-gpu-fp32": {
+      "count": 3,
+      "mean": 0.16906572269120565,
+      "min": 0.16855824703816324,
+      "std": 0.0004208328486043929,
+      "p95": 0.1695348697481677,
+      "p99": 0.16957795159425587,
+      "max": 0.1695887220557779
+    }
+  },
+  "sync_time_groups": {
+    "eager-gpu-fp32": {
+      "count": 3,
+      "mean": 0.04790124328186115,
+      "min": 0.047553702956065536,
+      "std": 0.0002462775671853557,
+      "p95": 0.04809082739520818,
+      "p99": 0.04809399018529802,
+      "max": 0.04809478088282049
+    },
+    "eager-cpu-bf16": {
+      "count": 3,
+      "mean": 0.8954204696541032,
+      "min": 0.8358819229761139,
+      "std": 0.04921608462480156,
+      "p95": 0.9501659630215726,
+      "p99": 0.9551612070272677,
+      "max": 0.9564100180286914
+    },
+    "graph-gpu-fp32": {
+      "count": 3,
+      "mean": 0.0475371906068176,
+      "min": 0.0472221898380667,
+      "std": 0.00023616987048639756,
+      "p95": 0.04777161255478859,
+      "p99": 0.047786996867507696,
+      "max": 0.04779084294568747
+    },
+    "graph-cpu-bf16": {
+      "count": 3,
+      "mean": 0.875319020007737,
+      "min": 0.8656336650019512,
+      "std": 0.01293229937552494,
+      "p95": 0.8909100770950318,
+      "p99": 0.8930597530119121,
+      "max": 0.8935971719911322
+    }
+  },
+  "sync_time_definition": "preflight + commit (including cached-head refresh if enabled) + invalidate; excludes change measurement",
+  "metric_label": "Seconds to verified generation"
+}

@@ -1,0 +1,110 @@
+{
+  "status": "completed",
+  "experimental_source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "finished_hkt": "2026-10-27T20:35:34.860658+08:00",
+  "preflight_seconds": 1173.0086757079698,
+  "full_seconds": 9683.29953315307,
+  "total_seconds": 10856.329307556152,
+  "jobs": [
+    {
+      "name": "environment",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 2.2192402079235762,
+      "timeout_seconds": 719.9999973773956
+    },
+    {
+      "name": "attention",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 2.6655105310492218,
+      "timeout_seconds": 719.9999957084656
+    },
+    {
+      "name": "baseline",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 1187.498948649969,
+      "timeout_seconds": 2999.9999945163727
+    },
+    {
+      "name": "diagnostics",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 1394.0854446189478,
+      "timeout_seconds": 8999.999996900558
+    },
+    {
+      "name": "weight-sync",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 1329.289743472007,
+      "timeout_seconds": 6479.999996423721
+    },
+    {
+      "name": "two-updates",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 55.666258894023485,
+      "timeout_seconds": 1439.999995470047
+    },
+    {
+      "name": "smoke-rollout",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 59.13762580801267,
+      "timeout_seconds": 1439.9999957084656
+    },
+    {
+      "name": "smoke-recomputed",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 55.926100593060255,
+      "timeout_seconds": 1439.9999957084656
+    },
+    {
+      "name": "train-demo-simple",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 283.8562051310437,
+      "timeout_seconds": 28799.999996185303
+    },
+    {
+      "name": "train-demo-simple-lr5e-6",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 294.1687296630116,
+      "timeout_seconds": 28799.999995708466
+    },
+    {
+      "name": "gsm8k-smoke",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 184.7774428060511,
+      "timeout_seconds": 4499.999995231628
+    },
+    {
+      "name": "performance",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 4826.013485386036,
+      "timeout_seconds": 11999.999995231628
+    },
+    {
+      "name": "sampler",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 7.287751915981062,
+      "timeout_seconds": 1439.9999957084656
+    }
+  ],
+  "failed_jobs": [],
+  "timeout_overrides": [
+    {
+      "job": "performance",
+      "original_cap_seconds": 9000,
+      "runtime_cap_seconds": 12000,
+      "source_config_unchanged": true
+    }
+  ]
+}

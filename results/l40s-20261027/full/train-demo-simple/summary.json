@@ -1,0 +1,11 @@
+{
+  "optimizer_steps": 81,
+  "policy_commits": 81,
+  "skipped_batches": 39,
+  "actor_visible_commits": 81,
+  "probe_visible_commits": 81,
+  "iterations": 120,
+  "seed": 0,
+  "scope": "single seed",
+  "status": "completed_with_updates"
+}

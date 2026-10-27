@@ -1,0 +1,248 @@
+{
+  "status": "completed",
+  "scope": "synthetic-logit sampler compute only; full engine/transport overhead measured separately",
+  "provenance": {
+    "timestamp_utc": "2026-10-27T12:35:30.247112+00:00",
+    "rental_region": "\u5b89\u5fbd\u533a",
+    "platform": "Linux-5.15.0-198-generic-x86_64-with-glibc2.35",
+    "python": "3.11.18 (main, Oct 26 2026, 18:19:35) [GCC 14.3.0]",
+    "commit": {
+      "returncode": 0,
+      "stdout": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0\n",
+      "stderr": ""
+    },
+    "status": {
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diff": {
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.5.4",
+      "triton": "3.4.0",
+      "flash-attn": "2.8.3.post2",
+      "numpy": "2.4.6"
+    },
+    "gpu_inventory": {
+      "returncode": 0,
+      "stdout": "name, memory.total [MiB], driver_version\nNVIDIA L40S, 46068 MiB, 580.126.09\n",
+      "stderr": ""
+    },
+    "torch_cuda_build": "12.8"
+  },
+  "numerical_settings": {
+    "tf32_matmul": false,
+    "tf32_cudnn": false,
+    "bf16_reduced_precision_reduction": false,
+    "torch_compile_enabled": true,
+    "compiler_stance": "default"
+  },
+  "iterations": 100,
+  "repeats": 3,
+  "power_mode": "L40S observed power limit350W; platform default clocks, no clock changes",
+  "metric_label": "Microseconds per sampler call",
+  "accuracy_checks": [
+    {
+      "batch": 1,
+      "max_absolute_score_error": 0.0
+    },
+    {
+      "batch": 4,
+      "max_absolute_score_error": 0.0
+    },
+    {
+      "batch": 8,
+      "max_absolute_score_error": 9.5367431640625e-07
+    }
+  ],
+  "measurements": [
+    {
+      "batch": 1,
+      "variant": "sampling",
+      "repeat": 0,
+      "microseconds_per_call": 90.12010996229947,
+      "peak_allocated_bytes": 1521152
+    },
+    {
+      "batch": 1,
+      "variant": "sampling",
+      "repeat": 1,
+      "microseconds_per_call": 89.78344965726137,
+      "peak_allocated_bytes": 1521152
+    },
+    {
+      "batch": 1,
+      "variant": "sampling",
+      "repeat": 2,
+      "microseconds_per_call": 89.53946991823614,
+      "peak_allocated_bytes": 1521152
+    },
+    {
+      "batch": 1,
+      "variant": "sampling_and_logprob",
+      "repeat": 0,
+      "microseconds_per_call": 119.50331972911954,
+      "peak_allocated_bytes": 2130432
+    },
+    {
+      "batch": 1,
+      "variant": "sampling_and_logprob",
+      "repeat": 1,
+      "microseconds_per_call": 102.98819979652762,
+      "peak_allocated_bytes": 2130432
+    },
+    {
+      "batch": 1,
+      "variant": "sampling_and_logprob",
+      "repeat": 2,
+      "microseconds_per_call": 104.82024983502924,
+      "peak_allocated_bytes": 2130432
+    },
+    {
+      "batch": 4,
+      "variant": "sampling",
+      "repeat": 0,
+      "microseconds_per_call": 98.9799399394542,
+      "peak_allocated_bytes": 1218048
+    },
+    {
+      "batch": 4,
+      "variant": "sampling",
+      "repeat": 1,
+      "microseconds_per_call": 99.1461705416441,
+      "peak_allocated_bytes": 1218048
+    },
+    {
+      "batch": 4,
+      "variant": "sampling",
+      "repeat": 2,
+      "microseconds_per_call": 99.06308026984334,
+      "peak_allocated_bytes": 1218048
+    },
+    {
+      "batch": 4,
+      "variant": "sampling_and_logprob",
+      "repeat": 0,
+      "microseconds_per_call": 108.47398079931736,
+      "peak_allocated_bytes": 1219072
+    },
+    {
+      "batch": 4,
+      "variant": "sampling_and_logprob",
+      "repeat": 1,
+      "microseconds_per_call": 108.77812979742885,
+      "peak_allocated_bytes": 1219072
+    },
+    {
+      "batch": 4,
+      "variant": "sampling_and_logprob",
+      "repeat": 2,
+      "microseconds_per_call": 108.55214903131127,
+      "peak_allocated_bytes": 1219072
+    },
+    {
+      "batch": 8,
+      "variant": "sampling",
+      "repeat": 0,
+      "microseconds_per_call": 101.56208067201078,
+      "peak_allocated_bytes": 2433536
+    },
+    {
+      "batch": 8,
+      "variant": "sampling",
+      "repeat": 1,
+      "microseconds_per_call": 101.75282950513065,
+      "peak_allocated_bytes": 2433536
+    },
+    {
+      "batch": 8,
+      "variant": "sampling",
+      "repeat": 2,
+      "microseconds_per_call": 101.6459206584841,
+      "peak_allocated_bytes": 2433536
+    },
+    {
+      "batch": 8,
+      "variant": "sampling_and_logprob",
+      "repeat": 0,
+      "microseconds_per_call": 112.7638400066644,
+      "peak_allocated_bytes": 2435072
+    },
+    {
+      "batch": 8,
+      "variant": "sampling_and_logprob",
+      "repeat": 1,
+      "microseconds_per_call": 112.92199953459203,
+      "peak_allocated_bytes": 2435072
+    },
+    {
+      "batch": 8,
+      "variant": "sampling_and_logprob",
+      "repeat": 2,
+      "microseconds_per_call": 112.91585979051888,
+      "peak_allocated_bytes": 2435072
+    }
+  ],
+  "groups": {
+    "batch=1,sampling": {
+      "count": 3,
+      "mean": 89.81434317926566,
+      "min": 89.53946991823614,
+      "std": 0.23804974615800842,
+      "p95": 90.08644393179566,
+      "p99": 90.1133767561987,
+      "max": 90.12010996229947
+    },
+    "batch=1,sampling_and_logprob": {
+      "count": 3,
+      "mean": 109.10392312022547,
+      "min": 102.98819979652762,
+      "std": 7.391422470571392,
+      "p95": 118.03501273971051,
+      "p99": 119.20965833123773,
+      "max": 119.50331972911954
+    },
+    "batch=4,sampling": {
+      "count": 3,
+      "mean": 99.0630635836472,
+      "min": 98.9799399394542,
+      "std": 0.06786336019250214,
+      "p95": 99.13786151446402,
+      "p99": 99.14450873620808,
+      "max": 99.1461705416441
+    },
+    "batch=4,sampling_and_logprob": {
+      "count": 3,
+      "mean": 108.60141987601916,
+      "min": 108.47398079931736,
+      "std": 0.12896347122790686,
+      "p95": 108.75553172081709,
+      "p99": 108.7736101821065,
+      "max": 108.77812979742885
+    },
+    "batch=8,sampling": {
+      "count": 3,
+      "mean": 101.65361027854185,
+      "min": 101.56208067201078,
+      "std": 0.07806248363382694,
+      "p95": 101.742138620466,
+      "p99": 101.75069132819772,
+      "max": 101.75282950513065
+    },
+    "batch=8,sampling_and_logprob": {
+      "count": 3,
+      "mean": 112.86723311059177,
+      "min": 112.7638400066644,
+      "std": 0.07315292005620147,
+      "p95": 112.92138556018472,
+      "p99": 112.92187673971057,
+      "max": 112.92199953459203
+    }
+  }
+}

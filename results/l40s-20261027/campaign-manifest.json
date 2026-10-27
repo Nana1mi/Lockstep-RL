@@ -1,0 +1,94 @@
+{
+  "status": "completed",
+  "source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "source": {
+    "commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+    "tracked_worktree_clean": true,
+    "untracked_files": [],
+    "timeout_config_sha256": "8f6e1b25be9af9cabcc3d2aaaa17d45e49487903bc1c294fcc3a622f202051dc",
+    "external_launcher_sha256": "b33a055b34ce4469659794bb4410be887a84c33610edd5af35ab5b965aa96b0c",
+    "scope": "Pinned experimental source; explicit orchestration override below"
+  },
+  "started_unix": 1793093678.5313509,
+  "phases": [
+    {
+      "run_id": "preflight-ce9e354-01",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "/root/gpufree-data/lockstep/ce9-launch-audit/launch_ce9e354.py",
+        "--repo",
+        "/root/gpufree-data/lockstep/repo-ce9e354",
+        "--",
+        "--persistent-root",
+        "/root/gpufree-data/lockstep",
+        "--python",
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "--run-id",
+        "preflight-ce9e354-01",
+        "--power-mode",
+        "L40S observed power limit350W; platform default clocks, no clock changes",
+        "--allow-gpu",
+        "--stages",
+        "environment",
+        "baseline"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 5399.9999985694885,
+      "wall_seconds": 1173.0086757079698,
+      "pid": 18613,
+      "process_group": 18613,
+      "nccl_port": null,
+      "cleanup": {
+        "process_groups": [],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    },
+    {
+      "run_id": "full-ce9e354-01",
+      "command": [
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "/root/gpufree-data/lockstep/ce9-launch-audit/launch_ce9e354.py",
+        "--repo",
+        "/root/gpufree-data/lockstep/repo-ce9e354",
+        "--",
+        "--persistent-root",
+        "/root/gpufree-data/lockstep",
+        "--python",
+        "/root/gpufree-data/lockstep/envs/nano_rl/bin/python",
+        "--run-id",
+        "full-ce9e354-01",
+        "--power-mode",
+        "L40S observed power limit350W; platform default clocks, no clock changes",
+        "--allow-gpu"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_seconds": 100979.99999856949,
+      "wall_seconds": 9683.29953315307,
+      "pid": 26242,
+      "process_group": 26242,
+      "nccl_port": null,
+      "cleanup": {
+        "process_groups": [],
+        "sigkill_required": false,
+        "surviving_pids": [],
+        "subreaper": true
+      }
+    }
+  ],
+  "active_run_id": null,
+  "rental_deadline": null,
+  "policy": "Run all planned experiments serially; per-task timeouts retained; no fixed ten-hour cutoff; never renew or stop platform instance",
+  "updated_unix": 1793104534.8606594,
+  "preflight_timing_audit": {
+    "checked": 27,
+    "over_half_cap": []
+  },
+  "failed_jobs": [],
+  "finished_unix": 1793104534.8606584
+}

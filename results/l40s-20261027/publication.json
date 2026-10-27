@@ -1,0 +1,40 @@
+{
+  "experimental_source_commit": "ce9e3542b3f31475ffa595e3f09b80e3f9190ed0",
+  "fixed_upstream": "bb823b3e06983d71485a8e1f23715ebd87d98ef8",
+  "original_server_archive_sha256": "d7ae8a4ac56be967fd431d8ed04f4eb133114a068598b6cd3d8fcb9db756a823",
+  "original_server_archive_bytes": 22846514,
+  "redactions": [
+    {
+      "file": "ops/REMOTE_COMMANDS.md",
+      "kind": "SSH host replaced by placeholder"
+    }
+  ],
+  "omitted_model_or_task_asset_files": [
+    "results/full-ce9e354-01/gsm8k-smoke/train-tasks.json",
+    "results/full-ce9e354-01/gsm8k-smoke/validation-tasks.json",
+    "results/full-ce9e354-01/smoke-recomputed/train-tasks.json",
+    "results/full-ce9e354-01/smoke-recomputed/validation-tasks.json",
+    "results/full-ce9e354-01/smoke-rollout/train-tasks.json",
+    "results/full-ce9e354-01/smoke-rollout/validation-tasks.json",
+    "results/full-ce9e354-01/train-demo-simple-lr5e-6/train-tasks.json",
+    "results/full-ce9e354-01/train-demo-simple-lr5e-6/validation-tasks.json",
+    "results/full-ce9e354-01/train-demo-simple/train-tasks.json",
+    "results/full-ce9e354-01/train-demo-simple/validation-tasks.json",
+    "results/full-ce9e354-01/two-updates/train-tasks.json",
+    "results/full-ce9e354-01/two-updates/validation-tasks.json",
+    "results/full-ce9e354-01/weight-sync/model-B/_lockstep_model.json",
+    "results/full-ce9e354-01/weight-sync/model-B/chat_template.jinja",
+    "results/full-ce9e354-01/weight-sync/model-B/config.json",
+    "results/full-ce9e354-01/weight-sync/model-B/generation_config.json",
+    "results/full-ce9e354-01/weight-sync/model-B/tokenizer.json",
+    "results/full-ce9e354-01/weight-sync/model-B/tokenizer_config.json"
+  ],
+  "measurement_policy": "All retained numerical CSV, score JSON, trajectories and logs preserve original bytes. Only SSH host in documentation is redacted; standalone model-B/tokenizer and task-list assets are omitted.",
+  "release": "https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-20261027",
+  "scope": "Execution complete; no claim that every diagnostic error is below threshold or every training result is statistically significant.",
+  "public_results_archive": {
+    "name": "l40s-20261027-results.zip",
+    "bytes": 20774589,
+    "sha256": "8a45aae2863881e622c409ca63c1c3da74e3b25ec97641846b009f0587a82fd1"
+  }
+}

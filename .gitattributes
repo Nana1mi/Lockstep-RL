@@ -2,3 +2,5 @@
 *.png binary
 *.jpg binary
 *.gif binary
+# Preserve exact bytes of published measurement files.
+results/l40s-20261027/** -text whitespace=cr-at-eol

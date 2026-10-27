@@ -1,0 +1,1394 @@
+{
+  "token_count": 3361,
+  "absolute_logprob_error": {
+    "count": 3361,
+    "mean": 0.007849157016144661,
+    "min": 0.0,
+    "std": 0.0215042541886368,
+    "p95": 0.04327392578125,
+    "p99": 0.09716682434082033,
+    "max": 0.4087791442871094
+  },
+  "ratio": {
+    "count": 3361,
+    "mean": 1.0007423858165345,
+    "min": 0.6644609661184818,
+    "std": 0.022752994764740676,
+    "p95": 1.0240345898280623,
+    "p99": 1.0717451038862085,
+    "max": 1.3149641895576856
+  },
+  "threshold": 0.1,
+  "above_threshold_fraction": 0.008925914906277893,
+  "trajectory_count": 32,
+  "per_trajectory": [
+    {
+      "request_id": "traj-0",
+      "response_tokens": 88,
+      "max_absolute_logprob_error": 0.170166015625,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.21523284912109375
+    },
+    {
+      "request_id": "traj-1",
+      "response_tokens": 69,
+      "max_absolute_logprob_error": 0.07425880432128906,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.05568122863769531
+    },
+    {
+      "request_id": "traj-2",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.3377189636230469,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.16229248046875
+    },
+    {
+      "request_id": "traj-3",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.0957794189453125,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.15895462036132812
+    },
+    {
+      "request_id": "traj-4",
+      "response_tokens": 91,
+      "max_absolute_logprob_error": 0.06515693664550781,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.14308547973632812
+    },
+    {
+      "request_id": "traj-5",
+      "response_tokens": 111,
+      "max_absolute_logprob_error": 0.0673675537109375,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.17795372009277344
+    },
+    {
+      "request_id": "traj-6",
+      "response_tokens": 123,
+      "max_absolute_logprob_error": 0.09710121154785156,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.09005355834960938
+    },
+    {
+      "request_id": "traj-7",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.05757713317871094,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1737213134765625
+    },
+    {
+      "request_id": "traj-8",
+      "response_tokens": 62,
+      "max_absolute_logprob_error": 0.04527854919433594,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.08854484558105469
+    },
+    {
+      "request_id": "traj-9",
+      "response_tokens": 45,
+      "max_absolute_logprob_error": 0.14438819885253906,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.18631553649902344
+    },
+    {
+      "request_id": "traj-10",
+      "response_tokens": 101,
+      "max_absolute_logprob_error": 0.2641429901123047,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.3308601379394531
+    },
+    {
+      "request_id": "traj-11",
+      "response_tokens": 73,
+      "max_absolute_logprob_error": 0.12850379943847656,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.08665657043457031
+    },
+    {
+      "request_id": "traj-12",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.11447334289550781,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.13815689086914062
+    },
+    {
+      "request_id": "traj-13",
+      "response_tokens": 83,
+      "max_absolute_logprob_error": 0.10980606079101562,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1325836181640625
+    },
+    {
+      "request_id": "traj-14",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.1516742706298828,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.13158035278320312
+    },
+    {
+      "request_id": "traj-15",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.1251811981201172,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.13193321228027344
+    },
+    {
+      "request_id": "traj-16",
+      "response_tokens": 118,
+      "max_absolute_logprob_error": 0.08870887756347656,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.12841796875
+    },
+    {
+      "request_id": "traj-17",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.1564350128173828,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1720104217529297
+    },
+    {
+      "request_id": "traj-18",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.27380943298339844,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.11641502380371094
+    },
+    {
+      "request_id": "traj-19",
+      "response_tokens": 121,
+      "max_absolute_logprob_error": 0.10221481323242188,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1457538604736328
+    },
+    {
+      "request_id": "traj-20",
+      "response_tokens": 121,
+      "max_absolute_logprob_error": 0.4087791442871094,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.12166213989257812
+    },
+    {
+      "request_id": "traj-21",
+      "response_tokens": 69,
+      "max_absolute_logprob_error": 0.10301780700683594,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1638317108154297
+    },
+    {
+      "request_id": "traj-22",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.08033370971679688,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1858367919921875
+    },
+    {
+      "request_id": "traj-23",
+      "response_tokens": 72,
+      "max_absolute_logprob_error": 0.06380081176757812,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.11874771118164062
+    },
+    {
+      "request_id": "traj-24",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.06749343872070312,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.10722732543945312
+    },
+    {
+      "request_id": "traj-25",
+      "response_tokens": 99,
+      "max_absolute_logprob_error": 0.1471099853515625,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.21142578125
+    },
+    {
+      "request_id": "traj-26",
+      "response_tokens": 113,
+      "max_absolute_logprob_error": 0.06525993347167969,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.08394241333007812
+    },
+    {
+      "request_id": "traj-27",
+      "response_tokens": 88,
+      "max_absolute_logprob_error": 0.1377277374267578,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1925220489501953
+    },
+    {
+      "request_id": "traj-28",
+      "response_tokens": 64,
+      "max_absolute_logprob_error": 0.1444854736328125,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.2299671173095703
+    },
+    {
+      "request_id": "traj-29",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.11399078369140625,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.1925067901611328
+    },
+    {
+      "request_id": "traj-30",
+      "response_tokens": 128,
+      "max_absolute_logprob_error": 0.09512996673583984,
+      "above_threshold": false,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.162750244140625
+    },
+    {
+      "request_id": "traj-31",
+      "response_tokens": 114,
+      "max_absolute_logprob_error": 0.2150897979736328,
+      "above_threshold": true,
+      "observed_repeat_max_error": 0.0,
+      "exceeds_observed_repeat_max": null,
+      "measured_hf_bf16_fp32_max_error": 0.18397140502929688
+    }
+  ],
+  "trajectories_above_threshold": 19,
+  "grouped_by_length": {
+    "prompt=1024,response=88": {
+      "count": 176,
+      "mean": 0.009135907346552069,
+      "min": 0.0,
+      "std": 0.022722297354699973,
+      "p95": 0.04648160934448242,
+      "p99": 0.13591814041137695,
+      "max": 0.170166015625
+    },
+    "prompt=1024,response=69": {
+      "count": 138,
+      "mean": 0.007981037748032722,
+      "min": 0.0,
+      "std": 0.01831997874087424,
+      "p95": 0.050735569000244174,
+      "p99": 0.08261873245239255,
+      "max": 0.10301780700683594
+    },
+    "prompt=1024,response=128": {
+      "count": 1536,
+      "mean": 0.007828497017423311,
+      "min": 0.0,
+      "std": 0.02067271908089184,
+      "p95": 0.04165983200073242,
+      "p99": 0.09555211067199713,
+      "max": 0.3377189636230469
+    },
+    "prompt=1024,response=91": {
+      "count": 91,
+      "mean": 0.0043527582189538975,
+      "min": 0.0,
+      "std": 0.01086489406022365,
+      "p95": 0.02910900115966797,
+      "p99": 0.046548843383788945,
+      "max": 0.06515693664550781
+    },
+    "prompt=1024,response=111": {
+      "count": 111,
+      "mean": 0.00551146429938239,
+      "min": 0.0,
+      "std": 0.012349083826686067,
+      "p95": 0.031200408935546875,
+      "p99": 0.056749725341796946,
+      "max": 0.0673675537109375
+    },
+    "prompt=1024,response=123": {
+      "count": 123,
+      "mean": 0.005220335673510544,
+      "min": 0.0,
+      "std": 0.01622709673903733,
+      "p95": 0.02651290893554686,
+      "p99": 0.0845888900756836,
+      "max": 0.09710121154785156
+    },
+    "prompt=1024,response=62": {
+      "count": 62,
+      "mean": 0.0044752244026430195,
+      "min": 0.0,
+      "std": 0.01003749687698831,
+      "p95": 0.027121067047119137,
+      "p99": 0.043292484283447265,
+      "max": 0.04527854919433594
+    },
+    "prompt=1024,response=45": {
+      "count": 45,
+      "mean": 0.012923982408311632,
+      "min": 0.0,
+      "std": 0.03210970407661654,
+      "p95": 0.07245826721191405,
+      "p99": 0.1404723358154297,
+      "max": 0.14438819885253906
+    },
+    "prompt=1024,response=101": {
+      "count": 101,
+      "mean": 0.010135310711246907,
+      "min": 0.0,
+      "std": 0.03205602529383164,
+      "p95": 0.049346923828125,
+      "p99": 0.12463760375976562,
+      "max": 0.2641429901123047
+    },
+    "prompt=1024,response=73": {
+      "count": 73,
+      "mean": 0.011432830601522368,
+      "min": 0.0,
+      "std": 0.02080939532687434,
+      "p95": 0.04570426940917967,
+      "p99": 0.0885616302490235,
+      "max": 0.12850379943847656
+    },
+    "prompt=1024,response=83": {
+      "count": 83,
+      "mean": 0.008110230227550828,
+      "min": 0.0,
+      "std": 0.018572695605925806,
+      "p95": 0.04658412933349606,
+      "p99": 0.08075584411621067,
+      "max": 0.10980606079101562
+    },
+    "prompt=1024,response=118": {
+      "count": 118,
+      "mean": 0.004552437087236825,
+      "min": 0.0,
+      "std": 0.011844391547794222,
+      "p95": 0.028388309478759713,
+      "p99": 0.04258132934570312,
+      "max": 0.08870887756347656
+    },
+    "prompt=1024,response=121": {
+      "count": 242,
+      "mean": 0.01094640779101159,
+      "min": 0.0,
+      "std": 0.032133854016848123,
+      "p95": 0.05024471282958984,
+      "p99": 0.09839546203613285,
+      "max": 0.4087791442871094
+    },
+    "prompt=1024,response=72": {
+      "count": 72,
+      "mean": 0.006392558415730794,
+      "min": 0.0,
+      "std": 0.013882416337399558,
+      "p95": 0.038570117950439485,
+      "p99": 0.06123592376708987,
+      "max": 0.06380081176757812
+    },
+    "prompt=1024,response=99": {
+      "count": 99,
+      "mean": 0.010710475420711017,
+      "min": 0.0,
+      "std": 0.025660671121521955,
+      "p95": 0.06450195312499998,
+      "p99": 0.13075447082519526,
+      "max": 0.1471099853515625
+    },
+    "prompt=1024,response=113": {
+      "count": 113,
+      "mean": 0.005252196725490874,
+      "min": 0.0,
+      "std": 0.012198834422259157,
+      "p95": 0.036059951782226526,
+      "p99": 0.05918632507324214,
+      "max": 0.06525993347167969
+    },
+    "prompt=1024,response=64": {
+      "count": 64,
+      "mean": 0.0066442787647247314,
+      "min": 0.0,
+      "std": 0.02086934714878205,
+      "p95": 0.024282455444335938,
+      "p99": 0.10009727478027325,
+      "max": 0.1444854736328125
+    },
+    "prompt=1024,response=114": {
+      "count": 114,
+      "mean": 0.007729480141087582,
+      "min": 0.0,
+      "std": 0.02683266810047592,
+      "p95": 0.028631591796874984,
+      "p99": 0.14868402481079138,
+      "max": 0.2150897979736328
+    }
+  },
+  "post_eos": {
+    "token_count": 735,
+    "absolute_logprob_error": {
+      "count": 735,
+      "mean": 0.012121270627391581,
+      "min": 0.0,
+      "std": 0.019846127458848173,
+      "p95": 0.05154933929443358,
+      "p99": 0.08623050689697265,
+      "max": 0.13803386688232422
+    },
+    "ratio": {
+      "count": 735,
+      "mean": 1.000882329871818,
+      "min": 0.8719892794006323,
+      "std": 0.02330433892601506,
+      "p95": 1.0416031263916223,
+      "p99": 1.078492005289181,
+      "max": 1.1480144292854026
+    },
+    "threshold": 0.1,
+    "above_threshold_fraction": 0.006802721088435374,
+    "trajectory_count": 20,
+    "per_trajectory": [
+      {
+        "request_id": "traj-0",
+        "response_tokens": 40,
+        "max_absolute_logprob_error": 0.08536148071289062,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-1",
+        "response_tokens": 59,
+        "max_absolute_logprob_error": 0.1369781494140625,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-4",
+        "response_tokens": 37,
+        "max_absolute_logprob_error": 0.06322097778320312,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-5",
+        "response_tokens": 17,
+        "max_absolute_logprob_error": 0.11275863647460938,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-6",
+        "response_tokens": 5,
+        "max_absolute_logprob_error": 0.06522846221923828,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-8",
+        "response_tokens": 66,
+        "max_absolute_logprob_error": 0.08626747131347656,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-9",
+        "response_tokens": 83,
+        "max_absolute_logprob_error": 0.11039066314697266,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-10",
+        "response_tokens": 27,
+        "max_absolute_logprob_error": 0.08466720581054688,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-11",
+        "response_tokens": 55,
+        "max_absolute_logprob_error": 0.10175895690917969,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-13",
+        "response_tokens": 45,
+        "max_absolute_logprob_error": 0.06833267211914062,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-16",
+        "response_tokens": 10,
+        "max_absolute_logprob_error": 0.07625007629394531,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-19",
+        "response_tokens": 7,
+        "max_absolute_logprob_error": 0.04346942901611328,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-20",
+        "response_tokens": 7,
+        "max_absolute_logprob_error": 0.015514373779296875,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-21",
+        "response_tokens": 59,
+        "max_absolute_logprob_error": 0.06430816650390625,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-23",
+        "response_tokens": 56,
+        "max_absolute_logprob_error": 0.05173492431640625,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-25",
+        "response_tokens": 29,
+        "max_absolute_logprob_error": 0.055886268615722656,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-26",
+        "response_tokens": 15,
+        "max_absolute_logprob_error": 0.08133316040039062,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-27",
+        "response_tokens": 40,
+        "max_absolute_logprob_error": 0.07148933410644531,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-28",
+        "response_tokens": 64,
+        "max_absolute_logprob_error": 0.13803386688232422,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-31",
+        "response_tokens": 14,
+        "max_absolute_logprob_error": 0.08615875244140625,
+        "above_threshold": false
+      }
+    ],
+    "trajectories_above_threshold": 5,
+    "grouped_by_length": {
+      "prompt=1024,response=40": {
+        "count": 80,
+        "mean": 0.008851373195648193,
+        "min": 0.0,
+        "std": 0.01694314667820447,
+        "p95": 0.048531627655029295,
+        "p99": 0.07440248489379875,
+        "max": 0.08536148071289062
+      },
+      "prompt=1024,response=59": {
+        "count": 118,
+        "mean": 0.013315273543535653,
+        "min": 0.0,
+        "std": 0.019630526027643827,
+        "p95": 0.047617721557617176,
+        "p99": 0.06363243103027343,
+        "max": 0.1369781494140625
+      },
+      "prompt=1024,response=37": {
+        "count": 37,
+        "mean": 0.005940385766931482,
+        "min": 0.0,
+        "std": 0.014396784563471047,
+        "p95": 0.035569763183593645,
+        "p99": 0.060533447265625005,
+        "max": 0.06322097778320312
+      },
+      "prompt=1024,response=17": {
+        "count": 17,
+        "mean": 0.016093815074247474,
+        "min": 0.0,
+        "std": 0.02628264814645747,
+        "p95": 0.053884124755859325,
+        "p99": 0.10098373413085937,
+        "max": 0.11275863647460938
+      },
+      "prompt=1024,response=5": {
+        "count": 5,
+        "mean": 0.013988304138183593,
+        "min": 0.0,
+        "std": 0.02564770521268864,
+        "p95": 0.05283050537109374,
+        "p99": 0.06274887084960937,
+        "max": 0.06522846221923828
+      },
+      "prompt=1024,response=66": {
+        "count": 66,
+        "mean": 0.008859764445911755,
+        "min": 0.0,
+        "std": 0.019333164095404646,
+        "p95": 0.05825090408325195,
+        "p99": 0.0784432411193847,
+        "max": 0.08626747131347656
+      },
+      "prompt=1024,response=83": {
+        "count": 83,
+        "mean": 0.019949418952666133,
+        "min": 0.0,
+        "std": 0.02183028784057183,
+        "p95": 0.06336832046508784,
+        "p99": 0.09419126510620103,
+        "max": 0.11039066314697266
+      },
+      "prompt=1024,response=27": {
+        "count": 27,
+        "mean": 0.011334136680320458,
+        "min": 0.0,
+        "std": 0.018543290551276473,
+        "p95": 0.04442129135131835,
+        "p99": 0.07507455825805659,
+        "max": 0.08466720581054688
+      },
+      "prompt=1024,response=55": {
+        "count": 55,
+        "mean": 0.017784066633744672,
+        "min": 0.0,
+        "std": 0.023025735043312578,
+        "p95": 0.0612991333007812,
+        "p99": 0.09172706604003908,
+        "max": 0.10175895690917969
+      },
+      "prompt=1024,response=45": {
+        "count": 45,
+        "mean": 0.0073821173773871525,
+        "min": 0.0,
+        "std": 0.013247847801673072,
+        "p95": 0.03080978393554685,
+        "p99": 0.057404174804687555,
+        "max": 0.06833267211914062
+      },
+      "prompt=1024,response=10": {
+        "count": 10,
+        "mean": 0.01817798614501953,
+        "min": 0.0,
+        "std": 0.02154652267861484,
+        "p95": 0.05515117645263667,
+        "p99": 0.0720302963256836,
+        "max": 0.07625007629394531
+      },
+      "prompt=1024,response=7": {
+        "count": 14,
+        "mean": 0.012550490243094308,
+        "min": 0.0,
+        "std": 0.013652930514220743,
+        "p95": 0.03996396064758301,
+        "p99": 0.042768335342407225,
+        "max": 0.04346942901611328
+      },
+      "prompt=1024,response=56": {
+        "count": 56,
+        "mean": 0.00359170777457101,
+        "min": 0.0,
+        "std": 0.010027711695084564,
+        "p95": 0.023389816284179688,
+        "p99": 0.04579420089721683,
+        "max": 0.05173492431640625
+      },
+      "prompt=1024,response=29": {
+        "count": 29,
+        "mean": 0.0167077820876549,
+        "min": 0.0,
+        "std": 0.01757562256581671,
+        "p95": 0.051509857177734375,
+        "p99": 0.054791717529296874,
+        "max": 0.055886268615722656
+      },
+      "prompt=1024,response=15": {
+        "count": 15,
+        "mean": 0.014510091145833333,
+        "min": 0.0,
+        "std": 0.020601243202726847,
+        "p95": 0.047738265991210886,
+        "p99": 0.07461418151855466,
+        "max": 0.08133316040039062
+      },
+      "prompt=1024,response=64": {
+        "count": 64,
+        "mean": 0.010773316025733948,
+        "min": 0.0,
+        "std": 0.023149322167658876,
+        "p95": 0.05014343261718745,
+        "p99": 0.11243735313415518,
+        "max": 0.13803386688232422
+      },
+      "prompt=1024,response=14": {
+        "count": 14,
+        "mean": 0.018522330692836216,
+        "min": 0.0,
+        "std": 0.02413226896480433,
+        "p95": 0.0676650047302246,
+        "p99": 0.0824600028991699,
+        "max": 0.08615875244140625
+      }
+    }
+  },
+  "eos_boundaries": {
+    "traj-0": {
+      "first_eos_index": 87,
+      "first_eos_position": 1111,
+      "primary_response_tokens": 88,
+      "post_eos_tokens": 40
+    },
+    "traj-1": {
+      "first_eos_index": 68,
+      "first_eos_position": 1092,
+      "primary_response_tokens": 69,
+      "post_eos_tokens": 59
+    },
+    "traj-2": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-3": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-4": {
+      "first_eos_index": 90,
+      "first_eos_position": 1114,
+      "primary_response_tokens": 91,
+      "post_eos_tokens": 37
+    },
+    "traj-5": {
+      "first_eos_index": 110,
+      "first_eos_position": 1134,
+      "primary_response_tokens": 111,
+      "post_eos_tokens": 17
+    },
+    "traj-6": {
+      "first_eos_index": 122,
+      "first_eos_position": 1146,
+      "primary_response_tokens": 123,
+      "post_eos_tokens": 5
+    },
+    "traj-7": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-8": {
+      "first_eos_index": 61,
+      "first_eos_position": 1085,
+      "primary_response_tokens": 62,
+      "post_eos_tokens": 66
+    },
+    "traj-9": {
+      "first_eos_index": 44,
+      "first_eos_position": 1068,
+      "primary_response_tokens": 45,
+      "post_eos_tokens": 83
+    },
+    "traj-10": {
+      "first_eos_index": 100,
+      "first_eos_position": 1124,
+      "primary_response_tokens": 101,
+      "post_eos_tokens": 27
+    },
+    "traj-11": {
+      "first_eos_index": 72,
+      "first_eos_position": 1096,
+      "primary_response_tokens": 73,
+      "post_eos_tokens": 55
+    },
+    "traj-12": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-13": {
+      "first_eos_index": 82,
+      "first_eos_position": 1106,
+      "primary_response_tokens": 83,
+      "post_eos_tokens": 45
+    },
+    "traj-14": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-15": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-16": {
+      "first_eos_index": 117,
+      "first_eos_position": 1141,
+      "primary_response_tokens": 118,
+      "post_eos_tokens": 10
+    },
+    "traj-17": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-18": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-19": {
+      "first_eos_index": 120,
+      "first_eos_position": 1144,
+      "primary_response_tokens": 121,
+      "post_eos_tokens": 7
+    },
+    "traj-20": {
+      "first_eos_index": 120,
+      "first_eos_position": 1144,
+      "primary_response_tokens": 121,
+      "post_eos_tokens": 7
+    },
+    "traj-21": {
+      "first_eos_index": 68,
+      "first_eos_position": 1092,
+      "primary_response_tokens": 69,
+      "post_eos_tokens": 59
+    },
+    "traj-22": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-23": {
+      "first_eos_index": 71,
+      "first_eos_position": 1095,
+      "primary_response_tokens": 72,
+      "post_eos_tokens": 56
+    },
+    "traj-24": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-25": {
+      "first_eos_index": 98,
+      "first_eos_position": 1122,
+      "primary_response_tokens": 99,
+      "post_eos_tokens": 29
+    },
+    "traj-26": {
+      "first_eos_index": 112,
+      "first_eos_position": 1136,
+      "primary_response_tokens": 113,
+      "post_eos_tokens": 15
+    },
+    "traj-27": {
+      "first_eos_index": 87,
+      "first_eos_position": 1111,
+      "primary_response_tokens": 88,
+      "post_eos_tokens": 40
+    },
+    "traj-28": {
+      "first_eos_index": 63,
+      "first_eos_position": 1087,
+      "primary_response_tokens": 64,
+      "post_eos_tokens": 64
+    },
+    "traj-29": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-30": {
+      "first_eos_index": null,
+      "first_eos_position": null,
+      "primary_response_tokens": 128,
+      "post_eos_tokens": 0
+    },
+    "traj-31": {
+      "first_eos_index": 113,
+      "first_eos_position": 1137,
+      "primary_response_tokens": 114,
+      "post_eos_tokens": 14
+    }
+  },
+  "known_error_injection": false,
+  "definition": "delta_logp = reference - rollout; ratio = exp(delta_logp)",
+  "primary_scope": "through first EOS inclusive, or whole response if no EOS; tail reported separately",
+  "scope": "measured finite trajectories only; maximum is not a global error bound",
+  "noise_floor": {
+    "comparison": "eager vs repeat",
+    "absolute_logprob_error": {
+      "count": 3361,
+      "mean": 0.0,
+      "min": 0.0,
+      "std": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "max": 0.0
+    },
+    "trajectories_above_threshold": 0,
+    "per_trajectory": [
+      {
+        "request_id": "traj-0",
+        "response_tokens": 88,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-1",
+        "response_tokens": 69,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-2",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-3",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-4",
+        "response_tokens": 91,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-5",
+        "response_tokens": 111,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-6",
+        "response_tokens": 123,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-7",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-8",
+        "response_tokens": 62,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-9",
+        "response_tokens": 45,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-10",
+        "response_tokens": 101,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-11",
+        "response_tokens": 73,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-12",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-13",
+        "response_tokens": 83,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-14",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-15",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-16",
+        "response_tokens": 118,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-17",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-18",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-19",
+        "response_tokens": 121,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-20",
+        "response_tokens": 121,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-21",
+        "response_tokens": 69,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-22",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-23",
+        "response_tokens": 72,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-24",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-25",
+        "response_tokens": 99,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-26",
+        "response_tokens": 113,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-27",
+        "response_tokens": 88,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-28",
+        "response_tokens": 64,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-29",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-30",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-31",
+        "response_tokens": 114,
+        "max_absolute_logprob_error": 0.0,
+        "above_threshold": false
+      }
+    ],
+    "discriminative": false
+  },
+  "precision_reference": {
+    "comparison": "hf-bf16-vs-hf-fp32",
+    "absolute_logprob_error": {
+      "count": 3361,
+      "mean": 0.011560779708866844,
+      "min": 0.0,
+      "std": 0.027481771756671033,
+      "p95": 0.06350898742675781,
+      "p99": 0.1356220245361328,
+      "max": 0.3308601379394531
+    },
+    "per_trajectory": [
+      {
+        "request_id": "traj-0",
+        "response_tokens": 88,
+        "max_absolute_logprob_error": 0.21523284912109375,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-1",
+        "response_tokens": 69,
+        "max_absolute_logprob_error": 0.05568122863769531,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-2",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.16229248046875,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-3",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.15895462036132812,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-4",
+        "response_tokens": 91,
+        "max_absolute_logprob_error": 0.14308547973632812,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-5",
+        "response_tokens": 111,
+        "max_absolute_logprob_error": 0.17795372009277344,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-6",
+        "response_tokens": 123,
+        "max_absolute_logprob_error": 0.09005355834960938,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-7",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.1737213134765625,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-8",
+        "response_tokens": 62,
+        "max_absolute_logprob_error": 0.08854484558105469,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-9",
+        "response_tokens": 45,
+        "max_absolute_logprob_error": 0.18631553649902344,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-10",
+        "response_tokens": 101,
+        "max_absolute_logprob_error": 0.3308601379394531,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-11",
+        "response_tokens": 73,
+        "max_absolute_logprob_error": 0.08665657043457031,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-12",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.13815689086914062,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-13",
+        "response_tokens": 83,
+        "max_absolute_logprob_error": 0.1325836181640625,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-14",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.13158035278320312,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-15",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.13193321228027344,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-16",
+        "response_tokens": 118,
+        "max_absolute_logprob_error": 0.12841796875,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-17",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.1720104217529297,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-18",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.11641502380371094,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-19",
+        "response_tokens": 121,
+        "max_absolute_logprob_error": 0.1457538604736328,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-20",
+        "response_tokens": 121,
+        "max_absolute_logprob_error": 0.12166213989257812,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-21",
+        "response_tokens": 69,
+        "max_absolute_logprob_error": 0.1638317108154297,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-22",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.1858367919921875,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-23",
+        "response_tokens": 72,
+        "max_absolute_logprob_error": 0.11874771118164062,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-24",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.10722732543945312,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-25",
+        "response_tokens": 99,
+        "max_absolute_logprob_error": 0.21142578125,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-26",
+        "response_tokens": 113,
+        "max_absolute_logprob_error": 0.08394241333007812,
+        "above_threshold": false
+      },
+      {
+        "request_id": "traj-27",
+        "response_tokens": 88,
+        "max_absolute_logprob_error": 0.1925220489501953,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-28",
+        "response_tokens": 64,
+        "max_absolute_logprob_error": 0.2299671173095703,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-29",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.1925067901611328,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-30",
+        "response_tokens": 128,
+        "max_absolute_logprob_error": 0.162750244140625,
+        "above_threshold": true
+      },
+      {
+        "request_id": "traj-31",
+        "response_tokens": 114,
+        "max_absolute_logprob_error": 0.18397140502929688,
+        "above_threshold": true
+      }
+    ],
+    "interpretation": "measured BF16/FP32 accuracy scale, not an automatic error verdict/tolerance"
+  }
+}

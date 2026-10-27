@@ -4,15 +4,23 @@ RL rollout extension of [nano-vllm](https://github.com/GeeeekExplorer/nano-vllm)
 fixed at `bb823b3e06983d71485a8e1f23715ebd87d98ef8`. MIT/upstream attribution is
 preserved; [historical upstream results](docs/upstream-readme.md) are not our measurements.
 
-The current revision implements the CPU-verifiable P0/P1/P2 changes before GPU rental.
-CPU regression runs cover both torch2.11.0+cpu and torch2.8.0+cpu; exact current
-counts and timings are in `results/cpu-tests*.txt` and the validation manifest.
-The explicitly authorized 2026-10-27 L40S rental passed environment/FA2/Triton/graph
-gates, all 24 short inference baseline workers, and a two-iteration GRPO smoke with
-real optimizer updates and actor/probe-visible weight synchronization. Full numerical
-diagnostics, long-context performance and learning effects remain **GPU_PENDING**.
-Current evidence and limits are recorded in [status](IMPLEMENTATION_STATUS.md),
-[progress](PROGRESS.md) and `results/`.
+The P0/P1/P2 implementation has completed a real single-L40S experiment campaign.
+Experimental source is fixed at `ce9e3542b3f31475ffa595e3f09b80e3f9190ed0`;
+publication commits add evidence and documentation after the run.
+
+All **13 orchestration jobs completed with exit0**:24 baseline workers,14 diagnostic
+workers,25 weight-sync workers, two120-iteration training demonstrations, GSM8K
+smoke,96 performance workers and the sampler benchmark. Including the clean-commit
+preflight, measured wall time was about3hours on the L40S.
+
+See [run evidence and limitations](results/l40s-20261027/README.md),
+[token-level CSVs](results/l40s-20261027/full/diagnostics/),
+[training summaries](results/l40s-20261027/training-summary.json), and the
+[complete raw-result Release](https://github.com/Nana1mi/Lockstep-RL/releases/tag/l40s-20261027).
+Execution success does not establish that all numerical errors are below threshold
+or that one seed proves a robust learning improvement. Those conclusions require
+analysis of the published data. CPU regression covers109 tests on each of the
+separate torch2.11.0+cpu and torch2.8.0+cpu environments.
 
 ## CPU development
 

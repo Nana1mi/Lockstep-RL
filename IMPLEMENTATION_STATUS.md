@@ -1,5 +1,11 @@
 # Implementation and verification status
 
+**Current: full L40S campaign execution completed on clean ce9e354,13/13 jobs,
+no failed jobs.** See `results/l40s-20261027/README.md` and the raw-result Release.
+This publication does not turn execution success into unreviewed numerical or
+learning claims. Earlier pre-rental/readiness statuses below are historical.
+
+
 **2026-10-27 rental update:** Explicitly authorized L40S execution passed environment,
 six attention/graph tests, 24 short inference baseline workers, a real two-iteration
 GRPO update/sync smoke and the 16×256 co-resident memory probe. Full diagnostics,
@@ -70,3 +76,26 @@ Final L40S evidence:108/138.349s (CPU2.11),108/135.199s (CPU2.8),24 targeted
 L40S/rental tests/1.871s,18 dependency-free process tests/4.223s. Ruff, runbook
 syntax/guarded dry runs and all38 packaged library sources pass. No rental-specific
 GPU name, driver, mount or network value has been observed or filled in.
+
+
+## 2026-10-27 ce9e354 正式 L40S 实验完成与公开归档
+
+实验源码严格固定ce9e3542b3f31475ffa595e3f09b80e3f9190ed0，使用干净独立目录。
+新的preflight于该提交执行，24/24 worker通过；27项实测耗时均低于对应上限的一半。
+顶层manifest记录source_commit及源码干净状态，外部启动器显式将performance父阶段上限
+从9000放宽到12000秒，源码configs/task-timeouts.json未改，覆盖记录进入manifest。
+用户明确授权正式运行并取消十小时总截止；每任务超时、进程树清理和环境/attention硬关口保留。
+
+2026-10-27 20:35:34（香港/北京时间）结束，13/13编排任务返回0，无任务超时/失败。
+baseline24、diagnostics14、weight-sync25、performance96子任务完成；两档学习率各120轮，
+另有两次更新检查、两种anchor冒烟、GSM8K冒烟和sampler。预检1173.01秒，
+正式9683.30秒，合计10856.33秒（约3小时）。此前5–19小时是未实测保守范围，不能当作实测。
+
+证据在results/l40s-20261027/：逐token主统计/post-EOS CSV、紧凑误差分布与逐轨迹统计、
+同步分段耗时、逐轮训练CSV、配置、环境和manifest。详细轨迹/日志及服务器工具放Release附件，
+通过publication.json记录原始服务器ZIP哈希、公用ZIP哈希、端点脱敏和独立模型/任务资产剔除项。
+实验数值文件保持原始字节；不发布密码/令牌/私钥、权重、环境、缓存或checkpoint。
+
+运行结束不等于科学结论全通过。诊断阈值越界、噪声参照、单seed学习曲线和GSM8K解析/截断
+仍需分析；GSM8K末批解析失败50%，不能把该批统计当作全数据集解析率。
+服务器GPU已空闲，定时巡检在确认完成和归档成功后删除；平台实例不会自动停止计费。
